@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">ClassBook</string>
+    <string name="save_state_login">Lưu trạng thái đăng nhập</string>
+    <string name="un_save_state_login">Không lưu trạng thái đăng nhập</string>
+    <string name="hint_id">Mã Sinh Viên</string>
+    <string name="hint_pass">Mật Khẩu</string>
+    <string name="hint_pass_again">Nhập lại</string>
+    <string name="chu_y"><u>Chú ý:</u> Không nên sử dụng mật khẩu đttc để đăng kí tránh các đối tượng xấu :)</string>
+    <string name="login_text">Đăng nhập</string>
+    <string name="sigin_text">Đăng ký</string>
+    <string name="reset_pass_text">Tìm mật khẩu</string>
+    <string name="chu_y_2">* Vì lí do bảo mật nên bạn phải gửi một bức ảnh chụp có ảnh thẻ sinh viên của mình để xác nhận thông tin là đúng. Mật khẩu sẽ được gửi đến bạn khi đã được xác nhận.</string>
+    <string name="chu_y_3">* Trong trường hợp không gửi được bạn có thể liên hệ tới địa chỉ : caubelamchuyen@gmail.com</string>
+    <string name="hint_std">Số điện thoại của bạn</string>
+    <string name="app_name_tablet">Bottom Navigation (Tablet)</string>
+    <string name="app_pr">com.faker.classbook.providers.CustomBadgeProvider</string>
+    <string name="bbn_phone_view_behavior" translatable="false" tools:ignore="UnusedResources">com.faker.classbook.bottonnavigation.BottomNavigation</string>
+    <string name="hint_sms">Nhập tin nhắn vào đây</string>
+    <string name="chu_y_4">* Hãy sử dụng mã sinh viên là mã sinh viên của bạn.</string>
+</resources>

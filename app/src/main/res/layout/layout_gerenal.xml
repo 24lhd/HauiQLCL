@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/md_grey_200"
+    android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:id="@+id/toolbar_list_activity"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:gravity="left"
+                        android:layout_marginRight="2dp"
+                        android:id="@+id/tb_title"
+                        android:textSize="@dimen/text_size_20dp"
+                        android:layout_gravity="left"
+                        android:textColor="@color/md_white_1000"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/tb_text1"
+                            android:layout_marginTop="3dp"
+                            android:gravity="left"
+                            android:textSize="@dimen/text_size_12dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="2dp"
+                            android:textColor="@color/md_white_1000"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/tb_text2"
+                            android:layout_marginTop="3dp"
+                            android:gravity="left"
+                            android:textSize="@dimen/text_size_12dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="2dp"
+                            android:textColor="@color/md_white_1000"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:id="@+id/tablayout_fa"
+        android:layout_below="@id/toolbar_list_activity"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TabItem
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+        <android.support.design.widget.TabItem
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+        <android.support.design.widget.TabItem
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+    </android.support.design.widget.TabLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:id="@+id/view"
+        android:layout_below="@id/tablayout_fa"
+        android:layout_height="1dp"></View>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/pg_loading"
+        android:visibility="gone"
+        style="@android:style/Widget.Material.ProgressBar.Large"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Lỗi không tải được.\n Cick để tải lại..."
+        android:visibility="gone"
+        android:gravity="center"
+        android:textSize="10dp"
+        android:id="@+id/text_null"
+        android:layout_height="match_parent" />
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_below="@id/view"
+        android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recle_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_below="@id/swipeRefreshLayout"
+        android:layout_toRightOf="@+id/text_null"
+        android:layout_toEndOf="@+id/text_null" />
+    </com.baoyz.widget.PullRefreshLayout>
+</RelativeLayout>

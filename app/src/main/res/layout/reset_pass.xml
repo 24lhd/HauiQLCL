@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/margin_17dp"
+    android:layout_marginRight="@dimen/margin_17dp"
+    android:layout_height="wrap_content">
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/margin_5dp"
+        android:padding="@dimen/padding_login"
+        android:background="@drawable/login_animation"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:background="@color/bg_app"
+            android:hint="@string/hint_std"
+            android:layout_marginBottom="@dimen/margin_5dp"
+            android:singleLine="true"
+            android:textColorHint="@color/md_green_500"
+            android:textSize="@dimen/text_size_20dp"
+            android:textColor="@color/md_green_500"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText2" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.v7.widget.AppCompatImageButton
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_lich_thi"
+        android:scaleType="center"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_height="150dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:text="@string/chu_y_2"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/text_size_10dp"
+        android:layout_marginRight="@dimen/text_size_10dp"
+        android:textColor="@color/md_red_500"
+        android:textSize="@dimen/text_size_10dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:text="@string/chu_y_3"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/text_size_10dp"
+        android:layout_marginRight="@dimen/text_size_10dp"
+        android:textColor="@color/md_red_500"
+        android:textSize="@dimen/text_size_10dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/pg_reset"
+            style="@android:style/Widget.Material.ProgressBar"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:visibility="visible"
+            android:background="@color/md_blue_500"
+            android:text="Lấy Lại Mật khẩu"
+            android:minWidth="250dp"
+            android:id="@+id/btReset"
+            android:layout_gravity="center"
+            android:textColor="@color/md_white_1000"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+</LinearLayout>
