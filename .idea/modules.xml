@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AlertdialogproThemeHolo/AlertdialogproThemeHolo.iml" filepath="$PROJECT_DIR$/AlertdialogproThemeHolo/AlertdialogproThemeHolo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BottomNavigation/BottomNavigation.iml" filepath="$PROJECT_DIR$/BottomNavigation/BottomNavigation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FabLoading/FabLoading.iml" filepath="$PROJECT_DIR$/FabLoading/FabLoading.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HauiClass.iml" filepath="$PROJECT_DIR$/HauiClass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PullRefesh/PullRefesh.iml" filepath="$PROJECT_DIR$/PullRefesh/PullRefesh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WrappingFragment/WrappingFragment.iml" filepath="$PROJECT_DIR$/WrappingFragment/WrappingFragment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/alertdialogpro-core/alertdialogpro-core.iml" filepath="$PROJECT_DIR$/alertdialogpro-core/alertdialogpro-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>
