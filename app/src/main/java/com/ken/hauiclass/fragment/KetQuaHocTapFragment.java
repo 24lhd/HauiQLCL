@@ -234,7 +234,7 @@ public class KetQuaHocTapFragment extends Fragment {
             showProgress();
             startParser();
         }else{
-            //le duong
+            //le duong dắdawdwadasadwdawdawdasdawd
             cantLoadData();
         }
     }
