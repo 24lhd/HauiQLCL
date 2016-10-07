@@ -41,7 +41,7 @@ public class MyService extends Service{
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-//            Toast.makeText(getApplicationContext(), "check", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Đang cập nhật lớp", Toast.LENGTH_SHORT).show();
             try{
                 if(msg.arg1==0){// ket qua hoc tap
                     KetQuaHocTap ketQuaHocTap= (KetQuaHocTap) msg.obj;
@@ -58,7 +58,7 @@ public class MyService extends Service{
                         nBuilder = new Notification.Builder(getApplicationContext())
                                 .setSmallIcon(R.drawable.ic_class_2)
                                 .setVibrate(l)
-                                .setFullScreenIntent(resultPendingIntent,true)
+//                                .setFullScreenIntent(resultPendingIntent,false)
                                 .setContentTitle("Cập nhật mới học phần")
                                 .setContentText((itemBangKetQuaHocTapsNew.size()-itemBangKetQuaHocTapsOld.size())+" học phần đã được cập nhật")
                                 .setAutoCancel(true);
