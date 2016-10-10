@@ -204,7 +204,7 @@ public class SQLiteManager {
             closeDatabases();
             return sinhVien ;
         }catch (CursorIndexOutOfBoundsException e){
-            Log.e("duonghaui","CursorIndexOutOfBoundsException");
+            Log.e("faker","CursorIndexOutOfBoundsException");
             return null;
         }
 

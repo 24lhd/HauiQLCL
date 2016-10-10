@@ -62,9 +62,6 @@ public class MainActivity extends AppCompatActivity {
         }else{
             startView(id);
         }
-        Intent intent=new Intent(this,MyService.class);
-        startService(intent);
-        setSnackBar("Đang cập nhật lớp");
     }
     public void checkLogin() {
         if (id.isEmpty()){

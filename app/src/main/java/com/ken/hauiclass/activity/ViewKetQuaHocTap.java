@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.FrameLayout;
 import com.ken.hauiclass.R;
 import com.ken.hauiclass.fragment.KetQuaHocTapFragment;
+import com.ken.hauiclass.service.MyService;
+
 /**
  * Created by Faker on 9/20/2016.
  */
@@ -18,8 +20,9 @@ public class ViewKetQuaHocTap extends FragmentActivity{
         KetQuaHocTapFragment newFragment = new KetQuaHocTapFragment();
         Bundle bundle=new Bundle();
         Intent intent=getIntent();
-        String msv=intent.getBundleExtra("KEY_MSV").getString("MA_SV");
-        bundle.putString("MA_SV",msv);
+        String msv=intent.getBundleExtra("KEY_MSV").getString(MainActivity.MA_SV);
+        bundle.putString(MainActivity.MA_SV,msv);
+        bundle.putInt(MyService.TAB_POSITON,0);
         newFragment.setArguments(bundle);
         setContentView(frame, new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));

@@ -356,7 +356,7 @@ public class ListActivity extends AppCompatActivity {
             int itemPosition = recyclerView.getChildLayoutPosition(view);
             Intent intent=new Intent(getApplicationContext(),ViewKetQuaHocTap.class);
             Bundle bundle=new Bundle();
-            bundle.putString("MA_SV",data.get(itemPosition).getMsv());
+            bundle.putString(MainActivity.MA_SV,data.get(itemPosition).getMsv());
             intent.putExtra("KEY_MSV",bundle);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getApplicationContext().startActivity(intent);
@@ -471,7 +471,7 @@ public class ListActivity extends AppCompatActivity {
             int itemPosition = recyclerView.getChildLayoutPosition(view);
             Intent intent=new Intent(getApplicationContext(),ViewKetQuaHocTap.class);
             Bundle bundle=new Bundle();
-            bundle.putString("MA_SV",data.get(itemPosition).getMsv());
+            bundle.putString(MainActivity.MA_SV,data.get(itemPosition).getMsv());
             intent.putExtra("KEY_MSV",bundle);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getApplicationContext().startActivity(intent);

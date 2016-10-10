@@ -1,5 +1,6 @@
 package com.ken.hauiclass.service;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,6 +14,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -51,9 +53,7 @@ public class MyService extends Service{
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-
             try{
-                Toast.makeText(getApplicationContext(), "Đang cập nhật", Toast.LENGTH_SHORT).show();
                 if(msg.arg1==0){// ket qua hoc tap
                     KetQuaHocTap ketQuaHocTap= (KetQuaHocTap) msg.obj;
                     ArrayList<ItemBangKetQuaHocTap> itemBangKetQuaHocTapsNew=ketQuaHocTap.getBangKetQuaHocTaps();
@@ -125,7 +125,7 @@ public class MyService extends Service{
                                 sqLiteManager.insertlthi(lichThi,id);
                             }
                         }
-                        showNoti("Có lịch thi mới",(lichThiNews.size()-lichThiOlds.size())+" học phần",2);
+                            showNoti("Có lịch thi mới",(lichThiNews.size()-lichThiOlds.size())+" học phần",2);
                     }
                 }
             }catch (NullPointerException e){
@@ -134,29 +134,28 @@ public class MyService extends Service{
         }
     };
 
-    private void showNoti(String title,String content,int index) {
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void showNoti(String title, String content, int index) {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         long [] l={200,200,200,200};
         Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
         Bundle bundle=new Bundle();
         bundle.putInt(TAB_POSITON,index);
         resultIntent.putExtra(KEY_TAB,bundle);
-        resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Random random=new Random();
+        resultPendingIntent = PendingIntent.getActivity(getApplicationContext(),  random.nextInt(1000), resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nBuilder = new Notification.Builder(getApplicationContext())
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setVibrate(l)
                 .setSound(alarmSound)
-                .setFullScreenIntent(resultPendingIntent,true)
                 .setContentTitle(title)
                 .setContentText(content)
+                .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true);
-        Random random=new Random();
-        int mNotificationId = random.nextInt(10000);
-        nBuilder.setContentIntent(resultPendingIntent);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//                .setFullScreenIntent(resultPendingIntent,false);
+        int mNotificationId = random.nextInt(1000);
             mNotifyMgr.notify(mNotificationId, nBuilder.build());
-        }
     }
 
     private  NotificationManager mNotifyMgr;
@@ -179,15 +178,5 @@ public class MyService extends Service{
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
          mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         return START_STICKY;
-    }
-    public boolean isDouble(String d) {
-        double value;
-        try{
-            value = Double.parseDouble(d);
-            return true;
-        } catch (Exception e){
-            android.util.Log.e("faker","khong phai double");
-            return false;
-        }
     }
 }
