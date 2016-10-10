@@ -108,8 +108,6 @@ public class MyService extends Service{
                             }
 
                         }
-
-
                 }
                 if (msg.arg1==5){ // lich thi theo mon
                     ArrayList<LichThi> lichThiNews= (ArrayList<LichThi>) msg.obj;
@@ -129,11 +127,9 @@ public class MyService extends Service{
                         }
                         showNoti("Có lịch thi mới",(lichThiNews.size()-lichThiOlds.size())+" học phần",2);
                     }
-
                 }
-                stopSelf();
             }catch (NullPointerException e){
-//
+                stopSelf();
             }
         }
     };
@@ -151,7 +147,7 @@ public class MyService extends Service{
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setVibrate(l)
                 .setSound(alarmSound)
-                .setFullScreenIntent(resultPendingIntent,false)
+                .setFullScreenIntent(resultPendingIntent,true)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setAutoCancel(true);

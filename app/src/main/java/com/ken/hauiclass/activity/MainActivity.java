@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Intent intent=new Intent(this,MyService.class);
         startService(intent);
+        setSnackBar("Đang cập nhật lớp");
     }
     public void checkLogin() {
         if (id.isEmpty()){
@@ -113,27 +114,25 @@ public class MainActivity extends AppCompatActivity {
     }
     private void creatFrament(String id) {
         ketQuaHocTapFragment =new KetQuaHocTapFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString(MA_SV,id);
         try {
             Intent intent=getIntent();
             int index=intent.getBundleExtra(MyService.KEY_TAB).getInt(MyService.TAB_POSITON);
-            Bundle bundle=new Bundle();
-            bundle.putString(MA_SV,id);
             bundle.putInt(MyService.TAB_POSITON,index);
-            ketQuaHocTapFragment.setArguments(bundle);
             android.util.Log.e("faker",""+index);
         }catch (NullPointerException e ){
             android.util.Log.e("faker","vào");
-            Bundle bundle=new Bundle();
-            bundle.putString(MA_SV,id);
             bundle.putInt(MyService.TAB_POSITON,0);
-            ketQuaHocTapFragment.setArguments(bundle);
         }
-
+        ketQuaHocTapFragment.setArguments(bundle);
 
         listMoreFriendFragment=new ListMoreFriendFragment();
+
         listNotificationFragment=new ListNotificationFragment();
 
         listMessagesFragment=new ListMessagesFragment();
+
         listMoreFragment=new ListMoreFragment();
     }
     /**
