@@ -27,12 +27,14 @@ import com.alertdialogpro.AlertDialogPro;
 import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.ken.hauiclass.activity.ListActivity;
+import com.ken.hauiclass.activity.MainActivity;
 import com.ken.hauiclass.database.SQLiteManager;
 import com.ken.hauiclass.item.DiemThiTheoMon;
 import com.ken.hauiclass.item.ItemBangKetQuaHocTap;
 import com.ken.hauiclass.item.KetQuaHocTap;
 import com.ken.hauiclass.item.LichThi;
 import com.ken.hauiclass.item.SinhVien;
+import com.ken.hauiclass.service.MyService;
 import com.ken.hauiclass.task.ParserKetQuaHocTap;
 import com.ken.hauiclass.task.ParserKetQuaThiTheoMon;
 import com.ken.hauiclass.task.ParserLichThiTheoMon;
@@ -87,7 +89,8 @@ public class KetQuaHocTapFragment extends Fragment {
 
     private void initView(View view) {
         sqLiteManager=new SQLiteManager(getContext());
-        maSV=getArguments().getString("MA_SV");
+        maSV=getArguments().getString(MainActivity.MA_SV);
+        indexTab=getArguments().getInt(MyService.TAB_POSITON);
         pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         toolbar= (LinearLayout) view.findViewById(R.id.toolbar_list_activity);
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -109,7 +112,7 @@ public class KetQuaHocTapFragment extends Fragment {
         tabLayout.setBackgroundColor(Color.WHITE);
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         refesh();
-        indexTab=0;
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
            @Override
            public void onTabSelected(TabLayout.Tab tab) {
@@ -151,7 +154,6 @@ public class KetQuaHocTapFragment extends Fragment {
         switch (indexTab){
             case 0:
                 setTitleTab("Kết quả học tập");
-
                 tabLayout.getTabAt(0).setIcon(R.drawable.ic_result);
                 tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2);
                 tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2);
@@ -164,8 +166,8 @@ public class KetQuaHocTapFragment extends Fragment {
                 break;
             case 2:
                 tabLayout.getTabAt(0).setIcon(R.drawable.ic_result_2);
-                tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2).select();
-                tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2);
+                tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2);
+                tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2).select();
                 break;
 
         }
@@ -234,7 +236,6 @@ public class KetQuaHocTapFragment extends Fragment {
             showProgress();
             startParser();
         }else{
-            //le duong dắdawdwadasadwdawdawdasdawd
             cantLoadData();
         }
     }
@@ -326,22 +327,22 @@ public class KetQuaHocTapFragment extends Fragment {
         }
         @Override
         public void onBindViewHolder(KetQuaHocTapFragment.ItemDiemThiMon holder, int position) {
-            DiemThiTheoMon itemBangDiemThanhPhan=data.get(position);
-            holder.tenMon.setText(itemBangDiemThanhPhan.getTenMon());
-            holder.dLan1.setText(itemBangDiemThanhPhan.getdLan1());
-            holder.dLan2.setText(itemBangDiemThanhPhan.getdLan2());
-            holder.dCuoiCung.setText(itemBangDiemThanhPhan.getdCuoiCung());
-            String tk1=itemBangDiemThanhPhan.getdTKLan1().trim();
-            String tk2=itemBangDiemThanhPhan.getdTKLan2().trim();
+            DiemThiTheoMon diemThiTheoMon=data.get(position);
+            holder.tenMon.setText(diemThiTheoMon.getTenMon());
+            holder.dLan1.setText(diemThiTheoMon.getdLan1());
+            holder.dLan2.setText(diemThiTheoMon.getdLan2());
+            holder.dCuoiCung.setText(diemThiTheoMon.getdCuoiCung());
+            String tk1=diemThiTheoMon.getdTKLan1().trim();
+            String tk2=diemThiTheoMon.getdTKLan2().trim();
             holder.dTKLan2.setText(tk2);
             holder.dTKLan1.setText(tk1);
             holder.stt.setText(""+(position+1));
-            String dc=itemBangDiemThanhPhan.getdCuoiCung().split(" ")[0];
+            String dc=diemThiTheoMon.getdCuoiCung().split(" ")[0];
             double th = 0;
             double n = 0;
-            if (itemBangDiemThanhPhan.getNgay1().split("").length>3){
-                n=Double.parseDouble(itemBangDiemThanhPhan.getNgay1().split("/")[2]);
-                th = Double.parseDouble(itemBangDiemThanhPhan.getNgay1().split("/")[1]);
+            if (diemThiTheoMon.getNgay1().split("").length>3){
+                n=Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[2]);
+                th = Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[1]);
             }
             if (dc.isEmpty()){
                 holder.dCuoiCung.setText("|");
@@ -382,9 +383,9 @@ public class KetQuaHocTapFragment extends Fragment {
                 holder.dCuoiCung2.setText(dc);
             }
 
-            holder.ngay1.setText(itemBangDiemThanhPhan.getNgay1());
-            holder.ngay2.setText(itemBangDiemThanhPhan.getNgay2());
-            holder.ghiChu.setText(itemBangDiemThanhPhan.getGhiChu());
+            holder.ngay1.setText(diemThiTheoMon.getNgay1());
+            holder.ngay2.setText(diemThiTheoMon.getNgay2());
+            holder.ghiChu.setText(diemThiTheoMon.getGhiChu());
         }
         @Override
         public int getItemCount() {

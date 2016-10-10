@@ -165,6 +165,26 @@ public class SQLiteManager {
         closeDatabases();
         return id;
     }
+    public long updateDMon(ItemBangKetQuaHocTap bangKetQuaHocTap, String maSV,String maMon){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("maSV",maSV);
+        String []s={maMon,maSV};
+        contentValues.put("linkDiemLop",bangKetQuaHocTap.getLinkDiemLop());
+        contentValues.put("linkLichThiLop",bangKetQuaHocTap.getLinkLichThiLop());
+        contentValues.put("tenMon",bangKetQuaHocTap.getTenMon());
+        contentValues.put("maMon",bangKetQuaHocTap.getMaMon());
+        contentValues.put("d1",bangKetQuaHocTap.getD1());
+        contentValues.put("d2",bangKetQuaHocTap.getD2());
+        contentValues.put("d3",bangKetQuaHocTap.getD3());
+        contentValues.put("dGiuaKi",bangKetQuaHocTap.getdGiua());
+        contentValues.put("dTB",bangKetQuaHocTap.getdTB());
+        contentValues.put("soTietNghi",bangKetQuaHocTap.getSoTietNghi());
+        contentValues.put("dieuKien",bangKetQuaHocTap.getDieuKien());
+        openDatabases();
+        long id=database.update("dmon",contentValues,"maMon=? and maSV=?",s);
+        closeDatabases();
+        return id;
+    }
     public SinhVien getSV(String masv) {
         try {
             SinhVien sinhVien;
@@ -461,6 +481,7 @@ public class SQLiteManager {
      * @param lthi
      * @return
      */
+
     public long insertlthi(LichThi lthi,String maSV){
         ContentValues contentValues=new ContentValues();
         contentValues.put("maSV",maSV);

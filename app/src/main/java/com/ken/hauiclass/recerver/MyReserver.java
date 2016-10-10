@@ -1,4 +1,4 @@
-package com.ken.hauiclass.broadcast.receiver;
+package com.ken.hauiclass.recerver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,7 +20,6 @@ public class MyReserver extends BroadcastReceiver {
             Intent intent1=new Intent(context, MyService.class);
             boolean b=activeNetInfo.isConnectedOrConnecting();
             if (b){
-                Toast.makeText( context, "Active Network Type : " + activeNetInfo.getTypeName(), Toast.LENGTH_SHORT ).show();
                     context.startService(intent1);
             }else{
                 context.stopService(intent1);

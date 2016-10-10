@@ -24,13 +24,14 @@
         <activity android:name=".activity.ListActivity"
             android:theme="@style/AppThemeNoActionBar"/>
         <service android:name=".service.MyService"/>
-        <receiver android:name=".broadcast.receiver.MyReserver">
+        <receiver android:name=".recerver.MyReserver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
         <activity android:name=".activity.ViewKetQuaHocTap">
+
         </activity>
         <activity android:name=".activity.Test">
 

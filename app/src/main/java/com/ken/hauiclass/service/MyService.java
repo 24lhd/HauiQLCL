@@ -5,7 +5,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -16,19 +19,24 @@ import android.widget.Toast;
 import com.ken.hauiclass.R;
 import com.ken.hauiclass.activity.MainActivity;
 import com.ken.hauiclass.database.SQLiteManager;
+import com.ken.hauiclass.item.DiemThiTheoMon;
 import com.ken.hauiclass.item.ItemBangKetQuaHocTap;
 import com.ken.hauiclass.item.KetQuaHocTap;
+import com.ken.hauiclass.item.KetQuaThi;
 import com.ken.hauiclass.task.ParserKetQuaHocTap;
 import com.ken.hauiclass.task.ParserKetQuaThiTheoMon;
 import com.ken.hauiclass.task.ParserLichThiTheoMon;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Faker on 9/5/2016.
  */
 
 public class MyService extends Service{
+    public static final String TAB_POSITON = "tab_positon";
+    public static final String KEY_TAB = "key tab";
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -38,11 +46,13 @@ public class MyService extends Service{
     private com.ken.hauiclass.log.Log log;
     private String id;
     private Notification.Builder nBuilder;
+
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            Toast.makeText(getApplicationContext(), "Đang cập nhật lớp", Toast.LENGTH_SHORT).show();
+
             try{
+
                 if(msg.arg1==0){// ket qua hoc tap
                     KetQuaHocTap ketQuaHocTap= (KetQuaHocTap) msg.obj;
                     ArrayList<ItemBangKetQuaHocTap> itemBangKetQuaHocTapsNew=ketQuaHocTap.getBangKetQuaHocTaps();
@@ -51,72 +61,90 @@ public class MyService extends Service{
                         for (int i=itemBangKetQuaHocTapsOld.size();i<itemBangKetQuaHocTapsNew.size();i++){
                             sqLiteManager.insertDMon(itemBangKetQuaHocTapsNew.get(i),id);
                         }
-                        long [] l={200,200,200,200};
-                        Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
-                        resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                        nBuilder = new Notification.Builder(getApplicationContext())
-                                .setSmallIcon(R.drawable.ic_class_2)
-                                .setVibrate(l)
-//                                .setFullScreenIntent(resultPendingIntent,false)
-                                .setContentTitle("Cập nhật mới học phần")
-                                .setContentText((itemBangKetQuaHocTapsNew.size()-itemBangKetQuaHocTapsOld.size())+" học phần đã được cập nhật")
-                                .setAutoCancel(true);
-                        int mNotificationId = 001;
-                        nBuilder.setContentIntent(resultPendingIntent);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                            mNotifyMgr.notify(mNotificationId, nBuilder.build());
+                        showNoti("Cập nhật học phần",(itemBangKetQuaHocTapsNew.size()-itemBangKetQuaHocTapsOld.size())+" học phần",0);
+                    }
+                        for (int i = 0; i <itemBangKetQuaHocTapsNew.size() ; i++) {
+                            for (int j = 0; j <itemBangKetQuaHocTapsOld.size() ; j++) {
+                                ItemBangKetQuaHocTap itemBangKetQuaHocTapOld=itemBangKetQuaHocTapsOld.get(j);
+                                ItemBangKetQuaHocTap itemBangKetQuaHocTapNew=itemBangKetQuaHocTapsNew.get(i);
+                                if (itemBangKetQuaHocTapNew.getMaMon().equals(itemBangKetQuaHocTapOld.getMaMon())&&!itemBangKetQuaHocTapNew.getdTB().equals(itemBangKetQuaHocTapOld.getdTB())){
+                                        sqLiteManager.updateDMon(itemBangKetQuaHocTapNew,id,itemBangKetQuaHocTapOld.getMaMon());
+                                        showNoti("Cập nhật điểm học phần",itemBangKetQuaHocTapNew.getTenMon(),0);
+                                }
+                            }
                         }
-                        Log.e("faker","Đã cập nhập thêm lớp mới");
+                }
+                if (msg.arg1==2){ // ket qua thi
+                    Toast.makeText(getApplicationContext(), "Đang cập nhật kết quả thi", Toast.LENGTH_SHORT).show();
+                    ArrayList<DiemThiTheoMon> diemThiTheoMonNews= (ArrayList<DiemThiTheoMon>) msg.obj;
+                    ArrayList<DiemThiTheoMon> diemThiTheoMonOlds=sqLiteManager.getAllDThiMon(id);
+                    if (diemThiTheoMonNews.size()>diemThiTheoMonOlds.size()){
+                        showNoti("Cập nhật kết quả thi",(diemThiTheoMonNews.size()-diemThiTheoMonOlds.size())+" học phần",1);
                     }else{
-                        for (int i = itemBangKetQuaHocTapsNew.size()*2/3; i <ketQuaHocTap.getBangKetQuaHocTaps().size() ; i++) {
-                            if (!itemBangKetQuaHocTapsNew.get(i).getdTB().equals(itemBangKetQuaHocTapsOld.get(i).getdTB())) {
-//                                nBuilder= (NotificationCompat.Builder) new NotificationCompat.Builder(getApplicationContext())
-//                                        .setSmallIcon(R.drawable.ic_class_2)
-//                                        .setTicker("Đã cập nhập thêm lớp mới")
-//                                        .setContentText("lớp mới")
-//                                ;
-//                                nBuilder.build();
+                        for (int i=0;i<diemThiTheoMonOlds.size();i++){
+                            String dcOld=diemThiTheoMonOlds.get(i).getdCuoiCung();
+                            String dcNew=diemThiTheoMonNews.get(i).getdCuoiCung();
+                            if (!dcOld.equals(dcNew)&&!diemThiTheoMonNews.get(i).getdLan1().isEmpty()){
+                                for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMonNews) {
+                                    sqLiteManager.insertDThiMon(diemThiTheoMon,id);
+                                }
+                                showNoti("Thông báo kết quả thi",diemThiTheoMonNews.get(i).getTenMon(),1);
                             }
                         }
                     }
-//                    ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
-//                    ketQuaHocTapTheoMon.execute(id);
-                }
-                if (msg.arg1==1){ // ket qua thi
 
-//                    ParserKetQuaThiTheoMon ketQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
-//                    ketQuaThiTheoMon.execute(id);
                 }
                 if (msg.arg1==5){ // lich thi theo mon
 //
-//                    ParserLichThiTheoMon parserLichThiTheoMon=new ParserLichThiTheoMon(handler);
-//                    parserLichThiTheoMon.execute(id);
                 }
+                stopSelf();
             }catch (NullPointerException e){
-//                    ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
-//                    ketQuaHocTapTheoMon.execute(log.getID());
-//                    ParserKetQuaThiTheoMon ketQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
-//                    ketQuaThiTheoMon.execute(log.getID());
-//                    ParserLichThiTheoMon parserLichThiTheoMon=new ParserLichThiTheoMon(handler);
-//                    parserLichThiTheoMon.execute(log.getID());
+//
             }
         }
     };
+
+    private void showNoti(String title,String content,int index) {
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        long [] l={200,200,200,200};
+        Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putInt(TAB_POSITON,index);
+        resultIntent.putExtra(KEY_TAB,bundle);
+        resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nBuilder = new Notification.Builder(getApplicationContext())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setVibrate(l)
+                .setSound(alarmSound)
+                .setFullScreenIntent(resultPendingIntent,false)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setAutoCancel(true);
+        Random random=new Random();
+        int mNotificationId = random.nextInt(10000);
+        nBuilder.setContentIntent(resultPendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mNotifyMgr.notify(mNotificationId, nBuilder.build());
+        }
+    }
+
     private  NotificationManager mNotifyMgr;
     private  PendingIntent resultPendingIntent;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "server", Toast.LENGTH_SHORT).show();
         log=new com.ken.hauiclass.log.Log(this);
          id=log.getID();
         sqLiteManager =new SQLiteManager(this);
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
         ketQuaHocTapTheoMon.execute(id);
+
         ParserKetQuaThiTheoMon ketQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
         ketQuaThiTheoMon.execute(id);
+
         ParserLichThiTheoMon parserLichThiTheoMon=new ParserLichThiTheoMon(handler);
         parserLichThiTheoMon.execute(id);
+
         Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
          mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

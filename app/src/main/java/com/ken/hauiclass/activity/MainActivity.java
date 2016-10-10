@@ -29,8 +29,10 @@ import com.ken.hauiclass.fragment.ListMoreFriendFragment;
 import com.ken.hauiclass.fragment.ListNotificationFragment;
 import com.ken.hauiclass.fragment.ListStudentFragment;
 import com.ken.hauiclass.log.Log;
+import com.ken.hauiclass.service.MyService;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String MA_SV = "masv";
     private AHBottomNavigationAdapter navigationAdapter;
     private int[] tabColors;
     private Toolbar toolbar;
@@ -53,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        mNotificationManager.cancel(001);
         log=new Log(this);
         id=log.getID();
         if (id.isEmpty()){
@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         }else{
             startView(id);
         }
+        Intent intent=new Intent(this,MyService.class);
+        startService(intent);
     }
     public void checkLogin() {
         if (id.isEmpty()){
@@ -71,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
     public void startTask() {
         log=new com.ken.hauiclass.log.Log(this);
         sqLiteManager =new SQLiteManager(this);
-//        Intent intent=new Intent(MainActivity.this, MyService.class);
-//        startService(intent);
     }
     public void startLogin() {
         Intent intent=new Intent(MainActivity.this,LoginActivity.class);
@@ -112,12 +112,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void creatFrament(String id) {
+        ketQuaHocTapFragment =new KetQuaHocTapFragment();
+        try {
+            Intent intent=getIntent();
+            int index=intent.getBundleExtra(MyService.KEY_TAB).getInt(MyService.TAB_POSITON);
+            Bundle bundle=new Bundle();
+            bundle.putString(MA_SV,id);
+            bundle.putInt(MyService.TAB_POSITON,index);
+            ketQuaHocTapFragment.setArguments(bundle);
+        }catch (NullPointerException e ){
+            Bundle bundle=new Bundle();
+            bundle.putString(MA_SV,id);
+            bundle.putInt(MyService.TAB_POSITON,0);
+            ketQuaHocTapFragment.setArguments(bundle);
+        }
+
+
         listMoreFriendFragment=new ListMoreFriendFragment();
         listNotificationFragment=new ListNotificationFragment();
-        ketQuaHocTapFragment =new KetQuaHocTapFragment();
-        Bundle bundle=new Bundle();
-        bundle.putString("MA_SV",id);
-        ketQuaHocTapFragment.setArguments(bundle);
+
         listMessagesFragment=new ListMessagesFragment();
         listMoreFragment=new ListMoreFragment();
     }
@@ -185,14 +198,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public boolean isOnline() {
-        try {
-            ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-            return cm.getActiveNetworkInfo().isConnectedOrConnecting();
-        }catch (Exception e) {
-            return false;
-        }
-    }
     public void setTitleBar(int i) {
         String titleBar;
         switch (i){
@@ -229,9 +234,6 @@ public class MainActivity extends AppCompatActivity {
     }
     public Log getLog() {
         return log;
-    }
-    public SQLiteManager getSqLiteManager() {
-        return sqLiteManager;
     }
     private SQLiteManager sqLiteManager;
     private com.ken.hauiclass.log.Log log;
