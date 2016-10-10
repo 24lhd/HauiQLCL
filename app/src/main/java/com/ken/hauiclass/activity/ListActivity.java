@@ -360,8 +360,6 @@ public class ListActivity extends AppCompatActivity {
             intent.putExtra("KEY_MSV",bundle);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getApplicationContext().startActivity(intent);
-            finish();
-
         }
     }
     class ItemLichThiLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
@@ -475,7 +473,6 @@ public class ListActivity extends AppCompatActivity {
             intent.putExtra("KEY_MSV",bundle);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getApplicationContext().startActivity(intent);
-            finish();
 
         }
     }

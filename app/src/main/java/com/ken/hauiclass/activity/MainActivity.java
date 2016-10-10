@@ -117,9 +117,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent=getIntent();
             int index=intent.getBundleExtra(MyService.KEY_TAB).getInt(MyService.TAB_POSITON);
             bundle.putInt(MyService.TAB_POSITON,index);
-            android.util.Log.e("faker",""+index);
         }catch (NullPointerException e ){
-            android.util.Log.e("faker","vào");
             bundle.putInt(MyService.TAB_POSITON,0);
         }
         ketQuaHocTapFragment.setArguments(bundle);
