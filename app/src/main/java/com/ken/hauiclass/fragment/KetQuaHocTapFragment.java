@@ -112,7 +112,6 @@ public class KetQuaHocTapFragment extends Fragment {
         tabLayout.setBackgroundColor(Color.WHITE);
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         refesh();
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
            @Override
            public void onTabSelected(TabLayout.Tab tab) {
@@ -169,9 +168,7 @@ public class KetQuaHocTapFragment extends Fragment {
                 tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2);
                 tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2).select();
                 break;
-
         }
-
     }
     private void refesh() {
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {

@@ -120,7 +120,9 @@ public class MainActivity extends AppCompatActivity {
             bundle.putString(MA_SV,id);
             bundle.putInt(MyService.TAB_POSITON,index);
             ketQuaHocTapFragment.setArguments(bundle);
+            android.util.Log.e("faker",""+index);
         }catch (NullPointerException e ){
+            android.util.Log.e("faker","vào");
             Bundle bundle=new Bundle();
             bundle.putString(MA_SV,id);
             bundle.putInt(MyService.TAB_POSITON,0);

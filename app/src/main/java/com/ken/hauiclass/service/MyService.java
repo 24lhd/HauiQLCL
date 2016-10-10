@@ -23,6 +23,7 @@ import com.ken.hauiclass.item.DiemThiTheoMon;
 import com.ken.hauiclass.item.ItemBangKetQuaHocTap;
 import com.ken.hauiclass.item.KetQuaHocTap;
 import com.ken.hauiclass.item.KetQuaThi;
+import com.ken.hauiclass.item.LichThi;
 import com.ken.hauiclass.task.ParserKetQuaHocTap;
 import com.ken.hauiclass.task.ParserKetQuaThiTheoMon;
 import com.ken.hauiclass.task.ParserLichThiTheoMon;
@@ -52,7 +53,7 @@ public class MyService extends Service{
         public void handleMessage(Message msg) {
 
             try{
-
+                Toast.makeText(getApplicationContext(), "Đang cập nhật", Toast.LENGTH_SHORT).show();
                 if(msg.arg1==0){// ket qua hoc tap
                     KetQuaHocTap ketQuaHocTap= (KetQuaHocTap) msg.obj;
                     ArrayList<ItemBangKetQuaHocTap> itemBangKetQuaHocTapsNew=ketQuaHocTap.getBangKetQuaHocTaps();
@@ -70,32 +71,65 @@ public class MyService extends Service{
                                 if (itemBangKetQuaHocTapNew.getMaMon().equals(itemBangKetQuaHocTapOld.getMaMon())&&!itemBangKetQuaHocTapNew.getdTB().equals(itemBangKetQuaHocTapOld.getdTB())){
                                         sqLiteManager.updateDMon(itemBangKetQuaHocTapNew,id,itemBangKetQuaHocTapOld.getMaMon());
                                         showNoti("Cập nhật điểm học phần",itemBangKetQuaHocTapNew.getTenMon(),0);
+                                    break;
                                 }
                             }
                         }
                 }
                 if (msg.arg1==2){ // ket qua thi
-                    Toast.makeText(getApplicationContext(), "Đang cập nhật kết quả thi", Toast.LENGTH_SHORT).show();
                     ArrayList<DiemThiTheoMon> diemThiTheoMonNews= (ArrayList<DiemThiTheoMon>) msg.obj;
                     ArrayList<DiemThiTheoMon> diemThiTheoMonOlds=sqLiteManager.getAllDThiMon(id);
                     if (diemThiTheoMonNews.size()>diemThiTheoMonOlds.size()){
-                        showNoti("Cập nhật kết quả thi",(diemThiTheoMonNews.size()-diemThiTheoMonOlds.size())+" học phần",1);
-                    }else{
-                        for (int i=0;i<diemThiTheoMonOlds.size();i++){
-                            String dcOld=diemThiTheoMonOlds.get(i).getdCuoiCung();
-                            String dcNew=diemThiTheoMonNews.get(i).getdCuoiCung();
-                            if (!dcOld.equals(dcNew)&&!diemThiTheoMonNews.get(i).getdLan1().isEmpty()){
-                                for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMonNews) {
-                                    sqLiteManager.insertDThiMon(diemThiTheoMon,id);
+                        for (DiemThiTheoMon diemThiTheoMonNew:diemThiTheoMonNews) {
+                            boolean flag=true;
+                            for (int i = 0; i <diemThiTheoMonOlds.size() ; i++) {
+                                if (diemThiTheoMonNew.getLinkDiemThiTheoLop().equals(diemThiTheoMonOlds.get(i).getLinkDiemThiTheoLop())){
+                                    flag=false;
+                                    break;
                                 }
-                                showNoti("Thông báo kết quả thi",diemThiTheoMonNews.get(i).getTenMon(),1);
+                            }
+                            if (flag){
+                                sqLiteManager.insertDThiMon(diemThiTheoMonNew,id);
                             }
                         }
+                        showNoti("Cập nhật kết quả thi",(diemThiTheoMonNews.size()-diemThiTheoMonOlds.size())+" học phần",1);
                     }
+                        for (int i=0;i<diemThiTheoMonNews.size();i++){
+                            for (int j = 0; j <diemThiTheoMonOlds.size() ; j++) {
+                                String dcOld=diemThiTheoMonOlds.get(j).getdCuoiCung();
+                                String dcNew=diemThiTheoMonNews.get(i).getdCuoiCung();
+                                if (!dcOld.equals(dcNew)&&!diemThiTheoMonNews.get(i).getdLan1().isEmpty()&&diemThiTheoMonNews.get(i).getLinkDiemThiTheoLop().equals(diemThiTheoMonOlds.get(j).getLinkDiemThiTheoLop())){
+                                    for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMonNews) {
+                                        sqLiteManager.updateDThiMon(diemThiTheoMon,id);
+                                    }
+                                    showNoti("Thông báo kết quả thi",diemThiTheoMonNews.get(i).getTenMon(),1);
+                                    break;
+                                }
+                            }
+
+                        }
+
 
                 }
                 if (msg.arg1==5){ // lich thi theo mon
-//
+                    ArrayList<LichThi> lichThiNews= (ArrayList<LichThi>) msg.obj;
+                    ArrayList<LichThi> lichThiOlds=sqLiteManager.getAllLThi(id);
+                    if (lichThiNews.size()>lichThiOlds.size()){
+                        for (LichThi lichThi:lichThiNews) {
+                            boolean flag=true;
+                            for (int i = 0; i <lichThiOlds.size() ; i++) {
+                                if (lichThi.getSbd().equals(lichThiOlds.get(i).getSbd())){
+                                    flag=false;
+                                    break;
+                                }
+                            }
+                            if (flag){
+                                sqLiteManager.insertlthi(lichThi,id);
+                            }
+                        }
+                        showNoti("Có lịch thi mới",(lichThiNews.size()-lichThiOlds.size())+" học phần",2);
+                    }
+
                 }
                 stopSelf();
             }catch (NullPointerException e){

@@ -441,6 +441,25 @@ public class SQLiteManager {
         closeDatabases();
         return id;
     }
+    public long updateDThiMon(DiemThiTheoMon dthimon,String maSV){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("linkDiemThiTheoLop",dthimon.getLinkDiemThiTheoLop());
+        String []s={dthimon.getLinkDiemThiTheoLop(),maSV};
+        contentValues.put("tenMon",dthimon.getTenMon());
+        contentValues.put("maSV",maSV);
+        contentValues.put("dLan1",dthimon.getdLan1());
+        contentValues.put("dTKLan1",dthimon.getdTKLan1());
+        contentValues.put("dLan2",dthimon.getdLan2());
+        contentValues.put("dTKLan2",dthimon.getdTKLan2());
+        contentValues.put("dCuoiCung",dthimon.getdCuoiCung());
+        contentValues.put("ngay1",dthimon.getNgay1());
+        contentValues.put("ngay2",dthimon.getNgay2());
+        contentValues.put("ghiChu",dthimon.getGhiChu());
+        openDatabases();
+        long id=database.update("dthimon", contentValues,"linkDiemThiTheoLop=? and maSV=?",s);
+        closeDatabases();
+        return id;
+    }
     public ArrayList<DiemThiTheoMon> getAllDThiMon(String maSV) {
         openDatabases();
         ArrayList<DiemThiTheoMon> diemThiTheoMons=new ArrayList<>();
