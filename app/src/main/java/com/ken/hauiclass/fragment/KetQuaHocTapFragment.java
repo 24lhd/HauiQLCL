@@ -1,12 +1,14 @@
 package com.ken.hauiclass.fragment;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,8 +16,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,17 +160,29 @@ public class KetQuaHocTapFragment extends Fragment {
                 tabLayout.getTabAt(0).setIcon(R.drawable.ic_result);
                 tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2);
                 tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2);
+                tabLayout.getTabAt(3).setIcon(R.drawable.chart0).select();
                 checkDatabase();
                 break;
             case 1:
                 tabLayout.getTabAt(0).setIcon(R.drawable.ic_result_2);
                 tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2).select();
                 tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2);
+                tabLayout.getTabAt(3).setIcon(R.drawable.chart0).select();
+                checkDatabase();
                 break;
             case 2:
                 tabLayout.getTabAt(0).setIcon(R.drawable.ic_result_2);
                 tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2);
                 tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2).select();
+                tabLayout.getTabAt(3).setIcon(R.drawable.chart0).select();
+                checkDatabase();
+                break;
+            case 3:
+                tabLayout.getTabAt(0).setIcon(R.drawable.ic_result_2);
+                tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2);
+                tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2);
+                tabLayout.getTabAt(3).setIcon(R.drawable.chart1).select();
+                checkDatabase();
                 break;
         }
     }
@@ -293,7 +309,6 @@ public class KetQuaHocTapFragment extends Fragment {
         TextView ngay1;
         TextView ngay2;
         TextView ghiChu;
-        TextView dCuoiCung2;
         TextView stt;
         public ItemDiemThiMon(View itemView) {
             super(itemView);
@@ -303,7 +318,6 @@ public class KetQuaHocTapFragment extends Fragment {
             this.dLan2 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_l2);
             this.dTKLan2 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_tk2);
             this.dCuoiCung = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_dc);
-            this.dCuoiCung2 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_dc2);
             this.ngay1 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_n1);
             this.ngay2 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_n2);
             this.ghiChu = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_gc);
@@ -333,56 +347,70 @@ public class KetQuaHocTapFragment extends Fragment {
             String tk2=diemThiTheoMon.getdTKLan2().trim();
             holder.dTKLan2.setText(tk2);
             holder.dTKLan1.setText(tk1);
+            holder.ngay1.setText(diemThiTheoMon.getNgay1());
+            holder.ngay2.setText(diemThiTheoMon.getNgay2());
+            holder.ghiChu.setText(diemThiTheoMon.getGhiChu());
             holder.stt.setText(""+(position+1));
             String dc=diemThiTheoMon.getdCuoiCung().split(" ")[0];
+            dc=dc.trim();
             double th = 0;
             double n = 0;
             if (diemThiTheoMon.getNgay1().split("").length>3){
                 n=Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[2]);
                 th = Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[1]);
             }
-            if (dc.isEmpty()){
-                holder.dCuoiCung.setText("|");
+            if (dc.equals("(I)")){
+                holder.dCuoiCung.setText("*");
+                holder.dCuoiCung.setTextColor(Color.parseColor("#42A5F5"));
             }else{
                 holder.dCuoiCung.setText(dc);
+
                 if (isDouble(dc)){
                     double d= Double.parseDouble(dc);
                     if (d>=8.5){
+                        holder.dCuoiCung.setTextColor(Color.parseColor("#FF0000"));
                         holder.dCuoiCung.setText("A");
                     }else if(d>=7.7&&n>=2015){
                         if (n==2015&&th<=9){
                             holder.dCuoiCung.setText("B");
+                            holder.dCuoiCung.setTextColor(Color.parseColor("#FFD600"));
                         }else{
                             holder.dCuoiCung.setText("B+");
+                            holder.dCuoiCung.setTextColor(Color.parseColor("#FF8C00"));
                         }
                     }else if(d>=7.0){
                         holder.dCuoiCung.setText("B");
+                        holder.dCuoiCung.setTextColor(Color.parseColor("#FFD600"));
                     }else if(d>=6.2&&n>=2015){
                         if (n==2015&&th<=9){
+                            holder.dCuoiCung.setTextColor(Color.parseColor("#CCFF90"));
                             holder.dCuoiCung.setText("C");
                         }else{
                             holder.dCuoiCung.setText("C+");
+                            holder.dCuoiCung.setTextColor(Color.parseColor("#64DD17"));
                         }
                     }else if(d>=5.5){
                         holder.dCuoiCung.setText("C");
+                        holder.dCuoiCung.setTextColor(Color.parseColor("#CCFF90"));
                     }else if(d>=4.7&&n>=2015){
+
                         if (n==2015&&th<=9){
+                            holder.dCuoiCung.setTextColor(Color.parseColor("#84FFFF"));
                             holder.dCuoiCung.setText("D");
                         }else{
                             holder.dCuoiCung.setText("D+");
+                            holder.dCuoiCung.setTextColor(Color.parseColor("#00B8D4"));
                         }
                     }else if(d>=4.0){
                         holder.dCuoiCung.setText("D");
+                        holder.dCuoiCung.setTextColor(Color.parseColor("#84FFFF"));
                     }else{
                         holder.dCuoiCung.setText("F");
+                        holder.dCuoiCung.setTextColor(Color.parseColor("#D500F9"));
                     }
                 }
-                holder.dCuoiCung2.setText(dc);
             }
 
-            holder.ngay1.setText(diemThiTheoMon.getNgay1());
-            holder.ngay2.setText(diemThiTheoMon.getNgay2());
-            holder.ghiChu.setText(diemThiTheoMon.getGhiChu());
         }
         @Override
         public int getItemCount() {
@@ -401,7 +429,7 @@ public class KetQuaHocTapFragment extends Fragment {
             getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
         }
     }
-    boolean isDouble(String str) {
+    public static boolean  isDouble(String str) {
         try {
             parseDouble(str);
             return true;
@@ -551,6 +579,7 @@ public class KetQuaHocTapFragment extends Fragment {
         TextView stt;
         public ItemDanhSachLop(View itemView) {
             super(itemView);
+
             this.tvTenLop = (TextView) itemView.findViewById(R.id.id_item_diem_lop_tenlop);
             this.tvMaLop = (TextView) itemView.findViewById(R.id.id_item_diem_lop_masv);
             this.tvD1 = (TextView) itemView.findViewById(R.id.id_item_diem_lop_d1);

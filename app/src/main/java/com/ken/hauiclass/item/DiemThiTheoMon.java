@@ -20,18 +20,8 @@ public class DiemThiTheoMon implements Serializable{
 
     @Override
     public String toString() {
-        return "DiemThiTheoMon{" +
-                "linkDiemThiTheoLop='" + linkDiemThiTheoLop + '\'' +
-                ", tenMon='" + tenMon + '\'' +
-                ", dLan1='" + dLan1 + '\'' +
-                ", dTKLan1='" + dTKLan1 + '\'' +
-                ", dLan2='" + dLan2 + '\'' +
-                ", dTKLan2='" + dTKLan2 + '\'' +
-                ", dCuoiCung='" + dCuoiCung + '\'' +
-                ", ngay1='" + ngay1 + '\'' +
-                ", ngay2='" + ngay2 + '\'' +
-                ", ghiChu='" + ghiChu + '\'' +
-                '}';
+        return
+                tenMon +"=" + dCuoiCung  ;
     }
 
     public String getLinkDiemThiTheoLop() {

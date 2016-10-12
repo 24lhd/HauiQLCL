@@ -13,9 +13,11 @@ import android.util.Log;
 
 import com.ken.hauiclass.R;
 import com.ken.hauiclass.database.SQLiteManager;
+import com.ken.hauiclass.fragment.KetQuaHocTapFragment;
 import com.ken.hauiclass.item.DiemThiTheoMon;
 import com.ken.hauiclass.item.ItemBangDiemThanhPhan;
 import com.ken.hauiclass.item.ItemBangKetQuaHocTap;
+import com.ken.hauiclass.item.KetQuaHocTap;
 
 import java.util.ArrayList;
 
@@ -31,6 +33,7 @@ public class Test extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.test);
 //        long [] l={200,200,200,200};
 //        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 //        Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -54,6 +57,19 @@ public class Test extends Activity {
         sqLiteManager.getBangKetQuaHocTap(id);
         ArrayList<DiemThiTheoMon> diemThiTheoMons=
         sqLiteManager.getAllDThiMon(id);
+//        String [] stringsDiemThiTheoMon=new String[diemThiTheoMons.size()];
+//        stringsDiemThiTheoMon=diemThiTheoMons.toArray(stringsDiemThiTheoMon);
+        for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMons) {
+            String dc=diemThiTheoMon.getdCuoiCung().split(" ")[0];
+            dc=dc.trim();
+            if (!dc.isEmpty()&& KetQuaHocTapFragment.isDouble(dc)){
+                Log.e("faker",dc);
+            }
+        }
+//        for (int i = 0; i < stringsDiemThiTheoMon.length; i++) {
+//            Log.e("faker","------------n1-------"+stringsDiemThiTheoMon[i].toString());
+//        }
+        
         ArrayList<String> mons=new ArrayList<>();
         for (ItemBangKetQuaHocTap itemBangDiemThanhPhan:bangDiemThanhPhen) {
             if (itemBangDiemThanhPhan.getMaMon().trim().length()>=15){
@@ -72,11 +88,11 @@ public class Test extends Activity {
                     n--;
                 }
             }
-
         }
-        Log.e("faker","------------n1-------"+n);
+//        Log.e("faker","------------n1-------"+n);
+        ArrayList<Double> diems=new ArrayList<>();
         for (int i = 0; i <n; i++) {
-            Log.e("faker","-------------------s---------"+strings[i]);
+//           strings[i]
         }
 
     }

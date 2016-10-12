@@ -16,7 +16,10 @@
         <activity android:name=".activity.ChatActivity"/>
         <activity android:name=".activity.MainActivity"
             android:theme="@style/AppTheme">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".activity.ListActivity"
             android:theme="@style/AppThemeNoActionBar"/>
@@ -31,10 +34,7 @@
 
         </activity>
         <activity android:name=".activity.Test">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
 
         </activity>
     </application>
