@@ -50,6 +50,8 @@ public class MyService extends Service{
     private String id;
     private Notification.Builder nBuilder;
 
+    private  NotificationManager mNotifyMgr;
+    private  PendingIntent resultPendingIntent;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -158,8 +160,6 @@ public class MyService extends Service{
             mNotifyMgr.notify(mNotificationId, nBuilder.build());
     }
 
-    private  NotificationManager mNotifyMgr;
-    private  PendingIntent resultPendingIntent;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         log=new com.ken.hauiclass.log.Log(this);
