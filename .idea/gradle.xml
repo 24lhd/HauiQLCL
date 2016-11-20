@@ -9,7 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AlertdialogproThemeHolo" />
-            <option value="$PROJECT_DIR$/BottomNavigation" />
             <option value="$PROJECT_DIR$/FabLoading" />
             <option value="$PROJECT_DIR$/PullRefesh" />
             <option value="$PROJECT_DIR$/WrappingFragment" />

@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AlertdialogproThemeHolo/AlertdialogproThemeHolo.iml" filepath="$PROJECT_DIR$/AlertdialogproThemeHolo/AlertdialogproThemeHolo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BottomNavigation/BottomNavigation.iml" filepath="$PROJECT_DIR$/BottomNavigation/BottomNavigation.iml" />
       <module fileurl="file://$PROJECT_DIR$/FabLoading/FabLoading.iml" filepath="$PROJECT_DIR$/FabLoading/FabLoading.iml" />
       <module fileurl="file://$PROJECT_DIR$/HauiClass.iml" filepath="$PROJECT_DIR$/HauiClass.iml" />
       <module fileurl="file://$PROJECT_DIR$/PullRefesh/PullRefesh.iml" filepath="$PROJECT_DIR$/PullRefesh/PullRefesh.iml" />
