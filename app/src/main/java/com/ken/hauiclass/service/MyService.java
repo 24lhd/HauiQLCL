@@ -14,9 +14,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.ken.hauiclass.R;
 import com.ken.hauiclass.activity.MainActivity;
@@ -24,7 +21,6 @@ import com.ken.hauiclass.database.SQLiteManager;
 import com.ken.hauiclass.item.DiemThiTheoMon;
 import com.ken.hauiclass.item.ItemBangKetQuaHocTap;
 import com.ken.hauiclass.item.KetQuaHocTap;
-import com.ken.hauiclass.item.KetQuaThi;
 import com.ken.hauiclass.item.LichThi;
 import com.ken.hauiclass.task.ParserKetQuaHocTap;
 import com.ken.hauiclass.task.ParserKetQuaThiTheoMon;

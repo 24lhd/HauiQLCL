@@ -1,5 +1,6 @@
 package com.ken.hauiclass.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -9,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,7 +52,7 @@ public class ListActivity extends AppCompatActivity {
     private Intent intent;
     private PullRefreshLayout pullRefreshLayout;
     private Bundle bundle;
-    private TabLayout tabLayout;
+//    private TabLayout tabLayout;
     private int index;
     private ItemBangKetQuaHocTap itemBangKetQuaHocTap;
     private DiemThiTheoMon diemThiTheoMon;
@@ -72,12 +72,10 @@ public class ListActivity extends AppCompatActivity {
     private void initView( ) {
         sqLiteManager=new SQLiteManager(this);
         toolbar= (LinearLayout) findViewById(R.id.toolbar_list_activity);
-        tvTenLop= (TextView) toolbar.findViewById(R.id.tb_title);
+        tvTenLop= (TextView) toolbar.findViewById(R.id.tb_title2);
         pullRefreshLayout= (PullRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-        tvTenLopUuTien= (TextView) toolbar.findViewById(R.id.tb_text1);
-        tvSoTc= (TextView) toolbar.findViewById(R.id.tb_text2);
-        tabLayout= (TabLayout) findViewById(R.id.tablayout_fa);
-        tabLayout.setVisibility(View.GONE);
+        tvTenLopUuTien= (TextView) toolbar.findViewById(R.id.tb_text12);
+        tvSoTc= (TextView) toolbar.findViewById(R.id.tb_text22);
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         progressBar= (ProgressBar) findViewById(R.id.pg_loading);
         textNull= (TextView) findViewById(R.id.text_null);
@@ -153,9 +151,6 @@ public class ListActivity extends AppCompatActivity {
                 ParserLichThiTheoLop lichThiTheoLop=new ParserLichThiTheoLop(handler);
                 lichThiTheoLop.execute(itemBangKetQuaHocTap.getLinkLichThiLop());
                 break;
-            case 2:
-
-                break;
             case 3:
                 ParserKetQuaThiTheoLop parserKetQuaHocTap=new ParserKetQuaThiTheoLop(handler);
                 parserKetQuaHocTap.execute(diemThiTheoMon.getLinkDiemThiTheoLop());
@@ -208,9 +203,6 @@ public class ListActivity extends AppCompatActivity {
                         }
                     }
                     break;
-                case 2:
-
-                    break;
                 case 3:
                     diemThiTheoMon= (DiemThiTheoMon) intent.getSerializableExtra(KetQuaHocTapFragment.KEY_OBJECT);
                     tvTenLop.setText(diemThiTheoMon.getTenMon());
@@ -241,9 +233,7 @@ public class ListActivity extends AppCompatActivity {
             case 1:
                 sqLiteManager.deleteLThiLop(itemBangKetQuaHocTap.getMaMon());
                 break;
-            case 2:
-                break;
-            case 3:
+            case 3: default:
                 sqLiteManager.deleteDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop());
                 break;
         }
@@ -354,12 +344,13 @@ public class ListActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             int itemPosition = recyclerView.getChildLayoutPosition(view);
-            Intent intent=new Intent(getApplicationContext(),ViewKetQuaHocTap.class);
+            Intent intent=new Intent();
             Bundle bundle=new Bundle();
             bundle.putString(MainActivity.MA_SV,data.get(itemPosition).getMsv());
-            intent.putExtra("KEY_MSV",bundle);
+            intent.putExtra(MainActivity.MA_SV,bundle);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getApplicationContext().startActivity(intent);
+            setResult(RESULT_OK,intent);
+            finish();
         }
     }
     class ItemLichThiLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
@@ -467,12 +458,17 @@ public class ListActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             int itemPosition = recyclerView.getChildLayoutPosition(view);
-            Intent intent=new Intent(getApplicationContext(),ViewKetQuaHocTap.class);
-            Bundle bundle=new Bundle();
-            bundle.putString(MainActivity.MA_SV,data.get(itemPosition).getMsv());
-            intent.putExtra("KEY_MSV",bundle);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getApplicationContext().startActivity(intent);
+//            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+//            Bundle bundle=new Bundle();
+//            bundle.putString(MainActivity.MA_SV,data.get(itemPosition).getMsv());
+//            intent.putExtra("KEY_MSV",bundle);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            getApplicationContext().startActivity(intent);
+            Intent returnIntent = new Intent();
+            returnIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            returnIntent.putExtra(MainActivity.MA_SV,data.get(itemPosition).getMsv());
+            setResult(Activity.RESULT_OK,returnIntent);
+            finish();
 
         }
     }

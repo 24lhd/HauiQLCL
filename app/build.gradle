@@ -24,7 +24,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(':BottomNavigation')
     compile project(':FabLoading')
     compile project(':WrappingFragment')
     compile 'com.android.support:appcompat-v7:24.2.0'
@@ -35,6 +34,7 @@ dependencies {
     compile project(':alertdialogpro-core')
     compile project(':AlertdialogproThemeHolo')
     compile project(':PullRefesh')
+    compile 'com.android.support:design:24.0.0'
 }
 
 

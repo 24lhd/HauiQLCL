@@ -19,8 +19,6 @@ import com.ken.hauiclass.item.SinhVien;
 
 import java.util.ArrayList;
 
-import static android.R.attr.id;
-
 /**
  * Created by Faker on 9/5/2016.
  */

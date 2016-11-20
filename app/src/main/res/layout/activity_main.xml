@@ -3,38 +3,91 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activity.MainActivity"
     android:orientation="vertical"
     android:layout_height="match_parent">
         <android.support.design.widget.AppBarLayout
-            android:id="@+id/AppBarLayout01"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme">
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
+            android:layout_height="wrap_content">
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    app:popupTheme="@style/AppTheme" />
+                    android:orientation="horizontal"
+                    android:id="@+id/toolbar_list_activity"
+                    android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:gravity="left"
+                                    android:layout_marginRight="2dp"
+                                    android:id="@+id/tb_title"
+                                    android:textSize="@dimen/text_size_20dp"
+                                    android:layout_gravity="left"
+                                    android:textColor="@color/md_white_1000"
+                                    android:layout_height="wrap_content" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_height="wrap_content">
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_weight="1"
+                                            android:id="@+id/tb_text1"
+                                            android:layout_marginTop="3dp"
+                                            android:gravity="left"
+                                            android:textSize="@dimen/text_size_12dp"
+                                            android:layout_gravity="center"
+                                            android:layout_marginBottom="2dp"
+                                            android:textColor="@color/md_white_1000"
+                                            android:layout_height="wrap_content" />
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_weight="1"
+                                            android:id="@+id/tb_text2"
+                                            android:layout_marginTop="3dp"
+                                            android:gravity="left"
+                                            android:textSize="@dimen/text_size_12dp"
+                                            android:layout_gravity="center"
+                                            android:layout_marginBottom="2dp"
+                                            android:textColor="@color/md_white_1000"
+                                            android:layout_height="wrap_content" />
+                                </LinearLayout>
+                        </LinearLayout>
+                </LinearLayout>
         </android.support.design.widget.AppBarLayout>
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/CoordinatorLayout01"
+
+        <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
+            android:id="@+id/tablayout_fa"
+            android:layout_height="wrap_content">
+                <android.support.design.widget.TabItem
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+                <android.support.design.widget.TabItem
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+                <android.support.design.widget.TabItem
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+                <android.support.design.widget.TabItem
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+                <android.support.design.widget.TabItem
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+        </android.support.design.widget.TabLayout>
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:id="@+id/view"
+            android:layout_height="1dp"></View>
                 <android.support.v4.view.ViewPager
                     android:layout_width="match_parent"
                     android:id="@+id/viewpager"
                     android:layout_height="match_parent">
                 </android.support.v4.view.ViewPager>
-                <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-                    android:id="@+id/bottom_navigation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom" />
-        </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
 

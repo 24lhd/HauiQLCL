@@ -1,25 +1,20 @@
 package com.ken.hauiclass.fragment;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +61,6 @@ public class KetQuaHocTapFragment extends Fragment {
     private SinhVien sv;
     private String maSV;
     private int indexTab;
-    private TabLayout tabLayout;
     private TextView tvTitle,tv1,tv2;
     private PullRefreshLayout pullRefreshLayout;
     @SuppressLint("NewApi")
@@ -99,7 +93,6 @@ public class KetQuaHocTapFragment extends Fragment {
         toolbar= (LinearLayout) view.findViewById(R.id.toolbar_list_activity);
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         toolbar.setVisibility(View.VISIBLE);
-        tabLayout= (TabLayout) view.findViewById(R.id.tablayout_fa);
         tvTitle= (TextView) toolbar.findViewById(R.id.tb_title);
         tv1= (TextView) toolbar.findViewById(R.id.tb_text1);
         tv2= (TextView) toolbar.findViewById(R.id.tb_text2);
@@ -108,32 +101,16 @@ public class KetQuaHocTapFragment extends Fragment {
         recyclerView= (RecyclerView) view.findViewById(R.id.recle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setTabTextColors(Color.GRAY,Color.WHITE);
-        tabLayout.setSelectedTabIndicatorHeight(0);
-        tabLayout.setAnimationCacheEnabled(false);
-        tabLayout.setBackgroundColor(Color.WHITE);
-        tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         refesh();
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-           @Override
-           public void onTabSelected(TabLayout.Tab tab) {
-               switch (tab.getPosition()){
+               switch (indexTab){
                    case 2:
                        setTitleTab("Lich thi");
-                       tabLayout.getTabAt(0).setIcon(R.drawable.ic_result_2);
-                       tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2);
-                       tabLayout.getTabAt(2).setIcon(R.drawable.ic_lich_thi_2);
                        indexTab=2;
                        checkDatabase();
                        pullRefreshLayout.setRefreshing(false);
                        break;
                    case 1:
                        setTitleTab("Kết quả thi");
-                       tabLayout.getTabAt(0).setIcon(R.drawable.ic_result_2);
-                       tabLayout.getTabAt(1).setIcon(R.drawable.ic_test);
-                       tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2);
                        indexTab=1;
                        checkDatabase();
                        pullRefreshLayout.setRefreshing(false);
@@ -141,47 +118,28 @@ public class KetQuaHocTapFragment extends Fragment {
                    default:
                        setTitleTab("Kết quả học tập");
                        indexTab=0;
-                       tabLayout.getTabAt(0).setIcon(R.drawable.ic_result);
-                       tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2);
-                       tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2);
+
                        checkDatabase();
                        pullRefreshLayout.setRefreshing(false);
                        break;
                }
-           }
-           @Override
-           public void onTabUnselected(TabLayout.Tab tab) {}
-           @Override
-           public void onTabReselected(TabLayout.Tab tab) {}
-       });
+
         switch (indexTab){
             case 0:
                 setTitleTab("Kết quả học tập");
-                tabLayout.getTabAt(0).setIcon(R.drawable.ic_result);
-                tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2);
-                tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2);
-                tabLayout.getTabAt(3).setIcon(R.drawable.chart0).select();
+
                 checkDatabase();
                 break;
             case 1:
-                tabLayout.getTabAt(0).setIcon(R.drawable.ic_result_2);
-                tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2).select();
-                tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2);
-                tabLayout.getTabAt(3).setIcon(R.drawable.chart0).select();
+
                 checkDatabase();
                 break;
             case 2:
-                tabLayout.getTabAt(0).setIcon(R.drawable.ic_result_2);
-                tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2);
-                tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2).select();
-                tabLayout.getTabAt(3).setIcon(R.drawable.chart0).select();
+
                 checkDatabase();
                 break;
             case 3:
-                tabLayout.getTabAt(0).setIcon(R.drawable.ic_result_2);
-                tabLayout.getTabAt(1).setIcon(R.drawable.ic_test_2);
-                tabLayout.getTabAt(2).setIcon(R.drawable.ic_lichthi2);
-                tabLayout.getTabAt(3).setIcon(R.drawable.chart1).select();
+
                 checkDatabase();
                 break;
         }
@@ -290,7 +248,7 @@ public class KetQuaHocTapFragment extends Fragment {
     }
     public void setTitleTab(String titleTab) {
         sv=sqLiteManager.getSV(maSV);
-        if (sv!=null){
+        if (!(sv instanceof  SinhVien)){
             tvTitle.setText(sv.getTenSV());
             tv1.setText(sv.getMaSV()+" : "+sv.getLopDL());
             tv2.setText(titleTab);

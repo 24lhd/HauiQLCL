@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -22,10 +21,8 @@ import com.ken.hauiclass.R;
 import com.ken.hauiclass.fragment.LoginFragment;
 import com.ken.hauiclass.fragment.ResetPassFragment;
 import com.ken.hauiclass.fragment.SiginFragment;
-
 import xyz.santeri.wvp.WrappingFragmentPagerAdapter;
 import xyz.santeri.wvp.WrappingViewPager;
-
 import static com.ken.hauiclass.R.string.reset_pass_text;
 
 /**

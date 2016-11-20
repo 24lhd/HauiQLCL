@@ -31,8 +31,8 @@ public class ListStudentFragment extends Fragment {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MainActivity mainActivity= (MainActivity) getActivity();
-                    mainActivity.startLogin();
+                    MainActivity mainActivityActivity = (MainActivity) getActivity();
+                    mainActivityActivity.startLogin();
                 }
             });
         return view;
