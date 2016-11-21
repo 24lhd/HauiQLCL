@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">ClassBook</string>
+    <string name="app_name">Gà Công Nghiệp</string>
     <string name="save_state_login">Lưu trạng thái đăng nhập</string>
     <string name="un_save_state_login">Không lưu trạng thái đăng nhập</string>
     <string name="hint_id">Mã Sinh Viên</string>

@@ -25,7 +25,7 @@
             android:layout_height="match_parent" />
         <ImageView
             android:layout_width="35dp"
-            android:src="@drawable/ic_lich_thi"
+            android:src="@drawable/ic_plan_test"
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
