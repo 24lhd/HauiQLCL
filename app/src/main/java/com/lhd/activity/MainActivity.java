@@ -122,16 +122,14 @@ public class MainActivity extends AppCompatActivity {
         }
         if (requestCode==1){
                 if(resultCode == Activity.RESULT_OK){
-                    android.util.Log.e("fakera","RESULT_OK");
                     String result=data.getStringExtra(MainActivity.MA_SV);
                     maSV=result;
-                    android.util.Log.e("fakera",maSV);
                     startView(maSV);
                 }else if (resultCode ==Activity.RESULT_CANCELED){
-                    android.util.Log.e("fakera","RESULT_CANCELED");
                     finish();
-                }else {
-                    android.util.Log.e("fakera","checkLogin");
+                }else if (resultCode ==Activity.RESULT_FIRST_USER){
+                    return;
+                }else{
                     checkLogin();
                 }
             }

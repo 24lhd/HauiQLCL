@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -55,12 +54,11 @@ public class BangDiemThanhPhan extends Fragment {
     private RecyclerView recyclerView;
     private TextView textView;
     private MainActivity mainActivity;
-    private LinearLayout toolbar;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.layout_gerenal,container,false);
+        View view=inflater.inflate(R.layout.layout_fragment_in_main,container,false);
         initView(view);
         return view;
     }
@@ -70,9 +68,6 @@ public class BangDiemThanhPhan extends Fragment {
         sqLiteManager=new SQLiteManager(getContext());
         maSV=getArguments().getString(MainActivity.MA_SV);
         Log.e("faker",maSV);
-        toolbar= (LinearLayout) view.findViewById(R.id.toolbar_list_activity);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        toolbar.setVisibility(View.GONE);
         pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
         tVnull= (TextView) view.findViewById(R.id.text_null);

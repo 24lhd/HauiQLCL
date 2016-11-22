@@ -14,7 +14,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -33,8 +32,6 @@ import java.util.Collections;
  * Created by Faker on 8/25/2016.
  */
 public class LichThiFragment extends Fragment {
-    public static final String KEY_OBJECT = "send_object";
-    public static final String KEY_ACTIVITY = "key_start_activity";
     private TextView tVnull;
     private ProgressBar progressBar;
     private SQLiteManager sqLiteManager;
@@ -44,12 +41,11 @@ public class LichThiFragment extends Fragment {
     private PullRefreshLayout pullRefreshLayout;
     private RecyclerView recyclerView;
     private MainActivity mainActivity;
-    private LinearLayout toolbar;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.layout_gerenal,container,false);
+        View view=inflater.inflate(R.layout.layout_fragment_in_main,container,false);
         initView(view);
         return view;
     }
@@ -57,12 +53,6 @@ public class LichThiFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
         sqLiteManager=new SQLiteManager(getContext());
         maSV=getArguments().getString(MainActivity.MA_SV);
-//        Log.e("faker",maSV);
-
-        toolbar= (LinearLayout) view.findViewById(R.id.toolbar_list_activity);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        toolbar.setVisibility(View.GONE);
-//        maSV="0941260041";
         pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
         tVnull= (TextView) view.findViewById(R.id.text_null);

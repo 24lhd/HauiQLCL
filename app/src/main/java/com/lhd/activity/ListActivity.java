@@ -13,13 +13,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -48,24 +47,20 @@ public class ListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TextView textNull;
     private ProgressBar progressBar;
-    private LinearLayout toolbar;
-    private TextView tvTenLop;
-    private TextView tvTenLopUuTien;
-    private TextView tvSoTc;
     private Intent intent;
     private PullRefreshLayout pullRefreshLayout;
     private Bundle bundle;
-//    private TabLayout tabLayout;
     private int index;
     private ItemBangKetQuaHocTap itemBangKetQuaHocTap;
     private DiemThiTheoMon diemThiTheoMon;
     private DiemThanhPhan diemThanhPhan;
     private KetQuaThi ketQuaThi;
+    private Toolbar toolbarMenu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_gerenal);
+        setContentView(R.layout.list_layout);
         initView();
         checkDatabases();
     }
@@ -77,102 +72,122 @@ public class ListActivity extends AppCompatActivity {
         this.overridePendingTransition(R.anim.left_end,
                 R.anim.right_end);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.sort_menu, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.sort_menu,menu);
+        return super.onCreateOptionsMenu(menu);
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.cao_thap:
-                switch (index){
-                    case 0:
-                        Collections.sort(diemThanhPhan.getBangDiemThanhPhan(), new Comparator<ItemBangDiemThanhPhan>() {
-                            @Override
-                            public int compare(ItemBangDiemThanhPhan o1, ItemBangDiemThanhPhan o2) {
-//                                if (!(o1.getdTB() instanceof String)||!(o2.getdTB() instanceof String)){
-//                                    return 0;
-//                                }
-                                try {
-                                    return o2.getdTB().compareTo(o1.getdTB());
-                                }catch (NullPointerException e){
-                                    return 0;
-                                }
-//                                return o2.getdTB().compareTo(o1.getdTB());
-                            }
-                        });
-                        break;
-                    case 3:
-                        Collections.sort(ketQuaThi.getKetQuaThiLops(), new Comparator<ItemKetQuaThiLop>() {
-                            @Override
-                            public int compare(ItemKetQuaThiLop o1, ItemKetQuaThiLop o2) {
-                                try {
-                                    return o2.getdL1().compareTo(o1.getdL1());
-                                }catch (NullPointerException e){
-                                    return 0;
-                                }
-//                                if (!(o1.getdL1() instanceof String)||!(o2.getdL1() instanceof String)){
-//                                    return 0;
-//                                }
 
-                            }
-                        });
-                        break;
-                }
-                setRecircleView();
-                return true;
-            case R.id.thap_cao:
-                switch (index){
-                    case 0:
-                        Collections.sort(diemThanhPhan.getBangDiemThanhPhan(), new Comparator<ItemBangDiemThanhPhan>() {
-                            @Override
-                            public int compare(ItemBangDiemThanhPhan o1, ItemBangDiemThanhPhan o2) {
-//                                if (!(o1.getdTB() instanceof String)||!(o2.getdTB() instanceof String)){
-//                                    return 0;
-//                                }
-                                try {
-                                    return o1.getdTB().compareTo(o2.getdTB());
-                                }catch (NullPointerException e){
-                                    return 0;
-                                }
-
-                            }
-                        });
-                        break;
-                    case 3:
-                        Collections.sort(ketQuaThi.getKetQuaThiLops(), new Comparator<ItemKetQuaThiLop>() {
-                            @Override
-                            public int compare(ItemKetQuaThiLop o1, ItemKetQuaThiLop o2) {
-//                                if (!(o1.getdL1() instanceof String)||!(o2.getdL1() instanceof String)){
-//                                    return 0;
-//                                }
-                                try {
-                                    return o1.getdL1().compareTo(o2.getdL1());
-                                }catch (NullPointerException e){
-                                    return 0;
-                                }
-//                                return o1.getdL1().compareTo(o2.getdL1());
-                            }
-                        });
-                        break;
-                }
-                setRecircleView();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
     private void initView( ) {
+        toolbarMenu = (Toolbar) findViewById(R.id.toolbar_menu);
+        setSupportActionBar(toolbarMenu);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        toolbarMenu.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem arg0) {
+                switch (arg0.getItemId()) {
+                    case R.id.cao_thap:
+                        switch (index) {
+                            case 0:
+                                Collections.sort(diemThanhPhan.getBangDiemThanhPhan(), new Comparator<ItemBangDiemThanhPhan>() {
+                                    @Override
+                                    public int compare(ItemBangDiemThanhPhan o1, ItemBangDiemThanhPhan o2) {
+                                        double i1;
+                                        double i2;
+                                        try {
+                                            i1 = Double.parseDouble(o1.getdTB());
+                                        } catch (Exception e) {
+                                            i1 = -1;
+                                        }
+                                        try {
+                                            i2 = Double.parseDouble(o2.getdTB());
+                                        } catch (Exception e) {
+                                            i2 = -1;
+                                        }
+                                        return Double.compare(i2, i1);
+
+                                    }
+                                });
+                                break;
+                            case 3:
+                                Collections.sort(ketQuaThi.getKetQuaThiLops(), new Comparator<ItemKetQuaThiLop>() {
+                                    @Override
+                                    public int compare(ItemKetQuaThiLop o1, ItemKetQuaThiLop o2) {
+                                        double i1;
+                                        double i2;
+                                        try {
+                                            i1 = Double.parseDouble(o1.getdL1());
+                                        } catch (Exception e) {
+                                            i1 = -1;
+                                        }
+                                        try {
+                                            i2 = Double.parseDouble(o2.getdL1());
+                                        } catch (Exception e) {
+                                            i2 = -1;
+                                        }
+                                        return Double.compare(i2, i1);
+                                    }
+                                });
+                                break;
+                        }
+                        setRecircleView();
+                        return true;
+                    case R.id.thap_cao:
+                        switch (index) {
+                            case 0:
+                                Collections.sort(diemThanhPhan.getBangDiemThanhPhan(), new Comparator<ItemBangDiemThanhPhan>() {
+                                    @Override
+                                    public int compare(ItemBangDiemThanhPhan o1, ItemBangDiemThanhPhan o2) {
+                                        double i1;
+                                        double i2;
+                                        try {
+                                            i1 = Double.parseDouble(o1.getdTB());
+                                        } catch (Exception e) {
+                                            i1 = -1;
+                                        }
+                                        try {
+                                            i2 = Double.parseDouble(o2.getdTB());
+                                        } catch (Exception e) {
+                                            i2 = -1;
+                                        }
+                                        return Double.compare(i2, i1);
+
+                                    }
+                                });
+                                Collections.reverse(diemThanhPhan.getBangDiemThanhPhan());
+                                break;
+                            case 3:
+                                Collections.sort(ketQuaThi.getKetQuaThiLops(), new Comparator<ItemKetQuaThiLop>() {
+                                    @Override
+                                    public int compare(ItemKetQuaThiLop o1, ItemKetQuaThiLop o2) {
+                                        double i1;
+                                        double i2;
+                                        try {
+                                            i1 = Double.parseDouble(o1.getdL1());
+                                        } catch (Exception e) {
+                                            i1 = -1;
+                                        }
+                                        try {
+                                            i2 = Double.parseDouble(o2.getdL1());
+                                        } catch (Exception e) {
+                                            i2 = -1;
+                                        }
+                                        return Double.compare(i2, i1);
+                                    }
+                                });
+                                Collections.reverse(ketQuaThi.getKetQuaThiLops());
+                                break;
+                        }
+                        setRecircleView();
+
+                }
+                return false;
+            }
+        });
         sqLiteManager=new SQLiteManager(this);
-        toolbar= (LinearLayout) findViewById(R.id.toolbar_list_activity);
-        tvTenLop= (TextView) toolbar.findViewById(R.id.tb_title2);
         pullRefreshLayout= (PullRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-        tvTenLopUuTien= (TextView) toolbar.findViewById(R.id.tb_text12);
-        tvSoTc= (TextView) toolbar.findViewById(R.id.tb_text22);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         progressBar= (ProgressBar) findViewById(R.id.pg_loading);
         textNull= (TextView) findViewById(R.id.text_null);
         recyclerView= (RecyclerView) findViewById(R.id.recle_view);
@@ -259,12 +274,10 @@ public class ListActivity extends AppCompatActivity {
                 case 0:
                     itemBangKetQuaHocTap= (ItemBangKetQuaHocTap) intent.getSerializableExtra(KetQuaHocTapFragment.KEY_OBJECT);
                      diemThanhPhan = sqLiteManager.getAllDLop(itemBangKetQuaHocTap.getMaMon());
-                    tvTenLopUuTien.setText(itemBangKetQuaHocTap.getMaMon());
-                    tvTenLop.setText(itemBangKetQuaHocTap.getTenMon());
                     if (diemThanhPhan!=null&&!diemThanhPhan.getBangDiemThanhPhan().isEmpty()){
                         showRecircleView();
-                        tvTenLopUuTien.setText(""+diemThanhPhan.getTenLopUuTien());
-                        tvSoTc.setText("Điểm thành phần");
+                        getSupportActionBar().setTitle("Điểm thành phần "+itemBangKetQuaHocTap.getTenMon());
+                        getSupportActionBar().setSubtitle(diemThanhPhan.getTenLopUuTien()+"_"+diemThanhPhan.getSoTin()+" tín chỉ");
                       setRecircleView();
                     }else{
                         if (isOnline()){
@@ -277,11 +290,10 @@ public class ListActivity extends AppCompatActivity {
                     break;
                 case 3:
                     diemThiTheoMon= (DiemThiTheoMon) intent.getSerializableExtra(KetQuaHocTapFragment.KEY_OBJECT);
-                    tvTenLop.setText(diemThiTheoMon.getTenMon());
                      ketQuaThi=sqLiteManager.getAllDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop());
                     if (ketQuaThi!=null&&!ketQuaThi.getKetQuaThiLops().isEmpty()){
-                        tvTenLopUuTien.setText(""+ketQuaThi.getTenLopUuTien());
-                        tvSoTc.setText("Điểm thi");
+                        getSupportActionBar().setTitle("Điểm thi "+diemThiTheoMon.getTenMon());
+                        getSupportActionBar().setSubtitle(ketQuaThi.getTenLopUuTien()+"_"+ketQuaThi.getSoTC()+" tín chỉ");
                         showRecircleView();
                        setRecircleView();
                     }else{
@@ -321,8 +333,8 @@ public class ListActivity extends AppCompatActivity {
                         for (ItemBangDiemThanhPhan diemHocTapTheoLop:b){
                            sqLiteManager.insertDLop(diemHocTapTheoLop,diemThanhPhan.getMaLopDL(),diemThanhPhan.getTenLopUuTien(),diemThanhPhan.getSoTin());
                         }
-                        tvTenLopUuTien.setText("Điểm thành phần \n"+diemThanhPhan.getTenLopUuTien());
-                        tvSoTc.setText(diemThanhPhan.getSoTin()+" tín chỉ");
+                        getSupportActionBar().setTitle("Điểm thành phần "+itemBangKetQuaHocTap.getTenMon());
+                        getSupportActionBar().setSubtitle(diemThanhPhan.getTenLopUuTien()+"_"+diemThanhPhan.getSoTin()+" tín chỉ");
                         showRecircleView();
                        setRecircleView();
                     }
@@ -330,8 +342,8 @@ public class ListActivity extends AppCompatActivity {
                      ketQuaThi= (KetQuaThi) msg.obj;;
                     ArrayList<ItemKetQuaThiLop> b= ketQuaThi.getKetQuaThiLops();
                     if (!b.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
-                        tvTenLopUuTien.setText("Điểm thi \n"+ketQuaThi.getTenLopUuTien());
-                        tvSoTc.setText(ketQuaThi.getSoTC()+" tín chỉ");
+                        getSupportActionBar().setTitle("Điểm thi "+diemThiTheoMon.getTenMon());
+                        getSupportActionBar().setSubtitle(ketQuaThi.getTenLopUuTien()+"_"+ketQuaThi.getSoTC()+" tín chỉ");
                         for (ItemKetQuaThiLop diemHocTapTheoLop:b){
                             sqLiteManager.insertDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop(),ketQuaThi.getTenLopUuTien(),ketQuaThi.getSoTC(),diemHocTapTheoLop);
                         }
