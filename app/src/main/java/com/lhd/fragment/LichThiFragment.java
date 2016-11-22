@@ -1,6 +1,7 @@
 package com.lhd.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -9,11 +10,13 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,8 +28,10 @@ import com.lhd.item.LichThi;
 import com.lhd.item.SinhVien;
 import com.lhd.task.ParserLichThiTheoMon;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * Created by Faker on 8/25/2016.
@@ -216,9 +221,63 @@ public class LichThiFragment extends Fragment {
         @Override
         public void onClick(View view) {
             int itemPosition = recyclerView.getChildLayoutPosition(view);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(data.get(itemPosition).getMon());
+            Date today=new Date(System.currentTimeMillis());
+            SimpleDateFormat timeFormat= new SimpleDateFormat("hh:mm:ss dd/MM/yyyy");
+            String s=timeFormat.format(today.getTime());
+            s=s.split(" ")[1];
+
+            String ngay1=s.split("/")[0];
+            String thang1=s.split("/")[1];
+            String nam1=s.split("/")[2];
+
+            String ngay2=data.get(itemPosition).getNgay().split("/")[0];
+            String thang2=data.get(itemPosition).getNgay().split("/")[1];
+            String nam2=data.get(itemPosition).getNgay().split("/")[2];
+            String toi;
+            if (thang1.equals(thang2)&&nam1.equals(nam2)){
+                if ((Double.parseDouble(ngay2)-Double.parseDouble(ngay1))<0)
+                    toi="Đã thi";
+                else
+                toi="Còn lại "+(Double.parseDouble(ngay2)-Double.parseDouble(ngay1))+" ôn";
+            }else
+                toi="Đã thi";
+            WebView webView=new WebView(getActivity());
+            String str="<!DOCTYPE html>" +
+                    "<html>" +
+                    "<head>" +
+                    "<meta charset=\"utf-8\">" +
+                    "<style type=\"text/css\"media=\"screen\">" +
+                    "h1{" +
+                    "color: #FF4081;" +
+                    "background-color: #F5F5F5;" +
+                    "text-align: center;" +
+                    "}" +
+                    "p{" +
+                    "text-align: center;" +
+                    "font-family: Sans-serif;" +
+                    "}" +
+                    "</style>" +
+                    "</head>" +
+                    "<body>" +
+                    "<h1>"+data.get(itemPosition).getSbd()+"</h1>" +
+                    "<p>phòng <strong>"+data.get(itemPosition).getPhong()+"</strong><br> <strong>"+data.get(itemPosition).getThu()+"</strong> lúc <strong>"+data.get(itemPosition).getGio()+"</strong> ngày <strong>"+data.get(itemPosition).getNgay()+"</strong> <br><strong>"+toi+"</strong></p></body></html>";
+            webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
+            builder.setView(webView);
+//            builder.setMessage( Html.fromHtml("<p style="color: red;">" +
+//                    "Sbd: <strong>12312313</strong><br>" +
+//                    "Ngày:" +
+//                    "</p>"));
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
         }
     }
-
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {

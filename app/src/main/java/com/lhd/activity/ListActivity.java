@@ -82,8 +82,13 @@ public class ListActivity extends AppCompatActivity {
     private void initView( ) {
         toolbarMenu = (Toolbar) findViewById(R.id.toolbar_menu);
         setSupportActionBar(toolbarMenu);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        toolbarMenu.setNavigationIcon(R.drawable.ic_back);
+        toolbarMenu.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         toolbarMenu.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem arg0) {

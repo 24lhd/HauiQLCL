@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:id="@+id/id_item_lich_thi_lop_stt"
             android:gravity="center"
-            android:textSize="10dp"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:minWidth="20dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
@@ -47,7 +47,7 @@
                     android:gravity="center"
                     android:id="@+id/fm_l1"
                     android:layout_gravity="center"
-                    android:textSize="10dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/md_blue_500"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -56,7 +56,7 @@
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:id="@+id/id_item_lich_thi_lop_nt"
-                    android:textSize="@dimen/text_size_10dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -73,7 +73,7 @@
                     android:id="@+id/fm_l2"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textSize="10dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/md_blue_500"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -82,7 +82,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:id="@+id/id_item_lich_thi_lop_ca"
-                    android:textSize="@dimen/text_size_10dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -98,7 +98,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:id="@+id/fm_l3"
-                    android:textSize="10dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/md_blue_500"
                     android:layout_height="wrap_content" />
 
@@ -108,7 +108,7 @@
                     android:layout_weight="1"
                     android:id="@+id/id_item_lich_thi_lop_lt"
                     android:gravity="center"
-                    android:textSize="@dimen/text_size_10dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -124,7 +124,7 @@
                     android:id="@+id/fm_l4"
                     android:layout_gravity="center"
                     android:text="Lớp"
-                    android:textSize="10dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/md_blue_500"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -133,7 +133,7 @@
                     android:id="@+id/id_item_lich_thi_lop_tenlop"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textSize="@dimen/text_size_10dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

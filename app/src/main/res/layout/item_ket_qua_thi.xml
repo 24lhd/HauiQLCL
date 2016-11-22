@@ -19,7 +19,7 @@
             android:minWidth="20dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:textSize="10dp"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/md_black_1000"
             android:layout_height="match_parent" />
         <ImageView
@@ -48,7 +48,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:textColor="@color/md_black_1000"
-                    android:textSize="@dimen/text_size_15dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:textStyle="bold"
                     android:id="@+id/id_item_diem_thi_sv_tensv"
                     android:layout_height="wrap_content" />
@@ -59,9 +59,9 @@
                     android:layout_marginBottom="2dp"
                     android:layout_gravity="center"
                     android:textStyle="bold"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:id="@+id/id_item_diem_thi_sv_masv"
                     android:layout_marginTop="1dp"
-                    android:textSize="@dimen/text_size_10dp"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -85,7 +85,7 @@
                             android:gravity="center"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:textSize="@dimen/text_size_10dp"
+                            style="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/md_blue_500"
                             android:layout_height="wrap_content" />
                         <TextView
@@ -95,7 +95,7 @@
                             android:gravity="center"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:textSize="@dimen/text_size_15dp"
+                            style="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/colorAccent"
                             android:layout_height="wrap_content" />
                         <TextView
@@ -104,7 +104,7 @@
                             android:gravity="center"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:textSize="@dimen/text_size_10dp"
+                            style="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/md_blue_500"
                             android:layout_height="wrap_content" />
                         <TextView
@@ -114,7 +114,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:gravity="center"
-                            android:textSize="@dimen/text_size_15dp"
+                            style="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/colorAccent"
                             android:layout_height="wrap_content" />
                         <TextView
@@ -123,7 +123,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:gravity="center"
-                            android:textSize="@dimen/text_size_10dp"
+                            style="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="@color/md_blue_500"
                             android:layout_height="wrap_content" />
                     </LinearLayout>

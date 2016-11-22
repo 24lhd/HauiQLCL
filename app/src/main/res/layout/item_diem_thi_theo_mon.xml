@@ -22,7 +22,7 @@
             android:minWidth="20dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:textSize="10dp"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/md_black_1000"
             android:layout_height="match_parent" />
         <ImageView
@@ -51,7 +51,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:textColor="@color/md_black_1000"
-                    android:textSize="@dimen/text_size_15dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:textStyle="bold"
                     android:id="@+id/id_item_diem_thi_lop_tenlop"
                     android:layout_height="wrap_content" />
@@ -74,7 +74,7 @@
                         android:gravity="center"
                         android:id="@+id/fm_l1"
                         android:layout_gravity="center"
-                        android:textSize="10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/md_blue_500"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -84,7 +84,7 @@
                         android:layout_gravity="center"
                         android:textStyle="bold"
                         android:id="@+id/id_item_diem_thi_lop_l1"
-                        android:textSize="@dimen/text_size_10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/colorAccent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -101,7 +101,7 @@
                         android:id="@+id/fm_l2"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:textSize="10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/md_blue_500"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -111,7 +111,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:id="@+id/id_item_diem_thi_lop_l2"
-                        android:textSize="@dimen/text_size_10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/colorAccent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -127,7 +127,7 @@
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:id="@+id/fm_l3"
-                        android:textSize="10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/md_blue_500"
                         android:layout_height="wrap_content" />
 
@@ -138,7 +138,7 @@
                         android:layout_weight="1"
                         android:id="@+id/id_item_diem_thi_lop_tk1"
                         android:gravity="center"
-                        android:textSize="@dimen/text_size_10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/colorAccent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -154,7 +154,7 @@
                         android:id="@+id/fm_l4"
                         android:layout_gravity="center"
                         android:text="TK2"
-                        android:textSize="10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/md_blue_500"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -164,7 +164,7 @@
                         android:id="@+id/id_item_diem_thi_lop_tk2"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:textSize="@dimen/text_size_10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/colorAccent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -179,7 +179,7 @@
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:textSize="10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/md_blue_500"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -190,7 +190,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_size_10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/colorAccent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -205,7 +205,7 @@
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:textSize="10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/md_blue_500"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -216,7 +216,7 @@
                         android:textStyle="bold"
                         android:id="@+id/id_item_diem_thi_lop_n2"
                         android:gravity="center"
-                        android:textSize="@dimen/text_size_10dp"
+                        style="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/colorAccent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -232,7 +232,7 @@
                 android:layout_width="wrap_content"
                 android:text="ghichu:"
                 android:layout_gravity="center"
-                android:textSize="@dimen/text_size_10dp"
+                style="@style/TextAppearance.AppCompat.Body1"
                 android:maxWidth="50dp"
                 android:singleLine="true"
                 android:textColor="@color/md_black_1000"
@@ -244,7 +244,7 @@
                 android:gravity="center"
                 android:minWidth="50dp"
                 android:id="@+id/id_item_diem_thi_lop_dc"
-                android:textSize="20dp"
+                style="@style/TextAppearance.AppCompat.Title"
                 android:layout_margin="1dp"
                 android:textColor="@color/md_red_500"
                 android:textStyle="bold"

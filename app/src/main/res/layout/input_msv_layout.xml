@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:text="@string/app_text"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_20dp"
+                style="@style/Base.TextAppearance.AppCompat.Title"
                 android:gravity="center"
                 android:layout_height="match_parent"/>
         </LinearLayout>
@@ -48,7 +48,7 @@
                 android:hint="@string/hint_id"
                 android:layout_marginBottom="@dimen/margin_5dp"
                 android:textColorHint="@color/md_green_500"
-                android:textSize="@dimen/text_size_20dp"
+                style="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/md_green_500"
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
@@ -60,7 +60,7 @@
             android:layout_marginLeft="@dimen/text_size_10dp"
             android:layout_marginRight="@dimen/text_size_10dp"
             android:textColor="@color/md_red_500"
-            android:textSize="@dimen/text_size_10dp"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_height="wrap_content" />
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -94,8 +94,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/text_size_10dp"
             android:layout_marginRight="@dimen/text_size_10dp"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/md_red_500"
-            android:textSize="@dimen/text_size_10dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
