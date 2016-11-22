@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Cao - Thấp"
+        android:id="@+id/cao_thap"></item>
+    <item android:title="Thấp - Cao"
+        android:id="@+id/thap_cao"></item>
+</menu>

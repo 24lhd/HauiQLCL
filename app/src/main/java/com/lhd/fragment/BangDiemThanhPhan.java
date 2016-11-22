@@ -34,6 +34,8 @@ import com.lhd.task.ParserKetQuaHocTap;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Faker on 8/25/2016.
@@ -177,6 +179,18 @@ public class BangDiemThanhPhan extends Fragment {
         }
     }
     private void setRecyclerView() {
+        Collections.sort(bangKetQuaHocTaps, new Comparator<ItemBangKetQuaHocTap>() {
+            @Override
+            public int compare(ItemBangKetQuaHocTap o1, ItemBangKetQuaHocTap o2) {
+                try {
+                    Double.parseDouble(o2.getMaMon());
+                    return o1.getMaMon().compareTo(o2.getMaMon());
+                }catch (NumberFormatException e){
+                    return 0;
+                }
+            }
+        });
+        Collections.reverse(bangKetQuaHocTaps);
         AdapterDiemHocTapTheoMon adapterDiemHocTapTheoMon=new AdapterDiemHocTapTheoMon(bangKetQuaHocTaps);
         recyclerView.setAdapter(adapterDiemHocTapTheoMon);
 

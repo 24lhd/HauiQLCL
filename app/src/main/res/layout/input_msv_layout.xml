@@ -7,6 +7,7 @@
     android:layout_marginLeft="@dimen/margin_17dp"
     android:layout_marginRight="@dimen/margin_17dp"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -14,7 +15,24 @@
         android:layout_gravity="center"
         android:background="@drawable/shadow_view"
         android:layout_height="wrap_content">
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="100dp"
+                android:src="@drawable/icon_app"
+                android:layout_height="100dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/app_text"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_20dp"
+                android:gravity="center"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+            android:layout_height="wrap_content" />
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_margin="@dimen/margin_5dp"
@@ -37,7 +55,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/margin_5dp"
-            android:text="Ero"
             android:id="@+id/tv_input_error"
             android:layout_gravity="left"
             android:layout_marginLeft="@dimen/text_size_10dp"
@@ -68,7 +85,18 @@
                 android:layout_gravity="center"
                 android:textColor="@color/md_white_1000"
                 android:layout_height="wrap_content" />
+
         </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:text="@string/ban_quyen_link"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/text_size_10dp"
+            android:layout_marginRight="@dimen/text_size_10dp"
+            android:textColor="@color/md_red_500"
+            android:textSize="@dimen/text_size_10dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 

@@ -175,7 +175,7 @@
                     android:layout_height="match_parent">
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="Ngày 2"
+                        android:text="Ngày 1"
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -201,7 +201,7 @@
                     android:layout_height="match_parent">
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="Ngày 1"
+                        android:text="Ngày 2"
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:layout_weight="1"

@@ -19,7 +19,7 @@ import com.lhd.database.SQLiteManager;
 import com.lhd.fragment.BangDiemThanhPhan;
 import com.lhd.fragment.KetQuaThiFragment;
 import com.lhd.fragment.LichThiFragment;
-import com.lhd.fragment.ListMoreFragment;
+import com.lhd.fragment.MoreFragment;
 import com.lhd.item.SinhVien;
 import com.lhd.log.Log;
 import com.lhd.service.MyService;
@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
     private Bundle bundle;
     private TextView tvTitle,tv1,tv2;
     private SinhVien sv;
+    private int currentView;
+    private int currenItem;
+    private MoreFragment moreFragment;
+
     public void setTitleTab(String titleTab) {
         sv=sqLiteManager.getSV(maSV);
         if (sv!=null){
@@ -75,14 +79,29 @@ public class MainActivity extends AppCompatActivity {
             ketQuaHocTapTheoMon.execute(maSV);
         }
     }
+
     @Override
     public void onBackPressed() {
-        if (log.getID().equals(maSV)){
-            super.onBackPressed();
-            this.overridePendingTransition(R.anim.left_end, R.anim.right_end);
-        }else {
-            startView(log.getID());
+        switch (currentView) {
+            case 4:
+                setTitleTab("Ngoài ra");
+                if (getCurrenItem()!=8){
+                    moreFragment.setCurrenView(8);
+                    break;
+                }
+            default:
+                if (log.getID().equals(maSV)) {
+                    android.util.Log.e("fakerequals", maSV);
+                    finish();
+                    this.overridePendingTransition(R.anim.left_end, R.anim.right_end);
+                } else {
+                    startView(log.getID());
+                    android.util.Log.e("fakerelse", maSV);
+
+                }
+                break;
         }
+
 
     }
     @Override
@@ -92,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra(MainActivity.MA_SV);
                 maSV=result;
-                android.util.Log.e("fakera",maSV);
+
                 log.putID(maSV);
                 startView(maSV);
             }else if (resultCode ==Activity.RESULT_CANCELED){
@@ -117,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
                 checkLogin();
             }
         }, 1000);
@@ -185,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         tv2= (TextView) findViewById(R.id.tb_text2);
         viewPager= (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -192,15 +210,23 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                currentView=position;
                 switch (position){
-                    case 4:setTitleTab("Ngoài ra");
+                    case 4:
+                        setTitleTab("Ngoài ra");
                         break;
-                    case 1:setTitleTab("Kết quả thi");break;
-                    case 2: setTitleTab("Lịch thi");break;
+                    case 1:
+                        setTitleTab("Kết quả thi");
+                        break;
+                    case 2:
+                        setTitleTab("Lịch thi");
+                        break;
                     case 3:
-                        setTitleTab("Biểu đồ");break;
+                        setTitleTab("Biểu đồ");
+                        break;
                     default:
-                        setTitleTab("Kết quả học tập");break;
+                        setTitleTab("Kết quả học tập");
+                        break;
                 }
             }
 
@@ -227,10 +253,14 @@ public class MainActivity extends AppCompatActivity {
                         lichThiFragment.setArguments(bundle);
                         return lichThiFragment;
                     case 3:
+                        setTitleTab("Điểm học tập");
+                        bangDiemThanhPhan=new BangDiemThanhPhan();
+                        bangDiemThanhPhan.setArguments(bundle);
+                        return bangDiemThanhPhan;
+                    case 4:default:
+                       moreFragment=new MoreFragment();
+                    return moreFragment;
 
-                        return new ListMoreFragment();
-                    default:
-                        return new ListMoreFragment();
                 }
             }
             @Override
@@ -255,11 +285,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void setCurrenItem(int currenItem) {
+        this.currenItem = currenItem;
+    }
 
-
-
-
-
-
-
+    public int getCurrenItem() {
+        return currenItem;
+    }
 }

@@ -31,6 +31,8 @@ import com.lhd.task.ParserKetQuaThiTheoMon;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static java.lang.Double.parseDouble;
 
@@ -175,6 +177,21 @@ public class KetQuaThiFragment extends Fragment {
         }
     }
     private void setRecyclerView() {
+        Collections.sort(diemThiTheoMons, new Comparator<DiemThiTheoMon>() {
+            @Override
+            public int compare(DiemThiTheoMon o1, DiemThiTheoMon o2) {
+
+                String[] str1=o1.getNgay1().split("/");
+                String[] str2=o2.getNgay1().split("/");
+                if (str1.length==1){
+                    return -1;
+                }
+                if (str2.length==1){
+                    return 1;
+                }
+                return str1[2].compareTo(str2[2]);
+            }
+        });
         AdapterDiemThiMon adapterDiemThiMon=new AdapterDiemThiMon(diemThiTheoMons);
         recyclerView.removeAllViews();
         recyclerView.setAdapter(adapterDiemThiMon);

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by root on 9/13/16.
  */
 
-public class ItemBangKetQuaHocTap implements Serializable{
+public class ItemBangKetQuaHocTap implements Serializable,Comparable<ItemBangKetQuaHocTap>{
     private String linkDiemLop,
             linkLichThiLop,
             tenMon,
@@ -84,5 +84,10 @@ public class ItemBangKetQuaHocTap implements Serializable{
         return
                 tenMon +
                 "  " + maMon ;
+    }
+
+    @Override
+    public int compareTo(ItemBangKetQuaHocTap o) {
+        return 0;
     }
 }

@@ -27,6 +27,7 @@ import com.lhd.item.SinhVien;
 import com.lhd.task.ParserLichThiTheoMon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Faker on 8/25/2016.
@@ -168,6 +169,7 @@ public class LichThiFragment extends Fragment {
         }
     }
     private void setRecyclerView() {
+        Collections.reverse(lichThis);
         AdapterLichThi  adapterLichThi=new AdapterLichThi(lichThis);
         recyclerView.setAdapter(adapterLichThi);
     }

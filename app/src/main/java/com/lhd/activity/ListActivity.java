@@ -14,6 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -30,12 +33,12 @@ import com.lhd.item.ItemBangDiemThanhPhan;
 import com.lhd.item.ItemBangKetQuaHocTap;
 import com.lhd.item.ItemKetQuaThiLop;
 import com.lhd.item.KetQuaThi;
-import com.lhd.item.LichThiLop;
 import com.lhd.task.ParserDiemThanhPhan;
 import com.lhd.task.ParserKetQuaThiTheoLop;
-import com.lhd.task.ParserLichThiTheoLop;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Faker on 8/30/2016.
@@ -56,6 +59,9 @@ public class ListActivity extends AppCompatActivity {
     private int index;
     private ItemBangKetQuaHocTap itemBangKetQuaHocTap;
     private DiemThiTheoMon diemThiTheoMon;
+    private DiemThanhPhan diemThanhPhan;
+    private KetQuaThi ketQuaThi;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +76,94 @@ public class ListActivity extends AppCompatActivity {
         finish();
         this.overridePendingTransition(R.anim.left_end,
                 R.anim.right_end);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sort_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.cao_thap:
+                switch (index){
+                    case 0:
+                        Collections.sort(diemThanhPhan.getBangDiemThanhPhan(), new Comparator<ItemBangDiemThanhPhan>() {
+                            @Override
+                            public int compare(ItemBangDiemThanhPhan o1, ItemBangDiemThanhPhan o2) {
+//                                if (!(o1.getdTB() instanceof String)||!(o2.getdTB() instanceof String)){
+//                                    return 0;
+//                                }
+                                try {
+                                    return o2.getdTB().compareTo(o1.getdTB());
+                                }catch (NullPointerException e){
+                                    return 0;
+                                }
+//                                return o2.getdTB().compareTo(o1.getdTB());
+                            }
+                        });
+                        break;
+                    case 3:
+                        Collections.sort(ketQuaThi.getKetQuaThiLops(), new Comparator<ItemKetQuaThiLop>() {
+                            @Override
+                            public int compare(ItemKetQuaThiLop o1, ItemKetQuaThiLop o2) {
+                                try {
+                                    return o2.getdL1().compareTo(o1.getdL1());
+                                }catch (NullPointerException e){
+                                    return 0;
+                                }
+//                                if (!(o1.getdL1() instanceof String)||!(o2.getdL1() instanceof String)){
+//                                    return 0;
+//                                }
+
+                            }
+                        });
+                        break;
+                }
+                setRecircleView();
+                return true;
+            case R.id.thap_cao:
+                switch (index){
+                    case 0:
+                        Collections.sort(diemThanhPhan.getBangDiemThanhPhan(), new Comparator<ItemBangDiemThanhPhan>() {
+                            @Override
+                            public int compare(ItemBangDiemThanhPhan o1, ItemBangDiemThanhPhan o2) {
+//                                if (!(o1.getdTB() instanceof String)||!(o2.getdTB() instanceof String)){
+//                                    return 0;
+//                                }
+                                try {
+                                    return o1.getdTB().compareTo(o2.getdTB());
+                                }catch (NullPointerException e){
+                                    return 0;
+                                }
+
+                            }
+                        });
+                        break;
+                    case 3:
+                        Collections.sort(ketQuaThi.getKetQuaThiLops(), new Comparator<ItemKetQuaThiLop>() {
+                            @Override
+                            public int compare(ItemKetQuaThiLop o1, ItemKetQuaThiLop o2) {
+//                                if (!(o1.getdL1() instanceof String)||!(o2.getdL1() instanceof String)){
+//                                    return 0;
+//                                }
+                                try {
+                                    return o1.getdL1().compareTo(o2.getdL1());
+                                }catch (NullPointerException e){
+                                    return 0;
+                                }
+//                                return o1.getdL1().compareTo(o2.getdL1());
+                            }
+                        });
+                        break;
+                }
+                setRecircleView();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     private void initView( ) {
         sqLiteManager=new SQLiteManager(this);
@@ -149,10 +243,6 @@ public class ListActivity extends AppCompatActivity {
                 ParserDiemThanhPhan parserDiemThanhPhan=new ParserDiemThanhPhan(handler);
                 parserDiemThanhPhan.execute(itemBangKetQuaHocTap.getLinkDiemLop());
                 break;
-            case 1:
-                ParserLichThiTheoLop lichThiTheoLop=new ParserLichThiTheoLop(handler);
-                lichThiTheoLop.execute(itemBangKetQuaHocTap.getLinkLichThiLop());
-                break;
             case 3:
                 ParserKetQuaThiTheoLop parserKetQuaHocTap=new ParserKetQuaThiTheoLop(handler);
                 parserKetQuaHocTap.execute(diemThiTheoMon.getLinkDiemThiTheoLop());
@@ -168,34 +258,14 @@ public class ListActivity extends AppCompatActivity {
             switch (index){
                 case 0:
                     itemBangKetQuaHocTap= (ItemBangKetQuaHocTap) intent.getSerializableExtra(KetQuaHocTapFragment.KEY_OBJECT);
-                    DiemThanhPhan diemThanhPhan = sqLiteManager.getAllDLop(itemBangKetQuaHocTap.getMaMon());
+                     diemThanhPhan = sqLiteManager.getAllDLop(itemBangKetQuaHocTap.getMaMon());
                     tvTenLopUuTien.setText(itemBangKetQuaHocTap.getMaMon());
                     tvTenLop.setText(itemBangKetQuaHocTap.getTenMon());
                     if (diemThanhPhan!=null&&!diemThanhPhan.getBangDiemThanhPhan().isEmpty()){
                         showRecircleView();
                         tvTenLopUuTien.setText(""+diemThanhPhan.getTenLopUuTien());
                         tvSoTc.setText("Điểm thành phần");
-                        AdapterListPointClass  adapter=new AdapterListPointClass(diemThanhPhan.getBangDiemThanhPhan());
-                        recyclerView.setAdapter(adapter);
-                    }else{
-                        if (isOnline()){
-                            showProgress();
-                            startParser();
-                        }else{
-                            cantLoadData();
-                        }
-                    }
-                    break;
-                case 1:
-                    itemBangKetQuaHocTap= (ItemBangKetQuaHocTap) intent.getSerializableExtra(KetQuaHocTapFragment.KEY_OBJECT);
-                    tvTenLop.setText(itemBangKetQuaHocTap.getTenMon());
-                    tvTenLopUuTien.setText(""+itemBangKetQuaHocTap.getMaMon());
-                    tvSoTc.setText("Kê hoạch thi");
-                    ArrayList<LichThiLop> lichThiLops=sqLiteManager.getAllLThiLop(itemBangKetQuaHocTap.getMaMon());
-                    if (!lichThiLops.isEmpty()){
-                        showRecircleView();
-                        AdapterLichThiLop  adapter=new AdapterLichThiLop(lichThiLops);
-                        recyclerView.setAdapter(adapter);
+                      setRecircleView();
                     }else{
                         if (isOnline()){
                             showProgress();
@@ -208,13 +278,12 @@ public class ListActivity extends AppCompatActivity {
                 case 3:
                     diemThiTheoMon= (DiemThiTheoMon) intent.getSerializableExtra(KetQuaHocTapFragment.KEY_OBJECT);
                     tvTenLop.setText(diemThiTheoMon.getTenMon());
-                    KetQuaThi ketQuaThi=sqLiteManager.getAllDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop());
+                     ketQuaThi=sqLiteManager.getAllDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop());
                     if (ketQuaThi!=null&&!ketQuaThi.getKetQuaThiLops().isEmpty()){
                         tvTenLopUuTien.setText(""+ketQuaThi.getTenLopUuTien());
                         tvSoTc.setText("Điểm thi");
                         showRecircleView();
-                        AdapterDiemThiLop  adapter=new AdapterDiemThiLop(ketQuaThi.getKetQuaThiLops());
-                        recyclerView.setAdapter(adapter);
+                       setRecircleView();
                     }else{
                         if (isOnline()){
                             showProgress();
@@ -232,22 +301,21 @@ public class ListActivity extends AppCompatActivity {
             case 0:
                 sqLiteManager.deleteDLop(itemBangKetQuaHocTap.getMaMon());
                 break;
-            case 1:
-                sqLiteManager.deleteLThiLop(itemBangKetQuaHocTap.getMaMon());
-                break;
             case 3: default:
                 sqLiteManager.deleteDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop());
                 break;
         }
         startParser();
     }
+
+
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             pullRefreshLayout.setRefreshing(false);
             try{
                 if(msg.arg1==1){
-                    DiemThanhPhan diemThanhPhan= (DiemThanhPhan) msg.obj;
+                     diemThanhPhan= (DiemThanhPhan) msg.obj;
                     ArrayList<ItemBangDiemThanhPhan> b= diemThanhPhan.getBangDiemThanhPhan();
                     if (!b.isEmpty()){
                         for (ItemBangDiemThanhPhan diemHocTapTheoLop:b){
@@ -256,11 +324,10 @@ public class ListActivity extends AppCompatActivity {
                         tvTenLopUuTien.setText("Điểm thành phần \n"+diemThanhPhan.getTenLopUuTien());
                         tvSoTc.setText(diemThanhPhan.getSoTin()+" tín chỉ");
                         showRecircleView();
-                        AdapterListPointClass  adapter=new AdapterListPointClass(b);
-                        recyclerView.setAdapter(adapter);
+                       setRecircleView();
                     }
                 }else if(msg.arg1==3){
-                    KetQuaThi ketQuaThi= (KetQuaThi) msg.obj;;
+                     ketQuaThi= (KetQuaThi) msg.obj;;
                     ArrayList<ItemKetQuaThiLop> b= ketQuaThi.getKetQuaThiLops();
                     if (!b.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
                         tvTenLopUuTien.setText("Điểm thi \n"+ketQuaThi.getTenLopUuTien());
@@ -269,27 +336,7 @@ public class ListActivity extends AppCompatActivity {
                             sqLiteManager.insertDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop(),ketQuaThi.getTenLopUuTien(),ketQuaThi.getSoTC(),diemHocTapTheoLop);
                         }
                         showRecircleView();
-                        AdapterDiemThiLop  adapter=new AdapterDiemThiLop(b);
-                        recyclerView.setAdapter(adapter);
-                    }
-                }else if(msg.arg1==4){
-                    ArrayList<LichThiLop> lichThiLops= (ArrayList<LichThiLop>) msg.obj;
-                    ArrayList<LichThiLop> lichThiLopOld=sqLiteManager.getAllLThiLop(itemBangKetQuaHocTap.getMaMon());
-                    if (!lichThiLops.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
-                        tvTenLop.setText(itemBangKetQuaHocTap.getTenMon());
-                        tvTenLopUuTien.setText(itemBangKetQuaHocTap.getMaMon());
-                        tvSoTc.setText("Kê hoạch thi");
-                        if (lichThiLopOld.size()<lichThiLops.size()){
-                            for (LichThiLop lichThiLop:lichThiLops){
-                                sqLiteManager.insertlthilop(lichThiLop);
-                            }
-                        }
-                        showRecircleView();
-                        AdapterLichThiLop  adapter=new AdapterLichThiLop(lichThiLops);
-                        recyclerView.setAdapter(adapter);
-                    }else{
-                        showTextNull();
-                        textNull.setText("Không có lịch thi theo lớp...");
+                        setRecircleView();
                     }
                 }
             }catch (NullPointerException e){
@@ -298,6 +345,20 @@ public class ListActivity extends AppCompatActivity {
             }
         }
     };
+
+    private void setRecircleView() {
+        switch (index){
+            case 0:
+                AdapterListPointClass  adapter=new AdapterListPointClass(diemThanhPhan.getBangDiemThanhPhan());
+                recyclerView.setAdapter(adapter);
+                break;
+            case 3:
+                AdapterDiemThiLop  adapter2=new AdapterDiemThiLop(ketQuaThi.getKetQuaThiLops());
+                recyclerView.setAdapter(adapter2);
+                break;
+        }
+    }
+
     class ItemDiemThiLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
         TextView tvTenSV;
         TextView tvMaSV;
@@ -355,53 +416,6 @@ public class ListActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK,intent);
             android.util.Log.e("faker1","putExtra");
             finish();
-        }
-    }
-    class ItemLichThiLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
-        TextView ngayThi;
-        TextView caThi;
-        TextView lanThi;
-        TextView tenLop;
-        TextView stt;
-        public ItemLichThiLop(View itemView) {
-            super(itemView);
-            this.ngayThi = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_nt);
-            this.caThi = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_ca);
-            this.lanThi = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_lt);
-            this.tenLop = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_tenlop);
-            this.tenLop = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_tenlop);
-            this.stt = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_stt);
-
-        }
-    }
-    private class AdapterLichThiLop extends RecyclerView.Adapter<ListActivity.ItemLichThiLop> implements RecyclerView.OnClickListener {
-        private  ArrayList<LichThiLop> data;
-        public AdapterLichThiLop( ArrayList<LichThiLop> data) {
-            this.data = data;
-        }
-        @Override
-        public ListActivity.ItemLichThiLop onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(ListActivity.this).inflate(R.layout.item_lich_thi_lop, parent, false);
-            view.setOnClickListener(this);
-            ListActivity.ItemLichThiLop holder = new ListActivity.ItemLichThiLop(view);
-            return holder;
-        }
-        @Override
-        public void onBindViewHolder(ListActivity.ItemLichThiLop holder, int position) {
-            LichThiLop itemBangDiemThanhPhan=data.get(position);
-            holder.ngayThi.setText(itemBangDiemThanhPhan.getNgayThi());
-            holder.caThi.setText(itemBangDiemThanhPhan.getGioThi());
-            holder.lanThi.setText(itemBangDiemThanhPhan.getLanThi());
-            holder.tenLop.setText(itemBangDiemThanhPhan.getTenLop());
-            holder.stt.setText(position+"");
-        }
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
-        @Override
-        public void onClick(View view) {
-            int itemPosition = recyclerView.getChildLayoutPosition(view);
         }
     }
     class ItemDiemThanhPhan extends RecyclerView.ViewHolder{ // tao mot đói tượng
@@ -462,14 +476,7 @@ public class ListActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             int itemPosition = recyclerView.getChildLayoutPosition(view);
-//            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-//            Bundle bundle=new Bundle();
-//            bundle.putString(MainActivity.MA_SV,data.get(itemPosition).getMsv());
-//            intent.putExtra("KEY_MSV",bundle);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            getApplicationContext().startActivity(intent);
             Intent returnIntent=getIntent();
-//            returnIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             returnIntent.putExtra(MainActivity.MA_SV,data.get(itemPosition).getMsv());
             setResult(Activity.RESULT_OK,returnIntent);
             android.util.Log.e("faker1","setResult");

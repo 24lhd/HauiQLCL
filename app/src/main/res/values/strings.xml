@@ -17,4 +17,8 @@
     <string name="bbn_phone_view_behavior" translatable="false" tools:ignore="UnusedResources">com.faker.classbook.bottonnavigation.BottomNavigation</string>
     <string name="hint_sms">Nhập tin nhắn vào đây</string>
     <string name="chu_y_4">* Hãy sử dụng mã sinh viên là mã sinh viên của bạn.</string>
+    <string name="app_text">Nhanh chóng\nTiện lợi\n Mà lại đơn giản</string>
+    <string name="ban_quyen">by http://qlcl.edu.vn/</string>
+    <string name="ban_quyen_link">by Lê Hồng Dương</string>
+
 </resources>
