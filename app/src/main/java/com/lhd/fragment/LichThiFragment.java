@@ -243,6 +243,7 @@ public class LichThiFragment extends Fragment {
                 toi="Còn lại "+(Double.parseDouble(ngay2)-Double.parseDouble(ngay1))+" ôn";
             }else
                 toi="Đã thi";
+
             WebView webView=new WebView(getActivity());
             String str="<!DOCTYPE html>" +
                     "<html>" +
@@ -265,10 +266,6 @@ public class LichThiFragment extends Fragment {
                     "<p>tại <strong>"+data.get(itemPosition).getPhong()+"</strong><br> <strong>"+data.get(itemPosition).getThu()+"</strong> lúc <strong>"+data.get(itemPosition).getGio()+"</strong> ngày <strong>"+data.get(itemPosition).getNgay()+"</strong> <br><strong>"+toi+"</strong></p></body></html>";
             webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
             builder.setView(webView);
-//            builder.setMessage( Html.fromHtml("<p style="color: red;">" +
-//                    "Sbd: <strong>12312313</strong><br>" +
-//                    "Ngày:" +
-//                    "</p>"));
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
