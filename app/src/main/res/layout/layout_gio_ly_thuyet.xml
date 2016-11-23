@@ -6,11 +6,12 @@
     android:layout_height="match_parent">
     <TextView
         android:layout_width="match_parent"
-        style="@style/TextAppearance.AppCompat.Title"
+        style="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@color/colorAccent"
         android:gravity="center"
         android:id="@+id/tv_tiet_hientai"
         android:background="@color/bg_text"
+        android:layout_marginTop="@dimen/margin_view"
         android:layout_height="wrap_content" />
     <TextView
         android:layout_width="match_parent"

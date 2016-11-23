@@ -1,9 +1,12 @@
 package com.lhd.fragment;
 
 import android.annotation.TargetApi;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -125,10 +128,110 @@ public class GioLyThuyetFragment extends Fragment {
     private void initView(View view) {
         tietView= (TextView) view.findViewById(R.id.tv_tiet_hientai);
         timeView= (TextView) view.findViewById(R.id.tv_time_conlai);
-        checkTime();
+//        checkTime();
+        final Handler handler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                String s= (String) msg.obj;
+                tietView.setText(s.split("-")[0]);
+                timeView.setText(s.split("-")[1]);
+                Task task=new Task(this);
+                task.execute();
+            }
+        };
+        Task task=new Task(handler);
+        task.execute();
 
     }
+    class Task extends AsyncTask<Void,Void,String> {
+        private Handler handler;
 
+        public Task(Handler handler) {
+            this.handler = handler;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Date today=new Date(System.currentTimeMillis());
+            SimpleDateFormat timeFormat= new SimpleDateFormat("HH:mm:ss");
+            String s=timeFormat.format(today.getTime());
+            String time=s.split(" ")[0];
+            int gio=Integer.parseInt(time.split(":")[0]);
+            int phut=Integer.parseInt(time.split(":")[1]);
+            int giay=Integer.parseInt(time.split(":")[2]);
+            String tiet = "Tự học";
+            phutConLai=0;
+            int giayConLai=0;
+            for (GioLyThuyetFragment.TietHoc tietHoc:tietHocs) {
+                if (tietHoc.getGioBatDau()<=gio&&gio<=tietHoc.getGioKetThuc()){
+                    if (tietHoc.getGioBatDau()==tietHoc.getGioKetThuc()){
+                        if (phut<=tietHoc.getPhutKetThuc()&&phut>=tietHoc.getPhutBatDau()){
+                            tiet="Tiết "+tietHoc.getTiet();
+                            phutConLai=tietHoc.getPhutKetThuc()-phut;
+                        if (phutConLai<0){
+                            phutConLai=60-(-1*phutConLai);
+                        }
+                        }else {
+                            tiet="Đang giải lao ";
+                            phutConLai=0;
+                        phutConLai=tietHocs[tietHoc.getTiet()].getPhutBatDau()-phut;
+                        if (phutConLai>10){
+                            phutConLai=60-phutConLai;
+                        }else
+                        if (phutConLai<0){
+                            phutConLai=60-(-1*phutConLai);
+                        }
+                        }
+                    }else {
+                        if (phut>=tietHoc.getPhutBatDau()&&phut>=tietHoc.getPhutKetThuc()
+                                ||phut<=tietHoc.getPhutBatDau()&&phut<=tietHoc.getPhutKetThuc()){
+                            tiet="Tiết "+tietHoc.getTiet();
+                            phutConLai=60-phut+tietHoc.getPhutBatDau();
+                        if (phutConLai<0){
+                            phutConLai=60-(-1*phutConLai);
+                        }
+                        }else {
+                            tiet="Đang giải lao ";
+                            phutConLai=0;
+                        phutConLai=tietHocs[tietHoc.getTiet()].getPhutBatDau()-phut;
+                        if (phutConLai>10){
+                            phutConLai=60-phutConLai;
+                        }else
+                        if (phutConLai<0){
+                            phutConLai=60-(-1*phutConLai);
+                        }
+
+                        }
+                    }
+                }
+
+            }
+
+            giayConLai=59-giay;
+            if (tiet.equals("Tự học")){
+            int gioConlai=0;
+            if (gio<=7){
+                gioConlai=gio-7;
+            }else{
+                gioConlai=24-(gio-7);
+            }
+            if (gioConlai<0){
+                gioConlai=gioConlai*(-1);
+            }
+                gioConlai=gioConlai-1;
+            phutConLai=gioConlai*60+(59-phut);
+//                phutConLai=0;
+            }
+            return tiet+"-"+"Còn lại "+phutConLai+":"+giayConLai+"s";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Message message=new Message();
+            message.obj=s;
+            handler.sendMessage(message);
+        }
+    }
     private void runTask() {
         new CountDownTimer(phutConLai*60000, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -209,6 +312,8 @@ public class GioLyThuyetFragment extends Fragment {
 //            phutConLai=gioConlai*60+phut;
             phutConLai=0;
         }
-        runTask();
+//        runTask();
+
+
     }
 }
