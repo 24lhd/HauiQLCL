@@ -24,8 +24,8 @@
                                     android:gravity="left"
                                     android:layout_marginRight="2dp"
                                     android:id="@+id/tb_title"
-                                    android:textSize="@dimen/text_size_20dp"
                                     android:layout_gravity="left"
+                                    style="@style/TextAppearance.AppCompat.Body2"
                                     android:textColor="@color/md_white_1000"
                                     android:layout_height="wrap_content" />
                                 <LinearLayout
@@ -38,7 +38,7 @@
                                             android:id="@+id/tb_text1"
                                             android:layout_marginTop="3dp"
                                             android:gravity="left"
-                                            android:textSize="@dimen/text_size_12dp"
+                                            style="@style/TextAppearance.AppCompat.Body1"
                                             android:layout_gravity="center"
                                             android:layout_marginBottom="2dp"
                                             android:textColor="@color/md_white_1000"
@@ -49,7 +49,7 @@
                                             android:id="@+id/tb_text2"
                                             android:layout_marginTop="3dp"
                                             android:gravity="left"
-                                            android:textSize="@dimen/text_size_12dp"
+                                            style="@style/TextAppearance.AppCompat.Body2"
                                             android:layout_gravity="center"
                                             android:layout_marginBottom="2dp"
                                             android:textColor="@color/md_white_1000"

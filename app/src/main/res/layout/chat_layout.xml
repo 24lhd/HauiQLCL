@@ -19,7 +19,6 @@
     </android.support.design.widget.AppBarLayout>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/margin_5dp"
         android:layout_below="@id/AppBarLayoutChat"
         android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
@@ -67,7 +66,6 @@
                 android:textColor="@color/md_green_500"
                 android:layout_margin="1dp"
                 android:background="@color/md_white_1000"
-                android:textSize="@dimen/text_size_20dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText" />
         </LinearLayout>

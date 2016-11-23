@@ -11,7 +11,6 @@
         android:allowBackup="true"
         android:icon="@drawable/icon_app"
         android:theme="@style/AppTheme">
-        <activity android:name="com.lhd.activity.LoginActivity"/>
         <activity android:name="com.lhd.activity.ListActivity"
             android:theme="@style/AppThemeNoActionBar"/>
         <service android:name="com.lhd.service.MyService"/>

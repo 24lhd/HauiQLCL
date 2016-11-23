@@ -20,5 +20,7 @@
     <string name="app_text">Nhanh chóng\nTiện lợi\n Mà lại đơn giản</string>
     <string name="ban_quyen">by http://qlcl.edu.vn/</string>
     <string name="ban_quyen_link">by Lê Hồng Dương</string>
+    <string name="feedback">Ý kiến đóng góp</string>
+    <string name="text_feedback">* Mọi ý kiến đóng góp sẽ được đến địa chỉ 24duong@gmail.com</string>
 
 </resources>

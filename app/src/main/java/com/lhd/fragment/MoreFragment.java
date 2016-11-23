@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
             "Giờ học lý thuyết",
             "Thời khóa biểu cá nhân",
             "Thông báo",
-            "Ý kiến đóng góp",
+            "Gửi ý kiến đóng góp",
             "Thông tin phát triển",
             "Ứng dụng khác",
             "Nhập lại mã sinh viên",
@@ -59,13 +58,14 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
         mainActivity.setCurrenItem(currenView);
+        listView.setOnItemClickListener(null);
         switch (currenView){
             case 0:
                 mainActivity.setTitleTab(PENS[currenView]);
                 GioLyThuyetFragment gioLyThuyetFragment=new GioLyThuyetFragment();
                 fragmentTransaction.replace(R.id.fm_more,gioLyThuyetFragment);
-                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+
                 break;
             case 1:
 
@@ -74,23 +74,31 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
 
                 break;
             case 3:
-
+                mainActivity.setTitleTab(PENS[currenView]);
+                FeedbackFragment feedbackFragment=new FeedbackFragment();
+                fragmentTransaction.replace(R.id.fm_more,feedbackFragment);
+                fragmentTransaction.commit();
                 break;
             case 4:
-
+                mainActivity.setTitleTab(PENS[currenView]);
+                InfoDevFragment infoDevFragment =new InfoDevFragment();
+                fragmentTransaction.replace(R.id.fm_more, infoDevFragment);
+                fragmentTransaction.commit();
                 break;
             case 5:
 
                 break;
             case 6:
                 mainActivity.startLogin();
+
                 break;
             case 7:
                 mainActivity.finish();
                 break;
             case 8:
-                Log.e("faker","Restart");
                 getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.fm_more)).commit();
+                listView.setOnItemClickListener(this);
+
                 break;
         }
     }
