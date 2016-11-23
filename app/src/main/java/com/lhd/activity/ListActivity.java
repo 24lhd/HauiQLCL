@@ -32,8 +32,10 @@ import com.lhd.item.ItemBangDiemThanhPhan;
 import com.lhd.item.ItemBangKetQuaHocTap;
 import com.lhd.item.ItemKetQuaThiLop;
 import com.lhd.item.KetQuaThi;
+import com.lhd.item.LichThiLop;
 import com.lhd.task.ParserDiemThanhPhan;
 import com.lhd.task.ParserKetQuaThiTheoLop;
+import com.lhd.task.ParserLichThiTheoLop;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -263,6 +265,10 @@ public class ListActivity extends AppCompatActivity {
                 ParserDiemThanhPhan parserDiemThanhPhan=new ParserDiemThanhPhan(handler);
                 parserDiemThanhPhan.execute(itemBangKetQuaHocTap.getLinkDiemLop());
                 break;
+            case 1:
+                ParserLichThiTheoLop lichThiTheoLop=new ParserLichThiTheoLop(handler);
+                lichThiTheoLop.execute(itemBangKetQuaHocTap.getLinkLichThiLop());
+                break;
             case 3:
                 ParserKetQuaThiTheoLop parserKetQuaHocTap=new ParserKetQuaThiTheoLop(handler);
                 parserKetQuaHocTap.execute(diemThiTheoMon.getLinkDiemThiTheoLop());
@@ -284,6 +290,24 @@ public class ListActivity extends AppCompatActivity {
                         getSupportActionBar().setTitle("Điểm thành phần "+itemBangKetQuaHocTap.getTenMon());
                         getSupportActionBar().setSubtitle(diemThanhPhan.getTenLopUuTien()+"_"+diemThanhPhan.getSoTin()+" tín chỉ");
                       setRecircleView();
+                    }else{
+                        if (isOnline()){
+                            showProgress();
+                            startParser();
+                        }else{
+                            cantLoadData();
+                        }
+                    }
+                    break;
+                case 1:
+                    itemBangKetQuaHocTap= (ItemBangKetQuaHocTap) intent.getSerializableExtra(KetQuaHocTapFragment.KEY_OBJECT);
+                    getSupportActionBar().setTitle("Kế hoạch thi"+itemBangKetQuaHocTap.getTenMon());
+                    getSupportActionBar().setSubtitle(itemBangKetQuaHocTap.getMaMon());
+                    ArrayList<LichThiLop> lichThiLops=sqLiteManager.getAllLThiLop(itemBangKetQuaHocTap.getMaMon());
+                    if (!lichThiLops.isEmpty()){
+                        showRecircleView();
+                        AdapterLichThiLop  adapter=new AdapterLichThiLop(lichThiLops);
+                        recyclerView.setAdapter(adapter);
                     }else{
                         if (isOnline()){
                             showProgress();
@@ -317,6 +341,9 @@ public class ListActivity extends AppCompatActivity {
         switch (index) {
             case 0:
                 sqLiteManager.deleteDLop(itemBangKetQuaHocTap.getMaMon());
+                break;
+            case 1:
+                sqLiteManager.deleteLThiLop(itemBangKetQuaHocTap.getMaMon());
                 break;
             case 3: default:
                 sqLiteManager.deleteDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop());
@@ -355,6 +382,24 @@ public class ListActivity extends AppCompatActivity {
                         showRecircleView();
                         setRecircleView();
                     }
+                }else if(msg.arg1==4){
+                    ArrayList<LichThiLop> lichThiLops= (ArrayList<LichThiLop>) msg.obj;
+                    ArrayList<LichThiLop> lichThiLopOld=sqLiteManager.getAllLThiLop(itemBangKetQuaHocTap.getMaMon());
+                    if (!lichThiLops.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
+                        getSupportActionBar().setTitle("Kế hoạch thi"+itemBangKetQuaHocTap.getTenMon());
+                        getSupportActionBar().setSubtitle(itemBangKetQuaHocTap.getMaMon());
+                        if (lichThiLopOld.size()<lichThiLops.size()){
+                            for (LichThiLop lichThiLop:lichThiLops){
+                                sqLiteManager.insertlthilop(lichThiLop);
+                            }
+                        }
+                        showRecircleView();
+                        AdapterLichThiLop  adapter=new AdapterLichThiLop(lichThiLops);
+                        recyclerView.setAdapter(adapter);
+                    }else{
+                        showTextNull();
+                        textNull.setText("Không có lịch thi theo lớp...");
+                    }
                 }
             }catch (NullPointerException e){
                 // neu bị null nó sẽ vào đây
@@ -362,7 +407,53 @@ public class ListActivity extends AppCompatActivity {
             }
         }
     };
+    class ItemLichThiLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
+        TextView ngayThi;
+        TextView caThi;
+        TextView lanThi;
+        TextView tenLop;
+        TextView stt;
+        public ItemLichThiLop(View itemView) {
+            super(itemView);
+            this.ngayThi = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_nt);
+            this.caThi = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_ca);
+            this.lanThi = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_lt);
+            this.tenLop = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_tenlop);
+            this.tenLop = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_tenlop);
+            this.stt = (TextView) itemView.findViewById(R.id.id_item_lich_thi_lop_stt);
 
+        }
+    }
+    private class AdapterLichThiLop extends RecyclerView.Adapter<ListActivity.ItemLichThiLop> implements RecyclerView.OnClickListener {
+        private  ArrayList<LichThiLop> data;
+        public AdapterLichThiLop( ArrayList<LichThiLop> data) {
+            this.data = data;
+        }
+        @Override
+        public ListActivity.ItemLichThiLop onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(ListActivity.this).inflate(R.layout.item_lich_thi_lop, parent, false);
+            view.setOnClickListener(this);
+            ListActivity.ItemLichThiLop holder = new ListActivity.ItemLichThiLop(view);
+            return holder;
+        }
+        @Override
+        public void onBindViewHolder(ListActivity.ItemLichThiLop holder, int position) {
+            LichThiLop itemBangDiemThanhPhan=data.get(position);
+            holder.ngayThi.setText(itemBangDiemThanhPhan.getNgayThi());
+            holder.caThi.setText(itemBangDiemThanhPhan.getGioThi());
+            holder.lanThi.setText(itemBangDiemThanhPhan.getLanThi());
+            holder.tenLop.setText(itemBangDiemThanhPhan.getTenLop());
+            holder.stt.setText(position+"");
+        }
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+        @Override
+        public void onClick(View view) {
+            int itemPosition = recyclerView.getChildLayoutPosition(view);
+        }
+    }
     private void setRecircleView() {
         switch (index){
             case 0:

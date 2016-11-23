@@ -262,7 +262,7 @@ public class LichThiFragment extends Fragment {
                     "</head>" +
                     "<body>" +
                     "<h1>"+data.get(itemPosition).getSbd()+"</h1>" +
-                    "<p>phòng <strong>"+data.get(itemPosition).getPhong()+"</strong><br> <strong>"+data.get(itemPosition).getThu()+"</strong> lúc <strong>"+data.get(itemPosition).getGio()+"</strong> ngày <strong>"+data.get(itemPosition).getNgay()+"</strong> <br><strong>"+toi+"</strong></p></body></html>";
+                    "<p>tại <strong>"+data.get(itemPosition).getPhong()+"</strong><br> <strong>"+data.get(itemPosition).getThu()+"</strong> lúc <strong>"+data.get(itemPosition).getGio()+"</strong> ngày <strong>"+data.get(itemPosition).getNgay()+"</strong> <br><strong>"+toi+"</strong></p></body></html>";
             webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
             builder.setView(webView);
 //            builder.setMessage( Html.fromHtml("<p style="color: red;">" +
