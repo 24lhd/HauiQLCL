@@ -45,10 +45,10 @@
                 android:background="@color/bg_app"
                 android:singleLine="true"
                 android:inputType="number"
+                android:maxLength="10"
                 android:hint="@string/hint_id"
-                android:layout_marginBottom="@dimen/margin_view"
                 android:textColorHint="@color/md_green_500"
-                style="@style/TextAppearance.AppCompat.Large"
+                style="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/md_green_500"
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>

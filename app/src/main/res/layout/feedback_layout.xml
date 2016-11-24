@@ -18,12 +18,11 @@
             android:id="@+id/et_feedback"
             android:background="@color/bg_app"
             android:hint="@string/feedback"
-            android:layout_marginTop="@dimen/margin_view"
             android:textColorHint="@color/md_green_500"
             style="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/md_green_500"
-            android:maxHeight="300dp"
-            android:layout_height="80dp" />
+            android:maxLength="500"
+            android:layout_height="wrap_content" />
     </android.support.design.widget.TextInputLayout>
     <TextView
         android:layout_width="wrap_content"

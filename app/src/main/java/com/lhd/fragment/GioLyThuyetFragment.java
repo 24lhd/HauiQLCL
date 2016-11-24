@@ -1,25 +1,16 @@
 package com.lhd.fragment;
 
 import android.annotation.TargetApi;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.TextView;
 
 import com.ken.hauiclass.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Duong on 11/21/2016.
@@ -27,9 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GioLyThuyetFragment extends Fragment {
     private WebView textView;
-    private TextView tietView;
-    private TextView timeView;
-    private int phutConLai;
+
 
     @TargetApi(Build.VERSION_CODES.M)
     @Nullable
@@ -57,263 +46,14 @@ public class GioLyThuyetFragment extends Fragment {
                 "</style>" +
                 "</head>" +
                 "<body>" +
-                "<table border=\"1px\"><tr><th>Tiết</th><th>Giờ Học</th></tr><tr><td>1</td><td>7h00 - 7h45</td></tr><tr><td>2</td><td>7h50 - 8h35</td></tr><tr><td>3</td><td>8h40 - 9h25</td></tr><tr><td>4</td><td>9h35 - 10h20</td></tr><tr><td>5</td><td>10h25-11h10</td></tr><tr><td>6</td><td>11h15 - 12h00</td></tr><tr><td>7</td><td>12h30 - 13h15</td></tr><tr><td>8</td><td>13h20 - 14h05</td></tr><tr><td>9</td><td>14h10 - 14h45</td></tr><tr><td>10</td><td>15h05 - 15h50</td></tr><tr><td>11</td><td>15h55 - 16h40</td></tr><tr><td>12</td><td>16h45 - 17h30</td></tr><tr><td>13</td><td>18h00 - 18h45</td></tr><tr><td>14</td><td>18h45 - 19h30</td></tr><tr><td>15</td><td>19h45 - 20h30</td></tr><tr><td>16</td><td>20h30 - 21h15</td></tr>" +
+                "<table border=\"1px\"><tr><th>Tiết</th><th>Giờ Học</th></tr><tr><td>1</td><td>7h00 - 7h45</td></tr><tr><td>2</td><td>7h50 - 8h35</td></tr><tr><td>3</td><td>8h40 - 9h25</td></tr><tr><td>4</td><td>9h35 - 10h20</td></tr><tr><td>5</td><td>10h25-11h10</td></tr><tr><td>6</td><td>11h15 - 12h00</td></tr><tr><td>7</td><td>12h30 - 13h15</td></tr><tr><td>8</td><td>13h20 - 14h05</td></tr><tr><td>9</td><td>14h10 - 14h55</td></tr><tr><td>10</td><td>15h05 - 15h50</td></tr><tr><td>11</td><td>15h55 - 16h40</td></tr><tr><td>12</td><td>16h45 - 17h30</td></tr><tr><td>13</td><td>18h00 - 18h45</td></tr><tr><td>14</td><td>18h45 - 19h30</td></tr><tr><td>15</td><td>19h45 - 20h30</td></tr><tr><td>16</td><td>20h30 - 21h15</td></tr>" +
                 "</table>" +
                 "</body>" +
                 "</html>";
         textView.loadDataWithBaseURL(null,str, "text/html", "utf-8",null);
-        initView(view);
         return view;
     }
-    static class TietHoc{
-        int tiet;
-        int gioBatDau;
-        int phutBatDau;
-        int gioKetThuc;
-        int phutKetThuc;
-
-        @Override
-        public String toString() {
-            return tiet +" "+gioBatDau +
-                    "h" + phutBatDau +
-                    "         " + gioKetThuc +
-                    "h" + phutKetThuc;
-        }
-
-        public int getTiet() {
-            return tiet;
-        }
-        public int getGioBatDau() {
-            return gioBatDau;
-        }
-        public int getPhutBatDau() {
-            return phutBatDau;
-        }
-        public int getGioKetThuc() {
-            return gioKetThuc;
-        }
 
 
-        public int getPhutKetThuc() {
-            return phutKetThuc;
-        }
 
-
-        public TietHoc(int tiet, int gioBatDau, int phutBatDau, int gioKetThuc, int phutKetThuc) {
-            this.tiet = tiet;
-            this.gioBatDau = gioBatDau;
-            this.phutBatDau = phutBatDau;
-            this.gioKetThuc = gioKetThuc;
-            this.phutKetThuc = phutKetThuc;
-        }
-    }
-    public static  final  TietHoc [] tietHocs={
-            new TietHoc(1,7,0,7,45),
-            new TietHoc(2,7,50,8,35),
-            new TietHoc(3,8,40,9,25),
-            new TietHoc(4,9,35,10,20),
-            new TietHoc(5,10,25,11,10),
-            new TietHoc(6,11,15,12,0),
-            new TietHoc(7,12,30,13,15),
-            new TietHoc(8,13,20,14,5),
-            new TietHoc(9,14,10,14,55),
-            new TietHoc(10,15,5,15,50),
-            new TietHoc(11,15,55,16,40),
-            new TietHoc(12,16,45,17,30),
-            new TietHoc(13,18,0,18,45),
-            new TietHoc(14,18,45,19,30),
-            new TietHoc(15,19,45,20,30),
-            new TietHoc(16,20,30,21,15)
-    };
-    private void initView(View view) {
-        tietView= (TextView) view.findViewById(R.id.tv_tiet_hientai);
-        timeView= (TextView) view.findViewById(R.id.tv_time_conlai);
-//        checkTime();
-        final Handler handler=new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                String s= (String) msg.obj;
-                tietView.setText(s.split("-")[0]);
-                timeView.setText(s.split("-")[1]);
-                Task task=new Task(this);
-                task.execute();
-            }
-        };
-        Task task=new Task(handler);
-        task.execute();
-
-    }
-    class Task extends AsyncTask<Void,Void,String> {
-        private Handler handler;
-
-        public Task(Handler handler) {
-            this.handler = handler;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            Date today=new Date(System.currentTimeMillis());
-            SimpleDateFormat timeFormat= new SimpleDateFormat("HH:mm:ss");
-            String s=timeFormat.format(today.getTime());
-            String time=s.split(" ")[0];
-            int gio=Integer.parseInt(time.split(":")[0]);
-            int phut=Integer.parseInt(time.split(":")[1]);
-            int giay=Integer.parseInt(time.split(":")[2]);
-            String tiet = "Tự học";
-            phutConLai=0;
-            int giayConLai=0;
-            for (GioLyThuyetFragment.TietHoc tietHoc:tietHocs) {
-                if (tietHoc.getGioBatDau()<=gio&&gio<=tietHoc.getGioKetThuc()){
-                    if (tietHoc.getGioBatDau()==tietHoc.getGioKetThuc()){
-                        if (phut<=tietHoc.getPhutKetThuc()&&phut>=tietHoc.getPhutBatDau()){
-                            tiet="Tiết "+tietHoc.getTiet();
-                            phutConLai=tietHoc.getPhutKetThuc()-phut;
-                        if (phutConLai<0){
-                            phutConLai=60-(-1*phutConLai);
-                        }
-                        }else {
-                            tiet="Đang giải lao ";
-                            phutConLai=0;
-                        phutConLai=tietHocs[tietHoc.getTiet()].getPhutBatDau()-phut;
-                        if (phutConLai>10){
-                            phutConLai=60-phutConLai;
-                        }else
-                        if (phutConLai<0){
-                            phutConLai=60-(-1*phutConLai);
-                        }
-                        }
-                    }else {
-                        if (phut>=tietHoc.getPhutBatDau()&&phut>=tietHoc.getPhutKetThuc()
-                                ||phut<=tietHoc.getPhutBatDau()&&phut<=tietHoc.getPhutKetThuc()){
-                            tiet="Tiết "+tietHoc.getTiet();
-                            phutConLai=60-phut+tietHoc.getPhutBatDau();
-                        if (phutConLai<0){
-                            phutConLai=60-(-1*phutConLai);
-                        }
-                        }else {
-                            tiet="Đang giải lao ";
-                            phutConLai=0;
-                        phutConLai=tietHocs[tietHoc.getTiet()].getPhutBatDau()-phut;
-                        if (phutConLai>10){
-                            phutConLai=60-phutConLai;
-                        }else
-                        if (phutConLai<0){
-                            phutConLai=60-(-1*phutConLai);
-                        }
-
-                        }
-                    }
-                }
-
-            }
-
-            giayConLai=59-giay;
-            if (tiet.equals("Tự học")){
-            int gioConlai=0;
-            if (gio<=7){
-                gioConlai=gio-7;
-            }else{
-                gioConlai=24-(gio-7);
-            }
-            if (gioConlai<0){
-                gioConlai=gioConlai*(-1);
-            }
-                gioConlai=gioConlai-1;
-            phutConLai=gioConlai*60+(59-phut);
-//                phutConLai=0;
-            }
-            return tiet+"-"+"Còn lại "+phutConLai+":"+giayConLai+"s";
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            Message message=new Message();
-            message.obj=s;
-            handler.sendMessage(message);
-        }
-    }
-    private void runTask() {
-        new CountDownTimer(phutConLai*60000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                timeView.setText("Còn lại "+String.format("%d phút %d giây",
-                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-            }
-            public void onFinish() {
-//                checkTime();
-            }
-        }.start();
-    }
-
-
-    private void checkTime() {
-        Date today=new Date(System.currentTimeMillis());
-        SimpleDateFormat timeFormat= new SimpleDateFormat("HH:mm:ss");
-        String s=timeFormat.format(today.getTime());
-        String time=s.split(" ")[0];
-        int gio=Integer.parseInt(time.split(":")[0]);
-        int phut=Integer.parseInt(time.split(":")[1]);
-        String tiet = "Tự học";
-        phutConLai=0;
-        for (TietHoc tietHoc:tietHocs) {
-            if (tietHoc.getGioBatDau()<=gio&&gio<=tietHoc.getGioKetThuc()){
-                if (tietHoc.getGioBatDau()==tietHoc.getGioKetThuc()){
-                    if (phut<=tietHoc.getPhutKetThuc()&&phut>=tietHoc.getPhutBatDau()){
-                        tiet="Tiết "+tietHoc.getTiet();
-                        phutConLai=tietHoc.getPhutKetThuc()-phut;
-//                        if (phutConLai<0){
-//                            phutConLai=60-(-1*phutConLai);
-//                        }
-                    }else {
-                        tiet="Đang giải lao ";
-                        phutConLai=0;
-//                        phutConLai=tietHocs[tietHoc.getTiet()].getPhutBatDau()-phut;
-//                        if (phutConLai>10){
-//                            phutConLai=60-phutConLai;
-//                        }else
-//                        if (phutConLai<0){
-//                            phutConLai=60-(-1*phutConLai);
-//                        }
-                    }
-                }else {
-                    if (phut>=tietHoc.getPhutBatDau()&&phut>=tietHoc.getPhutKetThuc()
-                            ||phut<=tietHoc.getPhutBatDau()&&phut<=tietHoc.getPhutKetThuc()){
-                        tiet="Tiết "+tietHoc.getTiet();
-                        phutConLai=60-phut+tietHoc.getPhutKetThuc();
-//                        if (phutConLai<0){
-//                            phutConLai=60-(-1*phutConLai);
-//                        }
-                    }else {
-                        tiet="Đang giải lao ";
-                        phutConLai=0;
-//                        phutConLai=tietHocs[tietHoc.getTiet()].getPhutBatDau()-phut;
-//                        if (phutConLai>10){
-//                            phutConLai=60-phutConLai;
-//                        }else
-//                        if (phutConLai<0){
-//                            phutConLai=60-(-1*phutConLai);
-//                        }
-
-                    }
-                }
-            }
-
-        }
-        tietView.setText(tiet);
-        if (tiet.equals("Tự học")){
-//            int gioConlai=0;
-//            if (gio<=7){
-//                gioConlai=gio-7;
-//            }else{
-//                gioConlai=24-(gio-7);
-//            }
-//            if (gioConlai<0) gioConlai=gioConlai*(-1);
-//            phutConLai=gioConlai*60+phut;
-            phutConLai=0;
-        }
-//        runTask();
-
-
-    }
 }
