@@ -61,9 +61,9 @@ public  class Task extends AsyncTask<Void,String,String> {
 
         Log.e("faker",""+phutConLai);
             if (phutConLai>60){
-                return  tiet + "-" + "Còn lại "+(phutConLai/60)+":"+ phutConLai%60 + ":" + giayConLai+" giờ";
+                return  tiet + "-" + ""+(phutConLai/60)+":"+ phutConLai%60 + ":" + giayConLai;
             }
-            return  tiet + "-" + "Còn lại " + phutConLai + ":" + giayConLai +" phút";
+            return  tiet + "-" + "" + phutConLai + ":" + giayConLai ;
     }
 
     @Override
@@ -77,7 +77,7 @@ public  class Task extends AsyncTask<Void,String,String> {
             new TietHoc(2,470,515),// 470  515
             new TietHoc(3,520,565),// 520  565
             new TietHoc(4,520,620),// 575  620
-            new TietHoc(5,675,670),// 675  670
+            new TietHoc(5,625,670),// 675  670
             new TietHoc(6,675,720),// 675  720
             new TietHoc(7,750,795),// 750  795
             new TietHoc(8,800,845),// 800  845

@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ken.hauiclass.R;
@@ -198,28 +199,36 @@ public class MainActivity extends AppCompatActivity {
             bundle.putInt(MyService.TAB_POSITON,0);
         }
     }
-
     Handler handler=new Handler(){
+
         @Override
         public void handleMessage(Message msg) {
             String s= (String) msg.obj;
             tietView.setText(s.split("-")[0]);
             timeView.setText(s.split("-")[1]);
-            Task task=new Task(this);
-            task.execute();
+            if (isCick){
+                Task task=new Task(this);
+                task.execute();
+            }
         }
     };
+    boolean isCick=false;
     private void initUI() {
-        tietView= (TextView) findViewById(R.id.tv_tiet_hientai);
-        tietView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        timeView= (TextView) findViewById(R.id.tv_time_conlai);
         Task task=new Task(handler);
         task.execute();
+        LinearLayout linearLayout= (LinearLayout) findViewById(R.id.view_time);
+        tietView= (TextView) findViewById(R.id.tv_tiet_hientai);
+        timeView= (TextView) findViewById(R.id.tv_time_conlai);
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isCick=!isCick;
+                if (isCick){
+                    Task task=new Task(handler);
+                    task.execute();
+                }
+            }
+        });
         tvTitle= (TextView) findViewById(R.id.tb_title);
         tv1= (TextView) findViewById(R.id.tb_text1);
         tv2= (TextView) findViewById(R.id.tb_text2);
@@ -252,9 +261,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
         viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -300,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_result);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_test);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_lich_thi);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_chart);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_spider);
         tabLayout.getTabAt(4).setIcon(R.drawable.ic_more);
     }
 
