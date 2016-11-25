@@ -12,6 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ken.hauiclass.R;
@@ -24,6 +25,7 @@ import com.lhd.item.SinhVien;
 import com.lhd.log.Log;
 import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
+import com.lhd.task.Task;
 
 /**
  * Created by Duong on 11/20/2016.
@@ -196,19 +198,28 @@ public class MainActivity extends AppCompatActivity {
             bundle.putInt(MyService.TAB_POSITON,0);
         }
     }
+
     Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             String s= (String) msg.obj;
             tietView.setText(s.split("-")[0]);
             timeView.setText(s.split("-")[1]);
+            Task task=new Task(this);
+            task.execute();
         }
     };
     private void initUI() {
         tietView= (TextView) findViewById(R.id.tv_tiet_hientai);
+        tietView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         timeView= (TextView) findViewById(R.id.tv_time_conlai);
-//        Task task=new Task(timeView,tietView);
-//        task.execute();
+        Task task=new Task(handler);
+        task.execute();
         tvTitle= (TextView) findViewById(R.id.tb_title);
         tv1= (TextView) findViewById(R.id.tb_text1);
         tv2= (TextView) findViewById(R.id.tb_text2);

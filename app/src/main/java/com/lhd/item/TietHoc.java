@@ -6,43 +6,36 @@ package com.lhd.item;
 
 public class TietHoc {
     int tiet;
-    int gioBatDau;
     int phutBatDau;
-    int gioKetThuc;
     int phutKetThuc;
 
-    @Override
-    public String toString() {
-        return tiet +" "+gioBatDau +
-                "h" + phutBatDau +
-                "         " + gioKetThuc +
-                "h" + phutKetThuc;
+    public TietHoc(int tiet, int phutBatDau, int phutKetThuc) {
+        this.tiet = tiet;
+        this.phutBatDau = phutBatDau;
+        this.phutKetThuc = phutKetThuc;
     }
 
     public int getTiet() {
         return tiet;
     }
-    public int getGioBatDau() {
-        return gioBatDau;
+
+    public void setTiet(int tiet) {
+        this.tiet = tiet;
     }
+
     public int getPhutBatDau() {
         return phutBatDau;
     }
-    public int getGioKetThuc() {
-        return gioKetThuc;
-    }
 
+    public void setPhutBatDau(int phutBatDau) {
+        this.phutBatDau = phutBatDau;
+    }
 
     public int getPhutKetThuc() {
         return phutKetThuc;
     }
 
-
-    public TietHoc(int tiet, int gioBatDau, int phutBatDau, int gioKetThuc, int phutKetThuc) {
-        this.tiet = tiet;
-        this.gioBatDau = gioBatDau;
-        this.phutBatDau = phutBatDau;
-        this.gioKetThuc = gioKetThuc;
+    public void setPhutKetThuc(int phutKetThuc) {
         this.phutKetThuc = phutKetThuc;
     }
 }
