@@ -308,12 +308,12 @@
         "source": "H:\\hoctap\\HauiClass\\AlertdialogproThemeHolo\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\adp_btn_check_on_pressed_holo_light.png"
     },
     {
-        "merged": "H:\\hoctap\\HauiClass\\AlertdialogproThemeHolo\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\adp_btn_radio_off_focused_holo_light.png",
-        "source": "H:\\hoctap\\HauiClass\\AlertdialogproThemeHolo\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\adp_btn_radio_off_focused_holo_light.png"
-    },
-    {
         "merged": "H:\\hoctap\\HauiClass\\AlertdialogproThemeHolo\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\adp_btn_radio_on_focused_holo_light.png",
         "source": "H:\\hoctap\\HauiClass\\AlertdialogproThemeHolo\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\adp_btn_radio_on_focused_holo_light.png"
+    },
+    {
+        "merged": "H:\\hoctap\\HauiClass\\AlertdialogproThemeHolo\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\adp_btn_radio_off_focused_holo_light.png",
+        "source": "H:\\hoctap\\HauiClass\\AlertdialogproThemeHolo\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\adp_btn_radio_off_focused_holo_light.png"
     },
     {
         "merged": "H:\\hoctap\\HauiClass\\AlertdialogproThemeHolo\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\adp_list_longpressed_holo.9.png",
