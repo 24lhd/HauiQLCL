@@ -47,10 +47,11 @@ public class KetQuaThiFragment extends Fragment {
     private  ArrayList<DiemThiTheoMon> diemThiTheoMons;
     private SinhVien sv;
     private String maSV;
-
     private PullRefreshLayout pullRefreshLayout;
     private RecyclerView recyclerView;
     private MainActivity mainActivity;
+
+
 
     @Nullable
     @Override
@@ -62,7 +63,7 @@ public class KetQuaThiFragment extends Fragment {
 
     private void initView(View view) {
          mainActivity = (MainActivity) getActivity();
-        sqLiteManager=new SQLiteManager(getContext());
+        sqLiteManager=new SQLiteManager(mainActivity);
         maSV=getArguments().getString(MainActivity.MA_SV);
         pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
@@ -119,7 +120,6 @@ public class KetQuaThiFragment extends Fragment {
 
     }
     private void startParser() {
-
         ParserKetQuaThiTheoMon parserKetQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
         parserKetQuaThiTheoMon.execute(maSV);
 
@@ -194,8 +194,6 @@ public class KetQuaThiFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             try{
-                switch (msg.arg1){
-                    case 2:
                         diemThiTheoMons= (ArrayList<DiemThiTheoMon>) msg.obj;
                         if (!diemThiTheoMons.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
                             if (sqLiteManager.getAllDThiMon(maSV).size()<diemThiTheoMons.size()){
@@ -207,8 +205,6 @@ public class KetQuaThiFragment extends Fragment {
                             pullRefreshLayout.setRefreshing(false);
                             setRecyclerView();
                         }
-                        break;
-                }
             }catch (NullPointerException e){
                 startParser();
             }
@@ -279,7 +275,6 @@ public class KetQuaThiFragment extends Fragment {
                 holder.dCuoiCung.setTextColor(Color.parseColor("#42A5F5"));
             }else{
                 holder.dCuoiCung.setText(dc);
-
                 if (isDouble(dc)){
                     double d= Double.parseDouble(dc);
                     if (d>=8.5){
@@ -343,6 +338,40 @@ public class KetQuaThiFragment extends Fragment {
 //            getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
         }
     }
+
+    public static String charPoint(String dc,double n,double th) {
+        double d= Double.parseDouble(dc);
+        if (d>=8.5){
+            return "A";
+        }else if(d>=7.7&&n>=2015){
+            if (n==2015&&th<=9){
+                return "B";
+            }else{
+                return "B+";
+            }
+        }else if(d>=7.0){
+            return "B";
+        }else if(d>=6.2&&n>=2015){
+            if (n==2015&&th<=9){
+                return "C";
+            }else{
+                return "C+";
+            }
+        }else if(d>=5.5){
+            return "C";
+        }else if(d>=4.7&&n>=2015){
+            if (n==2015&&th<=9){
+                return "D";
+            }else{
+                return "D+";
+            }
+        }else if(d>=4.0){
+            return "D";
+        }else{
+            return "F";
+        }
+    }
+
     public static boolean  isDouble(String str) {
         try {
             parseDouble(str);

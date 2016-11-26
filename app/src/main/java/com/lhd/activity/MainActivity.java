@@ -22,11 +22,12 @@ import com.lhd.fragment.BangDiemThanhPhan;
 import com.lhd.fragment.KetQuaThiFragment;
 import com.lhd.fragment.LichThiFragment;
 import com.lhd.fragment.MoreFragment;
+import com.lhd.fragment.RadarChartFragment;
 import com.lhd.item.SinhVien;
 import com.lhd.log.Log;
 import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
-import com.lhd.task.Task;
+import com.lhd.task.TimeTask;
 
 /**
  * Created by Duong on 11/20/2016.
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private MoreFragment moreFragment;
     private TextView tietView;
     private TextView timeView;
+    private RadarChartFragment radarChartFragment;
 
     public void setTitleTab(String titleTab) {
         sv=sqLiteManager.getSV(maSV);
@@ -207,15 +209,15 @@ public class MainActivity extends AppCompatActivity {
             tietView.setText(s.split("-")[0]);
             timeView.setText(s.split("-")[1]);
             if (isCick){
-                Task task=new Task(this);
-                task.execute();
+                TimeTask timeTask =new TimeTask(this);
+                timeTask.execute();
             }
         }
     };
     boolean isCick=false;
     private void initUI() {
-        Task task=new Task(handler);
-        task.execute();
+        TimeTask timeTask =new TimeTask(handler);
+        timeTask.execute();
         LinearLayout linearLayout= (LinearLayout) findViewById(R.id.view_time);
         tietView= (TextView) findViewById(R.id.tv_tiet_hientai);
         timeView= (TextView) findViewById(R.id.tv_time_conlai);
@@ -224,8 +226,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 isCick=!isCick;
                 if (isCick){
-                    Task task=new Task(handler);
-                    task.execute();
+                    TimeTask timeTask =new TimeTask(handler);
+                    timeTask.execute();
                 }
             }
         });
@@ -280,9 +282,9 @@ public class MainActivity extends AppCompatActivity {
                         lichThiFragment.setArguments(bundle);
                         return lichThiFragment;
                     case 3:
-                        bangDiemThanhPhan=new BangDiemThanhPhan();
-                        bangDiemThanhPhan.setArguments(bundle);
-                        return bangDiemThanhPhan;
+                         radarChartFragment =new RadarChartFragment();
+                        radarChartFragment.setArguments(bundle);
+                        return radarChartFragment;
                     case 4:default:
 
                        moreFragment=new MoreFragment();

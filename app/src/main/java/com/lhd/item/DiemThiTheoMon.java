@@ -64,8 +64,11 @@ public class DiemThiTheoMon implements Serializable{
         return ghiChu;
     }
 
-    public DiemThiTheoMon(String linkDiemThiTheoLop, String tenMon, String dLan1, String  dLan2, String dTKLan1, String dTKLan2, String dCuoiCung, String ngay1, String ngay2, String ghiChu) {
+    public void setdCuoiCung(String dCuoiCung) {
+        this.dCuoiCung = dCuoiCung;
+    }
 
+    public DiemThiTheoMon(String linkDiemThiTheoLop, String tenMon, String dLan1, String  dLan2, String dTKLan1, String dTKLan2, String dCuoiCung, String ngay1, String ngay2, String ghiChu) {
         this.linkDiemThiTheoLop = linkDiemThiTheoLop;
         this.tenMon = tenMon;
         this.dLan1 = dLan1;
@@ -76,5 +79,6 @@ public class DiemThiTheoMon implements Serializable{
         this.ngay1 = ngay1;
         this.ngay2 = ngay2;
         this.ghiChu = ghiChu;
+
     }
 }

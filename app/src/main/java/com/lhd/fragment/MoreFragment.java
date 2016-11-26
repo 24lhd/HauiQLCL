@@ -65,11 +65,50 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
         mainActivity.setCurrenItem(currenView);
         switch (currenView){
             case 0:
-                mainActivity.setTitleTab(PENS[currenView]);
-                GioLyThuyetFragment gioLyThuyetFragment=new GioLyThuyetFragment();
-                fragmentTransaction.replace(R.id.fm_more,gioLyThuyetFragment);
-                fragmentTransaction.commit();
 
+//                GioLyThuyetFragment gioLyThuyetFragment=new GioLyThuyetFragment();
+//                fragmentTransaction.replace(R.id.fm_more,gioLyThuyetFragment);
+//                fragmentTransaction.commit();
+                AlertDialog.Builder builderlich = new AlertDialog.Builder(getActivity());
+//                builderFeedback.setTitle(PENS[currenView]);
+//                View view=getActivity().getLayoutInflater().inflate(R.layout.feedback_layout,null);
+//                final EditText editText= (EditText) view.findViewById(R.id.et_feedback);
+                View view2=getActivity().getLayoutInflater().inflate(R.layout.layout_gio_ly_thuyet,null);
+                textView= (WebView) view2.findViewById(R.id.text_more);
+                String str3;
+                builderlich.setTitle(PENS[currenView]);
+                str3="<!DOCTYPEhtml><html>" +
+                        "<head>" +
+                        "<meta charset=\"utf-8\"/>" +
+                        "<style type=\"text/css\" media=\"screen\">" +
+                        "*{" +
+                        "margin:0;padding: 0;" +
+                        "}" +
+                        "table{" +
+                        "width:100%;border:2px solid white;text-align:center;border-collapse:collapse;background-color:#E8F5E9;" +
+                        "}" +
+                        "th{" +
+                        "padding:10px;background-color:#42A5F5;color:white;padding:10px;" +
+                        "}" +
+                        "td{" +
+                        "color:#42A5F5;padding:5px;" +
+                        "}" +
+                        "</style>" +
+                        "</head>" +
+                        "<body>" +
+                        "<table border=\"1px\"><tr><th>Tiết</th><th>Giờ Học</th></tr><tr><td>1</td><td>7h00 - 7h45</td></tr><tr><td>2</td><td>7h50 - 8h35</td></tr><tr><td>3</td><td>8h40 - 9h25</td></tr><tr><td>4</td><td>9h35 - 10h20</td></tr><tr><td>5</td><td>10h25-11h10</td></tr><tr><td>6</td><td>11h15 - 12h00</td></tr><tr><td>7</td><td>12h30 - 13h15</td></tr><tr><td>8</td><td>13h20 - 14h05</td></tr><tr><td>9</td><td>14h10 - 14h55</td></tr><tr><td>10</td><td>15h05 - 15h50</td></tr><tr><td>11</td><td>15h55 - 16h40</td></tr><tr><td>12</td><td>16h45 - 17h30</td></tr><tr><td>13</td><td>18h00 - 18h45</td></tr><tr><td>14</td><td>18h45 - 19h30</td></tr><tr><td>15</td><td>19h45 - 20h30</td></tr><tr><td>16</td><td>20h30 - 21h15</td></tr>" +
+                        "</table>" +
+                        "</body>" +
+                        "</html>";
+                textView.loadDataWithBaseURL(null,str3, "text/html", "utf-8",null);
+                builderlich.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builderlich.setView(view2);
+                builderlich.show();
                 break;
             case 1:
 
@@ -133,7 +172,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                        "<p >Phần mềm cập nhật thông báo điểm, tra cứu kết quả học tập, lịch thi và một số tiện ích khác hỗ trợ các bạn sinh viên ĐH Công nghiệp Hà Nội trong học tập và trong thi cử một cách nhanh nhất." +
                        "<p> Xin chân thành cảm ơn sự ủng hộ của các bạn!" +
                        "<p id=\"footer\">" +
-                       "<em>Copyright &copy Hà Nội<em> 2016</em>, Lê Hồng Dương K9.</em>" +
+                       "<em>Copyright &copy<em> 2016</em>, Lê Hồng Dương.</em>" +
                        "</p>" +
                        "</body>" +
                        "</html>";

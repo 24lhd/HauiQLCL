@@ -15,13 +15,13 @@ import java.util.Date;
  * Created by Duong on 11/24/2016.
  */
 
-public  class Task extends AsyncTask<Void,String,String> {
+public  class TimeTask extends AsyncTask<Void,String,String> {
     private  TextView tietView;
     private  TextView timeView;
     private  Handler hander;
     int phutConLai;
 
-    public Task(Handler handler) {
+    public TimeTask(Handler handler) {
         this.hander=handler;
     }
 
@@ -76,7 +76,7 @@ public  class Task extends AsyncTask<Void,String,String> {
             new TietHoc(1,420,465),// 420  465
             new TietHoc(2,470,515),// 470  515
             new TietHoc(3,520,565),// 520  565
-            new TietHoc(4,520,620),// 575  620
+            new TietHoc(4,575,620),// 575  620
             new TietHoc(5,625,670),// 675  670
             new TietHoc(6,675,720),// 675  720
             new TietHoc(7,750,795),// 750  795
