@@ -90,12 +90,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         switch (currentView) {
-            case 4:
-                setTitleTab("Ngoài ra");
-                if (getCurrenItem()!=8){
-                    moreFragment.setCurrenView(8);
-                    break;
-                }
+//            case 4:
+//                setTitleTab("Ngoài ra");
+//                if (getCurrenItem()!=8){
+//                    moreFragment.setCurrenView(8);
+//                    break;
+//                }
             default:
                 if (log.getID().equals(maSV)) {
                     android.util.Log.e("fakerequals", maSV);
@@ -286,7 +286,6 @@ public class MainActivity extends AppCompatActivity {
                         radarChartFragment.setArguments(bundle);
                         return radarChartFragment;
                     case 4:default:
-
                        moreFragment=new MoreFragment();
                     return moreFragment;
 

@@ -7,8 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,19 +58,12 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
     };
 
     public void setCurrenView(int currenView) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
         mainActivity.setCurrenItem(currenView);
         switch (currenView){
             case 0:
-
-//                GioLyThuyetFragment gioLyThuyetFragment=new GioLyThuyetFragment();
-//                fragmentTransaction.replace(R.id.fm_more,gioLyThuyetFragment);
-//                fragmentTransaction.commit();
                 AlertDialog.Builder builderlich = new AlertDialog.Builder(getActivity());
-//                builderFeedback.setTitle(PENS[currenView]);
-//                View view=getActivity().getLayoutInflater().inflate(R.layout.feedback_layout,null);
-//                final EditText editText= (EditText) view.findViewById(R.id.et_feedback);
                 View view2=getActivity().getLayoutInflater().inflate(R.layout.layout_gio_ly_thuyet,null);
                 textView= (WebView) view2.findViewById(R.id.text_more);
                 String str3;
@@ -196,15 +187,13 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 break;
             case 6:
                 mainActivity.startLogin();
-
                 break;
             case 7:
                 mainActivity.finish();
                 break;
-            case 8:
-                getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.fm_more)).commit();
-
-                break;
+//            case 8:
+//                getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.fm_more)).commit();
+//                break;
         }
     }
 }

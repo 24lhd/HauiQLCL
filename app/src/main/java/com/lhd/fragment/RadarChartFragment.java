@@ -68,20 +68,37 @@ public class RadarChartFragment extends Fragment {
             Log.e("faker2",diemThiTheoMons.size()+"");
             for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMons) {
                 if (!KetQuaThiFragment.isDouble(diemThiTheoMon.getdCuoiCung().split(" ")[0])){
-                    diemThiTheoMon.setdCuoiCung("X");
+
+                    diemThiTheoMon.setdCuoiCung("*");
 
                 }
             }
-            for (int i = 0; i <diemThiTheoMons.size()-1 ; i++){
-                if (diemThiTheoMons.get(i).getdCuoiCung().equals("X")) continue;
-                for (int u = i+1; u <diemThiTheoMons.size() ; u++) {
-                    if (diemThiTheoMons.get(u).getdCuoiCung().equals("X")) continue;
-                    if (diemThiTheoMons.get(i).getTenMon().equals(diemThiTheoMons.get(u).getTenMon())){
-                        if (Double.parseDouble(diemThiTheoMons.get(i).getdCuoiCung().split(" ")[0])>Double.parseDouble(diemThiTheoMons.get(u).getdCuoiCung().split(" ")[0])){
-                            diemThiTheoMons.get(u).setdCuoiCung("X");
+//            for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMons) {
+//
+//            }
 
+            for (int i = 0; i <diemThiTheoMons.size()-1 ; i++){
+//                if (diemThiTheoMons.get(i).getdCuoiCung().length()<=1) continue;
+//                if (diemThiTheoMons.get(i).getdCuoiCung().contains("*")) continue;
+                for (int u = i+1; u <diemThiTheoMons.size() ; u++) {
+
+//                    if (diemThiTheoMons.get(u).getdCuoiCung().contains("*")) continue;
+//                    if (diemThiTheoMons.get(u).getdCuoiCung().length()<=1) continue;
+
+                    if (diemThiTheoMons.get(i).getTenMon().contains(diemThiTheoMons.get(u).getTenMon())){
+                        if (diemThiTheoMons.get(i).getdCuoiCung().contains("*")){
+                            continue;
+                        }
+                        if (diemThiTheoMons.get(u).getdCuoiCung().contains("*")){
+                            continue;
+                        }
+                        Log.e("fakeri",diemThiTheoMons.get(i).toString());
+                        Log.e("fakeru", diemThiTheoMons.get(u).toString());
+                        if (Double.parseDouble(diemThiTheoMons.get(i).getdCuoiCung().split(" ")[0])>Double.parseDouble(diemThiTheoMons.get(u).getdCuoiCung().split(" ")[0])){
+                            diemThiTheoMons.get(u).setdCuoiCung("*");
                         }else{
-                            diemThiTheoMons.get(i).setdCuoiCung("X");
+                            diemThiTheoMons.get(i).setdCuoiCung("*");
+                            continue;
                         }
                     }
                 }
@@ -89,8 +106,10 @@ public class RadarChartFragment extends Fragment {
             a=0; bb=0; b=0; cc=0; c=0; dd=0; d=0; f=0;
             int size=0;
             for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMons) {
-                if (diemThiTheoMon.getdCuoiCung().equals("X")) continue;
+                if (diemThiTheoMon.getdCuoiCung().length()<=1) continue;
+                if (diemThiTheoMon.getdCuoiCung().contains("*")) continue;
                 String dc=diemThiTheoMon.getdCuoiCung().split(" ")[0];
+//                Log.e("fakeru",diemThiTheoMon.toString());
                 double n;
                 if (KetQuaThiFragment.isDouble(dc)){
                     try {
@@ -104,7 +123,7 @@ public class RadarChartFragment extends Fragment {
                     }catch (Exception e){
                         th=0;
                     }
-                    Log.e("faker2",diemThiTheoMon.toString()+"");
+//                    Log.e("faker2",diemThiTheoMon.toString()+"");
                     size++;
                     switch(KetQuaThiFragment.charPoint(dc,n,th)){
                         case "A":

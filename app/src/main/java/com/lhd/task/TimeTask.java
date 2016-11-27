@@ -58,8 +58,6 @@ public  class TimeTask extends AsyncTask<Void,String,String> {
                     break;
                 }
             }
-
-        Log.e("faker",""+phutConLai);
             if (phutConLai>60){
                 return  tiet + "-" + "Còn "+(phutConLai/60)+":"+ phutConLai%60 + ":" + giayConLai +" giờ";
             }

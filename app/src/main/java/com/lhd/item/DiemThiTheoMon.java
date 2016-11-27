@@ -21,7 +21,7 @@ public class DiemThiTheoMon implements Serializable{
     @Override
     public String toString() {
         return
-                tenMon +"=" + dCuoiCung  ;
+                tenMon +" " + dCuoiCung  ;
     }
 
     public String getLinkDiemThiTheoLop() {
