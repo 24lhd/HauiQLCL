@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -16,10 +17,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
+import com.lhd.database.SQLiteManager;
+import com.lhd.item.ItemNotiDTTC;
 
 /**
  * Created by Duong on 11/21/2016.
@@ -49,7 +53,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
     static final String[] PENS = new String[]{
             "Giờ học lý thuyết",
             "Thời khóa biểu cá nhân",
-            "Thông báo",
+            "Thông báo từ dttc",
             "Ý kiến phản hồi",
             "Thông tin phát triển",
             "Ứng dụng khác",
@@ -105,7 +109,31 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
 
                 break;
             case 2:
-
+                final SQLiteManager sqLiteManager=new SQLiteManager(getActivity());
+                AlertDialog.Builder builderNoti = new AlertDialog.Builder(getActivity());
+                builderNoti.setTitle(PENS[currenView]);
+                ArrayAdapter<ItemNotiDTTC> notiDTTCArrayAdapter=
+                        new ArrayAdapter<ItemNotiDTTC>(getActivity(),
+                                android.R.layout.simple_list_item_1,sqLiteManager.getNotiDTTC()){
+                            @NonNull
+                            @Override
+                            public View getView(int position, View convertView, ViewGroup parent) {
+                                TextView textView=new TextView(getActivity());
+                                textView.setText(sqLiteManager.getNotiDTTC().get(position).getTitle());
+                                return textView;
+                            }
+                        };
+                ArrayAdapter arrayAdapter = new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1, PENS);
+                ListView listView=new ListView(getActivity());
+                listView.setAdapter(arrayAdapter);
+                builderNoti.setView(listView);
+//                builderNoti.setAdapter(notiDTTCArrayAdapter, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                });
+                builderNoti.show();
                 break;
             case 3:
                 AlertDialog.Builder builderFeedback = new AlertDialog.Builder(getActivity());

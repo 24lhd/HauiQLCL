@@ -45,7 +45,6 @@ public class MyService extends Service{
     private com.lhd.log.Log log;
     private String id;
     private Notification.Builder nBuilder;
-
     private  NotificationManager mNotifyMgr;
     private  PendingIntent resultPendingIntent;
     private Handler handler=new Handler(){
@@ -144,7 +143,7 @@ public class MyService extends Service{
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(),  random.nextInt(1000), resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nBuilder = new Notification.Builder(getApplicationContext())
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.icon_app)
                 .setVibrate(l)
                 .setSound(alarmSound)
                 .setContentTitle(title)
