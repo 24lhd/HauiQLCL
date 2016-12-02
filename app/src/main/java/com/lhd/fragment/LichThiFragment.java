@@ -240,9 +240,11 @@ public class LichThiFragment extends Fragment {
                 if ((Double.parseDouble(ngay2)-Double.parseDouble(ngay1))<0)
                     toi="Đã thi";
                 else
-                toi="Còn lại "+(Double.parseDouble(ngay2)-Double.parseDouble(ngay1))+" ôn";
+                toi="Còn lại "+(Double.parseDouble(ngay2)-Double.parseDouble(ngay1))+ " ngày để ôn :)";
+            }else if (Double.parseDouble(thang1)<Double.parseDouble(thang2) &&nam1.equals(nam2)){
+                toi="Chuẩn bị thi :(";
             }else
-                toi="Đã thi";
+                toi="Đã thi !!!";
 
             WebView webView=new WebView(getActivity());
             String str="<!DOCTYPE html>" +

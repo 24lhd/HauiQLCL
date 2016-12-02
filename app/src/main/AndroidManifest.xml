@@ -22,14 +22,14 @@
         </receiver>
 
         <activity android:name="com.lhd.activity.Test">
-
-
-        </activity>
-        <activity android:name="com.lhd.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name="com.lhd.activity.MainActivity">
+
         </activity>
         <activity android:name="com.lhd.activity.InputActivity">
 

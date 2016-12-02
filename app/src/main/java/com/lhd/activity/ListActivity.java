@@ -301,7 +301,7 @@ public class ListActivity extends AppCompatActivity {
                     break;
                 case 1:
                     itemBangKetQuaHocTap= (ItemBangKetQuaHocTap) intent.getSerializableExtra(KetQuaHocTapFragment.KEY_OBJECT);
-                    getSupportActionBar().setTitle("Kế hoạch thi"+itemBangKetQuaHocTap.getTenMon());
+                    getSupportActionBar().setTitle("Kế hoạch thi "+itemBangKetQuaHocTap.getTenMon());
                     getSupportActionBar().setSubtitle(itemBangKetQuaHocTap.getMaMon());
                     ArrayList<LichThiLop> lichThiLops=sqLiteManager.getAllLThiLop(itemBangKetQuaHocTap.getMaMon());
                     if (!lichThiLops.isEmpty()){
@@ -386,7 +386,7 @@ public class ListActivity extends AppCompatActivity {
                     ArrayList<LichThiLop> lichThiLops= (ArrayList<LichThiLop>) msg.obj;
                     ArrayList<LichThiLop> lichThiLopOld=sqLiteManager.getAllLThiLop(itemBangKetQuaHocTap.getMaMon());
                     if (!lichThiLops.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
-                        getSupportActionBar().setTitle("Kế hoạch thi"+itemBangKetQuaHocTap.getTenMon());
+                        getSupportActionBar().setTitle("Kế hoạch thi "+itemBangKetQuaHocTap.getTenMon());
                         getSupportActionBar().setSubtitle(itemBangKetQuaHocTap.getMaMon());
                         if (lichThiLopOld.size()<lichThiLops.size()){
                             for (LichThiLop lichThiLop:lichThiLops){
