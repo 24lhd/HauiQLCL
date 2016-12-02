@@ -12,6 +12,7 @@ import com.lhd.item.DiemThiTheoMon;
 import com.lhd.item.ItemBangDiemThanhPhan;
 import com.lhd.item.ItemBangKetQuaHocTap;
 import com.lhd.item.ItemKetQuaThiLop;
+import com.lhd.item.ItemNotiDTTC;
 import com.lhd.item.KetQuaThi;
 import com.lhd.item.LichThi;
 import com.lhd.item.LichThiLop;
@@ -39,6 +40,10 @@ public class SQLiteManager {
             "`dTB`TEXT," +
             "`dieuKien`TEXT," +
             "`tenLop`TEXT);";
+    public static final String CREATE_TABLE_NOTIDTTC="CREATE TABLE IF NOT EXISTS `notidttc`(" +
+            "`stt`INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "`link`TEXT ," +
+            "`title`TEXT );";
     public static final String CREATE_TABLE_DMON="CREATE TABLE IF NOT EXISTS `dmon`(" +
             "`stt`INTEGER PRIMARY KEY AUTOINCREMENT," +
             "`linkDiemLop`TEXT NOT NULL," +
@@ -126,6 +131,7 @@ public class SQLiteManager {
         database.execSQL(CREATE_TABLE_LTHI);
         database.execSQL(CREATE_TABLE_LTHILOP);
         database.execSQL(CREATE_TABLE_SV);
+        database.execSQL(CREATE_TABLE_NOTIDTTC);
     }
     /**
      * chèn thêm 1 dòng vào bảng điểm học tập theo môn
@@ -143,6 +149,42 @@ public class SQLiteManager {
             closeDatabases();
         }
         return id;
+    }
+    public long insertItemNotiDTTC(ItemNotiDTTC itemNotiDTTC){
+        long id = 0;
+            ContentValues contentValues=new ContentValues();
+            contentValues.put("link",itemNotiDTTC.getLink());
+            contentValues.put("title",itemNotiDTTC.getTitle());
+            openDatabases();
+            id=database.insert("notidttc", null, contentValues);
+            closeDatabases();
+        return id;
+    }
+    public void deleteItemNotiDTTC() {
+        openDatabases();
+        database.delete("notidttc",null,null);
+        closeDatabases();
+    }
+    public ArrayList<ItemNotiDTTC> getNotiDTTC() {
+        try {
+            ArrayList<ItemNotiDTTC> itemNotiDTTCs=new ArrayList<>();
+            openDatabases();
+            Cursor cursor=database.query("notidttc",null,null,null,null,null,null);
+            cursor.getCount();// tra ve so luong ban ghi no ghi dc
+            cursor.getColumnNames();// 1 mang cac cot
+            cursor.moveToFirst(); // di chuyển con trỏ đến dòng đầu tiền trong bảng
+            int tenSV=cursor.getColumnIndex("title");
+            int maSV=cursor.getColumnIndex("link");
+            while (!cursor.isAfterLast()){
+                itemNotiDTTCs.add(new ItemNotiDTTC(cursor.getString(maSV),cursor.getString(tenSV)));
+                cursor.moveToNext();
+            }
+            closeDatabases();
+            return itemNotiDTTCs ;
+        }catch (CursorIndexOutOfBoundsException e){
+            Log.e("faker","getNotiDTTC");
+            return null;
+        }
     }
     public long insertDMon(ItemBangKetQuaHocTap bangKetQuaHocTap, String maSV){
         ContentValues contentValues=new ContentValues();
@@ -205,8 +247,6 @@ public class SQLiteManager {
             Log.e("faker","CursorIndexOutOfBoundsException");
             return null;
         }
-
-
     }
     public void deleteSV() {
         openDatabases();
