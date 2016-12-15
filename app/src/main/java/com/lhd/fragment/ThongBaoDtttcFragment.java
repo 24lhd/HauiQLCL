@@ -182,9 +182,12 @@ public class ThongBaoDtttcFragment extends Fragment {
     };
     class ItemNoti extends  RecyclerView.ViewHolder { // tao mot đói tượng
         TextView text;
+        TextView stt;
         public ItemNoti(View itemView) {
             super(itemView);
+
             this.text = (TextView) itemView.findViewById(R.id.tv_noti);
+            this.stt = (TextView) itemView.findViewById(R.id.stt_noti);
         }
     }
     class AdapterNoti extends RecyclerView.Adapter<ItemNoti> implements RecyclerView.OnClickListener {
@@ -202,6 +205,7 @@ public class ThongBaoDtttcFragment extends Fragment {
         @Override
         public void onBindViewHolder(ItemNoti holder, int position) {
             holder.text.setText(data.get(position).getTitle());
+            holder.stt.setText(""+position);
 
         }
         @Override

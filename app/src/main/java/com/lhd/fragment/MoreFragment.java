@@ -68,9 +68,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
     }
     static final String[] PENS = new String[]{
             "Giờ học lý thuyết",
-            "Thời khóa biểu cá nhân",
-            "Thông báo từ dttc",
-            "Ý kiến phản hồi",
+            "Ý kiến đóng góp",
             "Thông tin phát triển",
             "Ứng dụng khác",
             "Nhập lại mã sinh viên",
@@ -122,15 +120,10 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 builderlich.show();
                 break;
             case 1:
-
-                break;
-            case 2:
-                break;
-            case 3:
                 AlertDialog.Builder builderFeedback = new AlertDialog.Builder(getActivity());
                 builderFeedback.setTitle(PENS[currenView]);
                 View view=getActivity().getLayoutInflater().inflate(R.layout.feedback_layout,null);
-                 final EditText editText= (EditText) view.findViewById(R.id.et_feedback);
+                final EditText editText= (EditText) view.findViewById(R.id.et_feedback);
                 builderFeedback.setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -157,35 +150,35 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 builderFeedback.setView(view);
                 builderFeedback.show();
                 break;
-            case 4:
-               String str="<!DOCTYPE html>" +
-                       "<html>" +
-                       "<head>" +
-                       "<meta charset=\"utf-8\">" +
-                       "<style type=\"text/css\" media=\"screen\">" +
-                       "h2{" +
-                       "color: #FF4081;" +
-                       "text-align:justify" +
-                       "}" +
-                       "p{" +
-                       "font-family: Sans-serif;" +
-                       "text-indent: 10px;" +
-                       "text-align:justify" +
-                       "}" +
-                       "#footer{" +
-                       "text-align: center;" +
-                       "}" +
-                       "</style>" +
-                       "</head>" +
-                       "<body>" +
-                       "<h2>Gà Công Nghiệp</h2>" +
-                       "<p >Phần mềm cập nhật thông báo điểm, tra cứu kết quả học tập, lịch thi và một số tiện ích khác hỗ trợ các bạn sinh viên ĐH Công nghiệp Hà Nội trong học tập và trong thi cử một cách nhanh nhất." +
-                       "<p> Xin chân thành cảm ơn sự ủng hộ của các bạn!" +
-                       "<p id=\"footer\">" +
-                       "<em>Copyright &copy<em> 2016</em>, Lê Hồng Dương.</em>" +
-                       "</p>" +
-                       "</body>" +
-                       "</html>";
+            case 2:
+                String str="<!DOCTYPE html>" +
+                        "<html>" +
+                        "<head>" +
+                        "<meta charset=\"utf-8\">" +
+                        "<style type=\"text/css\" media=\"screen\">" +
+                        "h2{" +
+                        "color: #FF4081;" +
+                        "text-align:justify" +
+                        "}" +
+                        "p{" +
+                        "font-family: Sans-serif;" +
+                        "text-indent: 10px;" +
+                        "text-align:justify" +
+                        "}" +
+                        "#footer{" +
+                        "text-align: center;" +
+                        "}" +
+                        "</style>" +
+                        "</head>" +
+                        "<body>" +
+                        "<h2>Gà Công Nghiệp</h2>" +
+                        "<p >Phần mềm cập nhật thông báo điểm, tra cứu kết quả học tập, lịch thi và một số tiện ích khác hỗ trợ các bạn sinh viên ĐH Công nghiệp Hà Nội trong học tập và trong thi cử một cách nhanh nhất." +
+                        "<p> Xin chân thành cảm ơn sự ủng hộ của các bạn!" +
+                        "<p id=\"footer\">" +
+                        "<em>Copyright &copy<em> 2016</em>, Lê Hồng Dương.</em>" +
+                        "</p>" +
+                        "</body>" +
+                        "</html>";
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(PENS[currenView]);
                 WebView webView=new WebView(getActivity());
@@ -201,18 +194,15 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 });
                 builder.show();
                 break;
-            case 5:
+            case 3:
 
                 break;
-            case 6:
+            case 4:
                 mainActivity.startLogin();
                 break;
-            case 7:
+            case 5:
                 mainActivity.finish();
                 break;
-//            case 8:
-//                getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.fm_more)).commit();
-//                break;
         }
     }
 
