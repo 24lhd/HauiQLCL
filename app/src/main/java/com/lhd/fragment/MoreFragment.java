@@ -3,12 +3,18 @@ package com.lhd.fragment;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +27,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ken.hauiclass.R;
+import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
+import com.lhd.item.DiemThiTheoMon;
 import com.lhd.item.ItemNotiDTTC;
+import com.lhd.task.ParserNotiDTTC;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Duong on 11/21/2016.
@@ -33,6 +45,10 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
     private WebView textView;
     private MainActivity mainActivity;
     private ListView listView;
+    private RecyclerView recyclerView;
+    private SQLiteManager sqLiteManager;
+    private ArrayList<ItemNotiDTTC> itemNotiDTTCs;
+    private AlertDialog.Builder builderNoti;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Nullable
@@ -61,13 +77,13 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
             "Thoát"
     };
 
-    public void setCurrenView(int currenView) {
+    public void setCurrenView(final int currenView) {
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
         mainActivity.setCurrenItem(currenView);
         switch (currenView){
             case 0:
-                AlertDialog.Builder builderlich = new AlertDialog.Builder(getActivity());
+                final AlertDialog.Builder builderlich = new AlertDialog.Builder(getActivity());
                 View view2=getActivity().getLayoutInflater().inflate(R.layout.layout_gio_ly_thuyet,null);
                 textView= (WebView) view2.findViewById(R.id.text_more);
                 String str3;
@@ -109,31 +125,6 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
 
                 break;
             case 2:
-                final SQLiteManager sqLiteManager=new SQLiteManager(getActivity());
-                AlertDialog.Builder builderNoti = new AlertDialog.Builder(getActivity());
-                builderNoti.setTitle(PENS[currenView]);
-                ArrayAdapter<ItemNotiDTTC> notiDTTCArrayAdapter=
-                        new ArrayAdapter<ItemNotiDTTC>(getActivity(),
-                                android.R.layout.simple_list_item_1,sqLiteManager.getNotiDTTC()){
-                            @NonNull
-                            @Override
-                            public View getView(int position, View convertView, ViewGroup parent) {
-                                TextView textView=new TextView(getActivity());
-                                textView.setText(sqLiteManager.getNotiDTTC().get(position).getTitle());
-                                return textView;
-                            }
-                        };
-                ArrayAdapter arrayAdapter = new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1, PENS);
-                ListView listView=new ListView(getActivity());
-                listView.setAdapter(arrayAdapter);
-                builderNoti.setView(listView);
-//                builderNoti.setAdapter(notiDTTCArrayAdapter, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                    }
-//                });
-                builderNoti.show();
                 break;
             case 3:
                 AlertDialog.Builder builderFeedback = new AlertDialog.Builder(getActivity());
@@ -224,4 +215,5 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
 //                break;
         }
     }
+
 }

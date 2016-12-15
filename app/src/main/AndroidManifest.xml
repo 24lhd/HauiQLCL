@@ -34,5 +34,8 @@
         <activity android:name="com.lhd.activity.InputActivity">
 
         </activity>
+        <activity android:name="com.lhd.activity.Demo">
+
+        </activity>
     </application>
 </manifest>

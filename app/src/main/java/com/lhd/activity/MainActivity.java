@@ -23,6 +23,7 @@ import com.lhd.fragment.KetQuaThiFragment;
 import com.lhd.fragment.LichThiFragment;
 import com.lhd.fragment.MoreFragment;
 import com.lhd.fragment.RadarChartFragment;
+import com.lhd.fragment.ThongBaoDtttcFragment;
 import com.lhd.item.SinhVien;
 import com.lhd.log.Log;
 import com.lhd.service.MyService;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tietView;
     private TextView timeView;
     private RadarChartFragment radarChartFragment;
+    private ThongBaoDtttcFragment thongBaoDtttcFragment;
 
     public void setTitleTab(String titleTab) {
         sv=sqLiteManager.getSV(maSV);
@@ -244,8 +246,11 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 currentView=position;
                 switch (position){
-                    case 4:
+                    case 5:
                         setTitleTab("Ngoài ra");
+                        break;
+                    case 4:
+                        setTitleTab("Thông báo");
                         break;
                     case 1:
                         setTitleTab("Kết quả thi");
@@ -285,9 +290,12 @@ public class MainActivity extends AppCompatActivity {
                          radarChartFragment =new RadarChartFragment();
                         radarChartFragment.setArguments(bundle);
                         return radarChartFragment;
-                    case 4:default:
-                       moreFragment=new MoreFragment();
-                    return moreFragment;
+                    case 4:
+                         thongBaoDtttcFragment=new ThongBaoDtttcFragment();
+                        return thongBaoDtttcFragment;
+                    case 5:default:
+                        moreFragment=new MoreFragment();
+                        return moreFragment;
 
                 }
             }
@@ -309,13 +317,11 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_test);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_lich_thi);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_spider);
-        tabLayout.getTabAt(4).setIcon(R.drawable.ic_more);
+        tabLayout.getTabAt(4).setIcon(R.drawable.ic_tab_noti_dttc);
+        tabLayout.getTabAt(5).setIcon(R.drawable.ic_more);
     }
 
     public void setCurrenItem(int currenItem) {
         this.currenItem = currenItem;
-    }
-    public int getCurrenItem() {
-        return currenItem;
     }
 }
