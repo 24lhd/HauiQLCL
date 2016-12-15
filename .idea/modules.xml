@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AlertdialogproThemeHolo/AlertdialogproThemeHolo.iml" filepath="$PROJECT_DIR$/AlertdialogproThemeHolo/AlertdialogproThemeHolo.iml" />
       <module fileurl="file://$PROJECT_DIR$/FabLoading/FabLoading.iml" filepath="$PROJECT_DIR$/FabLoading/FabLoading.iml" />
-      <module fileurl="file://$PROJECT_DIR$/HauiClass.iml" filepath="$PROJECT_DIR$/HauiClass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HauiQLCL.iml" filepath="$PROJECT_DIR$/HauiQLCL.iml" />
       <module fileurl="file://$PROJECT_DIR$/MPChart/MPChart.iml" filepath="$PROJECT_DIR$/MPChart/MPChart.iml" />
       <module fileurl="file://$PROJECT_DIR$/PullRefesh/PullRefesh.iml" filepath="$PROJECT_DIR$/PullRefesh/PullRefesh.iml" />
       <module fileurl="file://$PROJECT_DIR$/WrappingFragment/WrappingFragment.iml" filepath="$PROJECT_DIR$/WrappingFragment/WrappingFragment.iml" />

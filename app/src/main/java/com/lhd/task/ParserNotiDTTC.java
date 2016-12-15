@@ -36,7 +36,6 @@ public class ParserNotiDTTC extends AsyncTask<String, Void, ArrayList<ItemNotiDT
         for (int j = 0; j < a.size(); j++) {
             itemNotiDTTCs.add(new ItemNotiDTTC("https://dttc.haui.edu.vn"+a.get(j).attr("href"),a.get(j).html()));
         }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,9 +44,6 @@ public class ParserNotiDTTC extends AsyncTask<String, Void, ArrayList<ItemNotiDT
 
     @Override
     protected void onPostExecute(ArrayList<ItemNotiDTTC> itemNotiDTTCs) {
-        for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCs) {
-            Log.e("faker",itemNotiDTTC.toString());
-        }
         Message message=new Message();
         message.obj=itemNotiDTTCs;
         handler.sendMessage(message);

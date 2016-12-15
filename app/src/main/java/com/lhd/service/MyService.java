@@ -14,17 +14,20 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
 import com.lhd.item.DiemThiTheoMon;
 import com.lhd.item.ItemBangKetQuaHocTap;
+import com.lhd.item.ItemNotiDTTC;
 import com.lhd.item.KetQuaHocTap;
 import com.lhd.item.LichThi;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.ParserKetQuaThiTheoMon;
 import com.lhd.task.ParserLichThiTheoMon;
+import com.lhd.task.ParserNotiDTTC;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -154,7 +157,35 @@ public class MyService extends Service{
         int mNotificationId = random.nextInt(1000);
             mNotifyMgr.notify(mNotificationId, nBuilder.build());
     }
-
+    private Handler handlerNotiQLCL=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            ArrayList<ItemNotiDTTC> itemNotiDTTCsC;
+            ArrayList<ItemNotiDTTC> itemNotiDTTCsM;
+            try{
+                itemNotiDTTCsM = (ArrayList<ItemNotiDTTC>) msg.obj;
+                for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
+                    Log.e("faker",itemNotiDTTC.toString());
+                }
+                itemNotiDTTCsC=sqLiteManager.getNotiDTTC();
+                if (!itemNotiDTTCsC.isEmpty()){
+                    for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
+                        sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
+                    }
+                    showNoti("Cập nhật thông báo từ DTTC","đã cập nhật "+itemNotiDTTCsM.size()+" thông báo",3);
+                }else{
+                    for (ItemNotiDTTC moi:itemNotiDTTCsM) {
+                        for (ItemNotiDTTC cu:itemNotiDTTCsC) {
+                            if (!moi.getTitle().endsWith(cu.getTitle())){
+                                showNoti("Thông báo từ DTTC",moi.getTitle(),4);
+                            }
+                        }
+                    }
+                }
+            }catch (NullPointerException e){
+            }
+        }
+    };
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         log=new com.lhd.log.Log(this);
@@ -162,6 +193,9 @@ public class MyService extends Service{
         sqLiteManager =new SQLiteManager(this);
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
         ketQuaHocTapTheoMon.execute(id);
+
+        ParserNotiDTTC parserNotiDTTC=new ParserNotiDTTC(handlerNotiQLCL);
+        parserNotiDTTC.execute();
 
         ParserKetQuaThiTheoMon ketQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
         ketQuaThiTheoMon.execute(id);

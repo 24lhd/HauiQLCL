@@ -27,6 +27,7 @@ import com.lhd.item.DiemThiTheoMon;
 import com.lhd.item.ItemNotiDTTC;
 import com.lhd.item.SinhVien;
 import com.lhd.task.ParserKetQuaThiTheoMon;
+import com.lhd.task.ParserLinkFileNoti;
 import com.lhd.task.ParserNotiDTTC;
 
 import java.util.ArrayList;
@@ -41,9 +42,6 @@ public class ThongBaoDtttcFragment extends Fragment {
     private TextView tVnull;
     private ProgressBar progressBar;
     private SQLiteManager sqLiteManager;
-    private ArrayList<DiemThiTheoMon> diemThiTheoMons;
-    private SinhVien sv;
-    private String maSV;
     private PullRefreshLayout pullRefreshLayout;
     private RecyclerView recyclerView;
     private MainActivity mainActivity;
@@ -61,7 +59,6 @@ public class ThongBaoDtttcFragment extends Fragment {
     private void initView(View view) {
         mainActivity = (MainActivity) getActivity();
         sqLiteManager=new SQLiteManager(mainActivity);
-        maSV=getArguments().getString(MainActivity.MA_SV);
         pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
         tVnull= (TextView) view.findViewById(R.id.text_null);
@@ -85,7 +82,7 @@ public class ThongBaoDtttcFragment extends Fragment {
             @Override
             public void onRefresh() {
                 if (isOnline()){
-                    sqLiteManager.deleteDThiMon(maSV);
+                    sqLiteManager.deleteItemNotiDTTC();
                     startParser();
                 }else{
                     pullRefreshLayout.setRefreshing(false);
@@ -213,9 +210,11 @@ public class ThongBaoDtttcFragment extends Fragment {
         }
         @Override
         public void onClick(View view) {
+
             int itemPosition = recyclerView.getChildLayoutPosition(view);
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.get(itemPosition).getLink()));
-            startActivity(browserIntent);
+            ParserLinkFileNoti parserNotiDTTC=new ParserLinkFileNoti(getActivity());
+            parserNotiDTTC.execute(data.get(itemPosition).getLink());
+
         }
     }
 }

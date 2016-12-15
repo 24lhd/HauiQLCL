@@ -23,7 +23,6 @@
 
         <activity android:name="com.lhd.activity.Test">
 
-
         </activity>
         <activity android:name="com.lhd.activity.MainActivity">
             <intent-filter>

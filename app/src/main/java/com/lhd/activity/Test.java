@@ -9,6 +9,8 @@ import android.os.Message;
 import com.ken.hauiclass.R;
 import com.lhd.item.ItemNotiDTTC;
 import com.lhd.log.Log;
+import com.lhd.task.ParserLinkFileNoti;
+import com.lhd.task.ParserNotiDTTC;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,17 +29,17 @@ public class Test extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
-        Handler handler=new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                ArrayList<ItemNotiDTTC> itemNotiDTTCs= (ArrayList<ItemNotiDTTC>) msg.obj;
-                for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCs) {
-                    android.util.Log.e("faker",itemNotiDTTC.toString());
-                }
-            }
-        };
-        PS ps = new PS(handler);
-        ps.execute();
+//        Handler handler=new Handler(){
+//            @Override
+//            public void handleMessage(Message msg) {
+//                ArrayList<ItemNotiDTTC> itemNotiDTTCs= (ArrayList<ItemNotiDTTC>) msg.obj;
+//                for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCs) {
+//                    android.util.Log.e("faker",itemNotiDTTC.toString());
+//                }
+//            }
+//        };
+//        PS ps = new PS(handler);
+//        ps.execute();
 
     }
 

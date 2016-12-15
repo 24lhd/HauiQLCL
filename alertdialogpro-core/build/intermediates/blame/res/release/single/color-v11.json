@@ -1,10 +1,10 @@
 [
     {
-        "merged": "H:\\hoctap\\HauiClass\\alertdialogpro-core\\build\\intermediates\\res\\merged\\release\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
-        "source": "H:\\hoctap\\HauiClass\\alertdialogpro-core\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+        "merged": "F:\\AndroidProjects\\HauiQLCL\\alertdialogpro-core\\build\\intermediates\\res\\merged\\release\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "F:\\AndroidProjects\\HauiQLCL\\alertdialogpro-core\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
     },
     {
-        "merged": "H:\\hoctap\\HauiClass\\alertdialogpro-core\\build\\intermediates\\res\\merged\\release\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
-        "source": "H:\\hoctap\\HauiClass\\alertdialogpro-core\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+        "merged": "F:\\AndroidProjects\\HauiQLCL\\alertdialogpro-core\\build\\intermediates\\res\\merged\\release\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "F:\\AndroidProjects\\HauiQLCL\\alertdialogpro-core\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
     }
 ]
