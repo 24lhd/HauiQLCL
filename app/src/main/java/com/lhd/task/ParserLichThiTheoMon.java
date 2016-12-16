@@ -58,7 +58,6 @@ public class ParserLichThiTheoMon extends AsyncTask<String,Void,ArrayList<LichTh
             message.obj=lichThis;
             handler.sendMessage(message);
         }catch (NullPointerException e){
-            Log.e("faker","tong");
         }
 
     }

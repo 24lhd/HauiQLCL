@@ -1,10 +1,12 @@
 package com.lhd.task;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.lhd.activity.MainActivity;
 import com.lhd.item.DiemThanhPhan;
 import com.lhd.item.ItemBangDiemThanhPhan;
 
@@ -88,7 +90,7 @@ public class ParserDiemThanhPhan extends AsyncTask<String,Void,DiemThanhPhan> {
 //                getInfomation.execute(diemHocTapTheoLop.getMsv());
 //            }
         }catch (NullPointerException e){
-            Log.e("duonghaui","trong");
+
         }
     }
 }

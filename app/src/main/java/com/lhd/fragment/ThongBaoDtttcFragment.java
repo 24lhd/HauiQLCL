@@ -84,6 +84,7 @@ public class ThongBaoDtttcFragment extends Fragment {
                 if (isOnline()){
                     sqLiteManager.deleteItemNotiDTTC();
                     startParser();
+                    pullRefreshLayout.setRefreshing(false);
                 }else{
                     pullRefreshLayout.setRefreshing(false);
                 }
@@ -172,6 +173,7 @@ public class ThongBaoDtttcFragment extends Fragment {
                 itemNotiDTTCs= (ArrayList<ItemNotiDTTC>) msg.obj;
                 setRecyclerView();
                 showRecircleView();
+                sqLiteManager.deleteItemNotiDTTC();
                 for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCs) {
                     sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
                 }

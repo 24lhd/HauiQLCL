@@ -129,7 +129,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i = new Intent(Intent.ACTION_SEND);
                         i.setType("message/rfc822");
-                        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"24duong@gmail.com"});
+                        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"gacongnghiep.sv@gmail.com"});
                         i.putExtra(Intent.EXTRA_SUBJECT, "Phản hồi Gà Công Nghiệp");
                         i.putExtra(Intent.EXTRA_TEXT   , editText.getText().toString());
                         try {
@@ -172,10 +172,10 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                         "</head>" +
                         "<body>" +
                         "<h2>Gà Công Nghiệp</h2>" +
-                        "<p >Phần mềm cập nhật thông báo điểm, tra cứu kết quả học tập, lịch thi và một số tiện ích khác hỗ trợ các bạn sinh viên ĐH Công nghiệp Hà Nội trong học tập và trong thi cử một cách nhanh nhất." +
-                        "<p> Xin chân thành cảm ơn sự ủng hộ của các bạn!" +
+                        "<p >Phần mềm sử dụng dữ liệu trên trang web http://qlcl.edu.vn/ cập nhật thông báo điểm, tra cứu kết quả học tập, lịch thi và một số tiện ích khác hỗ trợ các bạn sinh viên ĐH Công nghiệp Hà Nội trong học tập và trong thi cử một cách nhanh nhất." +
+                        "<p>  Phát triển bởi: <br> <p>- Lê Hồng Dương (ĐH HTTT1_K9)<br><p> Xin chân thành cảm ơn sự ủng hộ của các bạn!" +
                         "<p id=\"footer\">" +
-                        "<em>Copyright &copy<em> 2016</em>, Lê Hồng Dương.</em>" +
+                        "<small>Copyright &copy<em> 2016</em>, Lê Hồng Dương.</small>" +
                         "</p>" +
                         "</body>" +
                         "</html>";

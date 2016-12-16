@@ -55,7 +55,6 @@ public class ParserLichThiTheoLop extends AsyncTask<String,Void,ArrayList<LichTh
             message.obj=diemLops;
             handler.sendMessage(message);
         }catch (NullPointerException e){
-            Log.e("faker","tong");
         }
 
     }

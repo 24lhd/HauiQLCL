@@ -1,16 +1,21 @@
 package com.lhd.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -54,7 +59,29 @@ public class MainActivity extends AppCompatActivity {
     private TextView timeView;
     private RadarChartFragment radarChartFragment;
     private ThongBaoDtttcFragment thongBaoDtttcFragment;
-
+    public boolean isOnline() {
+        try {
+            ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+            return cm.getActiveNetworkInfo().isConnectedOrConnecting();
+        }catch (Exception e) {
+            return false;
+        }
+    }
+    public static void showErr(final Activity activity) {
+        final AlertDialog.Builder builder=new AlertDialog.Builder(activity);
+        builder.setTitle("Thông báo");
+        builder.setMessage("Chả lấy được dữ liệu gì cả. Bạn nhập lại mã sinh viên nhé !!!");
+        builder.setNegativeButton("Nhập MSV", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent=new Intent(activity,InputActivity.class);
+                activity.startActivityForResult(intent,0);
+                activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
     public void setTitleTab(String titleTab) {
         sv=sqLiteManager.getSV(maSV);
         if (sv!=null){
@@ -92,20 +119,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         switch (currentView) {
-//            case 4:
-//                setTitleTab("Ngoài ra");
-//                if (getCurrenItem()!=8){
-//                    moreFragment.setCurrenView(8);
-//                    break;
-//                }
             default:
                 if (log.getID().equals(maSV)) {
-                    android.util.Log.e("fakerequals", maSV);
                     finish();
                     this.overridePendingTransition(R.anim.left_end, R.anim.right_end);
                 } else {
                     startView(log.getID());
-                    android.util.Log.e("fakerelse", maSV);
 
                 }
                 break;
@@ -186,6 +205,10 @@ public class MainActivity extends AppCompatActivity {
         this.overridePendingTransition(R.anim.left_end, R.anim.right_end);
     }
     public void startView(String id) {
+        if (isOnline()){
+            Intent intent1=new Intent(this, MyService.class);
+            this.startService(intent1);
+        }
         maSV=id;
         sqLiteManager=new SQLiteManager(this);
         setContentView(R.layout.activity_main);
@@ -210,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
             String s= (String) msg.obj;
             tietView.setText(s.split("-")[0]);
             timeView.setText(s.split("-")[1]);
-            if (isCick){
+            if (!isCick){
                 TimeTask timeTask =new TimeTask(this);
                 timeTask.execute();
             }
@@ -227,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 isCick=!isCick;
-                if (isCick){
+                if (!isCick){
                     TimeTask timeTask =new TimeTask(handler);
                     timeTask.execute();
                 }

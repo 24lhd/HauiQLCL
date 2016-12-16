@@ -6,10 +6,11 @@ android {
     defaultConfig {
         applicationId "com.ken.hauiclass"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -35,6 +36,7 @@ dependencies {
     compile project(':AlertdialogproThemeHolo')
     compile project(':PullRefesh')
     compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support:multidex:+'
     compile project(':MPChart')
 }
 

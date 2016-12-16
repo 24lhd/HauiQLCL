@@ -86,7 +86,6 @@ public class ParserKetQuaHocTap extends AsyncTask<String,Void,KetQuaHocTap> {
             }
 
         }catch (NullPointerException e){
-            Log.e("faker","loi");
         }
 
     }

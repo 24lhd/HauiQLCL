@@ -10,6 +10,8 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon_app"
+        android:supportsRtl="true"
+        android:name="android.support.multidex.MultiDexApplication"
         android:theme="@style/AppTheme">
         <activity android:name="com.lhd.activity.ListActivity"
             android:theme="@style/AppThemeNoActionBar"/>

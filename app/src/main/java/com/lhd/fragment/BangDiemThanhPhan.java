@@ -1,5 +1,6 @@
 package com.lhd.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import com.lhd.database.SQLiteManager;
 import com.lhd.item.ItemBangKetQuaHocTap;
 import com.lhd.item.KetQuaHocTap;
 import com.lhd.item.SinhVien;
+import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
 
 import java.io.Serializable;
@@ -112,7 +114,7 @@ public class BangDiemThanhPhan extends Fragment {
         tVnull.setVisibility(View.GONE);
     }
     private void checkDatabase() {
-        showProgress();
+                showProgress();
                 bangKetQuaHocTaps=sqLiteManager.getBangKetQuaHocTap(maSV);
                 if (!bangKetQuaHocTaps.isEmpty()){
                     showRecircleView();
@@ -216,11 +218,16 @@ public class BangDiemThanhPhan extends Fragment {
                         sv= (SinhVien) msg.obj;
                         if (sv!=null){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
                             sqLiteManager.insertSV(sv);
+                        }else{
+                            MainActivity.showErr(getActivity());
+                            Log.e("faker","showErr");
                         }
                         break;
                 }
             }catch (NullPointerException e){
-                startParser();
+                MainActivity.showErr(getActivity());
+                Log.e("faker","showErr");
+//                startParser();
             }
         }
     };

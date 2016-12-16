@@ -65,7 +65,6 @@ public class ParserKetQuaThiTheoMon extends AsyncTask<String,Void,ArrayList<Diem
             message.obj=diemThiTheoMons;
             handler.sendMessage(message);
         }catch (NullPointerException e){
-            Log.e("faker","tong");
         }
 
     }

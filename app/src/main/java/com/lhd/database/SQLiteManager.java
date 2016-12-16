@@ -1,5 +1,6 @@
 package com.lhd.database;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,6 +8,7 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.lhd.activity.MainActivity;
 import com.lhd.item.DiemThanhPhan;
 import com.lhd.item.DiemThiTheoMon;
 import com.lhd.item.ItemBangDiemThanhPhan;
@@ -161,9 +163,12 @@ public class SQLiteManager {
         return id;
     }
     public void deleteItemNotiDTTC() {
-        openDatabases();
-        database.delete("notidttc",null,null);
-        closeDatabases();
+        try {
+            openDatabases();
+            database.delete("notidttc",null,null);
+            closeDatabases();
+        }catch (Exception e){}
+
     }
     public ArrayList<ItemNotiDTTC> getNotiDTTC() {
         try {
@@ -244,7 +249,8 @@ public class SQLiteManager {
             closeDatabases();
             return sinhVien ;
         }catch (CursorIndexOutOfBoundsException e){
-            Log.e("faker","CursorIndexOutOfBoundsException");
+            
+            Log.e("faker","showErr");
             return null;
         }
     }
@@ -389,6 +395,8 @@ public class SQLiteManager {
                     sotc,
                     itemBangDiemThanhPhen);
         }catch (CursorIndexOutOfBoundsException e) {
+            
+            Log.e("faker","showErr");
             return null;
         }
     }
@@ -452,7 +460,8 @@ public class SQLiteManager {
          closeDatabases();
          return ketQuaThi;
      }catch (CursorIndexOutOfBoundsException e){
-         Log.e("duonghaui","CursorIndexOutOfBoundsException");
+         
+         Log.e("faker","showErr");
          return null;
      }
     }
@@ -611,34 +620,40 @@ public class SQLiteManager {
         return id;
     }
     public ArrayList<LichThiLop> getAllLThiLop(String ma) {
-        openDatabases();
-        ArrayList<LichThiLop> lichThiLops=new ArrayList<>();
-        String[] s={ma};
-        Cursor cursor=database.query("lthilop",null,"maLop=?",s,null,null,null);
-        cursor.getCount();// tra ve so luong ban ghi no ghi dc
-        cursor.getColumnNames();// 1 mang cac cot
-        cursor.moveToFirst(); // di chuyển con trỏ đến dòng đầu tiền trong bảng
-        int maLop=cursor.getColumnIndex("maLop");
-        int tenMon=cursor.getColumnIndex("tenMon"); // trả về vị trí cột tương ứng
-        int ngayThi=cursor.getColumnIndex("ngayThi");
-        int gioThi=cursor.getColumnIndex("gioThi");
-        int lanThi=cursor.getColumnIndex("lanThi");
-        int tenLop=cursor.getColumnIndex("tenLop");
-        int khoa=cursor.getColumnIndex("khoa");
-        while (!cursor.isAfterLast()){// neu no o ban ghi cuoi cung thi tra ve true
-            lichThiLops.add(new LichThiLop(
-                    // trả về dữ liệu của dòng cột đang xét
-                    cursor.getString(maLop),
-                    cursor.getString(tenMon),
-                    cursor.getString(ngayThi),
-                    cursor.getString(gioThi),
-                    cursor.getString(lanThi),
-                    cursor.getString(tenLop),
-                    cursor.getString(khoa)));
-            cursor.moveToNext();
+        try {
+            openDatabases();
+            ArrayList<LichThiLop> lichThiLops=new ArrayList<>();
+            String[] s={ma};
+            Cursor cursor=database.query("lthilop",null,"maLop=?",s,null,null,null);
+            cursor.getCount();// tra ve so luong ban ghi no ghi dc
+            cursor.getColumnNames();// 1 mang cac cot
+            cursor.moveToFirst(); // di chuyển con trỏ đến dòng đầu tiền trong bảng
+            int maLop=cursor.getColumnIndex("maLop");
+            int tenMon=cursor.getColumnIndex("tenMon"); // trả về vị trí cột tương ứng
+            int ngayThi=cursor.getColumnIndex("ngayThi");
+            int gioThi=cursor.getColumnIndex("gioThi");
+            int lanThi=cursor.getColumnIndex("lanThi");
+            int tenLop=cursor.getColumnIndex("tenLop");
+            int khoa=cursor.getColumnIndex("khoa");
+            while (!cursor.isAfterLast()){// neu no o ban ghi cuoi cung thi tra ve true
+                lichThiLops.add(new LichThiLop(
+                        // trả về dữ liệu của dòng cột đang xét
+                        cursor.getString(maLop),
+                        cursor.getString(tenMon),
+                        cursor.getString(ngayThi),
+                        cursor.getString(gioThi),
+                        cursor.getString(lanThi),
+                        cursor.getString(tenLop),
+                        cursor.getString(khoa)));
+                cursor.moveToNext();
+            }
+            closeDatabases();
+            return lichThiLops;
+        }catch (Exception e){
+            
+            Log.e("faker","showErr");
         }
-        closeDatabases();
-        return lichThiLops;
+        return null;
     }
 
 

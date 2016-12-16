@@ -15,6 +15,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
@@ -163,26 +164,39 @@ public class MyService extends Service{
             ArrayList<ItemNotiDTTC> itemNotiDTTCsC;
             ArrayList<ItemNotiDTTC> itemNotiDTTCsM;
             try{
+
                 itemNotiDTTCsM = (ArrayList<ItemNotiDTTC>) msg.obj;
                 for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
                     Log.e("faker",itemNotiDTTC.toString());
                 }
                 itemNotiDTTCsC=sqLiteManager.getNotiDTTC();
-                if (!itemNotiDTTCsC.isEmpty()){
+                Log.e("faker", ""+itemNotiDTTCsC.size());
+                if (itemNotiDTTCsC.isEmpty()){
+                    sqLiteManager.deleteItemNotiDTTC();
                     for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
                         sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
                     }
                     showNoti("Cập nhật thông báo từ DTTC","đã cập nhật "+itemNotiDTTCsM.size()+" thông báo",3);
                 }else{
-                    for (ItemNotiDTTC moi:itemNotiDTTCsM) {
-                        for (ItemNotiDTTC cu:itemNotiDTTCsC) {
-                            if (!moi.getTitle().endsWith(cu.getTitle())){
-                                showNoti("Thông báo từ DTTC",moi.getTitle(),4);
+                    if (itemNotiDTTCsM.size()>itemNotiDTTCsC.size()){
+                        showNoti("Thông báo từ DTTC",(itemNotiDTTCsM.size()-itemNotiDTTCsC.size())+" thông báo mới",5);
+                        sqLiteManager.deleteItemNotiDTTC();
+                        for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
+                            sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
+                        }
+                    }else{
+                        for (int i = 0; i < itemNotiDTTCsM.size(); i++) {
+                            if (!itemNotiDTTCsM.get(i).getTitle().equals(itemNotiDTTCsC.get(i).getTitle())){
+                                showNoti("Thông báo từ DTTC",itemNotiDTTCsM.get(i).getTitle(),4);
+                                sqLiteManager.deleteItemNotiDTTC();
+                                for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
+                                    sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
+                                }
                             }
                         }
                     }
                 }
-            }catch (NullPointerException e){
+            }catch (Exception e){
             }
         }
     };
@@ -190,6 +204,7 @@ public class MyService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         log=new com.lhd.log.Log(this);
          id=log.getID();
+        Toast.makeText(this,"Gà Công Nghiệp đang xem có gì hót ^.^",Toast.LENGTH_SHORT).show();
         sqLiteManager =new SQLiteManager(this);
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
         ketQuaHocTapTheoMon.execute(id);
