@@ -204,7 +204,7 @@ public class MyService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         log=new com.lhd.log.Log(this);
          id=log.getID();
-        Toast.makeText(this,"Gà Công Nghiệp đang xem có gì hót ^.^",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Gà Công Nghiệp kiểm tra xem có gì hót ^.^",Toast.LENGTH_SHORT).show();
         sqLiteManager =new SQLiteManager(this);
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
         ketQuaHocTapTheoMon.execute(id);

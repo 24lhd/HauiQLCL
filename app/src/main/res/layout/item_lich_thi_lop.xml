@@ -2,36 +2,35 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="3dp"
-    android:layout_marginBottom="3dp">
+    android:layout_marginTop="@dimen/margin_item"
+    android:layout_marginBottom="@dimen/margin_item">
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:background="@drawable/selecter"
+        android:layout_margin="@dimen/margin_view_inner"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:id="@+id/id_item_lich_thi_lop_stt"
             android:gravity="center"
-            style="@style/TextAppearance.AppCompat.Body1"
+            style="@style/TextAppearance.AppCompat.Caption"
             android:minWidth="20dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
+            android:layout_marginLeft="@dimen/margin_view_inner"
+            android:layout_marginRight="@dimen/margin_view_inner"
             android:textColor="@color/md_black_1000"
             android:layout_height="match_parent" />
         <ImageView
             android:layout_width="35dp"
             android:src="@drawable/ic_plan_test"
             android:scaleType="fitXY"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_margin="@dimen/margin_view_inner"
             android:layout_gravity="center"
             android:layout_height="35dp" />
         <View
             android:layout_width="1dp"
             android:background="@color/md_blue_grey_100"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/margin_item"
             android:layout_height="match_parent"></View>
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +49,7 @@
                     android:gravity="center"
                     android:id="@+id/fm_l1"
                     android:layout_gravity="center"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                    style="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/md_blue_500"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -59,7 +58,7 @@
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:id="@+id/id_item_lich_thi_lop_nt"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                    style="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -76,7 +75,7 @@
                     android:id="@+id/fm_l2"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                    style="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/md_blue_500"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -85,7 +84,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:id="@+id/id_item_lich_thi_lop_ca"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                    style="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -101,7 +100,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:id="@+id/fm_l3"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                    style="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/md_blue_500"
                     android:layout_height="wrap_content" />
 
@@ -111,7 +110,7 @@
                     android:layout_weight="1"
                     android:id="@+id/id_item_lich_thi_lop_lt"
                     android:gravity="center"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                    style="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -127,7 +126,7 @@
                     android:id="@+id/fm_l4"
                     android:layout_gravity="center"
                     android:text="Lớp"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                    style="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/md_blue_500"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -136,7 +135,7 @@
                     android:id="@+id/id_item_lich_thi_lop_tenlop"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                    style="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/colorAccent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
