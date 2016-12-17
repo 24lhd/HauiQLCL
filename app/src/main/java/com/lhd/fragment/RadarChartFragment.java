@@ -57,23 +57,27 @@ public class RadarChartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          view=inflater.inflate(R.layout.activity_radarchart_noseekbar,container,false);
+
         initView(view);
         return view;
     }
     private void initView(View view) {
         sqLiteManager=new SQLiteManager(getActivity());
-        getDiemThiTheoMons(handler,getArguments().getString(MainActivity.MA_SV));
+        mv = new RadarMarkerView(getActivity(), R.layout.radar_markerview);
+        mChart = (RadarChart) view.findViewById(R.id.chart1);
+        if (!sqLiteManager.getAllDThiMon(getArguments().getString(MainActivity.MA_SV)).isEmpty()||sqLiteManager.getAllDThiMon(getArguments().getString(MainActivity.MA_SV))!=null){
+            getDiemThiTheoMons(handler,getArguments().getString(MainActivity.MA_SV));
+        }
+
     }
+
+    private RadarMarkerView mv;
     Handler handler=new Handler(){
 
         @Override
         public void handleMessage(Message msg) {
 
             diemThiTheoMons= (ArrayList<DiemThiTheoMon>) msg.obj;
-            if (diemThiTheoMons==null){
-                MainActivity.showErr(getActivity());
-
-            }else{
                 for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMons) {
                     if (!KetQuaThiFragment.isDouble(diemThiTheoMon.getdCuoiCung().split(" ")[0])){
                         diemThiTheoMon.setdCuoiCung("*");
@@ -146,15 +150,9 @@ public class RadarChartFragment extends Fragment {
                     }
 
                 }
-                mChart = (RadarChart) view.findViewById(R.id.chart1);
                 mChart.setBackgroundColor(Color.WHITE);
                 mChart.getDescription().setEnabled(false);
                 mChart.setWebLineWidth(1f);
-                mChart.setWebColor(getResources().getColor(R.color.colorPrimary));
-                mChart.setWebLineWidthInner(1f);
-                mChart.setWebColorInner(getResources().getColor(R.color.colorPrimary));
-                mChart.setWebAlpha(100);
-                MarkerView mv = new RadarMarkerView(getActivity(), R.layout.radar_markerview);
                 mv.setChartView(mChart); // For bounds control
                 mChart.setMarker(mv); // Set the marker to the chart
                 mChart.animateXY(1400, 1400, Easing.EasingOption.EaseInOutQuad, Easing.EasingOption.EaseInOutQuad);
@@ -181,9 +179,7 @@ public class RadarChartFragment extends Fragment {
                 yAxis.setAxisMaximum(150f);
                 yAxis.setDrawLabels(false);
                 entries1=new ArrayList<>();
-                Log.e("faker",size+"");
                 float d1,d2,d3,d4,d5,d6,d7,d8;
-                Log.e("faker",""+a+" "+bb+" "+b+" "+cc+" "+c+" "+dd+" "+d+" "+f+" ");
                 d2= (float) (bb*100.0/size)+50;
                 d3= (float) (b*100.0/size)+50;
                 d4= (float) (cc*100.0/size)+50;
@@ -192,8 +188,6 @@ public class RadarChartFragment extends Fragment {
                 d7= (float) (d*100.0/size)+50;
                 d8= (float) (f*100.0/size)+50;
                 d1=  500-(d2+d3+d4+d5+d6+d7+d8);
-                Log.e("fakerd",""+d2+" "+d3+" "+d4+" "+d5+" "+d6+" "+d7+" "+d8+" "+d1+" ");
-                Log.e("faker",""+d2+" "+d3+" "+d4+" "+d5+" "+d6+" "+d7+" "+d8+" "+d1+" ");
                 entries1.add(new RadarEntry(d1));
                 entries1.add(new RadarEntry(d2));
                 entries1.add(new RadarEntry(d3));
@@ -203,10 +197,10 @@ public class RadarChartFragment extends Fragment {
                 entries1.add(new RadarEntry(d7));
                 entries1.add(new RadarEntry(d8));
                 RadarDataSet set1 = new RadarDataSet(entries1, "Tổng kết điểm hiện tại");
-                set1.setColor(getResources().getColor(R.color.colorAccent));
-                set1.setFillColor(getResources().getColor(R.color.colorAccent));
+                set1.setColor(getResources().getColor(R.color.colorPrimary));
+                set1.setFillColor(getResources().getColor(R.color.colorPrimary));
                 set1.setDrawFilled(true);
-                set1.setFillAlpha(20);
+                set1.setFillAlpha(40);
                 set1.setLineWidth(1f);
                 set1.setDrawHighlightCircleEnabled(true);
                 set1.setDrawHighlightIndicators(false);
@@ -228,7 +222,6 @@ public class RadarChartFragment extends Fragment {
                 tvTT.setText(sinhVien.getMaSV()+"\n"+sinhVien.getLopDL());
 
             }
-            }
 
     };
 
@@ -241,12 +234,12 @@ public class RadarChartFragment extends Fragment {
             Message message=new Message();
             message.obj=diemThiTheoMons;
             handler.sendMessage(message);
-        }else{
-            ParserKetQuaThiTheoMon parserKetQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
-            parserKetQuaThiTheoMon.execute(msv);
         }
+//        else{
+//            ParserKetQuaThiTheoMon parserKetQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
+//            parserKetQuaThiTheoMon.execute(msv);
+//        }
     }
-//    private  ArrayList<DiemThiTheoMon> result;
     private ArrayList<DiemThiTheoMon> diemThiTheoMons;
     private  ArrayList<RadarEntry> entries1;
 }

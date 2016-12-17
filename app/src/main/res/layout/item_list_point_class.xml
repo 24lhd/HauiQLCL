@@ -177,7 +177,7 @@
                 android:layout_weight="1"
                 android:textStyle="bold"
                 android:id="@+id/id_item_diem_lop_so_tiet_nghi"
-                android:gravity="center"
+                android:gravity="left|center"
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/colorAccent"
                 android:layout_height="wrap_content" />
