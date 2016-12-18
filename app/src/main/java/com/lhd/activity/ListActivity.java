@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -455,7 +456,64 @@ public class ListActivity extends AppCompatActivity {
         }
         @Override
         public void onClick(View view) {
-            int itemPosition = recyclerView.getChildLayoutPosition(view);
+            final int itemPosition = recyclerView.getChildLayoutPosition(view);
+            builder = new AlertDialog.Builder(ListActivity.this);builder.create();
+            String str="<!DOCTYPE html>" +
+                    "<html>" +
+                    "<head>" +
+                    "<title></title>" +
+                    "<style type=\"text/css\" media=\"screen\">" +
+                    "*{" +
+                    "margin: auto;" +
+                    "text-align: center;" +
+                    "background: white;" +
+                    "}" +
+                    "h2{" +
+                    "color: #FF4081;" +
+                    "}" +
+                    "p{" +
+                    "color: #42A5F5;" +
+                    "}" +
+                    "</style>" +
+                    "</head>" +
+                    "<body>" +
+                    "<h2>" +
+                    itemBangKetQuaHocTap.getTenMon()+
+                    "</h2>" +
+                    "<p>" +
+                    "("+data.get(itemPosition).getMaLop()+")<br/></p>"+"Lớp "
+                    + data.get(itemPosition).getTenLop()+"<br/> ngày "+
+                    data.get(itemPosition).getNgayThi()+"<br/> ca "+data.get(itemPosition).getGioThi()+
+
+                    "<br/>" +
+                    "</body>" +
+                    "</html>";
+            builder.setTitle("Kế hoạc thi");
+            WebView webView=new WebView(ListActivity.this);
+            webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
+            webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
+            builder.setView(webView);
+            builder.setPositiveButton("IMG",null);
+            builder.setNeutralButton("SMS",null);
+            AlertDialog mAlertDialog = builder.create();
+            mAlertDialog.show();
+            Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MainActivity.sreenShort(view,ListActivity.this);
+                }
+            });
+            Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+            c.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MainActivity.shareText(ListActivity.this,"", data.get(itemPosition).toString());
+                }
+            });
+
+
+
         }
     }
     private void setRecircleView() {
@@ -589,19 +647,24 @@ public class ListActivity extends AppCompatActivity {
                         webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
                         webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
                         builder.setView(webView);
-                        builder.setPositiveButton("Ảnh", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("IMG",null);
+                        builder.setNeutralButton("SMS",null);
+                        AlertDialog mAlertDialog = builder.create();
+                        mAlertDialog.show();
+                        Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        b.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
+                            public void onClick(View view) {
+                                MainActivity.sreenShort(view,ListActivity.this);
                             }
                         });
-                        builder.setNeutralButton("SMS", new DialogInterface.OnClickListener() {
+                        Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                        c.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
+                            public void onClick(View view) {
+                               MainActivity.shareText(ListActivity.this, diemThiTheoMon.getTenMon(), data.get(itemPosition).toString());
                             }
                         });
-                        builder.show();
                     }
                 }
             });
@@ -743,18 +806,28 @@ public class ListActivity extends AppCompatActivity {
                         webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
                         webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
                         builder.setView(webView);
-                        builder.setPositiveButton("Ảnh", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        });
-                        builder.setNeutralButton("SMS", new DialogInterface.OnClickListener() {
+                        builder.setNeutralButton("SMS",null);
+                        builder.setPositiveButton("IMG",null);
+                        AlertDialog mAlertDialog = builder.create();
+                        mAlertDialog.show();
+
+                        Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        b.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(View view) {
+                                MainActivity.sreenShort(view,ListActivity.this);
                             }
                         });
-                        builder.show();
+                        Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                        c.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                MainActivity.shareText(ListActivity.this,itemBangKetQuaHocTap.getTenMon(), data.get(itemPosition).toString());
+                            }
+                        });
+
+
                     }
 
                 }

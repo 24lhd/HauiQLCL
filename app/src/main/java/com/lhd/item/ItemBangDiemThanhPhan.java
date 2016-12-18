@@ -60,17 +60,14 @@ public class ItemBangDiemThanhPhan {
 
     @Override
     public String toString() {
-        return "ItemBangDiemThanhPhan{" +
-                "msv='" + msv + '\'' +
-                ", linkDiemMon='" + linkDiemMon + '\'' +
-                ", tenSv='" + tenSv + '\'' +
-                ", d1='" + d1 + '\'' +
-                ", d2='" + d2 + '\'' +
-                ", d3='" + d3 + '\'' +
-                ", d4='" + d4 + '\'' +
-                ", soTietNghi='" + soTietNghi + '\'' +
-                ", dTB='" + dTB + '\'' +
-                ", dieuKien='" + dieuKien + '\'' +
-                '}';
+        return
+                 tenSv +
+                        "\n(" + msv + ")" +
+                "\nĐiểm 1: " + d1 +
+                "\nĐiểm 2: " + d2 +
+                "\nĐiểm 3: " + d3 +
+                "\nĐiểm 2: " + d4 +
+                "\nĐiểm TB: " + dTB +    "\nNghỉ " + soTietNghi +
+                "\n" + dieuKien  ;
     }
 }

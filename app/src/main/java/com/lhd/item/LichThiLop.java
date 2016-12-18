@@ -15,15 +15,10 @@ public class LichThiLop {
 
     @Override
     public String toString() {
-        return "LichThiLop{" +
-                "maLop='" + maLop + '\'' +
-                ", tenMon='" + tenMon + '\'' +
-                ", ngayThi='" + ngayThi + '\'' +
-                ", gioThi='" + gioThi + '\'' +
-                ", lanThi='" + lanThi + '\'' +
-                ", tenLop='" + tenLop + '\'' +
-                ", khoa='" + khoa + '\'' +
-                '}';
+        return  "Kế hoạch thi \n" + tenMon  +
+                "(" + maLop +")"+
+                "\nNgày: " + ngayThi +
+                "\nLúc" + gioThi ;
     }
 
     public String getMaLop() {

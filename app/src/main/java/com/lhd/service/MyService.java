@@ -15,7 +15,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
@@ -166,9 +165,6 @@ public class MyService extends Service{
             try{
 
                 itemNotiDTTCsM = (ArrayList<ItemNotiDTTC>) msg.obj;
-                for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
-                    Log.e("faker",itemNotiDTTC.toString());
-                }
                 itemNotiDTTCsC=sqLiteManager.getNotiDTTC();
                 Log.e("faker", ""+itemNotiDTTCsC.size());
                 if (itemNotiDTTCsC.isEmpty()){
@@ -204,7 +200,7 @@ public class MyService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         log=new com.lhd.log.Log(this);
          id=log.getID();
-        Toast.makeText(this,"Gà Công Nghiệp kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
+//        Toast.makeText(this,"Gà Công Nghiệp kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
         sqLiteManager =new SQLiteManager(this);
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
         ketQuaHocTapTheoMon.execute(id);

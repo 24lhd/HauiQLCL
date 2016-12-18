@@ -9,14 +9,9 @@ public class ItemKetQuaThiLop {
 
     @Override
     public String toString() {
-        return "DiemThiTheoLop{" +
-                "msv='" + msv + '\'' +
-                ", linkKetQuaThiTheoMon='" + linkKetQuaThiTheoMon + '\'' +
-                ", ten='" + ten + '\'' +
-                ", dL1='" + dL1 + '\'' +
-                ", dL2='" + dL2 + '\'' +
-                ", ghiChu='" + ghiChu + '\'' +
-                '}';
+        return ten +
+                "\nMSV: " + msv +
+                "\nĐiểm thi: " + dL1 +"\n"+  ghiChu ;
     }
 
     public String getMsv() {

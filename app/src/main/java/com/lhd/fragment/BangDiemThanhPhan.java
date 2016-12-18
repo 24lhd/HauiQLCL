@@ -373,7 +373,7 @@ public class BangDiemThanhPhan extends Fragment {
                     webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
                     webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
                     builder.setView(webView);
-                    builder.setPositiveButton("Ảnh", null);
+                    builder.setPositiveButton("IMG", null);
                     builder.setNeutralButton("SMS",null);
 
                     final AlertDialog mAlertDialog = builder.create();
@@ -382,20 +382,14 @@ public class BangDiemThanhPhan extends Fragment {
                     b.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            mainActivity= (MainActivity) getActivity();
-                            mainActivity.sreenShort(getView(),getContext());
+                            MainActivity.sreenShort(getView(),getContext());
                         }
                     });
                     Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
                     c.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String shareBody = ""+itemBangKetQuaHocTap.toString();
-                            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                            sharingIntent.setType("text/plain");
-                            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Gà công nghiệp chia sẻ");
-                            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                            startActivity(Intent.createChooser(sharingIntent, "Chia sẻ thông tin"));
+                            MainActivity.shareText(getContext(), itemBangKetQuaHocTap.getTenMon(), itemBangKetQuaHocTap.toString());
                         }
                     });
                 }else {
@@ -407,8 +401,6 @@ public class BangDiemThanhPhan extends Fragment {
                     getActivity().startActivityForResult(intent,1);
                     getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
                 }
-
-
             }
         }).show();
     }

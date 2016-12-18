@@ -1,7 +1,6 @@
 package com.lhd.fragment;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -17,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -220,7 +220,7 @@ public class LichThiFragment extends Fragment {
         }
         @Override
         public void onClick(View view) {
-            int itemPosition = recyclerView.getChildLayoutPosition(view);
+            final int itemPosition = recyclerView.getChildLayoutPosition(view);
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(data.get(itemPosition).getMon());
             Date today=new Date(System.currentTimeMillis());
@@ -267,13 +267,24 @@ public class LichThiFragment extends Fragment {
                     "<p>tại <strong>"+data.get(itemPosition).getPhong()+"</strong><br> <strong>"+data.get(itemPosition).getThu()+"</strong> lúc <strong>"+data.get(itemPosition).getGio()+"</strong> ngày <strong>"+data.get(itemPosition).getNgay()+"</strong> <br><strong>"+toi+"</strong></p></body></html>";
             webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
             builder.setView(webView);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("IMG",null);
+            builder.setNeutralButton("SMS",null);
+            AlertDialog mAlertDialog = builder.create();
+            mAlertDialog.show();
+            Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            b.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
+                public void onClick(View view) {
+                    MainActivity.sreenShort(view,getActivity());
                 }
             });
-            builder.show();
+            Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+            c.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MainActivity.shareText(getActivity(),"Lịch thi môn "+data.get(itemPosition).getMon(), data.get(itemPosition).toString());
+                }
+            });
         }
     }
     private Handler handler=new Handler(){

@@ -57,16 +57,13 @@ public class LichThi {
 
     @Override
     public String toString() {
-        return "LichThi{" +
-                "mon='" + mon + '\'' +
-                ", thu='" + thu + '\'' +
-                ", ngay='" + ngay + '\'' +
-                ", gio='" + gio + '\'' +
-                ", sbd='" + sbd + '\'' +
-                ", lanthi='" + lanthi + '\'' +
-                ", phong='" + phong + '\'' +
-                ", diaDiem='" + diaDiem + '\'' +
-                ", ghiChu='" + ghiChu + '\'' +
-                '}';
+        return    "Lịch thi "+  getMon()+" "+
+                  thu +" "+ngay +" "+ gio +
+                " Số báo danh: " + sbd +
+                " Thi lần: " + lanthi +
+                " Phòng: " + phong +
+                " Tại " + diaDiem +" "+
+                  ghiChu
+                 ;
     }
 }

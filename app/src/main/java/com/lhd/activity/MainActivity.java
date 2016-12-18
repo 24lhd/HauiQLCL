@@ -91,10 +91,11 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.show();
     }
-    private ByteArrayOutputStream bytearrayoutputstream;
-    private Bitmap bitmap;
-    public void sreenShort(View viewInput,Context context) {
+
+    public static void sreenShort(View viewInput,Context context) {
         final Date now = new Date();
+         ByteArrayOutputStream bytearrayoutputstream;
+         Bitmap bitmap;
         android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
         File file;
         bytearrayoutputstream = new ByteArrayOutputStream();
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e) {
             e.printStackTrace();
         }
+        Toast.makeText(context,""+file.getPath(),Toast.LENGTH_SHORT).show();
         shareImage(file,context);
     }
     public static void shareImage(File file,Context context){
@@ -129,6 +131,16 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(context, "Không tìm thấy ứng dụng để mở file", Toast.LENGTH_SHORT).show();
         }
     }
+    public static void shareText(Context context, String tenMon, String text) {
+        String shareBody = tenMon+" \n"+text;
+        Toast.makeText(context,shareBody,Toast.LENGTH_SHORT).show();
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Gà công nghiệp chia sẻ");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        context.startActivity(Intent.createChooser(sharingIntent, "Chia sẻ thông tin"));
+    }
+
     public void setTitleTab(String titleTab) {
         sv=sqLiteManager.getSV(maSV);
         if (sv!=null){

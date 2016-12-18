@@ -21,7 +21,10 @@ public class DiemThiTheoMon implements Serializable{
     @Override
     public String toString() {
         return
-                tenMon +" " + dCuoiCung  ;
+                "Tên môn: " + tenMon +
+                "\nĐiểm thi lần 1: " + dLan1 +
+                "\nTổng kết: " + dTKLan1 +
+                "\nNgày: " + ngay1 +"\n" +ghiChu;
     }
 
     public String getLinkDiemThiTheoLop() {

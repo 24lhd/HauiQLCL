@@ -82,8 +82,14 @@ public class ItemBangKetQuaHocTap implements Serializable,Comparable<ItemBangKet
     @Override
     public String toString() {
         return
-                tenMon +
-                "  " + maMon ;
+                "Môn " + tenMon   +
+                "\n("+ maMon +")"+
+                "\nĐiểm 1: " + d1 +
+                "\nĐiểm 2: " + d2  +
+                "\nĐiểm 2: " + d3  +
+                "\nĐiểm giữa kì: " + dGiua   +
+                "\nĐiểm TB: " + dTB   +
+                "\nNghỉ: " + soTietNghi +" tiết\n" + dieuKien;
     }
 
     @Override

@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -417,19 +418,24 @@ public class KetQuaThiFragment extends Fragment {
                         webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
                         webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
                         builder.setView(webView);
-                        builder.setPositiveButton("Đã xem", new DialogInterface.OnClickListener() {
+                        builder.setNeutralButton("SMS",null);
+                        builder.setPositiveButton("IMG",null);
+                        AlertDialog mAlertDialog = builder.create();
+                        mAlertDialog.show();
+                        Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        b.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
+                            public void onClick(View view) {
+                                MainActivity.sreenShort(view,getActivity());
                             }
                         });
-                        builder.setNeutralButton("Chụp ảnh", new DialogInterface.OnClickListener() {
+                        Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                        c.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
+                            public void onClick(View view) {
+                                MainActivity.shareText(getActivity(),"Kết quả thi", data.get(itemPosition).toString());
                             }
                         });
-                        builder.show();
                     }
                 }
             });
