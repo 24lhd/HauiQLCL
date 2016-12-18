@@ -251,9 +251,7 @@ public class LichThiFragment extends Fragment {
                     "<meta charset=\"utf-8\">" +
                     "<style type=\"text/css\"media=\"screen\">" +
                     "*{" +
-                    "margin: auto;" +
                     "text-align: center;" +
-                    "background: white;" +
                     "}"+
                     "h1{" +
                     "color: #FF4081;" +

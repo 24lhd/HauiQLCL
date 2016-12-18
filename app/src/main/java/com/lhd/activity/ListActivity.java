@@ -484,8 +484,8 @@ public class ListActivity extends AppCompatActivity {
                     "("+data.get(itemPosition).getMaLop()+")<br/></p>"+"Lớp "
                     + data.get(itemPosition).getTenLop()+"<br/> ngày "+
                     data.get(itemPosition).getNgayThi()+"<br/> ca "+data.get(itemPosition).getGioThi()+
-
                     "<br/>" +
+                    "<em>Copyright  © Gà công nghiệp</em>"+
                     "</body>" +
                     "</html>";
             builder.setTitle("Kế hoạc thi");

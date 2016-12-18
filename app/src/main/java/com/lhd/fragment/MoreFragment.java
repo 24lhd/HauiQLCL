@@ -79,6 +79,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                         "<style type=\"text/css\" media=\"screen\">" +
                         "*{" +
                         "margin:0;padding: 0;" +
+                        "text-align: center;" +
                         "}" +
                         "table{" +
                         "width:100%;border:2px solid white;text-align:center;border-collapse:collapse;background-color:#E8F5E9;" +
