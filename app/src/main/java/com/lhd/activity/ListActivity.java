@@ -639,7 +639,8 @@ public class ListActivity extends AppCompatActivity {
                                 "<td>" +
                                 data.get(itemPosition).getdL1()+
                                 "</td>" +
-                                "</table>" +
+                                "</table>"+
+                                "<em>Copyright  © Gà công nghiệp</em>"+
                                 "</body>" +
                                 "</html>";
                         builder.setTitle("Điểm thi "+diemThiTheoMon.getTenMon());
@@ -799,6 +800,7 @@ public class ListActivity extends AppCompatActivity {
                                 "<td>"+data.get(itemPosition).getdTB()+"</td>" +
                                 "</tr>" +
                                 "</table>" +
+                                "<em>Copyright  © Gà công nghiệp</em>"+
                                 "</body>" +
                                 "</html>";
                         builder.setTitle("Kết quả học tập "+itemBangKetQuaHocTap.getTenMon());

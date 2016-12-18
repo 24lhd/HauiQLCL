@@ -364,6 +364,7 @@ public class BangDiemThanhPhan extends Fragment {
                             "<td>"+itemBangKetQuaHocTap.getdTB()+"</td>" +
                             "</tr>" +
                             "</table>" +
+                            "<em>Copyright  © Gà công nghiệp</em>"+
                             "</body>" +
                             "</html>";
 
@@ -382,7 +383,7 @@ public class BangDiemThanhPhan extends Fragment {
                     b.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            MainActivity.sreenShort(getView(),getContext());
+                            MainActivity.sreenShort(view,getContext());
                         }
                     });
                     Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);

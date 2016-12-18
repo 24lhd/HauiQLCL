@@ -411,6 +411,7 @@ public class KetQuaThiFragment extends Fragment {
                                 "</td>" +
                                 "</tr>" +
                                 "</table>" +
+                                "<em>Copyright  © Gà công nghiệp</em>"+
                                 "</body>" +
                                 "</html>";
                         builder.setTitle("Kết quả thi ");

@@ -244,13 +244,17 @@ public class LichThiFragment extends Fragment {
                 toi="Chuẩn bị thi :(";
             }else
                 toi="Đã thi !!!";
-
             WebView webView=new WebView(getActivity());
             String str="<!DOCTYPE html>" +
                     "<html>" +
                     "<head>" +
                     "<meta charset=\"utf-8\">" +
                     "<style type=\"text/css\"media=\"screen\">" +
+                    "*{" +
+                    "margin: auto;" +
+                    "text-align: center;" +
+                    "background: white;" +
+                    "}"+
                     "h1{" +
                     "color: #FF4081;" +
                     "background-color: #F5F5F5;" +
@@ -264,7 +268,11 @@ public class LichThiFragment extends Fragment {
                     "</head>" +
                     "<body>" +
                     "<h1>"+data.get(itemPosition).getSbd()+"</h1>" +
-                    "<p>tại <strong>"+data.get(itemPosition).getPhong()+"</strong><br> <strong>"+data.get(itemPosition).getThu()+"</strong> lúc <strong>"+data.get(itemPosition).getGio()+"</strong> ngày <strong>"+data.get(itemPosition).getNgay()+"</strong> <br><strong>"+toi+"</strong></p></body></html>";
+                    "<p>tại <strong>"+data.get(itemPosition).getPhong()+"</strong><br> " +
+                    "<strong>"+data.get(itemPosition).getThu()+"</strong> lúc <strong>"+data.get(itemPosition).getGio()+
+                    "</strong> ngày <strong>"+data.get(itemPosition).getNgay()+"</strong> <br><strong>"+toi+"</strong></p>" +
+                    "<em>Copyright  © Gà công nghiệp</em>"+
+                    "</body></html>";
             webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
             builder.setView(webView);
             builder.setPositiveButton("IMG",null);
