@@ -115,17 +115,13 @@ public class RadarDataSet extends LineRadarDataSet<RadarEntry> implements IRadar
 
     @Override
     public DataSet<RadarEntry> copy() {
-
         List<RadarEntry> yVals = new ArrayList<RadarEntry>();
-
         for (int i = 0; i < mValues.size(); i++) {
             yVals.add(mValues.get(i).copy());
         }
-
         RadarDataSet copied = new RadarDataSet(yVals, getLabel());
         copied.mColors = mColors;
         copied.mHighLightColor = mHighLightColor;
-
         return copied;
     }
 }

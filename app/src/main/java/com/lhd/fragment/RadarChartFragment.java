@@ -1,17 +1,11 @@
 package com.lhd.fragment;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +14,6 @@ import android.widget.TextView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.RadarData;
@@ -29,13 +22,11 @@ import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.ken.hauiclass.R;
-import com.lhd.activity.InputActivity;
 import com.lhd.activity.MainActivity;
 import com.lhd.chart.RadarMarkerView;
 import com.lhd.database.SQLiteManager;
 import com.lhd.item.DiemThiTheoMon;
 import com.lhd.item.SinhVien;
-import com.lhd.task.ParserKetQuaThiTheoMon;
 
 import java.util.ArrayList;
 
@@ -57,7 +48,6 @@ public class RadarChartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          view=inflater.inflate(R.layout.activity_radarchart_noseekbar,container,false);
-
         initView(view);
         return view;
     }
@@ -76,7 +66,6 @@ public class RadarChartFragment extends Fragment {
 
         @Override
         public void handleMessage(Message msg) {
-
             diemThiTheoMons= (ArrayList<DiemThiTheoMon>) msg.obj;
                 for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMons) {
                     if (!KetQuaThiFragment.isDouble(diemThiTheoMon.getdCuoiCung().split(" ")[0])){
@@ -104,51 +93,43 @@ public class RadarChartFragment extends Fragment {
                 a=0; bb=0; b=0; cc=0; c=0; dd=0; d=0; f=0;
                 int size=0;
                 for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMons) {
-                    if (diemThiTheoMon.getdCuoiCung().length()<=1) continue;
-                    if (diemThiTheoMon.getdCuoiCung().contains("*")) continue;
-                    String dc=diemThiTheoMon.getdCuoiCung().split(" ")[0];
-                    double n;
-                    if (KetQuaThiFragment.isDouble(dc)){
-                        try {
-                            n=Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[2]);
-                        }catch (Exception e){
-                            n=0;
-                        }
-                        double th;
-                        try {
-                            th= Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[1]);
-                        }catch (Exception e){
-                            th=0;
-                        }
-                        size++;
-                        switch(KetQuaThiFragment.charPoint(dc,n,th)){
+//                    if (diemThiTheoMon.getdCuoiCung().length()<=1) continue;
+//                    if (diemThiTheoMon.getdCuoiCung().contains("*")) continue;
+//                    String dc=diemThiTheoMon.getdCuoiCung().split(" ")[0];
+                        switch(KetQuaThiFragment.charPoint(diemThiTheoMon)){
                             case "A":
                                 a++;
+                                size++;
                                 break;
                             case "B+":
                                 bb++;
+                                size++;
                                 break;
                             case "B":
                                 b++;
+                                size++;
                                 break;
                             case "C+":
                                 cc++;
+                                size++;
                                 break;
                             case "C":
                                 c++;
+                                size++;
                                 break;
                             case "D+":
                                 dd++;
+                                size++;
                                 break;
                             case "D":
                                 d++;
+                                size++;
                                 break;
                             case "F":
                                 f++;
+                                size++;
                                 break;
                         }
-                    }
-
                 }
                 mChart.setBackgroundColor(Color.WHITE);
                 mChart.getDescription().setEnabled(false);
@@ -206,13 +187,13 @@ public class RadarChartFragment extends Fragment {
                 set1.setDrawHighlightIndicators(false);
                 ArrayList<IRadarDataSet> sets = new ArrayList<IRadarDataSet>();
                 sets.add(set1);
+
                 RadarData data = new RadarData(sets);
                 data.setValueTextSize(8f);
                 data.setDrawValues(false);
                 data.setValueTextColor(Color.WHITE);
                 mChart.setData(data);
                 mChart.invalidate();
-
                 sinhVien=sqLiteManager.getSV(getArguments().getString(MainActivity.MA_SV));
                 TextView tvTen = (TextView) view.findViewById(R.id.tv_ten);
                 tvTen.setTextColor(getResources().getColor(R.color.colorAccent));

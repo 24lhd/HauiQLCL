@@ -3,11 +3,4 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v4.widget.ContentLoadingProgressBar
-        android:layout_width="match_parent"
-        android:progress="40"
-        android:id="@+id/pbar_diem"
-        android:layout_gravity="center"
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_height="wrap_content" />
 </LinearLayout>

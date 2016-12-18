@@ -1,6 +1,5 @@
 package com.lhd.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,12 +11,15 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -30,7 +32,6 @@ import com.lhd.database.SQLiteManager;
 import com.lhd.item.ItemBangKetQuaHocTap;
 import com.lhd.item.KetQuaHocTap;
 import com.lhd.item.SinhVien;
-import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
 
 import java.io.Serializable;
@@ -56,11 +57,12 @@ public class BangDiemThanhPhan extends Fragment {
     private RecyclerView recyclerView;
     private TextView textView;
     private MainActivity mainActivity;
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.layout_fragment_in_main,container,false);
+         view=inflater.inflate(R.layout.layout_fragment_in_main,container,false);
         initView(view);
         return view;
     }
@@ -295,8 +297,9 @@ public class BangDiemThanhPhan extends Fragment {
             showCustomViewDialog(diemHocTapTheoMon);
         }
     }
+
     private void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
-        String[] list = new String[]{"Bảng điểm học tâp", "Kế hoạch thi theo lớp"};
+        String[] list = new String[]{"Bảng điểm học tâp", "Kế hoạch thi theo lớp","Xem điểm "+itemBangKetQuaHocTap.getTenMon()};
         final AlertDialogPro.Builder alertDialogPro=new AlertDialogPro.Builder(getContext(), mTheme);
         alertDialogPro.setTitle(itemBangKetQuaHocTap.getTenMon()).setItems(list, new DialogInterface.OnClickListener() {
             @Override
@@ -307,13 +310,104 @@ public class BangDiemThanhPhan extends Fragment {
                         dialogInterface.dismiss();
                     }
                 });
-                Intent intent=new Intent(getActivity(),ListActivity.class);
-                intent.putExtra(KEY_OBJECT, (Serializable) itemBangKetQuaHocTap);
-                Bundle bundle=new Bundle();
-                bundle.putInt(KEY_ACTIVITY,i);
-                intent.putExtra("action",bundle);
-                getActivity().startActivityForResult(intent,1);
-                getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
+                if (i==2){
+                    String str="<!DOCTYPE html>" +
+                            "<html>" +
+                            "<head>" +
+                            "<title></title>" +
+                            "<style type=\"text/css\" media=\"screen\">" +
+                            "*{" +
+                            "margin: auto;" +
+                            "text-align: center;" +
+                            "background: white;"+
+                            "}" +
+                            "h3{" +
+                            "color: #FF4081;" +
+                            "}" +
+                            "p{" +
+                            "color: #42A5F5;" +
+                            "}" +
+                            "table{" +
+                            "width: 100%;" +
+                            "}"+
+                            "th {" +
+                            "background-color: #42A5F5;" +
+                            "color: white;" +
+                            "padding: 5px;" +
+                            "font-size: small;"+
+                            "}" +
+                            "td{padding: 5px;background-color: #f2f2f2;font-weight:bold;color: red;}" +
+                            "</style>" +
+                            "</head>" +
+                            "<body>" +
+                            "<h3>" +
+                            itemBangKetQuaHocTap.getTenMon() +
+                            "</h3>" +
+                            "<p>" +
+                            "("+itemBangKetQuaHocTap.getMaMon()+")<br/>" +
+                            "" +
+                            "</p>" +
+                            "<small>"+"Bỏ "+itemBangKetQuaHocTap.getSoTietNghi()+" tiết - "+itemBangKetQuaHocTap.getDieuKien()+"</small>" +
+                            "<table>" +
+                            "<tr>" +
+                            "<th>Điểm 1</th>" +
+                            "<th>Điểm 2</th>" +
+                            "<th>Điểm 3</th>" +
+                            "<th>Điểm giữa kì</th>" +
+                            "<th>Tổng kết</th>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<td>"+itemBangKetQuaHocTap.getD1()+"</td>" +
+                            "<td>"+itemBangKetQuaHocTap.getD2()+"</td>" +
+                            "<td>"+itemBangKetQuaHocTap.getD3()+"</td>" +
+                            "<td>"+itemBangKetQuaHocTap.getdGiua()+"</td>" +
+                            "<td>"+itemBangKetQuaHocTap.getdTB()+"</td>" +
+                            "</tr>" +
+                            "</table>" +
+                            "</body>" +
+                            "</html>";
+
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Kết quả học tập");
+                    WebView webView=new WebView(getActivity());
+                    webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
+                    webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
+                    builder.setView(webView);
+                    builder.setPositiveButton("Ảnh", null);
+                    builder.setNeutralButton("SMS",null);
+
+                    final AlertDialog mAlertDialog = builder.create();
+                    mAlertDialog.show();
+                    Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                    b.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mainActivity= (MainActivity) getActivity();
+                            mainActivity.sreenShort(getView(),getContext());
+                        }
+                    });
+                    Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                    c.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String shareBody = ""+itemBangKetQuaHocTap.toString();
+                            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            sharingIntent.setType("text/plain");
+                            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Gà công nghiệp chia sẻ");
+                            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                            startActivity(Intent.createChooser(sharingIntent, "Chia sẻ thông tin"));
+                        }
+                    });
+                }else {
+                    Intent intent=new Intent(getActivity(),ListActivity.class);
+                    intent.putExtra(KEY_OBJECT, (Serializable) itemBangKetQuaHocTap);
+                    Bundle bundle=new Bundle();
+                    bundle.putInt(KEY_ACTIVITY,i);
+                    intent.putExtra("action",bundle);
+                    getActivity().startActivityForResult(intent,1);
+                    getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
+                }
+
 
             }
         }).show();

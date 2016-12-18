@@ -1,18 +1,21 @@
 package com.lhd.activity;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -20,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ken.hauiclass.R;
 import com.lhd.database.SQLiteManager;
@@ -34,6 +38,11 @@ import com.lhd.log.Log;
 import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.TimeTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
 
 /**
  * Created by Duong on 11/20/2016.
@@ -81,6 +90,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+    private ByteArrayOutputStream bytearrayoutputstream;
+    private Bitmap bitmap;
+    public void sreenShort(View viewInput,Context context) {
+        final Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+        File file;
+        bytearrayoutputstream = new ByteArrayOutputStream();
+        FileOutputStream fileoutputstream;
+        View view=viewInput.getRootView();
+       view.setDrawingCacheEnabled(true);
+        bitmap = view.getDrawingCache();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 60, bytearrayoutputstream);
+        file = new File( Environment.getExternalStorageDirectory() + "/GaCongNghiep/"+now+".png");
+        file.getParentFile().mkdirs();
+        try{
+            file.createNewFile();
+            fileoutputstream = new FileOutputStream(file);
+            fileoutputstream.write(bytearrayoutputstream.toByteArray());
+            fileoutputstream.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        shareImage(file,context);
+    }
+    public static void shareImage(File file,Context context){
+        Uri uri = Uri.fromFile(file);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        try {
+            context.startActivity(Intent.createChooser(intent, "Share Screenshot"));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "Không tìm thấy ứng dụng để mở file", Toast.LENGTH_SHORT).show();
+        }
     }
     public void setTitleTab(String titleTab) {
         sv=sqLiteManager.getSV(maSV);

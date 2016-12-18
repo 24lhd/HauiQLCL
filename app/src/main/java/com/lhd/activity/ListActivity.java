@@ -2,6 +2,7 @@ package com.lhd.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -58,6 +61,7 @@ public class ListActivity extends AppCompatActivity {
     private DiemThanhPhan diemThanhPhan;
     private KetQuaThi ketQuaThi;
     private Toolbar toolbarMenu;
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -514,16 +518,96 @@ public class ListActivity extends AppCompatActivity {
         }
         @Override
         public void onClick(View view) {
-            int itemPosition = recyclerView.getChildLayoutPosition(view);
+            final int itemPosition = recyclerView.getChildLayoutPosition(view);
+            builder = new AlertDialog.Builder(ListActivity.this);
+            builder.setTitle(data.get(itemPosition).getTen());
+            final String [] list={" Xem thông tin","Xem điểm thi "+diemThiTheoMon.getTenMon()};
+            builder.setItems(list, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (i==0){
+                        Intent intent=getIntent();
+                        intent.putExtra(MainActivity.MA_SV,data.get(itemPosition).getMsv());
+                        setResult(Activity.RESULT_OK,intent);
+                        finish();
+                        overridePendingTransition(R.anim.left_end, R.anim.right_end);
+                    }else{
+                        builder = new AlertDialog.Builder(ListActivity.this);builder.create();
+                        String str="<!DOCTYPE html>" +
+                                "<html>" +
+                                "<head>" +
+                                "<title></title>" +
+                                "<style type=\"text/css\" media=\"screen\">" +
+                                "*{" +
+                                "margin: auto;" +
+                                "text-align: center;" +
+                                "background: white;" +
+                                "}" +
+                                "h2{" +
+                                "color: #FF4081;" +
+                                "}" +
+                                "p{" +
+                                "color: #42A5F5;" +
+                                "}" +
+                                "table{" +
+                                "width: 100%;" +
+                                "}"+
+                                "th {" +
+                                "background-color: #42A5F5;" +
+                                "color: white;" +
+                                "padding: 15px;" +
+                                "}" +
+                                "td{" +
+                                "background-color: #f2f2f2;" +
+                                "font-weight:bold;" +
+                                "color: red;" +
+                                "padding: 15px;" +
+                                "}" +
+                                "</style>" +
+                                "</head>" +
+                                "<body>" +
+                                "<h2>" +
+                               data.get(itemPosition).getTen() +
+                                "</h2>" +
+                                "<p>" +
+                                data.get(itemPosition).getMsv() +
+                                "</p>" +
+                                "<small>" +
+                                 data.get(itemPosition).getGhiChu() +
+                                "</small>" +
+                                "<table>" +
+                                "<tr>" +
+                                "<th>Điểm thi</th>" +
+                                "<td>" +
+                                data.get(itemPosition).getdL1()+
+                                "</td>" +
+                                "</table>" +
+                                "</body>" +
+                                "</html>";
+                        builder.setTitle("Điểm thi "+diemThiTheoMon.getTenMon());
+                        WebView webView=new WebView(ListActivity.this);
+                        webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
+                        webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
+                        builder.setView(webView);
+                        builder.setPositiveButton("Ảnh", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.setNeutralButton("SMS", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                    }
+                }
+            });
 
-//            Bundle bundle=new Bundle();
-//            bundle.putString(MainActivity.MA_SV,data.get(itemPosition).getMsv());
-//            intent.putExtra(MainActivity.MA_SV,bundle);
-            Intent intent=getIntent();
-            intent.putExtra(MainActivity.MA_SV,data.get(itemPosition).getMsv());
-            setResult(Activity.RESULT_OK,intent);
-            android.util.Log.e("faker1","putExtra");
-            finish();
+            builder.show();
+
         }
     }
     class ItemDiemThanhPhan extends RecyclerView.ViewHolder{ // tao mot đói tượng
@@ -583,12 +667,101 @@ public class ListActivity extends AppCompatActivity {
         }
         @Override
         public void onClick(View view) {
-            int itemPosition = recyclerView.getChildLayoutPosition(view);
-            Intent returnIntent=getIntent();
-            returnIntent.putExtra(MainActivity.MA_SV,data.get(itemPosition).getMsv());
-            setResult(Activity.RESULT_OK,returnIntent);
-            android.util.Log.e("faker1","setResult");
-            finish();
+            final int itemPosition = recyclerView.getChildLayoutPosition(view);
+            builder = new AlertDialog.Builder(ListActivity.this);
+            builder.setTitle(data.get(itemPosition).getTenSv());
+            final String [] list={" Xem thông tin","Xem điểm "+itemBangKetQuaHocTap.getTenMon()};
+            builder.setItems(list, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (i==0){
+                        Intent returnIntent=getIntent();
+                        returnIntent.putExtra(MainActivity.MA_SV,data.get(itemPosition).getMsv());
+                        setResult(Activity.RESULT_OK,returnIntent);
+                        android.util.Log.e("faker1","setResult");
+                        finish();
+                        overridePendingTransition(R.anim.left_end, R.anim.right_end);
+                    }else{
+                        builder = new AlertDialog.Builder(ListActivity.this);builder.create();
+                        String str="<!DOCTYPE html>" +
+                                "<html>" +
+                                "<head>" +
+                                "<title></title>" +
+                                "<style type=\"text/css\" media=\"screen\">" +
+                                "*{" +
+                                "margin: auto;" +
+                                "text-align: center;" +
+                                "background: white;"+
+                                "}" +
+                                "h3{" +
+                                "color: #FF4081;" +
+                                "}" +
+                                "p{" +
+                                "color: #42A5F5;" +
+                                "}" +
+                                "table{" +
+                                "width: 100%;" +
+                                "}"+
+                                "th {" +
+                                "background-color: #42A5F5;" +
+                                "color: white;" +
+                                "padding: 5px;" +
+                                "font-size: small;"+
+                                "}" +
+                                "td{padding: 5px;background-color: #f2f2f2;font-weight:bold;color: red;}" +
+                                "</style>" +
+                                "</head>" +
+                                "<body>" +
+                                "<h3>" +
+                                data.get(itemPosition).getTenSv()+
+                                "</h3>" +
+                                "<p>" +
+                                "("+data.get(itemPosition).getMsv()+")<br/>" +
+                                "" +
+                                "</p>" +
+                                "<small>"+"Bỏ "+data.get(itemPosition).getSoTietNghi()+" tiết - "+data.get(itemPosition).getDieuKien()+"</small>" +
+                                "<table>" +
+                                "<tr>" +
+                                "<th>Điểm 1</th>" +
+                                "<th>Điểm 2</th>" +
+                                "<th>Điểm 3</th>" +
+                                "<th>Điểm 4</th>" +
+                                "<th>Tổng kết</th>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td>"+data.get(itemPosition).getD1()+"</td>" +
+                                "<td>"+data.get(itemPosition).getD2()+"</td>" +
+                                "<td>"+data.get(itemPosition).getD3()+"</td>" +
+                                "<td>"+data.get(itemPosition).getD4()+"</td>" +
+                                "<td>"+data.get(itemPosition).getdTB()+"</td>" +
+                                "</tr>" +
+                                "</table>" +
+                                "</body>" +
+                                "</html>";
+                        builder.setTitle("Kết quả học tập "+itemBangKetQuaHocTap.getTenMon());
+                        WebView webView=new WebView(ListActivity.this);
+                        webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
+                        webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
+                        builder.setView(webView);
+                        builder.setPositiveButton("Ảnh", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        builder.setNeutralButton("SMS", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                        builder.show();
+                    }
+
+                }
+            });
+
+            builder.show();
+
         }
 
     }

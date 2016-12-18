@@ -3,17 +3,11 @@ package com.lhd.fragment;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,18 +17,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ken.hauiclass.R;
-import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
-import com.lhd.item.DiemThiTheoMon;
 import com.lhd.item.ItemNotiDTTC;
-import com.lhd.task.ParserNotiDTTC;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -76,8 +65,6 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
     };
 
     public void setCurrenView(final int currenView) {
-//        FragmentManager fragmentManager = getFragmentManager();
-//        FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
         mainActivity.setCurrenItem(currenView);
         switch (currenView){
             case 0:

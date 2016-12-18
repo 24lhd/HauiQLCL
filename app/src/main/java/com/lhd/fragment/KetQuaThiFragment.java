@@ -1,6 +1,7 @@
 package com.lhd.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -11,11 +12,13 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -50,7 +53,7 @@ public class KetQuaThiFragment extends Fragment {
     private PullRefreshLayout pullRefreshLayout;
     private RecyclerView recyclerView;
     private MainActivity mainActivity;
-
+    private AlertDialog.Builder builder;
 
 
     @Nullable
@@ -328,19 +331,136 @@ public class KetQuaThiFragment extends Fragment {
         }
         @Override
         public void onClick(View view) {
-            int itemPosition = recyclerView.getChildLayoutPosition(view);
-            Intent intent=new Intent(getActivity(),ListActivity.class);
-            intent.putExtra(KEY_OBJECT, (Serializable) data.get(itemPosition));
-            Bundle bundle=new Bundle();
-            bundle.putInt(KEY_ACTIVITY,3);
-            intent.putExtra("action",bundle);
-            getActivity().startActivityForResult(intent,1);
-//            getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
+            final int itemPosition = recyclerView.getChildLayoutPosition(view);
+            builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(data.get(itemPosition).getTenMon());
+            final String [] list={" Xem kết quả thi lớp","Xem điểm "+data.get(itemPosition).getTenMon()};
+            builder.setItems(list, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (i==0){
+                        Intent intent=new Intent(getActivity(),ListActivity.class);
+                        intent.putExtra(KEY_OBJECT, (Serializable) data.get(itemPosition));
+                        Bundle bundle=new Bundle();
+                        bundle.putInt(KEY_ACTIVITY,3);
+                        intent.putExtra("action",bundle);
+                        getActivity().startActivityForResult(intent,1);
+                        getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
+                    }else{
+                        builder = new AlertDialog.Builder(getActivity());builder.create();
+                        String str="<!DOCTYPE html>" +
+                                "<html>" +
+                                "<head>" +
+                                "<title></title>" +
+                                "<style type=\"text/css\" media=\"screen\">" +
+                                "*{" +
+                                "margin: auto;" +
+                                "text-align: center;" +
+                                "background: white;" +
+                                "}" +
+                                "h2{" +
+                                "color: #FF4081;" +
+                                "}" +
+                                "p{" +
+                                "color: #42A5F5;" +
+                                "}" +
+                                "table{" +
+                                "width: 100%;" +
+                                "}"+
+                                "th {" +
+                                "background-color: #42A5F5;" +
+                                "color: white;" +
+                                "padding: 15px;" +
+                                "}" +
+                                "td{" +
+                                "padding: 15px;" +
+                                "background-color: #f2f2f2;" +
+                                "font-weight:bold;" +
+                                "color: red;" +
+                                "}" +
+                                "</style>" +
+                                "</head>" +
+                                "<body>" +
+                                "<h2>" +
+                                data.get(itemPosition).getTenMon() +
+                                "</h2>" +
+                                "<p>" +
+                                data.get(itemPosition).getNgay1() +
+                                "</p>" +
+                                "<small>" +
+                                data.get(itemPosition).getGhiChu()+
+                                "</small>" +
+                                "<table>" +
+                                "<tr>" +
+                                "" +
+                                "<th>Điểm thi</th>" +
+                                "<th>Tổng kết</th>" +
+                                "<th>Điểm chữ</th>" +
+                                "" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td>" +
+                                data.get(itemPosition).getdLan1() +
+                                "</td>" +
+                                "<td>" +
+                                data.get(itemPosition).getdTKLan1()+
+                                "</td>" +
+                                "<td>" +
+                                charPoint(data.get(itemPosition))+
+                                "</td>" +
+                                "</tr>" +
+                                "</table>" +
+                                "</body>" +
+                                "</html>";
+                        builder.setTitle("Kết quả thi ");
+                        WebView webView=new WebView(getActivity());
+                        webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
+                        webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
+                        builder.setView(webView);
+                        builder.setPositiveButton("Đã xem", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.setNeutralButton("Chụp ảnh", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                    }
+                }
+            });
+
+            builder.show();
+
         }
     }
 
-    public static String charPoint(String dc,double n,double th) {
-        double d= Double.parseDouble(dc);
+    public static String charPoint(DiemThiTheoMon diemThiTheoMon) {
+        if (diemThiTheoMon.getdCuoiCung().length()<=1) return "*";
+        if (diemThiTheoMon.getdCuoiCung().contains("*")) return "*";
+        double n;
+        try {
+            n=Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[2]);
+        }catch (Exception e){
+            n=0;
+        }
+        double th;
+        try {
+            th= Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[1]);
+        }catch (Exception e){
+            th=0;
+        }
+        double d;
+        try {
+         d= Double.parseDouble(diemThiTheoMon.getdCuoiCung().split(" ")[0]);
+        }catch (NumberFormatException e){
+            return "*";
+        }
+
         if (d>=8.5){
             return "A";
         }else if(d>=7.7&&n>=2015){
