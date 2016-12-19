@@ -706,7 +706,7 @@ public class ListActivity extends AppCompatActivity {
         }
         @Override
         public ListActivity.ItemDiemThanhPhan onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(ListActivity.this).inflate(R.layout.list_point_student, parent, false);
+            View view = LayoutInflater.from(ListActivity.this).inflate(R.layout.item_diem_sinh_vien, parent, false);
             view.setOnClickListener(this);
             ListActivity.ItemDiemThanhPhan holder = new ListActivity.ItemDiemThanhPhan(view);
             return holder;

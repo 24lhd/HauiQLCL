@@ -32,7 +32,6 @@ import java.util.ArrayList;
  */
 
 public class MoreFragment extends Fragment implements AdapterView.OnItemClickListener{
-    private WebView textView;
     private MainActivity mainActivity;
     private ListView listView;
     private RecyclerView recyclerView;
@@ -69,8 +68,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
         switch (currenView){
             case 0:
                 final AlertDialog.Builder builderlich = new AlertDialog.Builder(getActivity());
-                View view2=getActivity().getLayoutInflater().inflate(R.layout.layout_gio_ly_thuyet,null);
-                textView= (WebView) view2.findViewById(R.id.text_more);
+                WebView webView=new WebView(getContext());
                 String str3;
                 builderlich.setTitle(PENS[currenView]);
                 str3="<!DOCTYPEhtml><html>" +
@@ -98,14 +96,14 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                         "<em>Copyright  © Gà công nghiệp</em>"+
                         "</body>" +
                         "</html>";
-                textView.loadDataWithBaseURL(null,str3, "text/html", "utf-8",null);
+                webView.loadDataWithBaseURL(null,str3, "text/html", "utf-8",null);
                 builderlich.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
-                builderlich.setView(view2);
+                builderlich.setView(webView);
                 builderlich.setNeutralButton("IMG",null);
                 AlertDialog mAlertDialog = builderlich.create();
                 mAlertDialog.show();
@@ -179,10 +177,10 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                         "</html>";
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(PENS[currenView]);
-                WebView webView=new WebView(getActivity());
-                webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
-                webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
-                builder.setView(webView);
+                WebView webView2=new WebView(getActivity());
+                webView2.setBackgroundColor(getResources().getColor(R.color.bg_text));
+                webView2.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
+                builder.setView(webView2);
                 builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

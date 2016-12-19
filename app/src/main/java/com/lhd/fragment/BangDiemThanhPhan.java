@@ -149,7 +149,7 @@ public class BangDiemThanhPhan extends FrameFragment {
         }
         @Override
         public ItemDanhSachLop onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_point_class, parent, false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_bang_diem_thanh_phan, parent, false);
             view.setOnClickListener(this);
             ItemDanhSachLop holder = new ItemDanhSachLop(view);
             return holder;

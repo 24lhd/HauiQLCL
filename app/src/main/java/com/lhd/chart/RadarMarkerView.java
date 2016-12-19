@@ -17,23 +17,16 @@ import java.text.DecimalFormat;
  * @author Philipp Jahoda
  */
 public class RadarMarkerView extends MarkerView {
-
     private TextView tvContent;
     private DecimalFormat format = new DecimalFormat("##0");
-
     public RadarMarkerView(Context context, int layoutResource) {
         super(context, layoutResource);
-
         tvContent = (TextView) findViewById(R.id.tvContent);
-//        tvContent.setTypeface(Typeface.createFromAsset(context.getAssets(), "OpenSans-Light.ttf"));
     }
 
-    // callbacks everytime the MarkerView is redrawn, can be used to update the
-    // content (user-interface)
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         tvContent.setText((format.format(e.getY()-50)) + " %");
-
         super.refreshContent(e, highlight);
     }
 

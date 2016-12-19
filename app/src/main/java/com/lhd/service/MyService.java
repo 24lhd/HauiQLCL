@@ -14,7 +14,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.app.NotificationCompat;
 
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
@@ -47,7 +47,7 @@ public class MyService extends Service{
     private SQLiteManager sqLiteManager;
     private com.lhd.log.Log log;
     private String id;
-    private Notification.Builder nBuilder;
+    private NotificationCompat.Builder nBuilder;
     private  NotificationManager mNotifyMgr;
     private  PendingIntent resultPendingIntent;
     private Handler handler=new Handler(){
@@ -145,15 +145,15 @@ public class MyService extends Service{
         Random random=new Random();
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(),  random.nextInt(1000), resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nBuilder = new Notification.Builder(getApplicationContext())
+
+        nBuilder = new NotificationCompat.Builder(getApplicationContext())
                 .setSmallIcon(R.drawable.icon_app)
                 .setVibrate(l)
-                .setSound(alarmSound)
-                .setContentTitle(title)
+                .setSound(alarmSound).setStyle(new NotificationCompat.BigTextStyle().bigText(content)).addAction (android.R.drawable.ic_dialog_email,"Xem", resultPendingIntent)
+                .setContentTitle(title).setDefaults(Notification.DEFAULT_ALL)
                 .setContentText(content)
                 .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true);
-//                .setFullScreenIntent(resultPendingIntent,false);
         int mNotificationId = random.nextInt(1000);
             mNotifyMgr.notify(mNotificationId, nBuilder.build());
     }
@@ -166,7 +166,6 @@ public class MyService extends Service{
 
                 itemNotiDTTCsM = (ArrayList<ItemNotiDTTC>) msg.obj;
                 itemNotiDTTCsC=sqLiteManager.getNotiDTTC();
-                Log.e("faker", ""+itemNotiDTTCsC.size());
                 if (itemNotiDTTCsC.isEmpty()){
                     sqLiteManager.deleteItemNotiDTTC();
                     for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
@@ -182,13 +181,17 @@ public class MyService extends Service{
                         }
                     }else{
                         for (int i = 0; i < itemNotiDTTCsM.size(); i++) {
-                            if (!itemNotiDTTCsM.get(i).getTitle().equals(itemNotiDTTCsC.get(i).getTitle())){
-                                showNoti("Thông báo từ Gà Công Nghiệp",itemNotiDTTCsM.get(i).getTitle(),4);
-                                sqLiteManager.deleteItemNotiDTTC();
-                                for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
-                                    sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
+                            boolean flag=true;
+                            for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsC) {
+                                if (itemNotiDTTCsM.get(i).getTitle().equals(itemNotiDTTC.getTitle())){
+                                    flag=false;
                                 }
                             }
+                            if (flag) showNoti("Thông báo từ Gà Công Nghiệp",itemNotiDTTCsM.get(i).getTitle(),4);
+                        }
+                        sqLiteManager.deleteItemNotiDTTC();
+                        for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
+                            sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
                         }
                     }
                 }

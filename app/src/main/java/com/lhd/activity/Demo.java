@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,7 +49,7 @@ public class Demo extends Activity {
             }
             @Override
             public ItemNoti onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.card_noti_qlcl, parent, false);
+                View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_noti_qlcl, parent, false);
                 view.setOnClickListener(this);
                 ItemNoti holder = new ItemNoti(view);
                 return holder;

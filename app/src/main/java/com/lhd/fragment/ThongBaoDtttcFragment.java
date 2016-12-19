@@ -1,9 +1,7 @@
 package com.lhd.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,16 +21,11 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
-import com.lhd.item.DiemThiTheoMon;
 import com.lhd.item.ItemNotiDTTC;
-import com.lhd.item.SinhVien;
-import com.lhd.task.ParserKetQuaThiTheoMon;
 import com.lhd.task.ParserLinkFileNoti;
 import com.lhd.task.ParserNotiDTTC;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Created by D on 12/15/2016.
@@ -51,7 +44,7 @@ public class ThongBaoDtttcFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.layout_fragment_in_main,container,false);
+        View view=inflater.inflate(R.layout.layout_frame_fragment,container,false);
         initView(view);
         return view;
     }
@@ -199,7 +192,7 @@ public class ThongBaoDtttcFragment extends Fragment {
         }
         @Override
         public ItemNoti onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.card_noti_qlcl, parent, false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_noti_qlcl, parent, false);
             view.setOnClickListener(this);
             ItemNoti holder = new ItemNoti(view);
             return holder;
