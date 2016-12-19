@@ -1,35 +1,26 @@
 package com.lhd.fragment;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
-import com.lhd.database.SQLiteManager;
 import com.lhd.item.DiemThiTheoMon;
-import com.lhd.item.SinhVien;
 import com.lhd.task.ParserKetQuaThiTheoMon;
 
 import java.io.Serializable;
@@ -42,18 +33,8 @@ import static java.lang.Double.parseDouble;
 /**
  * Created by Faker on 8/25/2016.
  */
-public class KetQuaThiFragment extends Fragment {
-    public static final String KEY_OBJECT = "send_object";
-    public static final String KEY_ACTIVITY = "key_start_activity";
-    private TextView tVnull;
-    private ProgressBar progressBar;
-    private SQLiteManager sqLiteManager;
+public class KetQuaThiFragment extends FrameFragment {
     private  ArrayList<DiemThiTheoMon> diemThiTheoMons;
-    private SinhVien sv;
-    private String maSV;
-    private PullRefreshLayout pullRefreshLayout;
-    private RecyclerView recyclerView;
-    private MainActivity mainActivity;
     private AlertDialog.Builder builder;
 
 
@@ -64,34 +45,11 @@ public class KetQuaThiFragment extends Fragment {
         initView(view);
         return view;
     }
-
-    private void initView(View view) {
-         mainActivity = (MainActivity) getActivity();
-        sqLiteManager=new SQLiteManager(mainActivity);
-        maSV=getArguments().getString(MainActivity.MA_SV);
-        pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-        progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
-        tVnull= (TextView) view.findViewById(R.id.text_null);
-        recyclerView= (RecyclerView) view.findViewById(R.id.recle_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        refesh();
-        checkDatabase();
-        pullRefreshLayout.setRefreshing(false);
-    }
-    public boolean isOnline() {
-        try {
-            ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            return cm.getActiveNetworkInfo().isConnectedOrConnecting();
-        }catch (Exception e) {
-            return false;
-        }
-    }
-    private void refesh() {
+    public void refesh() {
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (isOnline()){
+                if (MainActivity.isOnline(getActivity())){
                     sqLiteManager.deleteDThiMon(maSV);
                     startParser();
                 }else{
@@ -101,17 +59,7 @@ public class KetQuaThiFragment extends Fragment {
             }
         });
     }
-    private void showRecircleView() {
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
-        tVnull.setVisibility(View.GONE);
-    }
-    private void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-        tVnull.setVisibility(View.GONE);
-    }
-    private void checkDatabase() {
+    public void checkDatabase() {
         showProgress();
         diemThiTheoMons=sqLiteManager.getAllDThiMon(maSV);
         if (!diemThiTheoMons.isEmpty()){
@@ -123,56 +71,13 @@ public class KetQuaThiFragment extends Fragment {
 
 
     }
-    private void startParser() {
+    public void startParser() {
         ParserKetQuaThiTheoMon parserKetQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
         parserKetQuaThiTheoMon.execute(maSV);
 
 
     }
-    private void showTextNull() {
-        progressBar.setVisibility(View.GONE);
-        tVnull.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-    }
-    private void cantLoadData() {
-        showTextNull();
-        tVnull.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isOnline()){
-                    showProgress();
-                    startParser();
-                }else {
-                    final Snackbar snackbar=Snackbar.make(recyclerView, "Vui lòng bật kết nối internet!",Snackbar.LENGTH_SHORT);
-
-                    snackbar.setActionTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                    snackbar.setAction("Bật wifi", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            WifiManager wifiManager = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
-                            wifiManager.setWifiEnabled(true);
-                            showProgress();
-                            snackbar.dismiss();
-                            startParser();
-
-                        }
-                    });
-                    snackbar.show();
-
-
-                }
-            }
-        });
-    }
-    private void loadData() {
-        if (isOnline()){
-            showProgress();
-            startParser();
-        }else{
-            cantLoadData();
-        }
-    }
-    private void setRecyclerView() {
+    public void setRecyclerView() {
         Collections.sort(diemThiTheoMons, new Comparator<DiemThiTheoMon>() {
             @Override
             public int compare(DiemThiTheoMon o1, DiemThiTheoMon o2) {
@@ -414,7 +319,7 @@ public class KetQuaThiFragment extends Fragment {
                                 "<em>Copyright  © Gà công nghiệp</em>"+
                                 "</body>" +
                                 "</html>";
-                        builder.setTitle("Kết quả thi ");
+                        builder.setTitle("Kết quả thi của ");
                         WebView webView=new WebView(getActivity());
                         webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
                         webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);

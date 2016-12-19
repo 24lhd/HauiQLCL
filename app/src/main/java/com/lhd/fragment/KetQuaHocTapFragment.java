@@ -33,10 +33,8 @@ import java.util.Comparator;
  * Created by Faker on 8/25/2016.
  */
 
-public class BangDiemThanhPhan extends FrameFragment {
-
+public class KetQuaHocTapFragment extends FrameFragment {
     private ArrayList<ItemBangKetQuaHocTap> bangKetQuaHocTaps;
-    private SinhVien sv;
     public void refesh() {
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
@@ -250,7 +248,7 @@ public class BangDiemThanhPhan extends FrameFragment {
                             "</html>";
 
                      AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Kết quả học tập");
+                    builder.setTitle("Kết quả học tập của "+sv.getTenSV());
                     WebView webView=new WebView(getActivity());
                     webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
                     webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);

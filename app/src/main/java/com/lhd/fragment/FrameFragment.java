@@ -20,6 +20,7 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
+import com.lhd.item.SinhVien;
 
 /**
  * Created by D on 12/19/2016.
@@ -37,6 +38,7 @@ public abstract class FrameFragment extends Fragment{
     protected String maSV;
     protected PullRefreshLayout pullRefreshLayout;
     protected MainActivity mainActivity;
+    protected SinhVien sv;
     protected abstract void startParser();
     public void cantLoadData() {
         showTextNull();
@@ -104,6 +106,7 @@ public abstract class FrameFragment extends Fragment{
         maSV=getArguments().getString(MainActivity.MA_SV);
         pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
+        sv= (SinhVien) getArguments().get(MainActivity.SINH_VIEN);
         tVnull= (TextView) view.findViewById(R.id.text_null);
         recyclerView= (RecyclerView) view.findViewById(R.id.recle_view);
         recyclerView.setHasFixedSize(true);

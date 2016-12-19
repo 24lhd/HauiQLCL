@@ -23,7 +23,6 @@ public class RadarMarkerView extends MarkerView {
         super(context, layoutResource);
         tvContent = (TextView) findViewById(R.id.tvContent);
     }
-
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         tvContent.setText((format.format(e.getY()-50)) + " %");

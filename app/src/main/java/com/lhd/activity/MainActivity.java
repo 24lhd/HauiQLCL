@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 import com.ken.hauiclass.R;
 import com.lhd.database.SQLiteManager;
-import com.lhd.fragment.BangDiemThanhPhan;
+import com.lhd.fragment.KetQuaHocTapFragment;
 import com.lhd.fragment.KetQuaThiFragment;
 import com.lhd.fragment.LichThiFragment;
 import com.lhd.fragment.MoreFragment;
@@ -50,10 +50,11 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     public static final String MA_SV = "masv";
+    public static final String SINH_VIEN = "sinh vien";
     private ViewPager viewPager;
     private KetQuaThiFragment ketQuaThiFragment;
     private LichThiFragment lichThiFragment;
-    private BangDiemThanhPhan bangDiemThanhPhan;
+    private KetQuaHocTapFragment ketQuaHocTapFragment;
     private String maSV;
     private SQLiteManager sqLiteManager;
     private TabLayout tabLayout;
@@ -90,9 +91,8 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.show();
     }
-
     public static void sreenShort(View viewInput,Context context) {
-        final Date now = new Date();
+         Date now = new Date();
          ByteArrayOutputStream bytearrayoutputstream;
          Bitmap bitmap;
         android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         context.startActivity(Intent.createChooser(sharingIntent, "Chia sẻ thông tin"));
     }
-
     public void setTitleTab(String titleTab) {
         sv=sqLiteManager.getSV(maSV);
         if (sv!=null){
@@ -173,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
             ketQuaHocTapTheoMon.execute(maSV);
         }
     }
-
     @Override
     public void onBackPressed() {
         switch (currentView) {
@@ -225,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_layout);
-
         try {
             PackageManager manager = getPackageManager();
             PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
@@ -235,7 +232,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -243,10 +239,7 @@ public class MainActivity extends AppCompatActivity {
                 checkLogin();
             }
         }, 1000);
-
-
     }
-
     private void checkLogin() {
         log=new Log(this);
         maSV=log.getID();
@@ -276,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
     private void creatFrament(String id) {
          bundle=new Bundle();
         bundle.putString(MA_SV,id);
+        bundle.putSerializable(SINH_VIEN,sv);
         try {
             Intent intent=getIntent();
             int index=intent.getBundleExtra(MyService.KEY_TAB).getInt(MyService.TAB_POSITON);
@@ -356,9 +350,9 @@ public class MainActivity extends AppCompatActivity {
             public android.support.v4.app.Fragment getItem(int position) {
                 switch (position){
                     case 0:
-                        bangDiemThanhPhan=new BangDiemThanhPhan();
-                        bangDiemThanhPhan.setArguments(bundle);
-                        return bangDiemThanhPhan;
+                        ketQuaHocTapFragment =new KetQuaHocTapFragment();
+                        ketQuaHocTapFragment.setArguments(bundle);
+                        return ketQuaHocTapFragment;
                     case 1:
                         ketQuaThiFragment=new KetQuaThiFragment();
                         ketQuaThiFragment.setArguments(bundle);
