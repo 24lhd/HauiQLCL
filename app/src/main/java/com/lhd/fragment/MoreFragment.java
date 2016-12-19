@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -106,7 +107,16 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                     }
                 });
                 builderlich.setView(view2);
-                builderlich.show();
+                builderlich.setNeutralButton("IMG",null);
+                AlertDialog mAlertDialog = builderlich.create();
+                mAlertDialog.show();
+                Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                c.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MainActivity.sreenShort(view,getActivity());
+                    }
+                });
                 break;
             case 1:
                 AlertDialog.Builder builderFeedback = new AlertDialog.Builder(getActivity());
