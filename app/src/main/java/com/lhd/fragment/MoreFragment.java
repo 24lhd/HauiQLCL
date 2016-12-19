@@ -66,7 +66,6 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
     };
 
     public void setCurrenView(final int currenView) {
-        mainActivity.setCurrenItem(currenView);
         switch (currenView){
             case 0:
                 final AlertDialog.Builder builderlich = new AlertDialog.Builder(getActivity());

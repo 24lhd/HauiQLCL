@@ -1,26 +1,17 @@
 package com.lhd.fragment;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alertdialogpro.AlertDialogPro;
@@ -28,7 +19,6 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
-import com.lhd.database.SQLiteManager;
 import com.lhd.item.ItemBangKetQuaHocTap;
 import com.lhd.item.KetQuaHocTap;
 import com.lhd.item.SinhVien;
@@ -43,60 +33,16 @@ import java.util.Comparator;
  * Created by Faker on 8/25/2016.
  */
 
-public class BangDiemThanhPhan extends Fragment {
-    public static final String KEY_OBJECT = "send_object";
-    private int mTheme = R.style.Theme_AlertDialogPro_Holo_Light;
-    public static final String KEY_ACTIVITY = "key_start_activity";
-    private TextView tVnull;
-    private ProgressBar progressBar;
-    private SQLiteManager sqLiteManager;
+public class BangDiemThanhPhan extends FrameFragment {
+
     private ArrayList<ItemBangKetQuaHocTap> bangKetQuaHocTaps;
     private SinhVien sv;
-    private String maSV;
-    private PullRefreshLayout pullRefreshLayout;
-    private RecyclerView recyclerView;
-    private TextView textView;
-    private MainActivity mainActivity;
-    private View view;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-         view=inflater.inflate(R.layout.layout_fragment_in_main,container,false);
-        initView(view);
-        return view;
-    }
-
-    private void initView(View view) {
-        mainActivity = (MainActivity) getActivity();
-        sqLiteManager=new SQLiteManager(getContext());
-        maSV=getArguments().getString(MainActivity.MA_SV);
-        Log.e("faker",maSV);
-        pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-        progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
-        tVnull= (TextView) view.findViewById(R.id.text_null);
-        recyclerView= (RecyclerView) view.findViewById(R.id.recle_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        refesh();
-        checkDatabase();
-        pullRefreshLayout.setRefreshing(false);
-    }
-    public boolean isOnline() {
-        try {
-            ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            return cm.getActiveNetworkInfo().isConnectedOrConnecting();
-        }catch (Exception e) {
-            return false;
-        }
-    }
-    private void refesh() {
+    public void refesh() {
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (isOnline()){
+                if (MainActivity.isOnline(getContext())){
                             sqLiteManager.deleteDMon(maSV);
-
                     startParser();
                 }else{
                     pullRefreshLayout.setRefreshing(false);
@@ -105,17 +51,7 @@ public class BangDiemThanhPhan extends Fragment {
             }
         });
     }
-    private void showRecircleView() {
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
-        tVnull.setVisibility(View.GONE);
-    }
-    private void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-        tVnull.setVisibility(View.GONE);
-    }
-    private void checkDatabase() {
+    public void checkDatabase() {
                 showProgress();
                 bangKetQuaHocTaps=sqLiteManager.getBangKetQuaHocTap(maSV);
                 if (!bangKetQuaHocTaps.isEmpty()){
@@ -124,60 +60,12 @@ public class BangDiemThanhPhan extends Fragment {
                 }else{
                     loadData();
                 }
-
-
     }
-    private void startParser() {
-
-                ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
-                ketQuaHocTapTheoMon.execute(maSV);
-
-
+    public void startParser() {
+        ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
+        ketQuaHocTapTheoMon.execute(maSV);
     }
-    private void showTextNull() {
-        progressBar.setVisibility(View.GONE);
-        tVnull.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-    }
-    private void cantLoadData() {
-        showTextNull();
-        tVnull.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isOnline()){
-                    showProgress();
-                    startParser();
-                }else {
-                    final Snackbar snackbar=Snackbar.make(recyclerView, "Vui lòng bật kết nối internet!",Snackbar.LENGTH_SHORT);
-
-                    snackbar.setActionTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                    snackbar.setAction("Bật wifi", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            WifiManager wifiManager = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
-                            wifiManager.setWifiEnabled(true);
-                            showProgress();
-                            snackbar.dismiss();
-                            startParser();
-
-                        }
-                    });
-                    snackbar.show();
-
-
-                }
-            }
-        });
-    }
-    private void loadData() {
-        if (isOnline()){
-            showProgress();
-            startParser();
-        }else{
-            cantLoadData();
-        }
-    }
-    private void setRecyclerView() {
+    public void setRecyclerView() {
         Collections.sort(bangKetQuaHocTaps, new Comparator<ItemBangKetQuaHocTap>() {
             @Override
             public int compare(ItemBangKetQuaHocTap o1, ItemBangKetQuaHocTap o2) {
@@ -192,8 +80,6 @@ public class BangDiemThanhPhan extends Fragment {
         Collections.reverse(bangKetQuaHocTaps);
         AdapterDiemHocTapTheoMon adapterDiemHocTapTheoMon=new AdapterDiemHocTapTheoMon(bangKetQuaHocTaps);
         recyclerView.setAdapter(adapterDiemHocTapTheoMon);
-
-
     }
     private Handler handler=new Handler(){
         @Override
@@ -222,18 +108,14 @@ public class BangDiemThanhPhan extends Fragment {
                             sqLiteManager.insertSV(sv);
                         }else{
                             MainActivity.showErr(getActivity());
-                            Log.e("faker","showErr");
                         }
                         break;
                 }
             }catch (NullPointerException e){
                 MainActivity.showErr(getActivity());
-                Log.e("faker","showErr");
-//                startParser();
             }
         }
     };
-
     class ItemDanhSachLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
         TextView tvTenLop;
         TextView tvMaLop;
@@ -297,7 +179,6 @@ public class BangDiemThanhPhan extends Fragment {
             showCustomViewDialog(diemHocTapTheoMon);
         }
     }
-
     private void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
         String[] list = new String[]{"Bảng điểm học tâp", "Kế hoạch thi theo lớp","Xem điểm "+itemBangKetQuaHocTap.getTenMon()};
         final AlertDialogPro.Builder alertDialogPro=new AlertDialogPro.Builder(getContext(), mTheme);
@@ -368,7 +249,7 @@ public class BangDiemThanhPhan extends Fragment {
                             "</body>" +
                             "</html>";
 
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Kết quả học tập");
                     WebView webView=new WebView(getActivity());
                     webView.setBackgroundColor(getResources().getColor(R.color.bg_text));

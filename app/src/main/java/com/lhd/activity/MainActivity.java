@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvTitle,tv1,tv2;
     private SinhVien sv;
     private int currentView;
-    private int currenItem;
     private MoreFragment moreFragment;
     private TextView tietView;
     private TextView timeView;
@@ -402,8 +401,12 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(4).setIcon(R.drawable.ic_tab_noti_dttc);
         tabLayout.getTabAt(5).setIcon(R.drawable.ic_more);
     }
-
-    public void setCurrenItem(int currenItem) {
-        this.currenItem = currenItem;
+    public static boolean isOnline(Context context) {
+        try {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            return cm.getActiveNetworkInfo().isConnectedOrConnecting();
+        }catch (Exception e) {
+            return false;
+        }
     }
 }

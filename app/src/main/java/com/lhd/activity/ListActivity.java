@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.database.SQLiteManager;
-import com.lhd.fragment.KetQuaHocTapFragment;
+import com.lhd.fragment.FrameFragment;
 import com.lhd.item.DiemThanhPhan;
 import com.lhd.item.DiemThiTheoMon;
 import com.lhd.item.ItemBangDiemThanhPhan;
@@ -283,12 +283,12 @@ public class ListActivity extends AppCompatActivity {
     private void checkDatabases() {
         intent=getIntent();
         bundle=intent.getBundleExtra("action");
-        index=bundle.getInt(KetQuaHocTapFragment.KEY_ACTIVITY);
+        index=bundle.getInt(FrameFragment.KEY_ACTIVITY);
         showProgress();
         try {
             switch (index){
                 case 0:
-                    itemBangKetQuaHocTap= (ItemBangKetQuaHocTap) intent.getSerializableExtra(KetQuaHocTapFragment.KEY_OBJECT);
+                    itemBangKetQuaHocTap= (ItemBangKetQuaHocTap) intent.getSerializableExtra(FrameFragment.KEY_OBJECT);
                      diemThanhPhan = sqLiteManager.getAllDLop(itemBangKetQuaHocTap.getMaMon());
                     if (diemThanhPhan!=null&&!diemThanhPhan.getBangDiemThanhPhan().isEmpty()){
                         showRecircleView();
@@ -305,7 +305,7 @@ public class ListActivity extends AppCompatActivity {
                     }
                     break;
                 case 1:
-                    itemBangKetQuaHocTap= (ItemBangKetQuaHocTap) intent.getSerializableExtra(KetQuaHocTapFragment.KEY_OBJECT);
+                    itemBangKetQuaHocTap= (ItemBangKetQuaHocTap) intent.getSerializableExtra(FrameFragment.KEY_OBJECT);
                     getSupportActionBar().setTitle("Kế hoạch thi "+itemBangKetQuaHocTap.getTenMon());
                     getSupportActionBar().setSubtitle(itemBangKetQuaHocTap.getMaMon());
                     ArrayList<LichThiLop> lichThiLops=sqLiteManager.getAllLThiLop(itemBangKetQuaHocTap.getMaMon());
@@ -323,7 +323,7 @@ public class ListActivity extends AppCompatActivity {
                     }
                     break;
                 case 3:
-                    diemThiTheoMon= (DiemThiTheoMon) intent.getSerializableExtra(KetQuaHocTapFragment.KEY_OBJECT);
+                    diemThiTheoMon= (DiemThiTheoMon) intent.getSerializableExtra(FrameFragment.KEY_OBJECT);
                      ketQuaThi=sqLiteManager.getAllDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop());
                     if (ketQuaThi!=null&&!ketQuaThi.getKetQuaThiLops().isEmpty()){
                         getSupportActionBar().setTitle("Điểm thi "+diemThiTheoMon.getTenMon());
