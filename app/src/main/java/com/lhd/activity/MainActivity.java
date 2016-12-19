@@ -287,8 +287,9 @@ public class MainActivity extends AppCompatActivity {
                 final Version version=dataSnapshot.getValue(Version.class);
                 if (!version.getVerstionName().equals(info.versionName)){
                     final AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Cập nhật phiên "+version.getVerstionName());
-                    builder.setMessage("Nội dung:\n\t"+version.getContent()+"\nbạn muốn tải về và cài dặt?");
+                    builder.setTitle("Cập nhật phiên bản "+version.getVerstionName());
+                    builder.setCancelable(false);
+                    builder.setMessage("Nội dung:\n\t"+version.getContent()+"\nbạn muốn tải về và cài đặt ngay?\nHướng dẫn cài đặt: Cài đặt> Không rõ nguồn gốc");
                     builder.setPositiveButton("Cài ngay", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
