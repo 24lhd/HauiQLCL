@@ -1,6 +1,5 @@
 package com.lhd.database;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,9 +7,8 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.lhd.activity.MainActivity;
 import com.lhd.item.DiemThanhPhan;
-import com.lhd.item.DiemThiTheoMon;
+import com.lhd.item.ItemDiemThiTheoMon;
 import com.lhd.item.ItemBangDiemThanhPhan;
 import com.lhd.item.ItemBangKetQuaHocTap;
 import com.lhd.item.ItemKetQuaThiLop;
@@ -470,7 +468,7 @@ public class SQLiteManager {
      * @param dthimon
      * @return
      */
-    public long insertDThiMon(DiemThiTheoMon dthimon,String maSV){
+    public long insertDThiMon(ItemDiemThiTheoMon dthimon, String maSV){
         ContentValues contentValues=new ContentValues();
         contentValues.put("linkDiemThiTheoLop",dthimon.getLinkDiemThiTheoLop());
         contentValues.put("tenMon",dthimon.getTenMon());
@@ -488,7 +486,7 @@ public class SQLiteManager {
         closeDatabases();
         return id;
     }
-    public long updateDThiMon(DiemThiTheoMon dthimon,String maSV){
+    public long updateDThiMon(ItemDiemThiTheoMon dthimon, String maSV){
         ContentValues contentValues=new ContentValues();
         contentValues.put("linkDiemThiTheoLop",dthimon.getLinkDiemThiTheoLop());
         String []s={dthimon.getLinkDiemThiTheoLop(),maSV};
@@ -507,9 +505,9 @@ public class SQLiteManager {
         closeDatabases();
         return id;
     }
-    public ArrayList<DiemThiTheoMon> getAllDThiMon(String maSV) {
+    public ArrayList<ItemDiemThiTheoMon> getAllDThiMon(String maSV) {
         openDatabases();
-        ArrayList<DiemThiTheoMon> diemThiTheoMons=new ArrayList<>();
+        ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMons =new ArrayList<>();
         String []s={maSV};
         Cursor cursor=database.query("dthimon",null,"maSV=?",s,null,null,null);
         cursor.getCount();// tra ve so luong ban ghi no ghi dc
@@ -526,7 +524,7 @@ public class SQLiteManager {
         int ngay2=cursor.getColumnIndex("ngay2");
         int ghiChu=cursor.getColumnIndex("ghiChu");
         while (!cursor.isAfterLast()){// neu no o ban ghi cuoi cung thi tra ve true
-            diemThiTheoMons.add(new DiemThiTheoMon(
+            itemDiemThiTheoMons.add(new ItemDiemThiTheoMon(
                     cursor.getString(linkDiemThiTheoLop), // trả về dữ liệu của dòng cột đang xét
                     cursor.getString(tenMon),
                     cursor.getString(dLan1),
@@ -540,7 +538,7 @@ public class SQLiteManager {
             cursor.moveToNext();
         }
         closeDatabases();
-        return diemThiTheoMons;
+        return itemDiemThiTheoMons;
     }
     /**
      *  chèm thêm một dòng bảng lịch thi

@@ -31,7 +31,7 @@ import com.ken.hauiclass.R;
 import com.lhd.database.SQLiteManager;
 import com.lhd.fragment.FrameFragment;
 import com.lhd.item.DiemThanhPhan;
-import com.lhd.item.DiemThiTheoMon;
+import com.lhd.item.ItemDiemThiTheoMon;
 import com.lhd.item.ItemBangDiemThanhPhan;
 import com.lhd.item.ItemBangKetQuaHocTap;
 import com.lhd.item.ItemKetQuaThiLop;
@@ -58,7 +58,7 @@ public class ListActivity extends AppCompatActivity {
     private Bundle bundle;
     private int index;
     private ItemBangKetQuaHocTap itemBangKetQuaHocTap;
-    private DiemThiTheoMon diemThiTheoMon;
+    private ItemDiemThiTheoMon itemDiemThiTheoMon;
     private DiemThanhPhan diemThanhPhan;
     private KetQuaThi ketQuaThi;
     private Toolbar toolbarMenu;
@@ -276,7 +276,7 @@ public class ListActivity extends AppCompatActivity {
                 break;
             case 3:
                 ParserKetQuaThiTheoLop parserKetQuaHocTap=new ParserKetQuaThiTheoLop(handler);
-                parserKetQuaHocTap.execute(diemThiTheoMon.getLinkDiemThiTheoLop());
+                parserKetQuaHocTap.execute(itemDiemThiTheoMon.getLinkDiemThiTheoLop());
                 break;
         }
     }
@@ -323,10 +323,10 @@ public class ListActivity extends AppCompatActivity {
                     }
                     break;
                 case 3:
-                    diemThiTheoMon= (DiemThiTheoMon) intent.getSerializableExtra(FrameFragment.KEY_OBJECT);
-                     ketQuaThi=sqLiteManager.getAllDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop());
+                    itemDiemThiTheoMon = (ItemDiemThiTheoMon) intent.getSerializableExtra(FrameFragment.KEY_OBJECT);
+                     ketQuaThi=sqLiteManager.getAllDThiLop(itemDiemThiTheoMon.getLinkDiemThiTheoLop());
                     if (ketQuaThi!=null&&!ketQuaThi.getKetQuaThiLops().isEmpty()){
-                        getSupportActionBar().setTitle("Điểm thi "+diemThiTheoMon.getTenMon());
+                        getSupportActionBar().setTitle("Điểm thi "+ itemDiemThiTheoMon.getTenMon());
                         getSupportActionBar().setSubtitle(ketQuaThi.getTenLopUuTien()+"_"+ketQuaThi.getSoTC()+" tín chỉ");
                         showRecircleView();
                        setRecircleView();
@@ -351,7 +351,7 @@ public class ListActivity extends AppCompatActivity {
                 sqLiteManager.deleteLThiLop(itemBangKetQuaHocTap.getMaMon());
                 break;
             case 3: default:
-                sqLiteManager.deleteDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop());
+                sqLiteManager.deleteDThiLop(itemDiemThiTheoMon.getLinkDiemThiTheoLop());
                 break;
         }
         startParser();
@@ -379,10 +379,10 @@ public class ListActivity extends AppCompatActivity {
                      ketQuaThi= (KetQuaThi) msg.obj;;
                     ArrayList<ItemKetQuaThiLop> b= ketQuaThi.getKetQuaThiLops();
                     if (!b.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
-                        getSupportActionBar().setTitle("Điểm thi "+diemThiTheoMon.getTenMon());
+                        getSupportActionBar().setTitle("Điểm thi "+ itemDiemThiTheoMon.getTenMon());
                         getSupportActionBar().setSubtitle(ketQuaThi.getTenLopUuTien()+"_"+ketQuaThi.getSoTC()+" tín chỉ");
                         for (ItemKetQuaThiLop diemHocTapTheoLop:b){
-                            sqLiteManager.insertDThiLop(diemThiTheoMon.getLinkDiemThiTheoLop(),ketQuaThi.getTenLopUuTien(),ketQuaThi.getSoTC(),diemHocTapTheoLop);
+                            sqLiteManager.insertDThiLop(itemDiemThiTheoMon.getLinkDiemThiTheoLop(),ketQuaThi.getTenLopUuTien(),ketQuaThi.getSoTC(),diemHocTapTheoLop);
                         }
                         showRecircleView();
                         setRecircleView();
@@ -579,7 +579,7 @@ public class ListActivity extends AppCompatActivity {
             final int itemPosition = recyclerView.getChildLayoutPosition(view);
             builder = new AlertDialog.Builder(ListActivity.this);
             builder.setTitle(data.get(itemPosition).getTen());
-            final String [] list={" Xem thông tin","Xem điểm thi "+diemThiTheoMon.getTenMon()};
+            final String [] list={" Xem thông tin","Xem điểm thi "+ itemDiemThiTheoMon.getTenMon()};
             builder.setItems(list, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -643,7 +643,7 @@ public class ListActivity extends AppCompatActivity {
                                 "<em>Copyright  © Gà công nghiệp</em>"+
                                 "</body>" +
                                 "</html>";
-                        builder.setTitle("Điểm thi "+diemThiTheoMon.getTenMon());
+                        builder.setTitle("Điểm thi "+ itemDiemThiTheoMon.getTenMon());
                         WebView webView=new WebView(ListActivity.this);
                         webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
                         webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
@@ -663,7 +663,7 @@ public class ListActivity extends AppCompatActivity {
                         c.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                               MainActivity.shareText(ListActivity.this, diemThiTheoMon.getTenMon(), data.get(itemPosition).toString());
+                               MainActivity.shareText(ListActivity.this, itemDiemThiTheoMon.getTenMon(), data.get(itemPosition).toString());
                             }
                         });
                     }

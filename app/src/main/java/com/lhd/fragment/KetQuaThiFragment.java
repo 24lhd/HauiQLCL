@@ -20,7 +20,7 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
-import com.lhd.item.DiemThiTheoMon;
+import com.lhd.item.ItemDiemThiTheoMon;
 import com.lhd.task.ParserKetQuaThiTheoMon;
 
 import java.io.Serializable;
@@ -34,7 +34,7 @@ import static java.lang.Double.parseDouble;
  * Created by Faker on 8/25/2016.
  */
 public class KetQuaThiFragment extends FrameFragment {
-    private  ArrayList<DiemThiTheoMon> diemThiTheoMons;
+    private  ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMons;
     private AlertDialog.Builder builder;
 
 
@@ -61,8 +61,8 @@ public class KetQuaThiFragment extends FrameFragment {
     }
     public void checkDatabase() {
         showProgress();
-        diemThiTheoMons=sqLiteManager.getAllDThiMon(maSV);
-        if (!diemThiTheoMons.isEmpty()){
+        itemDiemThiTheoMons =sqLiteManager.getAllDThiMon(maSV);
+        if (!itemDiemThiTheoMons.isEmpty()){
             showRecircleView();
             setRecyclerView();
         }else{
@@ -78,9 +78,9 @@ public class KetQuaThiFragment extends FrameFragment {
 
     }
     public void setRecyclerView() {
-        Collections.sort(diemThiTheoMons, new Comparator<DiemThiTheoMon>() {
+        Collections.sort(itemDiemThiTheoMons, new Comparator<ItemDiemThiTheoMon>() {
             @Override
-            public int compare(DiemThiTheoMon o1, DiemThiTheoMon o2) {
+            public int compare(ItemDiemThiTheoMon o1, ItemDiemThiTheoMon o2) {
 
                 String[] str1=o1.getNgay1().split("/");
                 String[] str2=o2.getNgay1().split("/");
@@ -93,7 +93,7 @@ public class KetQuaThiFragment extends FrameFragment {
                 return str1[2].compareTo(str2[2]);
             }
         });
-        AdapterDiemThiMon adapterDiemThiMon=new AdapterDiemThiMon(diemThiTheoMons);
+        AdapterDiemThiMon adapterDiemThiMon=new AdapterDiemThiMon(itemDiemThiTheoMons);
         recyclerView.removeAllViews();
         recyclerView.setAdapter(adapterDiemThiMon);
 
@@ -103,10 +103,10 @@ public class KetQuaThiFragment extends FrameFragment {
         @Override
         public void handleMessage(Message msg) {
             try{
-                        diemThiTheoMons= (ArrayList<DiemThiTheoMon>) msg.obj;
-                        if (!diemThiTheoMons.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
-                            if (sqLiteManager.getAllDThiMon(maSV).size()<diemThiTheoMons.size()){
-                                for (DiemThiTheoMon diemHocTapTheoLop:diemThiTheoMons){
+                        itemDiemThiTheoMons = (ArrayList<ItemDiemThiTheoMon>) msg.obj;
+                        if (!itemDiemThiTheoMons.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
+                            if (sqLiteManager.getAllDThiMon(maSV).size()< itemDiemThiTheoMons.size()){
+                                for (ItemDiemThiTheoMon diemHocTapTheoLop: itemDiemThiTheoMons){
                                     sqLiteManager.insertDThiMon(diemHocTapTheoLop,maSV);
                                 }
                             }
@@ -145,8 +145,8 @@ public class KetQuaThiFragment extends FrameFragment {
         }
     }
     private class AdapterDiemThiMon extends RecyclerView.Adapter<ItemDiemThiMon> implements RecyclerView.OnClickListener {
-        private  ArrayList<DiemThiTheoMon> data;
-        public AdapterDiemThiMon( ArrayList<DiemThiTheoMon> data) {
+        private  ArrayList<ItemDiemThiTheoMon> data;
+        public AdapterDiemThiMon( ArrayList<ItemDiemThiTheoMon> data) {
             this.data = data;
         }
         @Override
@@ -158,26 +158,26 @@ public class KetQuaThiFragment extends FrameFragment {
         }
         @Override
         public void onBindViewHolder(ItemDiemThiMon holder, int position) {
-            DiemThiTheoMon diemThiTheoMon=data.get(position);
-            holder.tenMon.setText(diemThiTheoMon.getTenMon());
-            holder.dLan1.setText(diemThiTheoMon.getdLan1());
-            holder.dLan2.setText(diemThiTheoMon.getdLan2());
-            holder.dCuoiCung.setText(diemThiTheoMon.getdCuoiCung());
-            String tk1=diemThiTheoMon.getdTKLan1().trim();
-            String tk2=diemThiTheoMon.getdTKLan2().trim();
+            ItemDiemThiTheoMon itemDiemThiTheoMon =data.get(position);
+            holder.tenMon.setText(itemDiemThiTheoMon.getTenMon());
+            holder.dLan1.setText(itemDiemThiTheoMon.getdLan1());
+            holder.dLan2.setText(itemDiemThiTheoMon.getdLan2());
+            holder.dCuoiCung.setText(itemDiemThiTheoMon.getdCuoiCung());
+            String tk1= itemDiemThiTheoMon.getdTKLan1().trim();
+            String tk2= itemDiemThiTheoMon.getdTKLan2().trim();
             holder.dTKLan2.setText(tk2);
             holder.dTKLan1.setText(tk1);
-            holder.ngay1.setText(diemThiTheoMon.getNgay1());
-            holder.ngay2.setText(diemThiTheoMon.getNgay2());
-            holder.ghiChu.setText(diemThiTheoMon.getGhiChu());
+            holder.ngay1.setText(itemDiemThiTheoMon.getNgay1());
+            holder.ngay2.setText(itemDiemThiTheoMon.getNgay2());
+            holder.ghiChu.setText(itemDiemThiTheoMon.getGhiChu());
             holder.stt.setText(""+(position+1));
-            String dc=diemThiTheoMon.getdCuoiCung().split(" ")[0];
+            String dc= itemDiemThiTheoMon.getdCuoiCung().split(" ")[0];
             dc=dc.trim();
             double th = 0;
             double n = 0;
-            if (diemThiTheoMon.getNgay1().split("").length>3){
-                n=Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[2]);
-                th = Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[1]);
+            if (itemDiemThiTheoMon.getNgay1().split("").length>3){
+                n=Double.parseDouble(itemDiemThiTheoMon.getNgay1().split("/")[2]);
+                th = Double.parseDouble(itemDiemThiTheoMon.getNgay1().split("/")[1]);
             }
             if (dc.equals("(I)")){
                 holder.dCuoiCung.setText("*");
@@ -351,24 +351,24 @@ public class KetQuaThiFragment extends FrameFragment {
         }
     }
 
-    public static String charPoint(DiemThiTheoMon diemThiTheoMon) {
-        if (diemThiTheoMon.getdCuoiCung().length()<=1) return "*";
-        if (diemThiTheoMon.getdCuoiCung().contains("*")) return "*";
+    public static String charPoint(ItemDiemThiTheoMon itemDiemThiTheoMon) {
+        if (itemDiemThiTheoMon.getdCuoiCung().length()<=1) return "*";
+        if (itemDiemThiTheoMon.getdCuoiCung().contains("*")) return "*";
         double n;
         try {
-            n=Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[2]);
+            n=Double.parseDouble(itemDiemThiTheoMon.getNgay1().split("/")[2]);
         }catch (Exception e){
             n=0;
         }
         double th;
         try {
-            th= Double.parseDouble(diemThiTheoMon.getNgay1().split("/")[1]);
+            th= Double.parseDouble(itemDiemThiTheoMon.getNgay1().split("/")[1]);
         }catch (Exception e){
             th=0;
         }
         double d;
         try {
-         d= Double.parseDouble(diemThiTheoMon.getdCuoiCung().split(" ")[0]);
+         d= Double.parseDouble(itemDiemThiTheoMon.getdCuoiCung().split(" ")[0]);
         }catch (NumberFormatException e){
             return "*";
         }

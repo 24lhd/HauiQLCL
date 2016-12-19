@@ -3,9 +3,8 @@ package com.lhd.task;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
-import com.lhd.item.DiemThiTheoMon;
+import com.lhd.item.ItemDiemThiTheoMon;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
  * danh sách kết quả thi các môn theo mã sinh viên
  */
 
-public class ParserKetQuaThiTheoMon extends AsyncTask<String,Void,ArrayList<DiemThiTheoMon>> {
+public class ParserKetQuaThiTheoMon extends AsyncTask<String,Void,ArrayList<ItemDiemThiTheoMon>> {
     private Handler handler;
 
         public ParserKetQuaThiTheoMon(Handler handler) {
@@ -26,8 +25,8 @@ public class ParserKetQuaThiTheoMon extends AsyncTask<String,Void,ArrayList<Diem
         }
 
     @Override
-    protected ArrayList<DiemThiTheoMon> doInBackground(String... strings) {
-        ArrayList<DiemThiTheoMon> arrDiemThiTheoMons=new ArrayList<>();
+    protected ArrayList<ItemDiemThiTheoMon> doInBackground(String... strings) {
+        ArrayList<ItemDiemThiTheoMon> arrItemDiemThiTheoMons =new ArrayList<>();
         try {
             Document doc= Jsoup.connect("http://qlcl.edu.vn/searchstexre/ket-qua-thi.htm?code="+strings[0]).get();
             Elements parents=doc.select("div#_ctl8_viewResult");
@@ -36,7 +35,7 @@ public class ParserKetQuaThiTheoMon extends AsyncTask<String,Void,ArrayList<Diem
             Elements tbody0=tbodys.get(0).select("tr");
             for (int i=0;i<=tbody.size()-2;i++){
                 Elements tds=tbody.get(i).select("td");
-                DiemThiTheoMon diemThiTheoMon=new DiemThiTheoMon(
+                ItemDiemThiTheoMon itemDiemThiTheoMon =new ItemDiemThiTheoMon(
                         tds.get(1).select("a").first().attr("href"),
                         tds.get(1).text(),
                         tds.get(2).text(),
@@ -47,7 +46,7 @@ public class ParserKetQuaThiTheoMon extends AsyncTask<String,Void,ArrayList<Diem
                         tds.get(9).text(),
                         tds.get(10).text(),
                         tds.get(11).text());
-                arrDiemThiTheoMons.add(diemThiTheoMon);
+                arrItemDiemThiTheoMons.add(itemDiemThiTheoMon);
 
             }
 //
@@ -55,14 +54,14 @@ public class ParserKetQuaThiTheoMon extends AsyncTask<String,Void,ArrayList<Diem
         } catch (Exception e) {
             return null;
         }
-        return arrDiemThiTheoMons;
+        return arrItemDiemThiTheoMons;
     }
     @Override
-    protected void onPostExecute(ArrayList<DiemThiTheoMon> diemThiTheoMons) {
+    protected void onPostExecute(ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMons) {
         try {
             Message message=new Message();
             message.arg1=2;
-            message.obj=diemThiTheoMons;
+            message.obj= itemDiemThiTheoMons;
             handler.sendMessage(message);
         }catch (NullPointerException e){
         }

@@ -25,7 +25,7 @@ import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.chart.RadarMarkerView;
 import com.lhd.database.SQLiteManager;
-import com.lhd.item.DiemThiTheoMon;
+import com.lhd.item.ItemDiemThiTheoMon;
 import com.lhd.item.SinhVien;
 
 import java.util.ArrayList;
@@ -66,25 +66,25 @@ public class RadarChartFragment extends Fragment {
 
         @Override
         public void handleMessage(Message msg) {
-            diemThiTheoMons= (ArrayList<DiemThiTheoMon>) msg.obj;
-                for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMons) {
-                    if (!KetQuaThiFragment.isDouble(diemThiTheoMon.getdCuoiCung().split(" ")[0])){
-                        diemThiTheoMon.setdCuoiCung("*");
+            itemDiemThiTheoMons = (ArrayList<ItemDiemThiTheoMon>) msg.obj;
+                for (ItemDiemThiTheoMon itemDiemThiTheoMon : itemDiemThiTheoMons) {
+                    if (!KetQuaThiFragment.isDouble(itemDiemThiTheoMon.getdCuoiCung().split(" ")[0])){
+                        itemDiemThiTheoMon.setdCuoiCung("*");
                     }
                 }
-                for (int i = 0; i <diemThiTheoMons.size()-1 ; i++){
-                    for (int u = i+1; u <diemThiTheoMons.size() ; u++) {
-                        if (diemThiTheoMons.get(i).getTenMon().contains(diemThiTheoMons.get(u).getTenMon())){
-                            if (diemThiTheoMons.get(i).getdCuoiCung().contains("*")){
+                for (int i = 0; i < itemDiemThiTheoMons.size()-1 ; i++){
+                    for (int u = i+1; u < itemDiemThiTheoMons.size() ; u++) {
+                        if (itemDiemThiTheoMons.get(i).getTenMon().contains(itemDiemThiTheoMons.get(u).getTenMon())){
+                            if (itemDiemThiTheoMons.get(i).getdCuoiCung().contains("*")){
                                 continue;
                             }
-                            if (diemThiTheoMons.get(u).getdCuoiCung().contains("*")){
+                            if (itemDiemThiTheoMons.get(u).getdCuoiCung().contains("*")){
                                 continue;
                             }
-                            if (Double.parseDouble(diemThiTheoMons.get(i).getdCuoiCung().split(" ")[0])>Double.parseDouble(diemThiTheoMons.get(u).getdCuoiCung().split(" ")[0])){
-                                diemThiTheoMons.get(u).setdCuoiCung("*");
+                            if (Double.parseDouble(itemDiemThiTheoMons.get(i).getdCuoiCung().split(" ")[0])>Double.parseDouble(itemDiemThiTheoMons.get(u).getdCuoiCung().split(" ")[0])){
+                                itemDiemThiTheoMons.get(u).setdCuoiCung("*");
                             }else{
-                                diemThiTheoMons.get(i).setdCuoiCung("*");
+                                itemDiemThiTheoMons.get(i).setdCuoiCung("*");
                                 continue;
                             }
                         }
@@ -92,11 +92,11 @@ public class RadarChartFragment extends Fragment {
                 }
                 a=0; bb=0; b=0; cc=0; c=0; dd=0; d=0; f=0;
                 int size=0;
-                for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMons) {
-//                    if (diemThiTheoMon.getdCuoiCung().length()<=1) continue;
-//                    if (diemThiTheoMon.getdCuoiCung().contains("*")) continue;
-//                    String dc=diemThiTheoMon.getdCuoiCung().split(" ")[0];
-                        switch(KetQuaThiFragment.charPoint(diemThiTheoMon)){
+                for (ItemDiemThiTheoMon itemDiemThiTheoMon : itemDiemThiTheoMons) {
+//                    if (itemDiemThiTheoMon.getdCuoiCung().length()<=1) continue;
+//                    if (itemDiemThiTheoMon.getdCuoiCung().contains("*")) continue;
+//                    String dc=itemDiemThiTheoMon.getdCuoiCung().split(" ")[0];
+                        switch(KetQuaThiFragment.charPoint(itemDiemThiTheoMon)){
                             case "A":
                                 a++;
                                 size++;
@@ -209,11 +209,11 @@ public class RadarChartFragment extends Fragment {
 
 
     public void getDiemThiTheoMons(Handler handler,String msv) {
-        diemThiTheoMons=new ArrayList<>();
-        diemThiTheoMons=sqLiteManager.getAllDThiMon(msv);
-        if (!diemThiTheoMons.isEmpty()){
+        itemDiemThiTheoMons =new ArrayList<>();
+        itemDiemThiTheoMons =sqLiteManager.getAllDThiMon(msv);
+        if (!itemDiemThiTheoMons.isEmpty()){
             Message message=new Message();
-            message.obj=diemThiTheoMons;
+            message.obj= itemDiemThiTheoMons;
             handler.sendMessage(message);
         }
 //        else{
@@ -221,6 +221,6 @@ public class RadarChartFragment extends Fragment {
 //            parserKetQuaThiTheoMon.execute(msv);
 //        }
     }
-    private ArrayList<DiemThiTheoMon> diemThiTheoMons;
+    private ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMons;
     private  ArrayList<RadarEntry> entries1;
 }

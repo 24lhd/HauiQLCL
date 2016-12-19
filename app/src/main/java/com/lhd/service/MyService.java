@@ -19,7 +19,7 @@ import android.support.v4.app.NotificationCompat;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
-import com.lhd.item.DiemThiTheoMon;
+import com.lhd.item.ItemDiemThiTheoMon;
 import com.lhd.item.ItemBangKetQuaHocTap;
 import com.lhd.item.ItemNotiDTTC;
 import com.lhd.item.KetQuaHocTap;
@@ -77,32 +77,32 @@ public class MyService extends Service{
                         }
                 }
                 if (msg.arg1==2){ // ket qua thi
-                    ArrayList<DiemThiTheoMon> diemThiTheoMonNews= (ArrayList<DiemThiTheoMon>) msg.obj;
-                    ArrayList<DiemThiTheoMon> diemThiTheoMonOlds=sqLiteManager.getAllDThiMon(id);
-                    if (diemThiTheoMonNews.size()>diemThiTheoMonOlds.size()){
-                        for (DiemThiTheoMon diemThiTheoMonNew:diemThiTheoMonNews) {
+                    ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMonNews = (ArrayList<ItemDiemThiTheoMon>) msg.obj;
+                    ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMonOlds =sqLiteManager.getAllDThiMon(id);
+                    if (itemDiemThiTheoMonNews.size()> itemDiemThiTheoMonOlds.size()){
+                        for (ItemDiemThiTheoMon itemDiemThiTheoMonNew : itemDiemThiTheoMonNews) {
                             boolean flag=true;
-                            for (int i = 0; i <diemThiTheoMonOlds.size() ; i++) {
-                                if (diemThiTheoMonNew.getLinkDiemThiTheoLop().equals(diemThiTheoMonOlds.get(i).getLinkDiemThiTheoLop())){
+                            for (int i = 0; i < itemDiemThiTheoMonOlds.size() ; i++) {
+                                if (itemDiemThiTheoMonNew.getLinkDiemThiTheoLop().equals(itemDiemThiTheoMonOlds.get(i).getLinkDiemThiTheoLop())){
                                     flag=false;
                                     break;
                                 }
                             }
                             if (flag){
-                                sqLiteManager.insertDThiMon(diemThiTheoMonNew,id);
+                                sqLiteManager.insertDThiMon(itemDiemThiTheoMonNew,id);
                             }
                         }
-                        showNoti("Thông báo từ Gà Công Nghiệp ","cập nhật kết quả thi "+(diemThiTheoMonNews.size()-diemThiTheoMonOlds.size())+" học phần",1);
+                        showNoti("Thông báo từ Gà Công Nghiệp ","cập nhật kết quả thi "+(itemDiemThiTheoMonNews.size()- itemDiemThiTheoMonOlds.size())+" học phần",1);
                     }
-                        for (int i=0;i<diemThiTheoMonNews.size();i++){
-                            for (int j = 0; j <diemThiTheoMonOlds.size() ; j++) {
-                                String dcOld=diemThiTheoMonOlds.get(j).getdCuoiCung();
-                                String dcNew=diemThiTheoMonNews.get(i).getdCuoiCung();
-                                if (!dcOld.equals(dcNew)&&!diemThiTheoMonNews.get(i).getdLan1().isEmpty()&&diemThiTheoMonNews.get(i).getLinkDiemThiTheoLop().equals(diemThiTheoMonOlds.get(j).getLinkDiemThiTheoLop())){
-                                    for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMonNews) {
-                                        sqLiteManager.updateDThiMon(diemThiTheoMon,id);
+                        for (int i = 0; i< itemDiemThiTheoMonNews.size(); i++){
+                            for (int j = 0; j < itemDiemThiTheoMonOlds.size() ; j++) {
+                                String dcOld= itemDiemThiTheoMonOlds.get(j).getdCuoiCung();
+                                String dcNew= itemDiemThiTheoMonNews.get(i).getdCuoiCung();
+                                if (!dcOld.equals(dcNew)&&!itemDiemThiTheoMonNews.get(i).getdLan1().isEmpty()&& itemDiemThiTheoMonNews.get(i).getLinkDiemThiTheoLop().equals(itemDiemThiTheoMonOlds.get(j).getLinkDiemThiTheoLop())){
+                                    for (ItemDiemThiTheoMon itemDiemThiTheoMon : itemDiemThiTheoMonNews) {
+                                        sqLiteManager.updateDThiMon(itemDiemThiTheoMon,id);
                                     }
-                                    showNoti("Thông báo từ Gà Công Nghiệp ","có kết quả thi "+diemThiTheoMonNews.get(i).getTenMon(),1);
+                                    showNoti("Thông báo từ Gà Công Nghiệp ","có kết quả thi "+ itemDiemThiTheoMonNews.get(i).getTenMon(),1);
                                     break;
                                 }
                             }

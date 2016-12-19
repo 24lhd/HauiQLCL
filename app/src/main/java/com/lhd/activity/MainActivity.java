@@ -25,6 +25,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ken.hauiclass.R;
 import com.lhd.database.SQLiteManager;
 import com.lhd.fragment.KetQuaHocTapFragment;
@@ -34,6 +39,7 @@ import com.lhd.fragment.MoreFragment;
 import com.lhd.fragment.RadarChartFragment;
 import com.lhd.fragment.ThongBaoDtttcFragment;
 import com.lhd.item.SinhVien;
+import com.lhd.item.Version;
 import com.lhd.log.Log;
 import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
@@ -43,6 +49,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
+
+import duong.update.code.UpdateApp;
 
 /**
  * Created by Duong on 11/20/2016.
@@ -68,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView timeView;
     private RadarChartFragment radarChartFragment;
     private ThongBaoDtttcFragment thongBaoDtttcFragment;
+    private PackageInfo info;
+
     public boolean isOnline() {
         try {
             ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -195,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra(MainActivity.MA_SV);
                 maSV=result;
-
                 log.putID(maSV);
                 startView(maSV);
             }else if (resultCode ==Activity.RESULT_CANCELED){
@@ -225,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.intro_layout);
         try {
             PackageManager manager = getPackageManager();
-            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
+             info = manager.getPackageInfo(getPackageName(), 0);
             String version = "Phiên bản "+info.versionName;
             TextView tvVersion= (TextView) findViewById(R.id.tv_version);
             tvVersion.setText(version);
@@ -256,7 +265,9 @@ public class MainActivity extends AppCompatActivity {
         this.overridePendingTransition(R.anim.left_end, R.anim.right_end);
     }
     public void startView(String id) {
+
         if (isOnline()){
+            checkUpdate();
             Intent intent1=new Intent(this, MyService.class);
             this.startService(intent1);
         }
@@ -266,6 +277,45 @@ public class MainActivity extends AppCompatActivity {
         creatFrament(id);
         initUI();
     }
+
+    private void checkUpdate() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("updateGaCongNghiep");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final Version version=dataSnapshot.getValue(Version.class);
+                if (!version.getVerstionName().equals(info.versionName)){
+                    final AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Cập nhật phiên "+version.getVerstionName());
+                    builder.setMessage("Nội dung:\n\t"+version.getContent()+"\nbạn muốn tải về và cài dặt?");
+                    builder.setPositiveButton("Cài ngay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            UpdateApp updateApp=new UpdateApp();
+                            try {
+                                updateApp.getAndInstallAppLication(MainActivity.this,
+                                        "gacongnghiep.apk",version.getUrl(),
+                                        "đang tải "+getApplication().getString(R.string.app_name)+" phiên bản mới nhất",
+                                        "Đang cập nhật "+getApplication().getString(R.string.app_name) );
+                            }catch (Exception e){}
+                        }
+                        });
+                    builder.setNeutralButton("Từ từ", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    builder.show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+    }
+
     private void creatFrament(String id) {
          bundle=new Bundle();
         bundle.putString(MA_SV,id);
