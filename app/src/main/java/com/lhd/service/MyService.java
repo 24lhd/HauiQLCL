@@ -62,7 +62,7 @@ public class MyService extends Service{
                         for (int i=itemBangKetQuaHocTapsOld.size();i<itemBangKetQuaHocTapsNew.size();i++){
                             sqLiteManager.insertDMon(itemBangKetQuaHocTapsNew.get(i),id);
                         }
-                        showNoti("Cập nhật học phần",(itemBangKetQuaHocTapsNew.size()-itemBangKetQuaHocTapsOld.size())+" học phần",0);
+                        showNoti("Thông báo từ Gà Công Nghiệp ","cập nhật học phần "+(itemBangKetQuaHocTapsNew.size()-itemBangKetQuaHocTapsOld.size())+" học phần",0);
                     }
                         for (int i = 0; i <itemBangKetQuaHocTapsNew.size() ; i++) {
                             for (int j = 0; j <itemBangKetQuaHocTapsOld.size() ; j++) {
@@ -70,7 +70,7 @@ public class MyService extends Service{
                                 ItemBangKetQuaHocTap itemBangKetQuaHocTapNew=itemBangKetQuaHocTapsNew.get(i);
                                 if (itemBangKetQuaHocTapNew.getMaMon().equals(itemBangKetQuaHocTapOld.getMaMon())&&!itemBangKetQuaHocTapNew.getdTB().equals(itemBangKetQuaHocTapOld.getdTB())){
                                         sqLiteManager.updateDMon(itemBangKetQuaHocTapNew,id,itemBangKetQuaHocTapOld.getMaMon());
-                                        showNoti("Cập nhật điểm học phần",itemBangKetQuaHocTapNew.getTenMon(),0);
+                                        showNoti("Thông báo từ Gà Công Nghiệp","có điểm học phần "+itemBangKetQuaHocTapNew.getTenMon(),0);
                                     break;
                                 }
                             }
@@ -92,7 +92,7 @@ public class MyService extends Service{
                                 sqLiteManager.insertDThiMon(diemThiTheoMonNew,id);
                             }
                         }
-                        showNoti("Cập nhật kết quả thi",(diemThiTheoMonNews.size()-diemThiTheoMonOlds.size())+" học phần",1);
+                        showNoti("Thông báo từ Gà Công Nghiệp ","cập nhật kết quả thi "+(diemThiTheoMonNews.size()-diemThiTheoMonOlds.size())+" học phần",1);
                     }
                         for (int i=0;i<diemThiTheoMonNews.size();i++){
                             for (int j = 0; j <diemThiTheoMonOlds.size() ; j++) {
@@ -102,7 +102,7 @@ public class MyService extends Service{
                                     for (DiemThiTheoMon diemThiTheoMon:diemThiTheoMonNews) {
                                         sqLiteManager.updateDThiMon(diemThiTheoMon,id);
                                     }
-                                    showNoti("Thông báo kết quả thi",diemThiTheoMonNews.get(i).getTenMon(),1);
+                                    showNoti("Thông báo từ Gà Công Nghiệp ","có kết quả thi "+diemThiTheoMonNews.get(i).getTenMon(),1);
                                     break;
                                 }
                             }
@@ -125,7 +125,7 @@ public class MyService extends Service{
                                 sqLiteManager.insertlthi(lichThi,id);
                             }
                         }
-                            showNoti("Có lịch thi mới",(lichThiNews.size()-lichThiOlds.size())+" học phần",2);
+                            showNoti("Thông báo từ Gà Công Nghiệp ","có lịch thi mới "+(lichThiNews.size()-lichThiOlds.size())+" học phần",2);
                     }
                 }
             }catch (NullPointerException e){
@@ -172,10 +172,10 @@ public class MyService extends Service{
                     for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
                         sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
                     }
-                    showNoti("Cập nhật thông báo từ DTTC","đã cập nhật "+itemNotiDTTCsM.size()+" thông báo",3);
+                    showNoti("Thông báo từ Gà Công Nghiệp","đã cập nhật "+itemNotiDTTCsM.size()+" thông báo mới",3);
                 }else{
                     if (itemNotiDTTCsM.size()>itemNotiDTTCsC.size()){
-                        showNoti("Thông báo từ DTTC",(itemNotiDTTCsM.size()-itemNotiDTTCsC.size())+" thông báo mới",5);
+                        showNoti("Thông báo từ Gà Công Nghiệp ","đã cập nhật "+(itemNotiDTTCsM.size()-itemNotiDTTCsC.size())+" thông báo mới",5);
                         sqLiteManager.deleteItemNotiDTTC();
                         for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
                             sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
@@ -183,7 +183,7 @@ public class MyService extends Service{
                     }else{
                         for (int i = 0; i < itemNotiDTTCsM.size(); i++) {
                             if (!itemNotiDTTCsM.get(i).getTitle().equals(itemNotiDTTCsC.get(i).getTitle())){
-                                showNoti("Thông báo từ DTTC",itemNotiDTTCsM.get(i).getTitle(),4);
+                                showNoti("Thông báo từ Gà Công Nghiệp",itemNotiDTTCsM.get(i).getTitle(),4);
                                 sqLiteManager.deleteItemNotiDTTC();
                                 for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
                                     sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
