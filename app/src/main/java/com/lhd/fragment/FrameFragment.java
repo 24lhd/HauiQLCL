@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +103,6 @@ public abstract class FrameFragment extends Fragment{
         mainActivity = (MainActivity) getActivity();
         sqLiteManager=new SQLiteManager(getContext());
         sv= (SinhVien) getArguments().getSerializable(MainActivity.SINH_VIEN);
-        Log.e("FrameFragment",sv.getMaSV());
         pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
         tVnull= (TextView) view.findViewById(R.id.text_null);

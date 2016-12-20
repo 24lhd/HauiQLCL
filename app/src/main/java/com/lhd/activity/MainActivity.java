@@ -44,6 +44,7 @@ import com.lhd.item.KetQuaHocTap;
 import com.lhd.item.SinhVien;
 import com.lhd.item.Version;
 import com.lhd.log.Log;
+import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.TimeTask;
 
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     public static void showError(final Activity activity) {
         final AlertDialog.Builder builder=new AlertDialog.Builder(activity);
         builder.setTitle("Thông báo");
+        builder.setCancelable(false);
         builder.setMessage("Hình như sai mã sinh viên -_-\nBạn nhập lại nhé...");
         builder.setNegativeButton("Nhập MSV", new DialogInterface.OnClickListener() {
             @Override
@@ -220,17 +222,11 @@ public class MainActivity extends AppCompatActivity {
         sqLiteManager=new SQLiteManager(this);
         log=new Log(this);
         try {
-//            if (isOnline()){
-//                checkUpdate();
-//                Intent intent1=new Intent(this, MyService.class);
-//                this.startService(intent1);
-//            }
             PackageManager manager = getPackageManager();
              info = manager.getPackageInfo(getPackageName(), 0);
             String version = "Phiên bản "+info.versionName;
             TextView tvVersion= (TextView) findViewById(R.id.tv_version);
             tvVersion.setText(version);
-            checkLogin();
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -242,12 +238,10 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
     }
     private void checkLogin() {
-        initViewStart();
-        if (log.getID() instanceof String){
-            android.util.Log.e("faler","getSV");
+        if (log.getID().length()==10){
+            initViewStart();
             getSV(log.getID());
         }else{
-            android.util.Log.e("faler","startLogin");
             startLogin(MainActivity.this);
         }
 
@@ -269,7 +263,9 @@ public class MainActivity extends AppCompatActivity {
                     final AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("Cập nhật phiên bản "+version.getVerstionName());
                     builder.setCancelable(false);
-                    builder.setMessage("Nội dung:\n\t"+version.getContent()+"\nbạn muốn tải về và cài đặt ngay?\nHướng dẫn cài đặt: Cài đặt> Không rõ nguồn gốc");
+                    builder.setMessage("- Nội dung:\n\t"+version.getContent()+"\n- Khi " +
+                            "cài sẽ thay thể ứng dụng hiện tại và giữ nguyên dữ liệu đang có" +
+                            " bạn muốn tải về và cài đặt ngay?\n- Hướng dẫn cài đặt: Cài đặt> Không rõ nguồn gốc\n");
                     builder.setPositiveButton("Cài ngay", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -385,7 +381,7 @@ private Handler handler=new Handler(){
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_result);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_test);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_lich_thi);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_spider);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_chart);
         tabLayout.getTabAt(4).setIcon(R.drawable.ic_tab_noti_dttc);
         tabLayout.getTabAt(5).setIcon(R.drawable.ic_more);
         progressBar.setVisibility(View.GONE);
@@ -395,6 +391,11 @@ private Handler handler=new Handler(){
     protected ProgressBar progressBar;
     private void initViewStart() {
         setContentView(R.layout.activity_main);
+        if (isOnline(this)){
+            checkUpdate();
+            Intent intent1=new Intent(this, MyService.class);
+            this.startService(intent1);
+        }
         TimeTask timeTask =new TimeTask(handler);
         timeTask.execute();
         layoutTime= (LinearLayout) findViewById(R.id.view_time);

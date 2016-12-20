@@ -90,7 +90,7 @@ public class ListActivity extends AppCompatActivity {
     private void initView( ) {
         toolbarMenu = (Toolbar) findViewById(R.id.toolbar_menu);
         setSupportActionBar(toolbarMenu);
-        toolbarMenu.setNavigationIcon(R.drawable.ic_back);
+        toolbarMenu.setNavigationIcon(android.R.drawable.ic_input_delete);
         toolbarMenu.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
