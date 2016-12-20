@@ -263,16 +263,16 @@ public class MainActivity extends AppCompatActivity {
                     final AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("Cập nhật phiên bản "+version.getVerstionName());
                     builder.setCancelable(false);
-                    builder.setMessage("- Nội dung:\n\t"+version.getContent()+"\n- Khi " +
+                    builder.setMessage("- Nội dung:\n\t"+version.getContent()+"\n- Hướng dẫn cài đặt: Cài đặt> Không rõ nguồn gốc."+"\n- Khi " +
                             "cài sẽ thay thể ứng dụng hiện tại và giữ nguyên dữ liệu đang có" +
-                            " bạn muốn tải về và cài đặt ngay?\n- Hướng dẫn cài đặt: Cài đặt> Không rõ nguồn gốc\n");
+                            " bạn muốn tải về và cài đặt ngay?");
                     builder.setPositiveButton("Cài ngay", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             UpdateApp updateApp=new UpdateApp();
                             try {
                                 updateApp.getAndInstallAppLication(MainActivity.this,
-                                        "gacongnghiep.apk",version.getUrl(),
+                                        "Ga.apk",version.getUrl(),
                                         "đang tải "+getApplication().getString(R.string.app_name)+" phiên bản mới nhất",
                                         "Đang cập nhật "+getApplication().getString(R.string.app_name) );
                             }catch (Exception e){}
