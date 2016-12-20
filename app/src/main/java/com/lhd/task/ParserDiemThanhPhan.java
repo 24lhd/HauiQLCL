@@ -1,13 +1,11 @@
 package com.lhd.task;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.lhd.activity.MainActivity;
-import com.lhd.item.DiemThanhPhan;
+import com.lhd.item.BangDiemThanhPhan;
 import com.lhd.item.ItemBangDiemThanhPhan;
 
 import org.jsoup.Jsoup;
@@ -20,14 +18,14 @@ import java.util.ArrayList;
  * Created by root on 9/14/16.
  */
 
-public class ParserDiemThanhPhan extends AsyncTask<String,Void,DiemThanhPhan> {
+public class ParserDiemThanhPhan extends AsyncTask<String,Void,BangDiemThanhPhan> {
     private Handler handler1;
     public ParserDiemThanhPhan(Handler handler ) {
         this.handler1 = handler;
     }
     @Override
-    protected DiemThanhPhan doInBackground(String... strings) {
-        DiemThanhPhan diemThanhPhan=null;
+    protected BangDiemThanhPhan doInBackground(String... strings) {
+        BangDiemThanhPhan bangDiemThanhPhan =null;
         ArrayList<ItemBangDiemThanhPhan> arrDiemHocTapTheoLops =new ArrayList<>();
         try {
             Document doc= Jsoup.connect("http://qlcl.edu.vn"+strings[0]+"?start=0&recpage=150").get();
@@ -53,39 +51,39 @@ public class ParserDiemThanhPhan extends AsyncTask<String,Void,DiemThanhPhan> {
                         tds.get(13).text());
                 arrDiemHocTapTheoLops.add(diemHocTapTheoLop);
             }
-            diemThanhPhan=new DiemThanhPhan(maLopDL,tenLopUuTien,soTC,arrDiemHocTapTheoLops);
+            bangDiemThanhPhan =new BangDiemThanhPhan(maLopDL,tenLopUuTien,soTC,arrDiemHocTapTheoLops);
         } catch (Exception e) {
             Log.e("faker","null");
             return null;
         }
-        return diemThanhPhan;
+        return bangDiemThanhPhan;
     }
     private  int i=0;
     @Override
-    protected void onPostExecute( DiemThanhPhan diemThanhPhan) {
+    protected void onPostExecute( BangDiemThanhPhan bangDiemThanhPhan) {
 
         try {
             Message message=new Message();
             message.arg1=1;
-            message.obj=diemThanhPhan;
+            message.obj= bangDiemThanhPhan;
             handler1.sendMessage(message);
 //            Handler handler=new Handler(){
 //                @Override
 //                public void handleMessage(Message msg) {
 //                    if (msg.arg1==0){
-//                        diemThanhPhan.getDiemHocTapTheoLops().get(i).setTenLop((String) msg.obj);
-//                        if (i<diemThanhPhan.getDiemHocTapTheoLops().size()-1){
+//                        bangDiemThanhPhan.getDiemHocTapTheoLops().get(i).setTenLop((String) msg.obj);
+//                        if (i<bangDiemThanhPhan.getDiemHocTapTheoLops().size()-1){
 //                            i=i+1;
 //                        }else{
 //                            Message message=new Message();
 //                            message.arg1=1;
-//                            message.obj=diemThanhPhan;
+//                            message.obj=bangDiemThanhPhan;
 //                            handler1.sendMessage(message);
 //                        }
 //                    }
 //                }
 //            };
-//            for (DiemHocTapTheoLop diemHocTapTheoLop:diemThanhPhan.getDiemHocTapTheoLops()) {
+//            for (DiemHocTapTheoLop diemHocTapTheoLop:bangDiemThanhPhan.getDiemHocTapTheoLops()) {
 //                GetInfomation getInfomation=new GetInfomation(handler);
 //                getInfomation.execute(diemHocTapTheoLop.getMsv());
 //            }

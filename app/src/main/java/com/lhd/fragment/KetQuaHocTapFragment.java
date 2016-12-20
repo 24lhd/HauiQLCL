@@ -40,7 +40,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
             @Override
             public void onRefresh() {
                 if (MainActivity.isOnline(getContext())){
-                            sqLiteManager.deleteDMon(maSV);
+                            sqLiteManager.deleteDMon(sv.getMaSV());
                     startParser();
                 }else{
                     pullRefreshLayout.setRefreshing(false);
@@ -51,7 +51,8 @@ public class KetQuaHocTapFragment extends FrameFragment {
     }
     public void checkDatabase() {
                 showProgress();
-                bangKetQuaHocTaps=sqLiteManager.getBangKetQuaHocTap(maSV);
+
+                bangKetQuaHocTaps=sqLiteManager.getBangKetQuaHocTap(sv.getMaSV());
                 if (!bangKetQuaHocTaps.isEmpty()){
                     showRecircleView();
                     setRecyclerView();
@@ -61,7 +62,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
     }
     public void startParser() {
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
-        ketQuaHocTapTheoMon.execute(maSV);
+        ketQuaHocTapTheoMon.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
         Collections.sort(bangKetQuaHocTaps, new Comparator<ItemBangKetQuaHocTap>() {
@@ -90,7 +91,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
                         if (b.getSinhVien()!=null&&!b.getBangKetQuaHocTaps().isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
                             sqLiteManager.insertSV(b.getSinhVien());
                             bangKetQuaHocTaps=b.getBangKetQuaHocTaps();
-                            if (sqLiteManager.getBangKetQuaHocTap(maSV).size()<bangKetQuaHocTaps.size()){
+                            if (sqLiteManager.getBangKetQuaHocTap(sv.getMaSV()).size()<bangKetQuaHocTaps.size()){
                                 for (ItemBangKetQuaHocTap diemHocTapTheoMon:bangKetQuaHocTaps){
                                     sqLiteManager.insertDMon(diemHocTapTheoMon,b.getSinhVien().getMaSV());
                                 }

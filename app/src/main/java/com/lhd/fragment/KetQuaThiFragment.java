@@ -50,7 +50,7 @@ public class KetQuaThiFragment extends FrameFragment {
             @Override
             public void onRefresh() {
                 if (MainActivity.isOnline(getActivity())){
-                    sqLiteManager.deleteDThiMon(maSV);
+                    sqLiteManager.deleteDThiMon(sv.getMaSV());
                     startParser();
                 }else{
                     pullRefreshLayout.setRefreshing(false);
@@ -61,7 +61,7 @@ public class KetQuaThiFragment extends FrameFragment {
     }
     public void checkDatabase() {
         showProgress();
-        itemDiemThiTheoMons =sqLiteManager.getAllDThiMon(maSV);
+        itemDiemThiTheoMons =sqLiteManager.getAllDThiMon(sv.getMaSV());
         if (!itemDiemThiTheoMons.isEmpty()){
             showRecircleView();
             setRecyclerView();
@@ -73,7 +73,7 @@ public class KetQuaThiFragment extends FrameFragment {
     }
     public void startParser() {
         ParserKetQuaThiTheoMon parserKetQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
-        parserKetQuaThiTheoMon.execute(maSV);
+        parserKetQuaThiTheoMon.execute(sv.getMaSV());
 
 
     }
@@ -105,9 +105,9 @@ public class KetQuaThiFragment extends FrameFragment {
             try{
                         itemDiemThiTheoMons = (ArrayList<ItemDiemThiTheoMon>) msg.obj;
                         if (!itemDiemThiTheoMons.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
-                            if (sqLiteManager.getAllDThiMon(maSV).size()< itemDiemThiTheoMons.size()){
+                            if (sqLiteManager.getAllDThiMon(sv.getMaSV()).size()< itemDiemThiTheoMons.size()){
                                 for (ItemDiemThiTheoMon diemHocTapTheoLop: itemDiemThiTheoMons){
-                                    sqLiteManager.insertDThiMon(diemHocTapTheoLop,maSV);
+                                    sqLiteManager.insertDThiMon(diemHocTapTheoLop,sv.getMaSV());
                                 }
                             }
                             showRecircleView();
@@ -319,7 +319,7 @@ public class KetQuaThiFragment extends FrameFragment {
                                 "<em>Copyright  © Gà công nghiệp</em>"+
                                 "</body>" +
                                 "</html>";
-                        builder.setTitle("Kết quả thi của ");
+                        builder.setTitle("Kết quả thi của "+sv.getTenSV());
                         WebView webView=new WebView(getActivity());
                         webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
                         webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);

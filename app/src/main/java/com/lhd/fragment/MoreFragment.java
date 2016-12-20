@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +21,6 @@ import android.widget.Toast;
 
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
-import com.lhd.database.SQLiteManager;
-import com.lhd.item.ItemNotiDTTC;
-
-import java.util.ArrayList;
 
 /**
  * Created by Duong on 11/21/2016.
@@ -34,11 +29,7 @@ import java.util.ArrayList;
 public class MoreFragment extends Fragment implements AdapterView.OnItemClickListener{
     private MainActivity mainActivity;
     private ListView listView;
-    private RecyclerView recyclerView;
-    private SQLiteManager sqLiteManager;
-    private ArrayList<ItemNotiDTTC> itemNotiDTTCs;
     private AlertDialog.Builder builderNoti;
-
     @TargetApi(Build.VERSION_CODES.M)
     @Nullable
     @Override
@@ -194,7 +185,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
 
                 break;
             case 4:
-                mainActivity.startLogin();
+                mainActivity.startLogin(getActivity());
                 break;
             case 5:
                 mainActivity.finish();

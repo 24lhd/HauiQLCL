@@ -33,7 +33,7 @@ public class LichThiFragment extends FrameFragment {
             @Override
             public void onRefresh() {
                 if (MainActivity.isOnline(getActivity())){
-                    sqLiteManager.deleteDLThi(maSV);
+                    sqLiteManager.deleteDLThi(sv.getMaSV());
                     startParser();
                 }else{
                     pullRefreshLayout.setRefreshing(false);
@@ -44,7 +44,7 @@ public class LichThiFragment extends FrameFragment {
     }
     public void checkDatabase() {
         showProgress();
-        lichThis=sqLiteManager.getAllLThi(maSV);
+        lichThis=sqLiteManager.getAllLThi(sv.getMaSV());
         if (!lichThis.isEmpty()){
             showRecircleView();
             setRecyclerView();
@@ -57,7 +57,7 @@ public class LichThiFragment extends FrameFragment {
     public void startParser() {
 
         ParserLichThiTheoMon parserKetQuaHocTap=new ParserLichThiTheoMon(handler);
-        parserKetQuaHocTap.execute(maSV);
+        parserKetQuaHocTap.execute(sv.getMaSV());
 
 
     }
@@ -199,9 +199,9 @@ public class LichThiFragment extends FrameFragment {
                     case 5:
                         lichThis= (ArrayList<LichThi>) msg.obj;
                         if (!lichThis.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
-                            if (sqLiteManager.getAllLThi(maSV).size()<lichThis.size()){
+                            if (sqLiteManager.getAllLThi(sv.getMaSV()).size()<lichThis.size()){
                                 for (LichThi lichThiLop:lichThis){
-                                    sqLiteManager.insertlthi(lichThiLop,maSV);
+                                    sqLiteManager.insertlthi(lichThiLop,sv.getMaSV());
                                 }
                             }
                             pullRefreshLayout.setRefreshing(false);

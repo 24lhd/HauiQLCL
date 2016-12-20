@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,10 +31,10 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.database.SQLiteManager;
 import com.lhd.fragment.FrameFragment;
-import com.lhd.item.DiemThanhPhan;
-import com.lhd.item.ItemDiemThiTheoMon;
+import com.lhd.item.BangDiemThanhPhan;
 import com.lhd.item.ItemBangDiemThanhPhan;
 import com.lhd.item.ItemBangKetQuaHocTap;
+import com.lhd.item.ItemDiemThiTheoMon;
 import com.lhd.item.ItemKetQuaThiLop;
 import com.lhd.item.KetQuaThi;
 import com.lhd.item.LichThiLop;
@@ -59,7 +60,7 @@ public class ListActivity extends AppCompatActivity {
     private int index;
     private ItemBangKetQuaHocTap itemBangKetQuaHocTap;
     private ItemDiemThiTheoMon itemDiemThiTheoMon;
-    private DiemThanhPhan diemThanhPhan;
+    private BangDiemThanhPhan bangDiemThanhPhan;
     private KetQuaThi ketQuaThi;
     private Toolbar toolbarMenu;
     private AlertDialog.Builder builder;
@@ -103,7 +104,7 @@ public class ListActivity extends AppCompatActivity {
                     case R.id.cao_thap:
                         switch (index) {
                             case 0:
-                                Collections.sort(diemThanhPhan.getBangDiemThanhPhan(), new Comparator<ItemBangDiemThanhPhan>() {
+                                Collections.sort(bangDiemThanhPhan.getBangDiemThanhPhan(), new Comparator<ItemBangDiemThanhPhan>() {
                                     @Override
                                     public int compare(ItemBangDiemThanhPhan o1, ItemBangDiemThanhPhan o2) {
                                         double i1;
@@ -149,7 +150,7 @@ public class ListActivity extends AppCompatActivity {
                     case R.id.thap_cao:
                         switch (index) {
                             case 0:
-                                Collections.sort(diemThanhPhan.getBangDiemThanhPhan(), new Comparator<ItemBangDiemThanhPhan>() {
+                                Collections.sort(bangDiemThanhPhan.getBangDiemThanhPhan(), new Comparator<ItemBangDiemThanhPhan>() {
                                     @Override
                                     public int compare(ItemBangDiemThanhPhan o1, ItemBangDiemThanhPhan o2) {
                                         double i1;
@@ -168,7 +169,7 @@ public class ListActivity extends AppCompatActivity {
 
                                     }
                                 });
-                                Collections.reverse(diemThanhPhan.getBangDiemThanhPhan());
+                                Collections.reverse(bangDiemThanhPhan.getBangDiemThanhPhan());
                                 break;
                             case 3:
                                 Collections.sort(ketQuaThi.getKetQuaThiLops(), new Comparator<ItemKetQuaThiLop>() {
@@ -289,11 +290,11 @@ public class ListActivity extends AppCompatActivity {
             switch (index){
                 case 0:
                     itemBangKetQuaHocTap= (ItemBangKetQuaHocTap) intent.getSerializableExtra(FrameFragment.KEY_OBJECT);
-                     diemThanhPhan = sqLiteManager.getAllDLop(itemBangKetQuaHocTap.getMaMon());
-                    if (diemThanhPhan!=null&&!diemThanhPhan.getBangDiemThanhPhan().isEmpty()){
+                     bangDiemThanhPhan = sqLiteManager.getAllDLop(itemBangKetQuaHocTap.getMaMon());
+                    if (bangDiemThanhPhan !=null&&!bangDiemThanhPhan.getBangDiemThanhPhan().isEmpty()){
                         showRecircleView();
                         getSupportActionBar().setTitle("Điểm thành phần "+itemBangKetQuaHocTap.getTenMon());
-                        getSupportActionBar().setSubtitle(diemThanhPhan.getTenLopUuTien()+"_"+diemThanhPhan.getSoTin()+" tín chỉ");
+                        getSupportActionBar().setSubtitle(bangDiemThanhPhan.getTenLopUuTien()+"_"+ bangDiemThanhPhan.getSoTin()+" tín chỉ");
                       setRecircleView();
                     }else{
                         if (isOnline()){
@@ -364,14 +365,14 @@ public class ListActivity extends AppCompatActivity {
             pullRefreshLayout.setRefreshing(false);
             try{
                 if(msg.arg1==1){
-                     diemThanhPhan= (DiemThanhPhan) msg.obj;
-                    ArrayList<ItemBangDiemThanhPhan> b= diemThanhPhan.getBangDiemThanhPhan();
+                     bangDiemThanhPhan = (BangDiemThanhPhan) msg.obj;
+                    ArrayList<ItemBangDiemThanhPhan> b= bangDiemThanhPhan.getBangDiemThanhPhan();
                     if (!b.isEmpty()){
                         for (ItemBangDiemThanhPhan diemHocTapTheoLop:b){
-                           sqLiteManager.insertDLop(diemHocTapTheoLop,diemThanhPhan.getMaLopDL(),diemThanhPhan.getTenLopUuTien(),diemThanhPhan.getSoTin());
+                           sqLiteManager.insertDLop(diemHocTapTheoLop, bangDiemThanhPhan.getMaLopDL(), bangDiemThanhPhan.getTenLopUuTien(), bangDiemThanhPhan.getSoTin());
                         }
                         getSupportActionBar().setTitle("Điểm thành phần "+itemBangKetQuaHocTap.getTenMon());
-                        getSupportActionBar().setSubtitle(diemThanhPhan.getTenLopUuTien()+"_"+diemThanhPhan.getSoTin()+" tín chỉ");
+                        getSupportActionBar().setSubtitle(bangDiemThanhPhan.getTenLopUuTien()+"_"+ bangDiemThanhPhan.getSoTin()+" tín chỉ");
                         showRecircleView();
                        setRecircleView();
                     }
@@ -488,7 +489,7 @@ public class ListActivity extends AppCompatActivity {
                     "<em>Copyright  © Gà công nghiệp</em>"+
                     "</body>" +
                     "</html>";
-            builder.setTitle("Kế hoạc thi");
+            builder.setTitle("Kế hoạch thi");
             WebView webView=new WebView(ListActivity.this);
             webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
             webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
@@ -519,7 +520,7 @@ public class ListActivity extends AppCompatActivity {
     private void setRecircleView() {
         switch (index){
             case 0:
-                AdapterListPointClass  adapter=new AdapterListPointClass(diemThanhPhan.getBangDiemThanhPhan());
+                AdapterListPointClass  adapter=new AdapterListPointClass(bangDiemThanhPhan.getBangDiemThanhPhan());
                 recyclerView.setAdapter(adapter);
                 break;
             case 3:
@@ -586,6 +587,7 @@ public class ListActivity extends AppCompatActivity {
                     if (i==0){
                         Intent intent=getIntent();
                         intent.putExtra(MainActivity.MA_SV,data.get(itemPosition).getMsv());
+                        Log.e("ListActivity",data.get(itemPosition).getMsv());
                         setResult(Activity.RESULT_OK,intent);
                         finish();
                         overridePendingTransition(R.anim.left_end, R.anim.right_end);
@@ -742,7 +744,7 @@ public class ListActivity extends AppCompatActivity {
                         Intent returnIntent=getIntent();
                         returnIntent.putExtra(MainActivity.MA_SV,data.get(itemPosition).getMsv());
                         setResult(Activity.RESULT_OK,returnIntent);
-                        android.util.Log.e("faker1","setResult");
+                        Log.e("ListActivity",data.get(itemPosition).getMsv());
                         finish();
                         overridePendingTransition(R.anim.left_end, R.anim.right_end);
                     }else{

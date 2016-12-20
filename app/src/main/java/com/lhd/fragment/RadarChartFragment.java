@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +56,10 @@ public class RadarChartFragment extends Fragment {
         sqLiteManager=new SQLiteManager(getActivity());
         mv = new RadarMarkerView(getActivity(), R.layout.radar_markerview);
         mChart = (RadarChart) view.findViewById(R.id.chart1);
-        if (!sqLiteManager.getAllDThiMon(getArguments().getString(MainActivity.MA_SV)).isEmpty()||sqLiteManager.getAllDThiMon(getArguments().getString(MainActivity.MA_SV))!=null){
-            getDiemThiTheoMons(handler,getArguments().getString(MainActivity.MA_SV));
+        sinhVien= (SinhVien) getArguments().getSerializable(MainActivity.SINH_VIEN);
+        Log.e("RadarChartFragment",sinhVien.getMaSV());
+        if (!sqLiteManager.getAllDThiMon(sinhVien.getMaSV()).isEmpty()||sqLiteManager.getAllDThiMon(sinhVien.getMaSV())!=null){
+            getDiemThiTheoMons(handler,sinhVien.getMaSV());
         }
 
     }
@@ -194,7 +197,6 @@ public class RadarChartFragment extends Fragment {
                 data.setValueTextColor(Color.WHITE);
                 mChart.setData(data);
                 mChart.invalidate();
-                sinhVien=sqLiteManager.getSV(getArguments().getString(MainActivity.MA_SV));
                 TextView tvTen = (TextView) view.findViewById(R.id.tv_ten);
                 tvTen.setTextColor(getResources().getColor(R.color.colorAccent));
                 tvTen.setText(sinhVien.getTenSV());
@@ -216,10 +218,6 @@ public class RadarChartFragment extends Fragment {
             message.obj= itemDiemThiTheoMons;
             handler.sendMessage(message);
         }
-//        else{
-//            ParserKetQuaThiTheoMon parserKetQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
-//            parserKetQuaThiTheoMon.execute(msv);
-//        }
     }
     private ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMons;
     private  ArrayList<RadarEntry> entries1;

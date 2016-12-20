@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,6 @@ public abstract class FrameFragment extends Fragment{
     protected ProgressBar progressBar;
     protected LinearLayout toolbar;
     protected SQLiteManager sqLiteManager;
-    protected String maSV;
     protected PullRefreshLayout pullRefreshLayout;
     protected MainActivity mainActivity;
     protected SinhVien sv;
@@ -103,10 +103,10 @@ public abstract class FrameFragment extends Fragment{
     public void initView(View view) {
         mainActivity = (MainActivity) getActivity();
         sqLiteManager=new SQLiteManager(getContext());
-        maSV=getArguments().getString(MainActivity.MA_SV);
+        sv= (SinhVien) getArguments().getSerializable(MainActivity.SINH_VIEN);
+        Log.e("FrameFragment",sv.getMaSV());
         pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
-        sv= (SinhVien) getArguments().get(MainActivity.SINH_VIEN);
         tVnull= (TextView) view.findViewById(R.id.text_null);
         recyclerView= (RecyclerView) view.findViewById(R.id.recle_view);
         recyclerView.setHasFixedSize(true);

@@ -38,4 +38,13 @@ public class SinhVien implements Serializable {
     public String getLopDL() {
         return lopDL;
     }
+
+    @Override
+    public String toString() {
+        return "SinhVien{" +
+                "tenSV='" + tenSV + '\'' +
+                ", maSV='" + maSV + '\'' +
+                ", lopDL='" + lopDL + '\'' +
+                '}';
+    }
 }

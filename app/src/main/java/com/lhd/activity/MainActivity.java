@@ -57,20 +57,17 @@ import duong.update.code.UpdateApp;
  */
 
 public class MainActivity extends AppCompatActivity {
-    public static final String MA_SV = "masv";
-    public static final String SINH_VIEN = "sinh vien";
+    public static final String SINH_VIEN = "SINH_VIEN";
+    public static final String MA_SV = "MA_SINH_VIEN";
     private ViewPager viewPager;
     private KetQuaThiFragment ketQuaThiFragment;
     private LichThiFragment lichThiFragment;
     private KetQuaHocTapFragment ketQuaHocTapFragment;
-    private String maSV;
     private SQLiteManager sqLiteManager;
     private TabLayout tabLayout;
     private com.lhd.log.Log log;
-    private Bundle bundle;
     private TextView tvTitle,tv1,tv2;
-    private SinhVien sv;
-    private int currentView;
+    private SinhVien sinhVien;
     private MoreFragment moreFragment;
     private TextView tietView;
     private TextView timeView;
@@ -93,8 +90,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton("Nhập MSV", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent=new Intent(activity,InputActivity.class);
-                activity.startActivityForResult(intent,0);
+                startLogin(activity);
                 activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
                 dialogInterface.dismiss();
             }
@@ -141,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public static void shareText(Context context, String tenMon, String text) {
+
         String shareBody = tenMon+" \n"+text;
         Toast.makeText(context,shareBody,Toast.LENGTH_SHORT).show();
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -149,64 +146,54 @@ public class MainActivity extends AppCompatActivity {
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         context.startActivity(Intent.createChooser(sharingIntent, "Chia sẻ thông tin"));
     }
-    public void setTitleTab(String titleTab) {
-        sv=sqLiteManager.getSV(maSV);
-        if (sv!=null){
-            tvTitle.setText(sv.getTenSV());
-            tv1.setText(sv.getMaSV()+" : "+sv.getLopDL());
-            tv2.setText(titleTab);
+    public void setTitleTab(String s) {
+        tvTitle.setText(sinhVien.getTenSV());
+        tv1.setText(sinhVien.getLopDL()+" : "+sinhVien.getMaSV());
+        tv2.setText(s);
+    }
+
+    public void getSV(final String maSinhVien) {
+        sinhVien=sqLiteManager.getSV(maSinhVien);
+        if (sinhVien!=null){
+            startView();
         }else{
-             Handler handler=new Handler(){
+            Handler handler=new Handler(){
                 @Override
                 public void handleMessage(Message msg) {
                     try{
-                        switch (msg.arg1){
-                            case 6:
-                                sv= (SinhVien) msg.obj;
-                                if (sv!=null){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
-                                    sqLiteManager.insertSV(sv);
-                                    tvTitle.setText(sv.getTenSV());
-                                    tv1.setText(sv.getLopDL());
-                                    tv2.setText(sv.getMaSV());
-                                }else {
-                                    startLogin();
-                                }
-                                break;
-                        }
+                                sinhVien= (SinhVien) msg.obj;
+                                if (sinhVien!=null){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
+                                    sqLiteManager.insertSV(sinhVien);
+                                    startView();
+                                }else  showErr(MainActivity.this);
                     }catch (NullPointerException e){
-                        startLogin();
+                        startLogin(MainActivity.this);
                     }
                 }
             };
             ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(2,handler);
-            ketQuaHocTapTheoMon.execute(maSV);
+            ketQuaHocTapTheoMon.execute(maSinhVien);
         }
+
     }
+
     @Override
     public void onBackPressed() {
-        switch (currentView) {
-            default:
-                if (log.getID().equals(maSV)) {
-                    finish();
-                    this.overridePendingTransition(R.anim.left_end, R.anim.right_end);
-                } else {
-                    startView(log.getID());
+        if (log.getID().equals(sinhVien.getMaSV())) {
+            finish();
+            this.overridePendingTransition(R.anim.left_end, R.anim.right_end);
+        } else {
+            getSV(log.getID());
 
-                }
-                break;
         }
-
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        android.util.Log.e("faker1",""+requestCode);
         if (requestCode==0){
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra(MainActivity.MA_SV);
-                maSV=result;
-                log.putID(maSV);
-                startView(maSV);
+                log.putID(result);
+               getSV(result);
             }else if (resultCode ==Activity.RESULT_CANCELED){
                 finish();
             }else {
@@ -216,8 +203,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode==1){
                 if(resultCode == Activity.RESULT_OK){
                     String result=data.getStringExtra(MainActivity.MA_SV);
-                    maSV=result;
-                    startView(maSV);
+                    getSV(result);
                 }else if (resultCode ==Activity.RESULT_CANCELED){
                     finish();
                 }else if (resultCode ==Activity.RESULT_FIRST_USER){
@@ -250,32 +236,29 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
     }
     private void checkLogin() {
+        sqLiteManager=new SQLiteManager(this);
         log=new Log(this);
-        maSV=log.getID();
-        if (maSV.isEmpty()){
-            startLogin();
+        if (log.getID().isEmpty()){
+            startLogin(MainActivity.this);
         }else{
-            startView(maSV);
+            getSV(log.getID());
         }
     }
 
-    public void startLogin() {
-        Intent intent=new Intent(this,InputActivity.class);
-        startActivityForResult(intent,0);
-        this.overridePendingTransition(R.anim.left_end, R.anim.right_end);
+    public static void startLogin(Activity activity) {
+        Intent intent=new Intent(activity,InputActivity.class);
+        activity.startActivityForResult(intent,0);
+        activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
     }
-    public void startView(String id) {
-
+    public void startView() {
         if (isOnline()){
             checkUpdate();
             Intent intent1=new Intent(this, MyService.class);
             this.startService(intent1);
         }
-        maSV=id;
-        sqLiteManager=new SQLiteManager(this);
         setContentView(R.layout.activity_main);
-        creatFrament(id);
-        initUI();
+        initUI(sinhVien.getMaSV());
+
     }
 
     private void checkUpdate() {
@@ -316,20 +299,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void creatFrament(String id) {
-         bundle=new Bundle();
-        bundle.putString(MA_SV,id);
-        bundle.putSerializable(SINH_VIEN,sv);
-        try {
-            Intent intent=getIntent();
-            int index=intent.getBundleExtra(MyService.KEY_TAB).getInt(MyService.TAB_POSITON);
-            bundle.putInt(MyService.TAB_POSITON,index);
-        }catch (NullPointerException e ){
-            bundle.putInt(MyService.TAB_POSITON,0);
-        }
-    }
-    Handler handler=new Handler(){
+private Handler handler=new Handler(){
 
         @Override
         public void handleMessage(Message msg) {
@@ -343,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     boolean isCick=false;
-    private void initUI() {
+    private void initUI(final String maSV) {
         TimeTask timeTask =new TimeTask(handler);
         timeTask.execute();
         LinearLayout linearLayout= (LinearLayout) findViewById(R.id.view_time);
@@ -370,7 +340,6 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onPageSelected(int position) {
-                currentView=position;
                 switch (position){
                     case 5:
                         setTitleTab("Ngoài ra");
@@ -399,6 +368,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public android.support.v4.app.Fragment getItem(int position) {
+                Bundle bundle=new Bundle();
+                android.util.Log.e("putSerializable",sinhVien.toString());
+                bundle.putSerializable(SINH_VIEN,sinhVien);
                 switch (position){
                     case 0:
                         ketQuaHocTapFragment =new KetQuaHocTapFragment();
@@ -413,16 +385,16 @@ public class MainActivity extends AppCompatActivity {
                         lichThiFragment.setArguments(bundle);
                         return lichThiFragment;
                     case 3:
-                         radarChartFragment =new RadarChartFragment();
+                        radarChartFragment =new RadarChartFragment();
                         radarChartFragment.setArguments(bundle);
                         return radarChartFragment;
                     case 4:
-                         thongBaoDtttcFragment=new ThongBaoDtttcFragment();
+                        thongBaoDtttcFragment=new ThongBaoDtttcFragment();
+                        thongBaoDtttcFragment.setArguments(bundle);
                         return thongBaoDtttcFragment;
                     case 5:default:
                         moreFragment=new MoreFragment();
                         return moreFragment;
-
                 }
             }
             @Override

@@ -6,8 +6,8 @@ import java.util.ArrayList;
  * Created by root on 9/12/16.
  */
 
-public class DiemThanhPhan {
-    public DiemThanhPhan(String maLopDL, String tenLopUuTien, String soTin, ArrayList<ItemBangDiemThanhPhan> bangDiemThanhPhen) {
+public class BangDiemThanhPhan {
+    public BangDiemThanhPhan(String maLopDL, String tenLopUuTien, String soTin, ArrayList<ItemBangDiemThanhPhan> bangDiemThanhPhen) {
         this.maLopDL = maLopDL;
         this.tenLopUuTien = tenLopUuTien;
         this.soTin = soTin;

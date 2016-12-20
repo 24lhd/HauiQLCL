@@ -1,26 +1,16 @@
 package com.lhd.fragment;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
-import com.lhd.database.SQLiteManager;
 import com.lhd.item.ItemNotiDTTC;
 import com.lhd.task.ParserLinkFileNoti;
 import com.lhd.task.ParserNotiDTTC;
@@ -31,50 +21,13 @@ import java.util.ArrayList;
  * Created by D on 12/15/2016.
  */
 
-public class ThongBaoDtttcFragment extends Fragment {
-    private TextView tVnull;
-    private ProgressBar progressBar;
-    private SQLiteManager sqLiteManager;
-    private PullRefreshLayout pullRefreshLayout;
-    private RecyclerView recyclerView;
-    private MainActivity mainActivity;
+public class ThongBaoDtttcFragment extends FrameFragment {
     private ArrayList<ItemNotiDTTC> itemNotiDTTCs;
-
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.layout_frame_fragment,container,false);
-        initView(view);
-        return view;
-    }
-
-    private void initView(View view) {
-        mainActivity = (MainActivity) getActivity();
-        sqLiteManager=new SQLiteManager(mainActivity);
-        pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-        progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
-        tVnull= (TextView) view.findViewById(R.id.text_null);
-        recyclerView= (RecyclerView) view.findViewById(R.id.recle_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        refesh();
-        checkDatabase();
-        pullRefreshLayout.setRefreshing(false);
-    }
-    public boolean isOnline() {
-        try {
-            ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            return cm.getActiveNetworkInfo().isConnectedOrConnecting();
-        }catch (Exception e) {
-            return false;
-        }
-    }
-    private void refesh() {
+    public void refesh() {
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (isOnline()){
+                if (MainActivity.isOnline(mainActivity)){
                     sqLiteManager.deleteItemNotiDTTC();
                     startParser();
                     pullRefreshLayout.setRefreshing(false);
@@ -85,17 +38,7 @@ public class ThongBaoDtttcFragment extends Fragment {
             }
         });
     }
-    private void showRecircleView() {
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
-        tVnull.setVisibility(View.GONE);
-    }
-    private void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-        tVnull.setVisibility(View.GONE);
-    }
-    private void checkDatabase() {
+    public void checkDatabase() {
         showProgress();
         itemNotiDTTCs=sqLiteManager.getNotiDTTC();
         if (!itemNotiDTTCs.isEmpty()){
@@ -107,56 +50,15 @@ public class ThongBaoDtttcFragment extends Fragment {
 
 
     }
-    private void startParser() {
+    public void startParser() {
         ParserNotiDTTC parserNotiDTTC=new ParserNotiDTTC(handler);
         parserNotiDTTC.execute();
 
     }
-    private void showTextNull() {
-        progressBar.setVisibility(View.GONE);
-        tVnull.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-    }
-    private void cantLoadData() {
-        showTextNull();
-        tVnull.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isOnline()){
-                    showProgress();
-                    startParser();
-                }else {
-                    final Snackbar snackbar=Snackbar.make(recyclerView, "Vui lòng bật kết nối internet!",Snackbar.LENGTH_SHORT);
-
-                    snackbar.setActionTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                    snackbar.setAction("Bật wifi", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            WifiManager wifiManager = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
-                            wifiManager.setWifiEnabled(true);
-                            showProgress();
-                            snackbar.dismiss();
-                            startParser();
-                        }
-                    });
-                    snackbar.show();
-                }
-            }
-        });
-    }
-    private void loadData() {
-        if (isOnline()){
-            showProgress();
-            startParser();
-        }else{
-            cantLoadData();
-        }
-    }
-    private void setRecyclerView() {
+    public void setRecyclerView() {
         AdapterNoti adapterNoti=new AdapterNoti(itemNotiDTTCs);
         recyclerView.removeAllViews();
         recyclerView.setAdapter(adapterNoti);
-
 
     }
     private Handler handler=new Handler(){

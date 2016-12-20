@@ -7,7 +7,7 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.lhd.item.DiemThanhPhan;
+import com.lhd.item.BangDiemThanhPhan;
 import com.lhd.item.ItemDiemThiTheoMon;
 import com.lhd.item.ItemBangDiemThanhPhan;
 import com.lhd.item.ItemBangKetQuaHocTap;
@@ -347,7 +347,7 @@ public class SQLiteManager {
         closeDatabases();
         return id;
     }
-    public DiemThanhPhan getAllDLop(String ma) {
+    public BangDiemThanhPhan getAllDLop(String ma) {
         try {
             openDatabases();
             ArrayList<ItemBangDiemThanhPhan> itemBangDiemThanhPhen=new ArrayList<>();
@@ -388,7 +388,7 @@ public class SQLiteManager {
             }
 
             closeDatabases();
-            return new DiemThanhPhan(maLopDL,
+            return new BangDiemThanhPhan(maLopDL,
                     tenLopDL,
                     sotc,
                     itemBangDiemThanhPhen);
