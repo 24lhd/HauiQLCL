@@ -22,6 +22,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,10 +39,11 @@ import com.lhd.fragment.LichThiFragment;
 import com.lhd.fragment.MoreFragment;
 import com.lhd.fragment.RadarChartFragment;
 import com.lhd.fragment.ThongBaoDtttcFragment;
+import com.lhd.item.ItemBangKetQuaHocTap;
+import com.lhd.item.KetQuaHocTap;
 import com.lhd.item.SinhVien;
 import com.lhd.item.Version;
 import com.lhd.log.Log;
-import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.TimeTask;
 
@@ -74,28 +76,33 @@ public class MainActivity extends AppCompatActivity {
     private RadarChartFragment radarChartFragment;
     private ThongBaoDtttcFragment thongBaoDtttcFragment;
     private PackageInfo info;
-
-    public boolean isOnline() {
-        try {
-            ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-            return cm.getActiveNetworkInfo().isConnectedOrConnecting();
-        }catch (Exception e) {
-            return false;
-        }
-    }
-    public static void showErr(final Activity activity) {
+    private LinearLayout layoutTime;
+    public static void showError(final Activity activity) {
         final AlertDialog.Builder builder=new AlertDialog.Builder(activity);
         builder.setTitle("Thông báo");
-        builder.setMessage("Chả lấy được dữ liệu gì cả. Bạn nhập lại mã sinh viên nhé !!!");
+        builder.setMessage("Hình như sai mã sinh viên -_-\nBạn nhập lại nhé...");
         builder.setNegativeButton("Nhập MSV", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
                 startLogin(activity);
                 activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
-                dialogInterface.dismiss();
+
             }
         });
         builder.show();
+    }
+    public void setTitleTab(String s) {
+        try {
+            tvTitle.setText(sinhVien.getTenSV());
+            tv1.setText(sinhVien.getLopDL()+" : "+sinhVien.getMaSV());
+            tv2.setText(s);
+        }catch (Exception e){
+            tvTitle.setText(s);
+            tv1.setText(s);
+            tv2.setText(s);
+        }
+
     }
     public static void sreenShort(View viewInput,Context context) {
          Date now = new Date();
@@ -146,46 +153,45 @@ public class MainActivity extends AppCompatActivity {
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         context.startActivity(Intent.createChooser(sharingIntent, "Chia sẻ thông tin"));
     }
-    public void setTitleTab(String s) {
-        tvTitle.setText(sinhVien.getTenSV());
-        tv1.setText(sinhVien.getLopDL()+" : "+sinhVien.getMaSV());
-        tv2.setText(s);
-    }
 
-    public void getSV(final String maSinhVien) {
-        sinhVien=sqLiteManager.getSV(maSinhVien);
-        if (sinhVien!=null){
-            startView();
-        }else{
-            Handler handler=new Handler(){
-                @Override
-                public void handleMessage(Message msg) {
-                    try{
-                                sinhVien= (SinhVien) msg.obj;
-                                if (sinhVien!=null){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
-                                    sqLiteManager.insertSV(sinhVien);
-                                    startView();
-                                }else  showErr(MainActivity.this);
-                    }catch (NullPointerException e){
-                        startLogin(MainActivity.this);
-                    }
-                }
-            };
-            ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(2,handler);
-            ketQuaHocTapTheoMon.execute(maSinhVien);
+    public void setSinhVien(SinhVien sinhVien) {
+        this.sinhVien = sinhVien;
+        initUI();
+    }
+    public void getSV(String maSinhVien) {
+        initViewStart();
+        if (sqLiteManager.getSV(maSinhVien) instanceof SinhVien){
+            setSinhVien(sqLiteManager.getSV(maSinhVien));
+            return;
         }
+        ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what==2){
+                    showError(MainActivity.this);
+                    return;
+                }else if (msg.obj instanceof KetQuaHocTap){
+                    KetQuaHocTap ketQuaHocTap= (KetQuaHocTap) msg.obj;
+                    for (ItemBangKetQuaHocTap bangKetQuaHocTap:ketQuaHocTap.getBangKetQuaHocTaps()) {
+                        sqLiteManager.insertDMon(bangKetQuaHocTap,ketQuaHocTap.getSinhVien().getMaSV());
+                    }
+                    sqLiteManager.insertSV(ketQuaHocTap.getSinhVien());
+                    setSinhVien(sqLiteManager.getSV(ketQuaHocTap.getSinhVien().getMaSV()));
+                    return;
+                }
+            }
+        });
+        ketQuaHocTapTheoMon.execute(maSinhVien);
+
 
     }
-
     @Override
     public void onBackPressed() {
         if (log.getID().equals(sinhVien.getMaSV())) {
             finish();
             this.overridePendingTransition(R.anim.left_end, R.anim.right_end);
-        } else {
+        }else
             getSV(log.getID());
-
-        }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -193,24 +199,17 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra(MainActivity.MA_SV);
                 log.putID(result);
-               getSV(result);
-            }else if (resultCode ==Activity.RESULT_CANCELED){
+               checkLogin();
+            }else if (resultCode ==Activity.RESULT_CANCELED)
                 finish();
-            }else {
-              checkLogin();
-            }
-        }
-        if (requestCode==1){
+        }else if (requestCode==1){
                 if(resultCode == Activity.RESULT_OK){
                     String result=data.getStringExtra(MainActivity.MA_SV);
+                    initViewStart();
                     getSV(result);
-                }else if (resultCode ==Activity.RESULT_CANCELED){
+                }else if (resultCode ==Activity.RESULT_CANCELED)
                     finish();
-                }else if (resultCode ==Activity.RESULT_FIRST_USER){
-                    return;
-                }else{
-                    checkLogin();
-                }
+
             }
 
     }
@@ -218,17 +217,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_layout);
+        sqLiteManager=new SQLiteManager(this);
+        log=new Log(this);
         try {
+//            if (isOnline()){
+//                checkUpdate();
+//                Intent intent1=new Intent(this, MyService.class);
+//                this.startService(intent1);
+//            }
             PackageManager manager = getPackageManager();
              info = manager.getPackageInfo(getPackageName(), 0);
             String version = "Phiên bản "+info.versionName;
             TextView tvVersion= (TextView) findViewById(R.id.tv_version);
             tvVersion.setText(version);
+            checkLogin();
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        (new Handler()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 checkLogin();
@@ -236,13 +242,15 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
     }
     private void checkLogin() {
-        sqLiteManager=new SQLiteManager(this);
-        log=new Log(this);
-        if (log.getID().isEmpty()){
-            startLogin(MainActivity.this);
-        }else{
+        initViewStart();
+        if (log.getID() instanceof String){
+            android.util.Log.e("faler","getSV");
             getSV(log.getID());
+        }else{
+            android.util.Log.e("faler","startLogin");
+            startLogin(MainActivity.this);
         }
+
     }
 
     public static void startLogin(Activity activity) {
@@ -250,17 +258,6 @@ public class MainActivity extends AppCompatActivity {
         activity.startActivityForResult(intent,0);
         activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
     }
-    public void startView() {
-        if (isOnline()){
-            checkUpdate();
-            Intent intent1=new Intent(this, MyService.class);
-            this.startService(intent1);
-        }
-        setContentView(R.layout.activity_main);
-        initUI(sinhVien.getMaSV());
-
-    }
-
     private void checkUpdate() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("updateGaCongNghiep");
@@ -295,8 +292,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onCancelled(DatabaseError error) {
-            }
+            public void onCancelled(DatabaseError error) {}
         });
     }
 private Handler handler=new Handler(){
@@ -313,26 +309,11 @@ private Handler handler=new Handler(){
         }
     };
     boolean isCick=false;
-    private void initUI(final String maSV) {
-        TimeTask timeTask =new TimeTask(handler);
-        timeTask.execute();
-        LinearLayout linearLayout= (LinearLayout) findViewById(R.id.view_time);
-        tietView= (TextView) findViewById(R.id.tv_tiet_hientai);
-        timeView= (TextView) findViewById(R.id.tv_time_conlai);
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isCick=!isCick;
-                if (!isCick){
-                    TimeTask timeTask =new TimeTask(handler);
-                    timeTask.execute();
-                }
-            }
-        });
-        tvTitle= (TextView) findViewById(R.id.tb_title);
-        tv1= (TextView) findViewById(R.id.tb_text1);
-        tv2= (TextView) findViewById(R.id.tb_text2);
+    private void initUI() {
+
         viewPager= (ViewPager) findViewById(R.id.viewpager);
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(0);
         setTitleTab("Kết quả học tập");
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -369,7 +350,6 @@ private Handler handler=new Handler(){
             @Override
             public android.support.v4.app.Fragment getItem(int position) {
                 Bundle bundle=new Bundle();
-                android.util.Log.e("putSerializable",sinhVien.toString());
                 bundle.putSerializable(SINH_VIEN,sinhVien);
                 switch (position){
                     case 0:
@@ -401,23 +381,53 @@ private Handler handler=new Handler(){
             public int getCount() {
                 return 6;
             }
-
         });
-        viewPager.setCurrentItem(0);
-        tabLayout= (TabLayout) findViewById(R.id.tablayout_fa);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setSelectedTabIndicatorHeight(5);
-        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorPrimary));
-        tabLayout.setBackgroundColor(Color.WHITE);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_result);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_test);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_lich_thi);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_spider);
         tabLayout.getTabAt(4).setIcon(R.drawable.ic_tab_noti_dttc);
         tabLayout.getTabAt(5).setIcon(R.drawable.ic_more);
+        progressBar.setVisibility(View.GONE);
+        viewPager.setVisibility(View.VISIBLE);
+        tabLayout.setVisibility(View.VISIBLE);
     }
+    protected ProgressBar progressBar;
+    private void initViewStart() {
+        setContentView(R.layout.activity_main);
+        TimeTask timeTask =new TimeTask(handler);
+        timeTask.execute();
+        layoutTime= (LinearLayout) findViewById(R.id.view_time);
+        tietView= (TextView) findViewById(R.id.tv_tiet_hientai);
+        timeView= (TextView) findViewById(R.id.tv_time_conlai);
+        progressBar= (ProgressBar) findViewById(R.id.pg_loading_main);
+        layoutTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isCick=!isCick;
+                if (!isCick){
+                    TimeTask timeTask =new TimeTask(handler);
+                    timeTask.execute();
+                }
+            }
+        });
+        tvTitle= (TextView) findViewById(R.id.tb_title);
+        tv1= (TextView) findViewById(R.id.tb_text1);
+        tv2= (TextView) findViewById(R.id.tb_text2);
+        viewPager= (ViewPager) findViewById(R.id.viewpager);
+        setTitleTab("Đang lấy dữ liệu.....");
+        tabLayout= (TabLayout) findViewById(R.id.tablayout_fa);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setSelectedTabIndicatorHeight(5);
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorPrimary));
+        tabLayout.setBackgroundColor(Color.WHITE);
+        tabLayout.setupWithViewPager(viewPager);
+        progressBar.setVisibility(View.VISIBLE);
+        viewPager.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.GONE);
+    }
+
     public static boolean isOnline(Context context) {
         try {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

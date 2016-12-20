@@ -205,7 +205,7 @@ public class MyService extends Service{
          id=log.getID();
 //        Toast.makeText(this,"Gà Công Nghiệp kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
         sqLiteManager =new SQLiteManager(this);
-        ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
+        ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
         ketQuaHocTapTheoMon.execute(id);
 
         ParserNotiDTTC parserNotiDTTC=new ParserNotiDTTC(handlerNotiQLCL);

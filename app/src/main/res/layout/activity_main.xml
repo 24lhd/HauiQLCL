@@ -109,6 +109,9 @@
             android:background="@color/colorPrimaryDark"
             android:id="@+id/view"
             android:layout_height="1dp"></View>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
                 <android.support.v4.view.ViewPager
                     android:layout_width="match_parent"
                     android:id="@+id/viewpager"
@@ -116,5 +119,13 @@
                     android:layout_marginRight="@dimen/margin_view"
                     android:layout_height="match_parent">
                 </android.support.v4.view.ViewPager>
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/pg_loading_main"
+                    style="@android:style/Widget.Material.ProgressBar.Large"
+                    android:layout_height="wrap_content" />
+        </RelativeLayout>
+
 </LinearLayout>
 

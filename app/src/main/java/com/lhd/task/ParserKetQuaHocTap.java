@@ -3,7 +3,6 @@ package com.lhd.task;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.lhd.item.ItemBangKetQuaHocTap;
 import com.lhd.item.KetQuaHocTap;
@@ -21,10 +20,8 @@ import java.util.ArrayList;
 
 public class ParserKetQuaHocTap extends AsyncTask<String,Void,KetQuaHocTap> {
     private Handler handler;
-    private int key;
 
-    public ParserKetQuaHocTap(int key, Handler handler) {
-        this.key = key;
+    public ParserKetQuaHocTap(  Handler handler) {
         this.handler = handler;
     }
 
@@ -43,7 +40,6 @@ public class ParserKetQuaHocTap extends AsyncTask<String,Void,KetQuaHocTap> {
             String maSV=ttSV.get(1).select("td").get(1).select("strong").text();
             String lopDL=ttSV.get(2).select("td").get(1).select("strong").text();
             sinhVien=new SinhVien(tenSv,maSV,lopDL);
-            if (key==0){
                 Elements tbody=tbodys.get(1).select("tr");
                 for (int i=0;i<tbody.size()-1;i++){
                     Elements tds=tbody.get(i).select("td");
@@ -61,7 +57,6 @@ public class ParserKetQuaHocTap extends AsyncTask<String,Void,KetQuaHocTap> {
                             tds.get(12).text(),
                             tds.get(13).text());
                     bangKetQuaHocTaps.add(bangKetQuaHocTap);
-                }
             }
             ketQuaHocTap=new KetQuaHocTap(sinhVien,bangKetQuaHocTaps);
             return ketQuaHocTap;
@@ -72,21 +67,13 @@ public class ParserKetQuaHocTap extends AsyncTask<String,Void,KetQuaHocTap> {
     }
     @Override
     protected void onPostExecute(KetQuaHocTap ketQuaHocTap) {
-        try {
-            if (key==0){
-                Message message=new Message();
-                message.arg1=0;
-                message.obj=ketQuaHocTap;
-                handler.sendMessage(message);
+            if (ketQuaHocTap instanceof KetQuaHocTap){
+                    Message message=new Message();
+                    message.obj=ketQuaHocTap;
+                    handler.sendMessage(message);
             }else{
-                Message message=new Message();
-                message.arg1=6;
-                message.obj=ketQuaHocTap.getSinhVien();
-                handler.sendMessage(message);
+                handler.sendEmptyMessage(2);
             }
-
-        }catch (NullPointerException e){
-        }
 
     }
 }

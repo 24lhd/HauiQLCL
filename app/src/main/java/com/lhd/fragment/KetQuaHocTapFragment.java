@@ -21,7 +21,6 @@ import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
 import com.lhd.item.ItemBangKetQuaHocTap;
 import com.lhd.item.KetQuaHocTap;
-import com.lhd.item.SinhVien;
 import com.lhd.task.ParserKetQuaHocTap;
 
 import java.io.Serializable;
@@ -61,7 +60,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
                 }
     }
     public void startParser() {
-        ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(0,handler);
+        ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
         ketQuaHocTapTheoMon.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
@@ -96,22 +95,20 @@ public class KetQuaHocTapFragment extends FrameFragment {
                                     sqLiteManager.insertDMon(diemHocTapTheoMon,b.getSinhVien().getMaSV());
                                 }
                             }
+//                            sv=b.getSinhVien();
+//                            if (!(sv instanceof SinhVien)){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
+//                                sqLiteManager.insertSV(sv);
+//                            }else{
+//                                MainActivity.showError(getActivity());
+//                            }
                             pullRefreshLayout.setRefreshing(false);
                             showRecircleView();
                             setRecyclerView();
                         }
                         break;
-                    case 6:
-                        sv= (SinhVien) msg.obj;
-                        if (sv!=null){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
-                            sqLiteManager.insertSV(sv);
-                        }else{
-                            MainActivity.showErr(getActivity());
-                        }
-                        break;
                 }
             }catch (NullPointerException e){
-                MainActivity.showErr(getActivity());
+//                MainActivity.showError(getActivity());
             }
         }
     };

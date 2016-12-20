@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.lhd.item.BangDiemThanhPhan;
-import com.lhd.item.ItemDiemThiTheoMon;
 import com.lhd.item.ItemBangDiemThanhPhan;
 import com.lhd.item.ItemBangKetQuaHocTap;
+import com.lhd.item.ItemDiemThiTheoMon;
 import com.lhd.item.ItemKetQuaThiLop;
 import com.lhd.item.ItemNotiDTTC;
 import com.lhd.item.KetQuaThi;
@@ -229,8 +229,8 @@ public class SQLiteManager {
         return id;
     }
     public SinhVien getSV(String masv) {
+        SinhVien sinhVien;
         try {
-            SinhVien sinhVien;
             openDatabases();
             String [] s={masv};
             Cursor cursor=database.query("sv",null,"maSV=?",s,null,null,null);
@@ -247,8 +247,6 @@ public class SQLiteManager {
             closeDatabases();
             return sinhVien ;
         }catch (CursorIndexOutOfBoundsException e){
-            
-            Log.e("faker","showErr");
             return null;
         }
     }
@@ -648,7 +646,6 @@ public class SQLiteManager {
             closeDatabases();
             return lichThiLops;
         }catch (Exception e){
-            
             Log.e("faker","showErr");
         }
         return null;
