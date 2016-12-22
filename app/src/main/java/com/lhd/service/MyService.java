@@ -179,7 +179,7 @@ public class MyService extends Service{
                         for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
                             sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
                         }
-                    }else{
+                    }else if(itemNotiDTTCsM.size()!=0){
                         for (int i = 0; i < itemNotiDTTCsM.size(); i++) {
                             boolean flag=true;
                             for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsC) {

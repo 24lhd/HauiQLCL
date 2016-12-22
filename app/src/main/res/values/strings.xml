@@ -17,7 +17,7 @@
     <string name="bbn_phone_view_behavior" translatable="false" tools:ignore="UnusedResources">com.faker.classbook.bottonnavigation.BottomNavigation</string>
     <string name="hint_sms">Nhập tin nhắn vào đây</string>
     <string name="chu_y_4">* Hãy sử dụng mã sinh viên là mã sinh viên của bạn.</string>
-    <string name="app_text">- Nhanh chóng\n- Tiện lợi\n- Kịp thời</string>
+    <string name="app_text">Only student</string>
     <string name="ban_quyen_link"><em>Copyright  ©<em> 2016</em>, Lê Hồng Dương.</em></string>
     <string name="feedback">Ý kiến đóng góp</string>
     <string name="text_feedback">* Mọi ý kiến đóng góp sẽ được đến địa chỉ gacongnghiep.sv@gmail.com</string>

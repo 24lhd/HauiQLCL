@@ -162,7 +162,6 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                         "<p >Phần mềm sử dụng dữ liệu trên trang web http://qlcl.edu.vn/ cập nhật thông báo điểm, tra cứu kết quả học tập, lịch thi và một số tiện ích khác hỗ trợ các bạn sinh viên ĐH Công nghiệp Hà Nội trong học tập và trong thi cử một cách nhanh nhất." +
                         "<p>  Phát triển bởi: <br> <p>- Lê Hồng Dương (ĐH HTTT1_K9)<br><p> Xin chân thành cảm ơn sự ủng hộ của các bạn!" +
                         "<p id=\"footer\">" +
-                        "<small>Copyright &copy<em> 2016</em>, Lê Hồng Dương.</small>" +
                         "</p>" +
                         "</body>" +
                         "</html>";

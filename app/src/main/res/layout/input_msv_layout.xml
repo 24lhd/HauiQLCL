@@ -16,23 +16,24 @@
         android:background="@drawable/shadow_view"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/margin_view"
             android:gravity="center"
             android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="100dp"
+                android:layout_width="50sp"
                 android:src="@drawable/icon_app"
-                android:layout_height="100dp"/>
+                android:layout_height="50sp"/>
             <TextView
                 android:layout_width="wrap_content"
-                android:text="@string/app_text"
-                android:textColor="@color/colorAccent"
+                android:text="@string/app_name"
+                android:textColor="@color/md_red_500"
                 style="@style/Base.TextAppearance.AppCompat.Headline"
-                android:gravity="left"
+                android:gravity="left|center"
                 android:layout_height="match_parent"/>
         </LinearLayout>
-            android:layout_height="wrap_content" />
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:padding="@dimen/margin_view"
@@ -54,21 +55,19 @@
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/margin_view"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margin_view_inner"
+            android:layout_marginBottom="@dimen/margin_view_inner"
             android:id="@+id/tv_input_error"
             android:layout_gravity="left"
-            android:layout_marginLeft="@dimen/margin_view"
-            android:layout_marginRight="@dimen/margin_view"
             android:textColor="@color/md_red_500"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_height="wrap_content" />
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_view"
             android:layout_height="wrap_content">
-
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:visibility="gone"
@@ -93,8 +92,6 @@
             android:layout_marginTop="@dimen/margin_view"
             android:text="@string/ban_quyen_link"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/margin_view"
-            android:layout_marginRight="@dimen/margin_view"
             style="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/md_red_500"
             android:layout_height="wrap_content" />
