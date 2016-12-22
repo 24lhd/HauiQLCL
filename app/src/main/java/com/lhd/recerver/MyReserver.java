@@ -20,9 +20,7 @@ public class MyReserver extends BroadcastReceiver {
             Intent intent1=new Intent(context, MyService.class);
             boolean b=activeNetInfo.isConnectedOrConnecting();
             if (b){
-                    context.startService(intent1);
-            }else{
-                context.stopService(intent1);
+                context.startService(intent1);
             }
         }
     }

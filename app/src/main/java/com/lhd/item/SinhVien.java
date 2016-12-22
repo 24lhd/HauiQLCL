@@ -7,7 +7,10 @@ import java.io.Serializable;
  */
 
 public class SinhVien implements Serializable {
-    private String tenSV,maSV,lopDL;
+    public String tenSV,maSV,lopDL;
+
+    public SinhVien() {
+    }
 
     public SinhVien(String tenSV, String maSV, String lopDL) {
         this.tenSV = tenSV;

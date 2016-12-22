@@ -248,6 +248,11 @@ public class MainActivity extends AppCompatActivity {
     }
     private void checkUpdate() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+        if (sinhVien instanceof SinhVien){
+            DatabaseReference every = database.getReference("every/"+sinhVien.getMaSV());
+            every.setValue(sinhVien);
+
+        }
         DatabaseReference myRef = database.getReference("updateGaCongNghiep");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

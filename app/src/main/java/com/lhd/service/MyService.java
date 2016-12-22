@@ -19,8 +19,8 @@ import android.support.v4.app.NotificationCompat;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
-import com.lhd.item.ItemDiemThiTheoMon;
 import com.lhd.item.ItemBangKetQuaHocTap;
+import com.lhd.item.ItemDiemThiTheoMon;
 import com.lhd.item.ItemNotiDTTC;
 import com.lhd.item.KetQuaHocTap;
 import com.lhd.item.LichThi;
@@ -145,7 +145,6 @@ public class MyService extends Service{
         Random random=new Random();
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(),  random.nextInt(1000), resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
         nBuilder = new NotificationCompat.Builder(getApplicationContext())
                 .setSmallIcon(R.drawable.icon_app)
                 .setVibrate(l)
@@ -203,7 +202,7 @@ public class MyService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         log=new com.lhd.log.Log(this);
          id=log.getID();
-//        Toast.makeText(this,"Gà Công Nghiệp kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
+//        Toast.makeText(this,"Gà Công Nghiệp đang kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
         sqLiteManager =new SQLiteManager(this);
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
         ketQuaHocTapTheoMon.execute(id);
@@ -220,6 +219,6 @@ public class MyService extends Service{
         Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
          mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 }
