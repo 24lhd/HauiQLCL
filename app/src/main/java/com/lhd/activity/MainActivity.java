@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
             tv1.setText(s);
             tv2.setText(s);
         }
-
     }
     public static void sreenShort(View viewInput,Context context) {
          Date now = new Date();
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Gà công nghiệp chia sẻ");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-        context.startActivity(Intent.createChooser(sharingIntent, "Chia sẻ thông tin"));
+        context.startActivity(Intent.createChooser(sharingIntent, "Gà công nghiệp chia sẻ"));
     }
 
     public void setSinhVien(SinhVien sinhVien) {
@@ -287,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private boolean isCick=true;
+    private boolean isCick;
     private void initUI() {
         viewPager= (ViewPager) findViewById(R.id.viewpager);
         tabLayout.setupWithViewPager(viewPager);
@@ -373,6 +372,20 @@ public class MainActivity extends AppCompatActivity {
     protected ProgressBar progressBar;
     private void initViewStart() {
         setContentView(R.layout.activity_main);
+        layoutTime= (LinearLayout) findViewById(R.id.view_time);
+        tietView= (TextView) findViewById(R.id.tv_tiet_hientai);
+        timeView= (TextView) findViewById(R.id.tv_time_conlai);
+
+        layoutTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isCick=!isCick;
+                if (isCick){
+                    TimeTask timeTask =new TimeTask(handlertime);
+                    timeTask.execute();
+                }
+            }
+        });
         progressBar= (ProgressBar) findViewById(R.id.pg_loading_main);
         tvTitle= (TextView) findViewById(R.id.tb_title);
         tv1= (TextView) findViewById(R.id.tb_text1);
@@ -389,6 +402,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         viewPager.setVisibility(View.GONE);
         tabLayout.setVisibility(View.GONE);
+        isCick=true;
         startTimeView();
         if (isOnline(this)){
             checkUpdate();
@@ -409,23 +423,8 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     private void startTimeView() {
-        if (layoutTime==null){
-            layoutTime= (LinearLayout) findViewById(R.id.view_time);
-            tietView= (TextView) findViewById(R.id.tv_tiet_hientai);
-            timeView= (TextView) findViewById(R.id.tv_time_conlai);
-            layoutTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isCick=!isCick;
-                    if (isCick){
-                        TimeTask timeTask =new TimeTask(handlertime);
-                        timeTask.execute();
-                    }
-                }
-            });
             TimeTask timeTask =new TimeTask(handlertime);
             timeTask.execute();
-        }
     }
 
 

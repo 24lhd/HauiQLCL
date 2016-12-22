@@ -8,7 +8,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
-        versionName "1.2.1"
+        versionName "1.2.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -26,7 +26,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':FabLoading')
-    compile project(':WrappingFragment')
     compile files('libs/jsoup-1.9.2.jar')
     compile project(':alertdialogpro-core')
     compile project(':AlertdialogproThemeHolo')
