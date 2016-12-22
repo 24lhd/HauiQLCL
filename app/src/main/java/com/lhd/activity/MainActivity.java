@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private ThongBaoDtttcFragment thongBaoDtttcFragment;
     private PackageInfo info;
     private LinearLayout layoutTime;
+
     public static void showError(final Activity activity) {
         final AlertDialog.Builder builder=new AlertDialog.Builder(activity);
         builder.setTitle("Thông báo");
@@ -146,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public static void shareText(Context context, String tenMon, String text) {
-
         String shareBody = tenMon+" \n"+text;
         Toast.makeText(context,shareBody,Toast.LENGTH_SHORT).show();
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -184,8 +184,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         ketQuaHocTapTheoMon.execute(maSinhVien);
-
-
     }
     @Override
     public void onBackPressed() {
@@ -207,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
         }else if (requestCode==1){
                 if(resultCode == Activity.RESULT_OK){
                     String result=data.getStringExtra(MainActivity.MA_SV);
-                    initViewStart();
                     getSV(result);
                 }else if (resultCode ==Activity.RESULT_CANCELED)
                     finish();
@@ -239,12 +236,10 @@ public class MainActivity extends AppCompatActivity {
     }
     private void checkLogin() {
         if (log.getID().length()==10){
-            initViewStart();
             getSV(log.getID());
         }else{
             startLogin(MainActivity.this);
         }
-
     }
 
     public static void startLogin(Activity activity) {
@@ -260,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final Version version=dataSnapshot.getValue(Version.class);
                 if (!version.getVerstionName().equals(info.versionName)){
-                    final AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                    AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("Cập nhật phiên bản "+version.getVerstionName());
                     builder.setCancelable(false);
                     builder.setMessage("- Nội dung:\n\t"+version.getContent()+"\n- Hướng dẫn cài đặt: Cài đặt> Không rõ nguồn gốc."+"\n- Khi " +
@@ -291,22 +286,9 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {}
         });
     }
-private Handler handler=new Handler(){
 
-        @Override
-        public void handleMessage(Message msg) {
-            String s= (String) msg.obj;
-            tietView.setText(s.split("-")[0]);
-            timeView.setText(s.split("-")[1]);
-            if (!isCick){
-                TimeTask timeTask =new TimeTask(this);
-                timeTask.execute();
-            }
-        }
-    };
-    boolean isCick=false;
+    private boolean isCick=true;
     private void initUI() {
-
         viewPager= (ViewPager) findViewById(R.id.viewpager);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(0);
@@ -391,27 +373,7 @@ private Handler handler=new Handler(){
     protected ProgressBar progressBar;
     private void initViewStart() {
         setContentView(R.layout.activity_main);
-        if (isOnline(this)){
-            checkUpdate();
-            Intent intent1=new Intent(this, MyService.class);
-            this.startService(intent1);
-        }
-        TimeTask timeTask =new TimeTask(handler);
-        timeTask.execute();
-        layoutTime= (LinearLayout) findViewById(R.id.view_time);
-        tietView= (TextView) findViewById(R.id.tv_tiet_hientai);
-        timeView= (TextView) findViewById(R.id.tv_time_conlai);
         progressBar= (ProgressBar) findViewById(R.id.pg_loading_main);
-        layoutTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isCick=!isCick;
-                if (!isCick){
-                    TimeTask timeTask =new TimeTask(handler);
-                    timeTask.execute();
-                }
-            }
-        });
         tvTitle= (TextView) findViewById(R.id.tb_title);
         tv1= (TextView) findViewById(R.id.tb_text1);
         tv2= (TextView) findViewById(R.id.tb_text2);
@@ -427,7 +389,45 @@ private Handler handler=new Handler(){
         progressBar.setVisibility(View.VISIBLE);
         viewPager.setVisibility(View.GONE);
         tabLayout.setVisibility(View.GONE);
+        startTimeView();
+        if (isOnline(this)){
+            checkUpdate();
+            Intent intent1=new Intent(this, MyService.class);
+            this.startService(intent1);
+        }
     }
+    private Handler handlertime=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if (isCick){
+                TimeTask timeTask =new TimeTask(this);
+                timeTask.execute();
+            }
+            String s= (String) msg.obj;
+            tietView.setText(s.split("-")[0]);
+            timeView.setText(s.split("-")[1]);
+        }
+    };
+    private void startTimeView() {
+        if (layoutTime==null){
+            layoutTime= (LinearLayout) findViewById(R.id.view_time);
+            tietView= (TextView) findViewById(R.id.tv_tiet_hientai);
+            timeView= (TextView) findViewById(R.id.tv_time_conlai);
+            layoutTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isCick=!isCick;
+                    if (isCick){
+                        TimeTask timeTask =new TimeTask(handlertime);
+                        timeTask.execute();
+                    }
+                }
+            });
+            TimeTask timeTask =new TimeTask(handlertime);
+            timeTask.execute();
+        }
+    }
+
 
     public static boolean isOnline(Context context) {
         try {
