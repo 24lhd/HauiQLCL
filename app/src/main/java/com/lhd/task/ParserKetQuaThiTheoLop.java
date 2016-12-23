@@ -5,8 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.lhd.item.ItemKetQuaThiLop;
-import com.lhd.item.KetQuaThi;
+import com.lhd.object.ItemKetQuaThiLop;
+import com.lhd.object.KetQuaThi;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

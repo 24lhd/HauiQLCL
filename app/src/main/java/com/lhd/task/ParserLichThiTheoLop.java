@@ -3,9 +3,8 @@ package com.lhd.task;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
-import com.lhd.item.LichThiLop;
+import com.lhd.object.LichThiLop;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

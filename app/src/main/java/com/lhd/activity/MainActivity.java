@@ -39,10 +39,10 @@ import com.lhd.fragment.LichThiFragment;
 import com.lhd.fragment.MoreFragment;
 import com.lhd.fragment.RadarChartFragment;
 import com.lhd.fragment.ThongBaoDtttcFragment;
-import com.lhd.item.ItemBangKetQuaHocTap;
-import com.lhd.item.KetQuaHocTap;
-import com.lhd.item.SinhVien;
-import com.lhd.item.Version;
+import com.lhd.object.ItemBangKetQuaHocTap;
+import com.lhd.object.KetQuaHocTap;
+import com.lhd.object.SinhVien;
+import com.lhd.object.Version;
 import com.lhd.log.Log;
 import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         activity.startActivityForResult(intent,0);
         activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
     }
-    private void checkUpdate() {
+    private void checkUpdate() throws Exception{
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         if (sinhVien instanceof SinhVien){
             DatabaseReference every = database.getReference("every/"+sinhVien.getMaSV());
@@ -410,7 +410,9 @@ public class MainActivity extends AppCompatActivity {
         isCick=true;
         startTimeView();
         if (isOnline(this)){
-            checkUpdate();
+            try {
+                checkUpdate();
+            } catch (Exception e) {}
             Intent intent1=new Intent(this, MyService.class);
             this.startService(intent1);
         }

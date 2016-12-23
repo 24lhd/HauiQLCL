@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
-import com.lhd.item.ItemNotiDTTC;
+import com.lhd.object.ItemNotiDTTC;
 import com.lhd.task.ParserLinkFileNoti;
 import com.lhd.task.ParserNotiDTTC;
 

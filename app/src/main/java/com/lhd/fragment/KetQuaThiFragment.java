@@ -20,7 +20,7 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
-import com.lhd.item.ItemDiemThiTheoMon;
+import com.lhd.object.ItemDiemThiTheoMon;
 import com.lhd.task.ParserKetQuaThiTheoMon;
 
 import java.io.Serializable;
@@ -36,8 +36,6 @@ import static java.lang.Double.parseDouble;
 public class KetQuaThiFragment extends FrameFragment {
     private  ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMons;
     private AlertDialog.Builder builder;
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -372,7 +370,6 @@ public class KetQuaThiFragment extends FrameFragment {
         }catch (NumberFormatException e){
             return "*";
         }
-
         if (d>=8.5){
             return "A";
         }else if(d>=7.7&&n>=2015){

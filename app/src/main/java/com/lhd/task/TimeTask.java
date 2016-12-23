@@ -3,29 +3,29 @@ package com.lhd.task;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.widget.TextView;
 
-import com.lhd.item.TietHoc;
+import com.lhd.object.Haui;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.lhd.object.Haui.tietHocs;
+
 
 /**
  * Created by Duong on 11/24/2016.
  */
 
 public  class TimeTask extends AsyncTask<Void,String,String> {
-    private  TextView tietView;
-    private  TextView timeView;
     private  Handler hander;
+    private Haui haui;
     int phutConLai;
-
     public TimeTask(Handler handler) {
         this.hander=handler;
+        haui=new Haui();
+
     }
-
-
     @Override
     protected String doInBackground(Void... params) {
             Date today = new Date(System.currentTimeMillis());
@@ -38,55 +38,31 @@ public  class TimeTask extends AsyncTask<Void,String,String> {
             String tiet = "Tự học";
             int phutHienTai = (gio*60)+phut;
             int giayConLai = 59-giay;
-
-            for (int i=0;i<tietHocs.length;i++) {
-                if (phutHienTai>=tietHocs[i].getPhutBatDau()&&phutHienTai<=tietHocs[i].getPhutKetThuc()){
+        for (int i = 0; i< tietHocs.length; i++) {
+                if (phutHienTai>=tietHocs[i].getPhutBatDau()&&phutHienTai<=haui.tietHocs[i].getPhutKetThuc()){
                     tiet = "Tiết " + tietHocs[i].getTiet();
                     phutConLai = tietHocs[i].getPhutKetThuc() - phutHienTai;
                     break;
-                }else if (phutHienTai>tietHocs[i].getPhutKetThuc()&&tietHocs[i].getTiet()<16&&phutHienTai<tietHocs[i+1].getPhutBatDau()){
-                        tiet = "Giải lao tiết " + (tietHocs[i].getTiet());
-                        phutConLai = tietHocs[i+1].getPhutBatDau()-phutHienTai;
+                }else if (phutHienTai>tietHocs[i].getPhutKetThuc()&&haui.tietHocs[i].getTiet()<16&&phutHienTai<tietHocs[i+1].getPhutBatDau()){
+                        tiet = "Giải lao tiết " + (haui.tietHocs[i].getTiet());
+                        phutConLai = haui.tietHocs[i+1].getPhutBatDau()-phutHienTai;
                     break;
                 }else if (phutHienTai>1275&&phutHienTai>420||phutHienTai<1275&&phutHienTai<420){
                     if (phutHienTai<1440&&phutHienTai>1275){
                         tiet = "Tự học ";
                         phutConLai=420+(1440-phutHienTai);
-                    }else{
-                        phutConLai=420-phutHienTai;
-                    }
+                    }else phutConLai=420-phutHienTai;
                     break;
                 }
             }
-            if (phutConLai>60){
-                return  tiet + "-" + "Còn "+(phutConLai/60)+":"+ phutConLai%60 + ":" + giayConLai +" giờ";
-            }
+            if (phutConLai>60) return  tiet + "-" + "Còn "+(phutConLai/60)+":"+ phutConLai%60 + ":" + giayConLai +" giờ";
             return  tiet + "-" + "Còn " + phutConLai + ":" + giayConLai +" phút";
     }
-
     @Override
     protected void onPostExecute(String s) {
         Message message=new Message();
         message.obj=s;
         hander.sendMessage(message);
     }
-    TietHoc[] tietHocs={
-            new TietHoc(1,420,465),// 420  465
-            new TietHoc(2,470,515),// 470  515
-            new TietHoc(3,520,565),// 520  565
-            new TietHoc(4,575,620),// 575  620
-            new TietHoc(5,625,670),// 675  670
-            new TietHoc(6,675,720),// 675  720
-            new TietHoc(7,750,795),// 750  795
-            new TietHoc(8,800,845),// 800  845
-            new TietHoc(9,850,895),// 850  895
-            new TietHoc(10,905,950),// 905  950
-            new TietHoc(11,955,1000),// 955  1000
-            new TietHoc(12,1005,1050),// 1005  1050
-            new TietHoc(13,1080,1125),// 1080  1125
-            new TietHoc(14,1125,1170),// 1125  1170
-            new TietHoc(15,1185,1230),// 1185  1230
-            new TietHoc(16,1230,1275)// 1230  1275
-    };
 }
 

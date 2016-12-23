@@ -4,20 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.widget.Toast;
-
-import com.lhd.activity.Test;
-import com.lhd.item.ItemNotiDTTC;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by D on 12/15/2016.

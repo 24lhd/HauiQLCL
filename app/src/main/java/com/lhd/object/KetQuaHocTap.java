@@ -1,4 +1,4 @@
-package com.lhd.item;
+package com.lhd.object;
 
 import java.io.Serializable;
 import java.util.ArrayList;

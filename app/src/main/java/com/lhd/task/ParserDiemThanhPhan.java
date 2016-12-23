@@ -5,8 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.lhd.item.BangDiemThanhPhan;
-import com.lhd.item.ItemBangDiemThanhPhan;
+import com.lhd.object.BangDiemThanhPhan;
+import com.lhd.object.ItemBangDiemThanhPhan;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

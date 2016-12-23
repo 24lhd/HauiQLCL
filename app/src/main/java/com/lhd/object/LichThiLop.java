@@ -1,4 +1,4 @@
-package com.lhd.item;
+package com.lhd.object;
 
 /**
  * Created by Faker on 8/29/2016.

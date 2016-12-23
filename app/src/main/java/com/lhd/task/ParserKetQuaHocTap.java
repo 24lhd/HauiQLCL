@@ -4,9 +4,9 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 
-import com.lhd.item.ItemBangKetQuaHocTap;
-import com.lhd.item.KetQuaHocTap;
-import com.lhd.item.SinhVien;
+import com.lhd.object.ItemBangKetQuaHocTap;
+import com.lhd.object.KetQuaHocTap;
+import com.lhd.object.SinhVien;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

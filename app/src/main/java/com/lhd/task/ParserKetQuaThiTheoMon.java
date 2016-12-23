@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 
-import com.lhd.item.ItemDiemThiTheoMon;
+import com.lhd.object.ItemDiemThiTheoMon;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

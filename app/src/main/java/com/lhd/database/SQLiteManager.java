@@ -7,16 +7,16 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.lhd.item.BangDiemThanhPhan;
-import com.lhd.item.ItemBangDiemThanhPhan;
-import com.lhd.item.ItemBangKetQuaHocTap;
-import com.lhd.item.ItemDiemThiTheoMon;
-import com.lhd.item.ItemKetQuaThiLop;
-import com.lhd.item.ItemNotiDTTC;
-import com.lhd.item.KetQuaThi;
-import com.lhd.item.LichThi;
-import com.lhd.item.LichThiLop;
-import com.lhd.item.SinhVien;
+import com.lhd.object.BangDiemThanhPhan;
+import com.lhd.object.ItemBangDiemThanhPhan;
+import com.lhd.object.ItemBangKetQuaHocTap;
+import com.lhd.object.ItemDiemThiTheoMon;
+import com.lhd.object.ItemKetQuaThiLop;
+import com.lhd.object.ItemNotiDTTC;
+import com.lhd.object.KetQuaThi;
+import com.lhd.object.LichThi;
+import com.lhd.object.LichThiLop;
+import com.lhd.object.SinhVien;
 
 import java.util.ArrayList;
 

@@ -20,7 +20,7 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
-import com.lhd.item.SinhVien;
+import com.lhd.object.SinhVien;
 
 /**
  * Created by D on 12/19/2016.
@@ -38,6 +38,17 @@ public abstract class FrameFragment extends Fragment{
     protected PullRefreshLayout pullRefreshLayout;
     protected MainActivity mainActivity;
     protected SinhVien sv;
+
+    public LayoutInflater getLayoutInflater() {
+        return layoutInflater;
+    }
+
+    public void setLayoutInflater(LayoutInflater layoutInflater) {
+        this.layoutInflater = layoutInflater;
+    }
+
+    private LayoutInflater layoutInflater;
+
     protected abstract void startParser();
     public void cantLoadData() {
         showTextNull();
@@ -72,6 +83,7 @@ public abstract class FrameFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        layoutInflater=inflater;
         View view=inflater.inflate(R.layout.layout_frame_fragment,container,false);
         initView(view);
         return view;

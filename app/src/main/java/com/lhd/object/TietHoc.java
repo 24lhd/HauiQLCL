@@ -1,13 +1,13 @@
-package com.lhd.item;
+package com.lhd.object;
 
 /**
- * Created by Duong on 11/24/2016.
+ * Created by d on 23/12/2016.
  */
 
 public class TietHoc {
-    int tiet;
-    int phutBatDau;
-    int phutKetThuc;
+    private int tiet;
+    private int phutBatDau;
+    private int phutKetThuc;
 
     public TietHoc(int tiet, int phutBatDau, int phutKetThuc) {
         this.tiet = tiet;

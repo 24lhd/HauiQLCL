@@ -14,8 +14,8 @@ import android.widget.TextView;
 import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
-import com.lhd.item.LichThi;
-import com.lhd.item.SinhVien;
+import com.lhd.object.LichThi;
+import com.lhd.object.SinhVien;
 import com.lhd.task.ParserLichThiTheoMon;
 
 import java.text.SimpleDateFormat;

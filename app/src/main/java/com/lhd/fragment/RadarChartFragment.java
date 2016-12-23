@@ -26,8 +26,8 @@ import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.chart.RadarMarkerView;
 import com.lhd.database.SQLiteManager;
-import com.lhd.item.ItemDiemThiTheoMon;
-import com.lhd.item.SinhVien;
+import com.lhd.object.ItemDiemThiTheoMon;
+import com.lhd.object.SinhVien;
 
 import java.util.ArrayList;
 
