@@ -19,8 +19,8 @@
     <string name="chu_y_4">* Hãy sử dụng mã sinh viên là mã sinh viên của bạn.</string>
     <string name="app_text">Only student</string>
     <string name="ban_quyen_link"><em>Copyright  ©<em> 2016</em>, Lê Hồng Dương.</em></string>
-    <string name="feedback">Ý kiến đóng góp</string>
-    <string name="text_feedback">* Mọi ý kiến đóng góp sẽ được đến địa chỉ gacongnghiep.sv@gmail.com</string>
+    <string name="feedback">Nội dung</string>
+    <string name="text_feedback">* Mọi ý kiến đóng góp sẽ được đến địa chỉ gacongnghiep.sv@gmail.com\n*Cảm ơn các bạn đã quan tâm!</string>
     <string name="cick_noti"><u>Cick để tải file về máy</u></string>
 
 </resources>

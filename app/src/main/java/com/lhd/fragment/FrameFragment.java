@@ -1,17 +1,21 @@
 package com.lhd.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,6 +43,32 @@ public abstract class FrameFragment extends Fragment{
     protected MainActivity mainActivity;
     protected SinhVien sv;
 
+    public static void showAlert(String title, String html, final String titleSMS, final String SMS, final Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(title);
+        WebView webView=new WebView(activity);
+        webView.setBackgroundColor(activity.getResources().getColor(R.color.bg_text));
+        webView.loadDataWithBaseURL(null, html,"text/html","utf-8",null);
+        builder.setView(webView);
+        builder.setNeutralButton("SMS",null);
+        builder.setPositiveButton("IMG",null);
+        AlertDialog mAlertDialog = builder.create();
+        mAlertDialog.show();
+        Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.sreenShort(view,activity);
+            }
+        });
+        Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+        c.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.shareText(activity,titleSMS, SMS);
+            }
+        });
+    }
     public LayoutInflater getLayoutInflater() {
         return layoutInflater;
     }

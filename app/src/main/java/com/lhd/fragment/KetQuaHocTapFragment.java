@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.alertdialogpro.AlertDialogPro;
 import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
@@ -23,8 +22,8 @@ import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
 import com.lhd.object.ItemBangKetQuaHocTap;
 import com.lhd.object.KetQuaHocTap;
+import com.lhd.object.UIFromHTML;
 import com.lhd.task.ParserKetQuaHocTap;
-
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -32,6 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import static com.lhd.object.Haui.diemChus;
+import static com.lhd.object.UIFromHTML.getUIWeb;
 
 /**
  * Created by Faker on 8/25/2016.
@@ -100,21 +100,13 @@ public class KetQuaHocTapFragment extends FrameFragment {
                                     sqLiteManager.insertDMon(diemHocTapTheoMon,b.getSinhVien().getMaSV());
                                 }
                             }
-//                            sv=b.getSinhVien();
-//                            if (!(sv instanceof SinhVien)){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
-//                                sqLiteManager.insertSV(sv);
-//                            }else{
-//                                MainActivity.showError(getActivity());
-//                            }
                             pullRefreshLayout.setRefreshing(false);
                             showRecircleView();
                             setRecyclerView();
                         }
                         break;
                 }
-            }catch (NullPointerException e){
-//                MainActivity.showError(getActivity());
-            }
+            }catch (NullPointerException e){}
         }
     };
     class ItemDanhSachLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
@@ -248,8 +240,15 @@ public class KetQuaHocTapFragment extends FrameFragment {
                         @Override
                         public void onTabReselected(TabLayout.Tab tab) {}
                     });
-                    webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
-                            "click vào điểm cần muốn tính :) "),"text/html","utf-8",null);
+                    try {
+                        webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
+                                getDiemDuTinh(0,itemBangKetQuaHocTap.getdTB())),"text/html","utf-8",null);
+                    } catch (Exception e) {
+                        if (!KetQuaThiFragment.isDouble(itemBangKetQuaHocTap.getdTB())){
+                            webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
+                                    "chệu"),"text/html","utf-8",null);
+                        }
+                    }
                     builder.setView(view);
                     builder.setPositiveButton("ok",null);
                     builder.setNeutralButton("IMG", null);
@@ -272,85 +271,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
                     });
                 }else
                 if (i==2){
-                    String str="<!DOCTYPE html>" +
-                            "<html>" +
-                            "<head>" +
-                            "<title></title>" +
-                            "<style type=\"text/css\" media=\"screen\">" +
-                            "*{" +
-                            "margin: auto;" +
-                            "text-align: center;" +
-                            "background: white;"+
-                            "}" +
-                            "h3{" +
-                            "color: #FF4081;" +
-                            "}" +
-                            "p{" +
-                            "color: #42A5F5;" +
-                            "}" +
-                            "table{" +
-                            "width: 100%;" +
-                            "}"+
-                            "th {" +
-                            "background-color: #42A5F5;" +
-                            "color: white;" +
-                            "padding: 5px;" +
-                            "font-size: small;"+
-                            "}" +
-                            "td{padding: 5px;background-color: #f2f2f2;font-weight:bold;color: red;}" +
-                            "</style>" +
-                            "</head>" +
-                            "<body>" +
-                            "<h3>" +
-                            itemBangKetQuaHocTap.getTenMon() +
-                            "</h3>" +
-                            "<p>" +
-                            "("+itemBangKetQuaHocTap.getMaMon()+")<br/>" +
-                            "" +
-                            "</p>" +
-                            "<small>"+"Bỏ "+itemBangKetQuaHocTap.getSoTietNghi()+" tiết - "+itemBangKetQuaHocTap.getDieuKien()+"</small>" +
-                            "<table>" +
-                            "<tr>" +
-                            "<th>Điểm 1</th>" +
-                            "<th>Điểm 2</th>" +
-                            "<th>Điểm 3</th>" +
-                            "<th>Điểm giữa kì</th>" +
-                            "<th>Tổng kết</th>" +
-                            "</tr>" +
-                            "<tr>" +
-                            "<td>"+itemBangKetQuaHocTap.getD1()+"</td>" +
-                            "<td>"+itemBangKetQuaHocTap.getD2()+"</td>" +
-                            "<td>"+itemBangKetQuaHocTap.getD3()+"</td>" +
-                            "<td>"+itemBangKetQuaHocTap.getdGiua()+"</td>" +
-                            "<td>"+itemBangKetQuaHocTap.getdTB()+"</td>" +
-                            "</tr>" +
-                            "</table>" +
-                            "<em>Copyright  © Gà công nghiệp</em>"+
-                            "</body>" +
-                            "</html>";
-                    builder.setTitle("Kết quả học tập của "+sv.getTenSV());
-                    WebView webView=new WebView(getActivity());
-                    webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
-                    webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
-                    builder.setView(webView);
-                    builder.setPositiveButton("IMG", null);
-                    builder.setNeutralButton("SMS",null);
-                    AlertDialog mAlertDialog = builder.create();
-                    mAlertDialog.show();
-                    Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                    b.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            MainActivity.sreenShort(view,getContext());
-                        }
-                    });
-                    Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                    c.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            MainActivity.shareText(getContext(), itemBangKetQuaHocTap.getTenMon(), itemBangKetQuaHocTap.toString());
-                        }
-                    });
+                    showAlert("Kết quả học tập của "+sv.getTenSV(),UIFromHTML.uiKetQuaHocTap(itemBangKetQuaHocTap),itemBangKetQuaHocTap.getTenMon(),itemBangKetQuaHocTap.toString(),getActivity());
                 }else {
                     Intent intent=new Intent(getActivity(),ListActivity.class);
                     intent.putExtra(KEY_OBJECT, (Serializable) itemBangKetQuaHocTap);
@@ -363,14 +284,12 @@ public class KetQuaHocTapFragment extends FrameFragment {
             }
         }).show();
     }
-
     private String getDiemDuTinh(int position, String diemTb) throws Exception{
             double start=((3*diemChus[position].getStart())-Double.parseDouble(diemTb))/2;
         double end=((3*diemChus[position].getEnd())-Double.parseDouble(diemTb))/2;
         DecimalFormat df = new DecimalFormat("#.0");
         if (start==end)  return "tầm "+df.format(start);
         if (start>10)  return "chệu";
-
         if (start<0)  return "tầm "+0+" đến "+ df.format(end);
         if (end>10)  return "tầm "+df.format(start)+" đến "+ 10;
         if (end<=0)  return "chệu";
@@ -378,54 +297,4 @@ public class KetQuaHocTapFragment extends FrameFragment {
                 df.format(end);
     }
 
-    private String getUIWeb(String thi, String diemThi) {
-        return "<!DOCTYPE html>" +
-                "<html>" +
-                "<head>" +
-                "<title></title>" +
-                "<style type=\"text/css\" media=\"screen\">" +
-                "*{" +
-                "margin: auto;" +
-                "text-align: center;" +
-                "background: white;" +
-                "}" +
-                "p{" +
-                "color: #42A5F5;" +
-                "}" +
-                "table{" +
-                "width: 100%;" +
-                "}"+
-                "th {" +
-                "background-color: #42A5F5;" +
-                "color: white;" +
-                "padding: 15px;" +
-                "}" +
-                "td{" +
-                "padding: 15px;" +
-                "background-color: #f2f2f2;" +
-                "font-weight:bold;" +
-                "color: red;" +
-                "}" +
-                "</style>" +
-                "</head>" +
-                "<body>" +
-                "<table>" +
-                "<tr>" +
-                "<th>Điểm TB trên lớp</th>" +
-                "<th>Điểm thi dự tính</th>" +
-                "</tr>" +
-                "<tr>" +
-                "<td>" +
-                thi+
-                "</td>" +
-                "<td>" +
-                diemThi+
-                "</td>" +
-                "</tr>" +
-                "</table>" +
-                "<em>Copyright  © Gà công nghiệp</em>"+
-                "</body>" +
-                "</html>";
-
-    }
 }

@@ -18,6 +18,7 @@
             android:id="@+id/et_feedback"
             android:background="@color/bg_app"
             android:hint="@string/feedback"
+            android:lines="5"
             android:textColorHint="@color/md_green_500"
             style="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/md_green_500"

@@ -2,13 +2,10 @@ package com.lhd.fragment;
 
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
@@ -16,6 +13,7 @@ import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.object.LichThi;
 import com.lhd.object.SinhVien;
+import com.lhd.object.UIFromHTML;
 import com.lhd.task.ParserLichThiTheoMon;
 
 import java.text.SimpleDateFormat;
@@ -51,15 +49,10 @@ public class LichThiFragment extends FrameFragment {
         }else{
             loadData();
         }
-
-
     }
     public void startParser() {
-
         ParserLichThiTheoMon parserKetQuaHocTap=new ParserLichThiTheoMon(handler);
         parserKetQuaHocTap.execute(sv.getMaSV());
-
-
     }
     public void setRecyclerView() {
         Collections.reverse(lichThis);
@@ -118,9 +111,7 @@ public class LichThiFragment extends FrameFragment {
         }
         @Override
         public void onClick(View view) {
-            final int itemPosition = recyclerView.getChildLayoutPosition(view);
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(data.get(itemPosition).getMon());
+            int itemPosition = recyclerView.getChildLayoutPosition(view);
             Date today=new Date(System.currentTimeMillis());
             SimpleDateFormat timeFormat= new SimpleDateFormat("hh:mm:ss dd/MM/yyyy");
             String s=timeFormat.format(today.getTime());
@@ -128,7 +119,6 @@ public class LichThiFragment extends FrameFragment {
             String ngay1=s.split("/")[0];
             String thang1=s.split("/")[1];
             String nam1=s.split("/")[2];
-
             String ngay2=data.get(itemPosition).getNgay().split("/")[0];
             String thang2=data.get(itemPosition).getNgay().split("/")[1];
             String nam2=data.get(itemPosition).getNgay().split("/")[2];
@@ -136,59 +126,17 @@ public class LichThiFragment extends FrameFragment {
             if (thang1.equals(thang2)&&nam1.equals(nam2)){
                 if ((Double.parseDouble(ngay2)-Double.parseDouble(ngay1))<0)
                     toi="Đã thi";
-                else
-                toi="Còn lại "+(int)(Double.parseDouble(ngay2)-Double.parseDouble(ngay1))+ " ngày để ôn :)";
+                else{
+                    int i=(int)(Double.parseDouble(ngay2)-Double.parseDouble(ngay1));
+                    if (i==0) toi="Chúc bạn hôm nay thi tốt nhé ^.^ !!!";
+                    else toi="Còn lại "+i+ " ngày để ôn :)";
+                }
             }else if (Double.parseDouble(thang1)<Double.parseDouble(thang2) &&nam1.equals(nam2)){
                 toi="Chuẩn bị thi :(";
             }else
                 toi="Đã thi !!!";
-            WebView webView=new WebView(getActivity());
-            String str="<!DOCTYPE html>" +
-                    "<html>" +
-                    "<head>" +
-                    "<meta charset=\"utf-8\">" +
-                    "<style type=\"text/css\"media=\"screen\">" +
-                    "*{" +
-                    "text-align: center;" +
-                    "}"+
-                    "h1{" +
-                    "color: #FF4081;" +
-                    "background-color: #F5F5F5;" +
-                    "text-align: center;" +
-                    "}" +
-                    "p{" +
-                    "text-align: center;" +
-                    "font-family: Sans-serif;" +
-                    "}" +
-                    "</style>" +
-                    "</head>" +
-                    "<body>" +
-                    "<h1>"+data.get(itemPosition).getSbd()+"</h1>" +
-                    "<p>tại <strong>"+data.get(itemPosition).getPhong()+"</strong><br> " +
-                    "<strong>"+data.get(itemPosition).getThu()+"</strong> lúc <strong>"+data.get(itemPosition).getGio()+
-                    "</strong> ngày <strong>"+data.get(itemPosition).getNgay()+"</strong> <br><strong>"+toi+"</strong></p>" +
-                    "<em>Copyright  © Gà công nghiệp</em>"+
-                    "</body></html>";
-            webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
-            builder.setView(webView);
-            builder.setPositiveButton("IMG",null);
-            builder.setNeutralButton("SMS",null);
-            AlertDialog mAlertDialog = builder.create();
-            mAlertDialog.show();
-            Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    MainActivity.sreenShort(view,getActivity());
-                }
-            });
-            Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-            c.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    MainActivity.shareText(getActivity(),"Lịch thi môn "+data.get(itemPosition).getMon(), data.get(itemPosition).toString());
-                }
-            });
+                showAlert(data.get(itemPosition).getMon(),UIFromHTML.uiLichThi(data.get(itemPosition),toi),
+                    "Lịch thi môn "+data.get(itemPosition).getMon(), data.get(itemPosition).toString(),getActivity());
         }
     }
     private Handler handler=new Handler(){

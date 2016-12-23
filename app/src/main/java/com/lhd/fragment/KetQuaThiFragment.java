@@ -12,8 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
@@ -21,6 +19,7 @@ import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
 import com.lhd.object.ItemDiemThiTheoMon;
+import com.lhd.object.UIFromHTML;
 import com.lhd.task.ParserKetQuaThiTheoMon;
 
 import java.io.Serializable;
@@ -251,95 +250,8 @@ public class KetQuaThiFragment extends FrameFragment {
                         getActivity().startActivityForResult(intent,1);
                         getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
                     }else{
-                        builder = new AlertDialog.Builder(getActivity());builder.create();
-                        String str="<!DOCTYPE html>" +
-                                "<html>" +
-                                "<head>" +
-                                "<title></title>" +
-                                "<style type=\"text/css\" media=\"screen\">" +
-                                "*{" +
-                                "margin: auto;" +
-                                "text-align: center;" +
-                                "background: white;" +
-                                "}" +
-                                "h2{" +
-                                "color: #FF4081;" +
-                                "}" +
-                                "p{" +
-                                "color: #42A5F5;" +
-                                "}" +
-                                "table{" +
-                                "width: 100%;" +
-                                "}"+
-                                "th {" +
-                                "background-color: #42A5F5;" +
-                                "color: white;" +
-                                "padding: 15px;" +
-                                "}" +
-                                "td{" +
-                                "padding: 15px;" +
-                                "background-color: #f2f2f2;" +
-                                "font-weight:bold;" +
-                                "color: red;" +
-                                "}" +
-                                "</style>" +
-                                "</head>" +
-                                "<body>" +
-                                "<h2>" +
-                                data.get(itemPosition).getTenMon() +
-                                "</h2>" +
-                                "<p>" +
-                                data.get(itemPosition).getNgay1() +
-                                "</p>" +
-                                "<small>" +
-                                data.get(itemPosition).getGhiChu()+
-                                "</small>" +
-                                "<table>" +
-                                "<tr>" +
-                                "" +
-                                "<th>Điểm thi</th>" +
-                                "<th>Tổng kết</th>" +
-                                "<th>Điểm chữ</th>" +
-                                "" +
-                                "</tr>" +
-                                "<tr>" +
-                                "<td>" +
-                                data.get(itemPosition).getdLan1() +
-                                "</td>" +
-                                "<td>" +
-                                data.get(itemPosition).getdTKLan1()+
-                                "</td>" +
-                                "<td>" +
-                                charPoint(data.get(itemPosition))+
-                                "</td>" +
-                                "</tr>" +
-                                "</table>" +
-                                "<em>Copyright  © Gà công nghiệp</em>"+
-                                "</body>" +
-                                "</html>";
-                        builder.setTitle("Kết quả thi của "+sv.getTenSV());
-                        WebView webView=new WebView(getActivity());
-                        webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
-                        webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
-                        builder.setView(webView);
-                        builder.setNeutralButton("SMS",null);
-                        builder.setPositiveButton("IMG",null);
-                        AlertDialog mAlertDialog = builder.create();
-                        mAlertDialog.show();
-                        Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                        b.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                MainActivity.sreenShort(view,getActivity());
-                            }
-                        });
-                        Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                        c.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                MainActivity.shareText(getActivity(),"Kết quả thi", data.get(itemPosition).toString());
-                            }
-                        });
+                        showAlert("Kết quả thi của "+sv.getTenSV(),UIFromHTML.uiKetQuaThi( data.get(itemPosition)),
+                                "Kết quả thi",data.get(itemPosition).toString(),getActivity());
                     }
                 }
             });
@@ -348,6 +260,8 @@ public class KetQuaThiFragment extends FrameFragment {
 
         }
     }
+
+
 
     public static String charPoint(ItemDiemThiTheoMon itemDiemThiTheoMon) {
         if (itemDiemThiTheoMon.getdCuoiCung().length()<=1) return "*";

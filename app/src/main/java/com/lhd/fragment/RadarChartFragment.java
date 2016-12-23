@@ -96,9 +96,6 @@ public class RadarChartFragment extends Fragment {
                 a=0; bb=0; b=0; cc=0; c=0; dd=0; d=0; f=0;
                 int size=0;
                 for (ItemDiemThiTheoMon itemDiemThiTheoMon : itemDiemThiTheoMons) {
-//                    if (itemDiemThiTheoMon.getdCuoiCung().length()<=1) continue;
-//                    if (itemDiemThiTheoMon.getdCuoiCung().contains("*")) continue;
-//                    String dc=itemDiemThiTheoMon.getdCuoiCung().split(" ")[0];
                         switch(KetQuaThiFragment.charPoint(itemDiemThiTheoMon)){
                             case "A":
                                 a++;

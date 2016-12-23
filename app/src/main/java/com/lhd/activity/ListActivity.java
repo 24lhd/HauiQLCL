@@ -22,8 +22,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -38,6 +36,7 @@ import com.lhd.object.ItemDiemThiTheoMon;
 import com.lhd.object.ItemKetQuaThiLop;
 import com.lhd.object.KetQuaThi;
 import com.lhd.object.LichThiLop;
+import com.lhd.object.UIFromHTML;
 import com.lhd.task.ParserDiemThanhPhan;
 import com.lhd.task.ParserKetQuaThiTheoLop;
 import com.lhd.task.ParserLichThiTheoLop;
@@ -458,63 +457,9 @@ public class ListActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             final int itemPosition = recyclerView.getChildLayoutPosition(view);
-            builder = new AlertDialog.Builder(ListActivity.this);builder.create();
-            String str="<!DOCTYPE html>" +
-                    "<html>" +
-                    "<head>" +
-                    "<title></title>" +
-                    "<style type=\"text/css\" media=\"screen\">" +
-                    "*{" +
-                    "margin: auto;" +
-                    "text-align: center;" +
-                    "background: white;" +
-                    "}" +
-                    "h2{" +
-                    "color: #FF4081;" +
-                    "}" +
-                    "p{" +
-                    "color: #42A5F5;" +
-                    "}" +
-                    "</style>" +
-                    "</head>" +
-                    "<body>" +
-                    "<h2>" +
-                    itemBangKetQuaHocTap.getTenMon()+
-                    "</h2>" +
-                    "<p>" +
-                    "("+data.get(itemPosition).getMaLop()+")<br/></p>"+"Lớp "
-                    + data.get(itemPosition).getTenLop()+"<br/> ngày "+
-                    data.get(itemPosition).getNgayThi()+"<br/> ca "+data.get(itemPosition).getGioThi()+
-                    "<br/>" +
-                    "<em>Copyright  © Gà công nghiệp</em>"+
-                    "</body>" +
-                    "</html>";
-            builder.setTitle("Kế hoạch thi");
-            WebView webView=new WebView(ListActivity.this);
-            webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
-            webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
-            builder.setView(webView);
-            builder.setPositiveButton("IMG",null);
-            builder.setNeutralButton("SMS",null);
-            AlertDialog mAlertDialog = builder.create();
-            mAlertDialog.show();
-            Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    MainActivity.sreenShort(view,ListActivity.this);
-                }
-            });
-            Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-            c.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    MainActivity.shareText(ListActivity.this,"", data.get(itemPosition).toString());
-                }
-            });
-
-
-
+            FrameFragment.showAlert("Kế hoạch thi",
+                    UIFromHTML.uiKeHoachThi(data.get(itemPosition),itemBangKetQuaHocTap.getTenMon()),
+                    "",data.get(itemPosition).toString(),ListActivity.this);
         }
     }
     private void setRecircleView() {
@@ -592,82 +537,8 @@ public class ListActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.left_end, R.anim.right_end);
                     }else{
-                        builder = new AlertDialog.Builder(ListActivity.this);builder.create();
-                        String str="<!DOCTYPE html>" +
-                                "<html>" +
-                                "<head>" +
-                                "<title></title>" +
-                                "<style type=\"text/css\" media=\"screen\">" +
-                                "*{" +
-                                "margin: auto;" +
-                                "text-align: center;" +
-                                "background: white;" +
-                                "}" +
-                                "h2{" +
-                                "color: #FF4081;" +
-                                "}" +
-                                "p{" +
-                                "color: #42A5F5;" +
-                                "}" +
-                                "table{" +
-                                "width: 100%;" +
-                                "}"+
-                                "th {" +
-                                "background-color: #42A5F5;" +
-                                "color: white;" +
-                                "padding: 15px;" +
-                                "}" +
-                                "td{" +
-                                "background-color: #f2f2f2;" +
-                                "font-weight:bold;" +
-                                "color: red;" +
-                                "padding: 15px;" +
-                                "}" +
-                                "</style>" +
-                                "</head>" +
-                                "<body>" +
-                                "<h2>" +
-                               data.get(itemPosition).getTen() +
-                                "</h2>" +
-                                "<p>" +
-                                data.get(itemPosition).getMsv() +
-                                "</p>" +
-                                "<small>" +
-                                 data.get(itemPosition).getGhiChu() +
-                                "</small>" +
-                                "<table>" +
-                                "<tr>" +
-                                "<th>Điểm thi</th>" +
-                                "<td>" +
-                                data.get(itemPosition).getdL1()+
-                                "</td>" +
-                                "</table>"+
-                                "<em>Copyright  © Gà công nghiệp</em>"+
-                                "</body>" +
-                                "</html>";
-                        builder.setTitle("Điểm thi "+ itemDiemThiTheoMon.getTenMon());
-                        WebView webView=new WebView(ListActivity.this);
-                        webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
-                        webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
-                        builder.setView(webView);
-                        builder.setPositiveButton("IMG",null);
-                        builder.setNeutralButton("SMS",null);
-                        AlertDialog mAlertDialog = builder.create();
-                        mAlertDialog.show();
-                        Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                        b.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                MainActivity.sreenShort(view,ListActivity.this);
-                            }
-                        });
-                        Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                        c.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                               MainActivity.shareText(ListActivity.this, itemDiemThiTheoMon.getTenMon(), data.get(itemPosition).toString());
-                            }
-                        });
+                        FrameFragment.showAlert("Điểm thi "+ itemDiemThiTheoMon.getTenMon(),UIFromHTML.uiDiemThiListAC(data.get(itemPosition))
+                                ,itemDiemThiTheoMon.getTenMon(),data.get(itemPosition).toString(),ListActivity.this);
                     }
                 }
             });
@@ -748,95 +619,12 @@ public class ListActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.left_end, R.anim.right_end);
                     }else{
-                        builder = new AlertDialog.Builder(ListActivity.this);builder.create();
-                        String str="<!DOCTYPE html>" +
-                                "<html>" +
-                                "<head>" +
-                                "<title></title>" +
-                                "<style type=\"text/css\" media=\"screen\">" +
-                                "*{" +
-                                "margin: auto;" +
-                                "text-align: center;" +
-                                "background: white;"+
-                                "}" +
-                                "h3{" +
-                                "color: #FF4081;" +
-                                "}" +
-                                "p{" +
-                                "color: #42A5F5;" +
-                                "}" +
-                                "table{" +
-                                "width: 100%;" +
-                                "}"+
-                                "th {" +
-                                "background-color: #42A5F5;" +
-                                "color: white;" +
-                                "padding: 5px;" +
-                                "font-size: small;"+
-                                "}" +
-                                "td{padding: 5px;background-color: #f2f2f2;font-weight:bold;color: red;}" +
-                                "</style>" +
-                                "</head>" +
-                                "<body>" +
-                                "<h3>" +
-                                data.get(itemPosition).getTenSv()+
-                                "</h3>" +
-                                "<p>" +
-                                "("+data.get(itemPosition).getMsv()+")<br/>" +
-                                "" +
-                                "</p>" +
-                                "<small>"+"Bỏ "+data.get(itemPosition).getSoTietNghi()+" tiết - "+data.get(itemPosition).getDieuKien()+"</small>" +
-                                "<table>" +
-                                "<tr>" +
-                                "<th>Điểm 1</th>" +
-                                "<th>Điểm 2</th>" +
-                                "<th>Điểm 3</th>" +
-                                "<th>Điểm 4</th>" +
-                                "<th>Tổng kết</th>" +
-                                "</tr>" +
-                                "<tr>" +
-                                "<td>"+data.get(itemPosition).getD1()+"</td>" +
-                                "<td>"+data.get(itemPosition).getD2()+"</td>" +
-                                "<td>"+data.get(itemPosition).getD3()+"</td>" +
-                                "<td>"+data.get(itemPosition).getD4()+"</td>" +
-                                "<td>"+data.get(itemPosition).getdTB()+"</td>" +
-                                "</tr>" +
-                                "</table>" +
-                                "<em>Copyright  © Gà công nghiệp</em>"+
-                                "</body>" +
-                                "</html>";
-                        builder.setTitle("Kết quả học tập "+itemBangKetQuaHocTap.getTenMon());
-                        WebView webView=new WebView(ListActivity.this);
-                        webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
-                        webView.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
-                        builder.setView(webView);
-
-                        builder.setNeutralButton("SMS",null);
-                        builder.setPositiveButton("IMG",null);
-                        AlertDialog mAlertDialog = builder.create();
-                        mAlertDialog.show();
-
-                        Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                        b.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                MainActivity.sreenShort(view,ListActivity.this);
-                            }
-                        });
-                        Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                        c.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                MainActivity.shareText(ListActivity.this,itemBangKetQuaHocTap.getTenMon(), data.get(itemPosition).toString());
-                            }
-                        });
-
-
+                        FrameFragment.showAlert("Kết quả học tập "+itemBangKetQuaHocTap.getTenMon(),
+                                UIFromHTML.uiDiemMonListAc(data.get(itemPosition)),itemBangKetQuaHocTap.getTenMon(), data.get(itemPosition).toString(),ListActivity.this);
                     }
 
                 }
             });
-
             builder.show();
 
         }
