@@ -72,14 +72,11 @@ public class KetQuaThiFragment extends FrameFragment {
     public void startParser() {
         ParserKetQuaThiTheoMon parserKetQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
         parserKetQuaThiTheoMon.execute(sv.getMaSV());
-
-
     }
     public void setRecyclerView() {
         Collections.sort(itemDiemThiTheoMons, new Comparator<ItemDiemThiTheoMon>() {
             @Override
             public int compare(ItemDiemThiTheoMon o1, ItemDiemThiTheoMon o2) {
-
                 String[] str1=o1.getNgay1().split("/");
                 String[] str2=o2.getNgay1().split("/");
                 if (str1.length==1){
@@ -88,9 +85,12 @@ public class KetQuaThiFragment extends FrameFragment {
                 if (str2.length==1){
                     return 1;
                 }
-                return str1[2].compareTo(str2[2]);
+                String ngay1=str1[2]+str1[1];
+                String ngay2=str2[2]+str2[1];
+                return ngay1.compareTo(ngay2);
             }
         });
+        Collections.reverse(itemDiemThiTheoMons);
         AdapterDiemThiMon adapterDiemThiMon=new AdapterDiemThiMon(itemDiemThiTheoMons);
         recyclerView.removeAllViews();
         recyclerView.setAdapter(adapterDiemThiMon);

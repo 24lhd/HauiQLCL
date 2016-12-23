@@ -67,7 +67,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:textStyle="bold"
-                        android:layout_weight="1"
+                        android:layout_weight="1.5"
 
                         android:id="@+id/id_item_diem_thi_lop_n1"
                         android:singleLine="true"
