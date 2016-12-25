@@ -1,1 +1,1 @@
-include ':app', ':FabLoading', ':AlertdialogproThemeHolo', ':alertdialogpro-core', ':PullRefesh', ':MPChart', ':Update'
+include ':app', ':PullRefesh', ':MPChart', ':Update'

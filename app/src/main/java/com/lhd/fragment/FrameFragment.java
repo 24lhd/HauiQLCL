@@ -33,7 +33,6 @@ import com.lhd.object.SinhVien;
 public abstract class FrameFragment extends Fragment{
     public static final String KEY_OBJECT = "send_object";
     public static final String KEY_ACTIVITY = "key_start_activity";
-    protected int mTheme = R.style.Theme_AlertDialogPro_Holo_Light;
     protected RecyclerView recyclerView;
     protected TextView tVnull;
     protected ProgressBar progressBar;

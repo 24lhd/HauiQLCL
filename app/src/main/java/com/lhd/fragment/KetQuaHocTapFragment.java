@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-import com.alertdialogpro.AlertDialogPro;
 import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
@@ -174,8 +173,9 @@ public class KetQuaHocTapFragment extends FrameFragment {
     }
     private void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        String[] list = new String[]{"Bảng điểm học tâp", "Kế hoạch thi theo lớp","Xem điểm "+itemBangKetQuaHocTap.getTenMon(),"Dự tính kết quả thi :v"};
-        final AlertDialogPro.Builder alertDialogPro=new AlertDialogPro.Builder(getContext(), mTheme);
+        String[] list = new String[]{"Bảng điểm học tâp", "Kế hoạch thi theo lớp","Xem điểm " +
+                ""+itemBangKetQuaHocTap.getTenMon(),"Dự tính kết quả thi ^^"};
+        final AlertDialog.Builder alertDialogPro=new AlertDialog.Builder(getContext());
         alertDialogPro.setTitle(itemBangKetQuaHocTap.getTenMon()).setItems(list, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
