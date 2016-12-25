@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <attr name="adpTitleDividerBackground" format="reference|color" />
-    <attr name="adpTitleDividerHeight" format="dimension" />
-    <attr name="adpButtonBarDividerHorizontal" format="reference" />
-    <attr name="adpButtonBarDividerVertical" format="reference" />
-
-</resources>
