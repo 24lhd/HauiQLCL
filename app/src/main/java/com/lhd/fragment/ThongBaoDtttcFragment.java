@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
@@ -111,10 +112,14 @@ public class ThongBaoDtttcFragment extends FrameFragment {
         }
         @Override
         public void onClick(View view) {
+            if (MainActivity.isOnline(getActivity())){
+                int itemPosition = recyclerView.getChildLayoutPosition(view);
+                ParserLinkFileNoti parserNotiDTTC=new ParserLinkFileNoti(getActivity());
+                parserNotiDTTC.execute(data.get(itemPosition).getLink());
+            }else{
+                Toast.makeText(mainActivity, "Không có kêt nối nternet!", Toast.LENGTH_SHORT).show();
+            }
 
-            int itemPosition = recyclerView.getChildLayoutPosition(view);
-            ParserLinkFileNoti parserNotiDTTC=new ParserLinkFileNoti(getActivity());
-            parserNotiDTTC.execute(data.get(itemPosition).getLink());
 
         }
     }

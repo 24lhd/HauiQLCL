@@ -39,11 +39,11 @@ import com.lhd.fragment.LichThiFragment;
 import com.lhd.fragment.MoreFragment;
 import com.lhd.fragment.RadarChartFragment;
 import com.lhd.fragment.ThongBaoDtttcFragment;
+import com.lhd.log.Log;
 import com.lhd.object.ItemBangKetQuaHocTap;
 import com.lhd.object.KetQuaHocTap;
 import com.lhd.object.SinhVien;
 import com.lhd.object.Version;
-import com.lhd.log.Log;
 import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.TimeTask;
@@ -169,7 +169,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what==2){
-                    showError(MainActivity.this);
+                    if (MainActivity.isOnline(MainActivity.this)) showError(MainActivity.this);
+                    else  Toast.makeText(MainActivity.this, "Không có kêt nối nternet!", Toast.LENGTH_SHORT).show();
                     return;
                 }else if (msg.obj instanceof KetQuaHocTap){
                     KetQuaHocTap ketQuaHocTap= (KetQuaHocTap) msg.obj;
