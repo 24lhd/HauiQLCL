@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
 
     <TextView
@@ -10,7 +11,7 @@
         android:gravity="center"
         android:padding="@dimen/margin_view"
 
-        android:text="Đang load...."
+        android:text="Đang lấy dữ liệu...."
         style="@style/TextAppearance.AppCompat.Title"
         android:id="@+id/tv_ten"/>
     <TextView
@@ -19,13 +20,12 @@
         android:gravity="center"
         android:padding="@dimen/margin_view"
         style="@style/TextAppearance.AppCompat.Body1"
-        android:text="Đang load...."
+        android:text="Đang lấy dữ liệu...."
         android:id="@+id/tv_tt"/>
     <com.github.mikephil.charting.charts.RadarChart
         android:id="@+id/chart1"
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/margin_view"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

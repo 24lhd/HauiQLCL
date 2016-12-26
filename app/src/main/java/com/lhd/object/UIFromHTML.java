@@ -74,7 +74,7 @@ public class UIFromHTML {
                 "text-align: center;" +
                 "background: white;"+
                 "}" +
-                "h1{" +
+                "h2{" +
                 "color: #FF4081;" +
                 "}" +
                 "p{" +
@@ -93,9 +93,9 @@ public class UIFromHTML {
                 "</style>" +
                 "</head>" +
                 "<body>" +
-                "<h1>" +
+                "<h2>" +
                 itemBangKetQuaHocTap.getTenMon() +
-                "</h1>" +
+                "</h2>" +
                 "<p>" +
                 "("+itemBangKetQuaHocTap.getMaMon()+")<br/>" +
                 "" +

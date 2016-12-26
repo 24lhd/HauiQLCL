@@ -21,10 +21,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
 import com.lhd.object.SinhVien;
+
+import java.util.ArrayList;
+
+import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
 
 /**
  * Created by D on 12/19/2016.
@@ -41,7 +46,7 @@ public abstract class FrameFragment extends Fragment{
     protected PullRefreshLayout pullRefreshLayout;
     protected MainActivity mainActivity;
     protected SinhVien sv;
-
+    protected ArrayList<Object> objects;
     public static void showAlert(String title, String html, final String titleSMS, final String SMS, final Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(title);
@@ -71,7 +76,15 @@ public abstract class FrameFragment extends Fragment{
     public LayoutInflater getLayoutInflater() {
         return layoutInflater;
     }
-
+    public void addNativeExpressAds() {
+        // Loop through the items array and place a new Native Express ad in every ith position in
+        // the items List.
+        for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
+            final NativeExpressAdView adView = new NativeExpressAdView(mainActivity);
+            // add một item ADS vào list item
+            objects.add(i, adView);
+        }
+    }
     public void setLayoutInflater(LayoutInflater layoutInflater) {
         this.layoutInflater = layoutInflater;
     }
@@ -151,6 +164,7 @@ public abstract class FrameFragment extends Fragment{
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         pullRefreshLayout.setRefreshing(false);
+        objects=new ArrayList<>();
         refesh();
         checkDatabase();
     }

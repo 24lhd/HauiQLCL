@@ -60,8 +60,17 @@ import duong.update.code.UpdateApp;
  */
 
 public class MainActivity extends AppCompatActivity {
+    public static final int ITEMS_PER_AD = 8;
+    // The Native Express ad height.
+    public static final int NATIVE_EXPRESS_AD_HEIGHT = 150;
+    // The Native Express ad unit ID.
+    private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111";
     public static final String SINH_VIEN = "SINH_VIEN";
     public static final String MA_SV = "MA_SINH_VIEN";
+    // A menu item view type.
+    public static final int MENU_ITEM_VIEW_TYPE = 0;
+    // The Native Express ad view type.
+    public static final int NATIVE_EXPRESS_AD_VIEW_TYPE = 1;
     private ViewPager viewPager;
     private KetQuaThiFragment ketQuaThiFragment;
     private LichThiFragment lichThiFragment;
@@ -90,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 dialogInterface.dismiss();
                 startLogin(activity);
                 activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
-
             }
         });
         builder.show();

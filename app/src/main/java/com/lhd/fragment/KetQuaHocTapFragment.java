@@ -1,5 +1,6 @@
 package com.lhd.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -9,13 +10,16 @@ import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.baoyz.widget.PullRefreshLayout;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
@@ -23,12 +27,16 @@ import com.lhd.object.ItemBangKetQuaHocTap;
 import com.lhd.object.KetQuaHocTap;
 import com.lhd.object.UIFromHTML;
 import com.lhd.task.ParserKetQuaHocTap;
+
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
+import static com.lhd.activity.MainActivity.MENU_ITEM_VIEW_TYPE;
+import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
 import static com.lhd.object.Haui.diemChus;
 import static com.lhd.object.UIFromHTML.getUIWeb;
 
@@ -54,7 +62,6 @@ public class KetQuaHocTapFragment extends FrameFragment {
     }
     public void checkDatabase() {
                 showProgress();
-
                 bangKetQuaHocTaps=sqLiteManager.getBangKetQuaHocTap(sv.getMaSV());
                 if (!bangKetQuaHocTaps.isEmpty()){
                     showRecircleView();
@@ -80,9 +87,18 @@ public class KetQuaHocTapFragment extends FrameFragment {
             }
         });
         Collections.reverse(bangKetQuaHocTaps);
-        AdapterDiemHocTapTheoMon adapterDiemHocTapTheoMon=new AdapterDiemHocTapTheoMon(bangKetQuaHocTaps);
-        recyclerView.setAdapter(adapterDiemHocTapTheoMon);
+        objects=new ArrayList<>();
+        objects.addAll(bangKetQuaHocTaps);
+        Log.
+                e("faker","ss "+objects.size());
+//        if (mainActivity.isOnline(mainActivity))
+            addNativeExpressAds();
+        RecyclerView.Adapter adapter = new KetQuaAdaptor(recyclerView,mainActivity, objects);
+        recyclerView.setAdapter(adapter);
+//        AdapterDiemHocTapTheoMon adapterDiemHocTapTheoMon=new AdapterDiemHocTapTheoMon(bangKetQuaHocTaps);
+//        recyclerView.setAdapter(adapterDiemHocTapTheoMon);
     }
+
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -108,69 +124,6 @@ public class KetQuaHocTapFragment extends FrameFragment {
             }catch (NullPointerException e){}
         }
     };
-    class ItemDanhSachLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
-        TextView tvTenLop;
-        TextView tvMaLop;
-        TextView tvD1;
-        TextView tvD2;
-        TextView tvD3;
-        TextView tvDDK;
-        TextView tvSoTietNghi;
-        TextView tvDTB;
-        TextView tvDieuKien;
-        TextView stt;
-        public ItemDanhSachLop(View itemView) {
-            super(itemView);
-
-            this.tvTenLop = (TextView) itemView.findViewById(R.id.id_item_diem_lop_tenlop);
-            this.tvMaLop = (TextView) itemView.findViewById(R.id.id_item_diem_lop_masv);
-            this.tvD1 = (TextView) itemView.findViewById(R.id.id_item_diem_lop_d1);
-            this.tvD2 = (TextView) itemView.findViewById(R.id.id_item_diem_lop_d2);
-            this.tvD3 = (TextView) itemView.findViewById(R.id.id_item_diem_lop_d3);
-            this.tvDDK = (TextView) itemView.findViewById(R.id.id_item_diem_lop_d4);
-            this.tvSoTietNghi = (TextView) itemView.findViewById(R.id.id_item_diem_lop_so_tiet_nghi);
-            this.tvDTB = (TextView) itemView.findViewById(R.id.id_item_diem_lop_dtb);
-            this.tvDieuKien = (TextView) itemView.findViewById(R.id.id_item_diem_lop_dieuKien);
-            this.stt = (TextView) itemView.findViewById(R.id.id_item_diem_lop_stt);
-        }
-    }
-    class AdapterDiemHocTapTheoMon extends RecyclerView.Adapter<ItemDanhSachLop> implements RecyclerView.OnClickListener {
-        private  ArrayList<ItemBangKetQuaHocTap> data;
-        public AdapterDiemHocTapTheoMon( ArrayList<ItemBangKetQuaHocTap> data) {
-            this.data = data;
-        }
-        @Override
-        public ItemDanhSachLop onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_bang_diem_thanh_phan, parent, false);
-            view.setOnClickListener(this);
-            ItemDanhSachLop holder = new ItemDanhSachLop(view);
-            return holder;
-        }
-        @Override
-        public void onBindViewHolder(ItemDanhSachLop holder, int position) {
-            ItemBangKetQuaHocTap item = bangKetQuaHocTaps.get(position);
-            holder.tvTenLop.setText(item.getTenMon());
-            holder.tvMaLop.setText(item.getMaMon());
-            holder.tvD1.setText(item.getD1());
-            holder.tvD2.setText(item.getD2());
-            holder.tvD3.setText(item.getD3());
-            holder.tvDDK.setText(item.getdGiua());
-            holder.tvDieuKien.setText(item.getDieuKien());
-            holder.tvSoTietNghi.setText(item.getSoTietNghi());
-            holder.tvDTB.setText(item.getdTB());
-            holder.stt.setText(""+(position+1));
-        }
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
-        @Override
-        public void onClick(View view) {
-            int itemPosition = recyclerView.getChildLayoutPosition(view);
-            ItemBangKetQuaHocTap diemHocTapTheoMon=bangKetQuaHocTaps.get(itemPosition);
-            showCustomViewDialog(diemHocTapTheoMon);
-        }
-    }
     private void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         String[] list = new String[]{"Bảng điểm học tâp", "Kế hoạch thi theo lớp","Xem điểm " +
@@ -295,6 +248,113 @@ public class KetQuaHocTapFragment extends FrameFragment {
         if (end<=0)  return "chệu";
         return "tầm "+df.format(start)+" đến "+
                 df.format(end);
+    }
+    public class KetQuaAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements RecyclerView.OnClickListener{
+        private final RecyclerView recyclerView;
+        private List<Object> mRecyclerViewItems;
+        private Context mContext;
+        @Override
+        public void onClick(View view) {
+//        if ()
+            int itemPosition = recyclerView.getChildLayoutPosition(view);
+            if (mRecyclerViewItems.get(itemPosition) instanceof  ItemBangKetQuaHocTap){
+                ItemBangKetQuaHocTap diemHocTapTheoMon= (ItemBangKetQuaHocTap) mRecyclerViewItems.get(itemPosition);
+                showCustomViewDialog(diemHocTapTheoMon);
+            }
+
+        }
+
+        public class ItemDanhSachLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
+            TextView tvTenLop;
+            TextView tvMaLop;
+            TextView tvD1;
+            TextView tvD2;
+            TextView tvD3;
+            TextView tvDDK;
+            TextView tvSoTietNghi;
+            TextView tvDTB;
+            TextView tvDieuKien;
+            TextView stt;
+            public ItemDanhSachLop(View itemView) {
+                super(itemView);
+
+                this.tvTenLop = (TextView) itemView.findViewById(R.id.id_item_diem_lop_tenlop);
+                this.tvMaLop = (TextView) itemView.findViewById(R.id.id_item_diem_lop_masv);
+                this.tvD1 = (TextView) itemView.findViewById(R.id.id_item_diem_lop_d1);
+                this.tvD2 = (TextView) itemView.findViewById(R.id.id_item_diem_lop_d2);
+                this.tvD3 = (TextView) itemView.findViewById(R.id.id_item_diem_lop_d3);
+                this.tvDDK = (TextView) itemView.findViewById(R.id.id_item_diem_lop_d4);
+                this.tvSoTietNghi = (TextView) itemView.findViewById(R.id.id_item_diem_lop_so_tiet_nghi);
+                this.tvDTB = (TextView) itemView.findViewById(R.id.id_item_diem_lop_dtb);
+                this.tvDieuKien = (TextView) itemView.findViewById(R.id.id_item_diem_lop_dieuKien);
+                this.stt = (TextView) itemView.findViewById(R.id.id_item_diem_lop_stt);
+            }
+        }
+        public class NativeExpressAdViewHolder extends RecyclerView.ViewHolder {
+            NativeExpressAdViewHolder(View view) {
+                super(view);
+            }
+        }
+        @Override
+        public int getItemViewType(int position) {
+            return (position % MainActivity.ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+        }
+
+        public KetQuaAdaptor(RecyclerView recyclerView, Context context, List<Object> recyclerViewItems) {
+            this.mContext = context;
+            this.recyclerView=recyclerView;
+            this.mRecyclerViewItems = recyclerViewItems;
+        }
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            switch (viewType) {
+                case MENU_ITEM_VIEW_TYPE:
+                    View menuItemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bang_diem_thanh_phan, parent, false);
+                    menuItemLayoutView.setOnClickListener(this);
+                    return new ItemDanhSachLop(menuItemLayoutView);
+                case NATIVE_EXPRESS_AD_VIEW_TYPE:
+                    // fall through
+                default:
+                    View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_express_ad_container, parent, false);
+                    return new NativeExpressAdViewHolder(nativeExpressLayoutView);
+            }
+        }
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            int viewType = getItemViewType(position);
+            switch (viewType) {
+                case MainActivity.MENU_ITEM_VIEW_TYPE:
+                    ItemDanhSachLop itemDanhSachLop= (ItemDanhSachLop) holder;
+                    ItemBangKetQuaHocTap item = (ItemBangKetQuaHocTap) mRecyclerViewItems.get(position);
+                    itemDanhSachLop.tvTenLop.setText(item.getTenMon());
+                    itemDanhSachLop.tvMaLop.setText(item.getMaMon());
+                    itemDanhSachLop.tvD1.setText(item.getD1());
+                    itemDanhSachLop.tvD2.setText(item.getD2());
+                    itemDanhSachLop.tvD3.setText(item.getD3());
+                    itemDanhSachLop.tvDDK.setText(item.getdGiua());
+                    itemDanhSachLop.tvDieuKien.setText(item.getDieuKien());
+                    itemDanhSachLop.tvSoTietNghi.setText(item.getSoTietNghi());
+                    itemDanhSachLop.tvDTB.setText(item.getdTB());
+                    itemDanhSachLop.stt.setText(""+(position+1));
+                    break;
+                case NATIVE_EXPRESS_AD_VIEW_TYPE:
+                    // fall through
+                default:
+                    NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
+                    NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
+                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+                    if (adCardView.getChildCount() > 0) {
+                        adCardView.removeAllViews();
+                    }
+                    // Add the Native Express ad to the native express ad view.
+                    adCardView.addView(adView);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return mRecyclerViewItems.size();
+        }
     }
 
 }
