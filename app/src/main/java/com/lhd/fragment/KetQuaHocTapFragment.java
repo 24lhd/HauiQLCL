@@ -171,6 +171,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
                 Log.e("MainActivity", "The previous Native Express ad failed to load. Attempting to"
                         + " load the next Native Express ad in the items list.");
                 loadNativeExpressAd(index + ITEMS_PER_AD);
+
             }
         });
         // Load the Native Express ad.
