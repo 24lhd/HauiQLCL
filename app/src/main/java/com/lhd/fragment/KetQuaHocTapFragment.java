@@ -1,6 +1,5 @@
 package com.lhd.fragment;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -19,6 +18,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
@@ -35,6 +37,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
 import static com.lhd.activity.MainActivity.MENU_ITEM_VIEW_TYPE;
 import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
 import static com.lhd.object.Haui.diemChus;
@@ -89,14 +92,10 @@ public class KetQuaHocTapFragment extends FrameFragment {
         Collections.reverse(bangKetQuaHocTaps);
         objects=new ArrayList<>();
         objects.addAll(bangKetQuaHocTaps);
-        Log.
-                e("faker","ss "+objects.size());
-//        if (mainActivity.isOnline(mainActivity))
-            addNativeExpressAds();
-        RecyclerView.Adapter adapter = new KetQuaAdaptor(recyclerView,mainActivity, objects);
+        addNativeExpressAds();
+        setUpAndLoadNativeExpressAds();
+        RecyclerView.Adapter adapter = new KetQuaAdaptor(objects);
         recyclerView.setAdapter(adapter);
-//        AdapterDiemHocTapTheoMon adapterDiemHocTapTheoMon=new AdapterDiemHocTapTheoMon(bangKetQuaHocTaps);
-//        recyclerView.setAdapter(adapterDiemHocTapTheoMon);
     }
 
     private Handler handler=new Handler(){
@@ -124,6 +123,59 @@ public class KetQuaHocTapFragment extends FrameFragment {
             }catch (NullPointerException e){}
         }
     };
+    private void setUpAndLoadNativeExpressAds() {
+        // Use a Runnable to ensure that the RecyclerView has been laid out before setting the
+        // ad size for the Native Express ad. This allows us to set the Native Express ad's
+        // width to match the full width of the RecyclerView.
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                final float density = mainActivity.getResources().getDisplayMetrics().density;
+                // Set the ad size and ad unit ID for each Native Express ad in the items list.
+                for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
+                    final NativeExpressAdView adView = (NativeExpressAdView) objects.get(i);
+                    AdSize adSize = new AdSize((int) (recyclerView.getWidth()/density),132);
+                    adView.setAdSize(adSize);
+                    adView.setAdUnitId(MainActivity.AD_UNIT_ID);
+                }
+                // Load the first Native Express ad in the items list.
+                loadNativeExpressAd(0);
+            }
+        });
+    }
+    private void loadNativeExpressAd(final int index) {
+        if (index >= objects.size()) {
+            return;
+        }
+        Object item = objects.get(index);
+        if (!(item instanceof NativeExpressAdView)) {
+            throw new ClassCastException("Expected item at index " + index + " to be a Native"
+                    + " Express ad.");
+        }
+
+         final NativeExpressAdView adView = (NativeExpressAdView) item;
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                adView.setVisibility(View.VISIBLE);
+                // The previous Native Express ad loaded successfully, call this method again to
+                // load the next ad in the items list.
+                loadNativeExpressAd(index + ITEMS_PER_AD);
+            }
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                adView.setVisibility(View.GONE);
+                // The previous Native Express ad failed to load. Call this method again to load
+                // the next ad in the items list.
+                Log.e("MainActivity", "The previous Native Express ad failed to load. Attempting to"
+                        + " load the next Native Express ad in the items list.");
+                loadNativeExpressAd(index + ITEMS_PER_AD);
+            }
+        });
+        // Load the Native Express ad.
+        adView.loadAd(new AdRequest.Builder().build());
+    }
     private void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         String[] list = new String[]{"Bảng điểm học tâp", "Kế hoạch thi theo lớp","Xem điểm " +
@@ -250,12 +302,9 @@ public class KetQuaHocTapFragment extends FrameFragment {
                 df.format(end);
     }
     public class KetQuaAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements RecyclerView.OnClickListener{
-        private final RecyclerView recyclerView;
         private List<Object> mRecyclerViewItems;
-        private Context mContext;
         @Override
         public void onClick(View view) {
-//        if ()
             int itemPosition = recyclerView.getChildLayoutPosition(view);
             if (mRecyclerViewItems.get(itemPosition) instanceof  ItemBangKetQuaHocTap){
                 ItemBangKetQuaHocTap diemHocTapTheoMon= (ItemBangKetQuaHocTap) mRecyclerViewItems.get(itemPosition);
@@ -263,7 +312,6 @@ public class KetQuaHocTapFragment extends FrameFragment {
             }
 
         }
-
         public class ItemDanhSachLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
             TextView tvTenLop;
             TextView tvMaLop;
@@ -277,7 +325,6 @@ public class KetQuaHocTapFragment extends FrameFragment {
             TextView stt;
             public ItemDanhSachLop(View itemView) {
                 super(itemView);
-
                 this.tvTenLop = (TextView) itemView.findViewById(R.id.id_item_diem_lop_tenlop);
                 this.tvMaLop = (TextView) itemView.findViewById(R.id.id_item_diem_lop_masv);
                 this.tvD1 = (TextView) itemView.findViewById(R.id.id_item_diem_lop_d1);
@@ -297,33 +344,43 @@ public class KetQuaHocTapFragment extends FrameFragment {
         }
         @Override
         public int getItemViewType(int position) {
-            return (position % MainActivity.ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+//            if (mainActivity.isOnline(mainActivity))
+            return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+//            return   MENU_ITEM_VIEW_TYPE;
         }
 
-        public KetQuaAdaptor(RecyclerView recyclerView, Context context, List<Object> recyclerViewItems) {
-            this.mContext = context;
-            this.recyclerView=recyclerView;
+        public KetQuaAdaptor( List<Object> recyclerViewItems) {
             this.mRecyclerViewItems = recyclerViewItems;
         }
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             switch (viewType) {
+                case NATIVE_EXPRESS_AD_VIEW_TYPE:
+                    View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_ads, parent, false);
+                    return new NativeExpressAdViewHolder(nativeExpressLayoutView);
+                    // fall through
+                default:
                 case MENU_ITEM_VIEW_TYPE:
                     View menuItemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bang_diem_thanh_phan, parent, false);
                     menuItemLayoutView.setOnClickListener(this);
                     return new ItemDanhSachLop(menuItemLayoutView);
-                case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                    // fall through
-                default:
-                    View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_express_ad_container, parent, false);
-                    return new NativeExpressAdViewHolder(nativeExpressLayoutView);
             }
         }
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             int viewType = getItemViewType(position);
             switch (viewType) {
-                case MainActivity.MENU_ITEM_VIEW_TYPE:
+                case NATIVE_EXPRESS_AD_VIEW_TYPE:
+                    NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
+                    NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
+                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+                    if (adCardView.getChildCount() > 0) {
+                        adCardView.removeAllViews();
+                    }
+                    // Add the Native Express ad to the native express ad view.
+                    adCardView.addView(adView);
+                    break;
+                default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                     ItemDanhSachLop itemDanhSachLop= (ItemDanhSachLop) holder;
                     ItemBangKetQuaHocTap item = (ItemBangKetQuaHocTap) mRecyclerViewItems.get(position);
                     itemDanhSachLop.tvTenLop.setText(item.getTenMon());
@@ -337,17 +394,9 @@ public class KetQuaHocTapFragment extends FrameFragment {
                     itemDanhSachLop.tvDTB.setText(item.getdTB());
                     itemDanhSachLop.stt.setText(""+(position+1));
                     break;
-                case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                    // fall through
-                default:
-                    NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
-                    NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-                    if (adCardView.getChildCount() > 0) {
-                        adCardView.removeAllViews();
-                    }
-                    // Add the Native Express ad to the native express ad view.
-                    adCardView.addView(adView);
+
+
+
             }
         }
 
