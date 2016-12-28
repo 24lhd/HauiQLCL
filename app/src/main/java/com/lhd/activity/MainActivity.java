@@ -47,6 +47,8 @@ import com.lhd.object.Version;
 import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.TimeTask;
+import com.startapp.android.publish.adsCommon.StartAppAd;
+import com.startapp.android.publish.adsCommon.StartAppSDK;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -60,11 +62,15 @@ import duong.update.code.UpdateApp;
  */
 
 public class MainActivity extends AppCompatActivity {
+    private StartAppAd startAppAd = new StartAppAd(this);
+
     public static final int ITEMS_PER_AD = 8;
     // The Native Express ad height.
     public static final int NATIVE_EXPRESS_AD_HEIGHT = 132;
     // The Native Express ad unit ID.
     public static final String AD_UNIT_ID = "ca-app-pub-7062977963627166/8003707335";
+    public static final String AD_UNIT_ID_KET_QUA_THI ="ca-app-pub-7062977963627166/6849874931";
+
     public static final String SINH_VIEN = "SINH_VIEN";
     public static final String MA_SV = "MA_SINH_VIEN";
     // A menu item view type.
@@ -87,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private ThongBaoDtttcFragment thongBaoDtttcFragment;
     private PackageInfo info;
     private LinearLayout layoutTime;
+    private FirebaseDatabase database;
 
     public static void showError(final Activity activity) {
         final AlertDialog.Builder builder=new AlertDialog.Builder(activity);
@@ -195,11 +202,34 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+        StartAppAd.onBackPressed(this);
         if (log.getID().equals(sinhVien.getMaSV())) {
             finish();
             this.overridePendingTransition(R.anim.left_end, R.anim.right_end);
         }else
             getSV(log.getID());
+    }
+
+    public void showStartADS() {
+        startAppAd.showAd(MainActivity.this);
+    }
+    /**
+     * Part of the activity's life cycle, StartAppAd should be integrated here.
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        startAppAd.onResume();
+    }
+
+    /**
+     * Part of the activity's life cycle, StartAppAd should be integrated here
+     * for the home button exit ad integration.
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        startAppAd.onPause();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -243,10 +273,18 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
     }
     private void checkLogin() {
-        if (log.getID().length()==10){
-            getSV(log.getID());
-        }else{
-            startLogin(MainActivity.this);
+        StartAppSDK.init(this, "211282097", false);
+        try {
+            database = FirebaseDatabase.getInstance();
+            setCount();
+        } catch (Exception e) {
+        }finally {
+            if (log.getID().length()==10){
+
+                getSV(log.getID());
+            }else{
+                startLogin(MainActivity.this);
+            }
         }
     }
 
@@ -256,11 +294,9 @@ public class MainActivity extends AppCompatActivity {
         activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
     }
     private void checkUpdate() throws Exception{
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         if (sinhVien instanceof SinhVien){
             DatabaseReference every = database.getReference("every/"+sinhVien.getMaSV());
             every.setValue(sinhVien);
-
         }
         DatabaseReference myRef = database.getReference("updateGaCongNghiep");
         myRef.addValueEventListener(new ValueEventListener() {
@@ -297,6 +333,24 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError error) {}
+        });
+    }
+
+    public void setCount() throws Exception{
+         final DatabaseReference count = database.getReference("count");
+        count.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int countIndex=dataSnapshot.getValue(Integer.class);
+                countIndex=countIndex+1;
+                count.setValue(countIndex);
+                count.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
         });
     }
 

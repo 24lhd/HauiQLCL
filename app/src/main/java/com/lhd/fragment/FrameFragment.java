@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
@@ -72,6 +76,65 @@ public abstract class FrameFragment extends Fragment{
                 MainActivity.shareText(activity,titleSMS, SMS);
             }
         });
+    }
+    public static class NativeExpressAdViewHolder extends RecyclerView.ViewHolder {
+        public NativeExpressAdViewHolder(View view) {
+            super(view);
+        }
+    }
+    public void setUpAndLoadNativeExpressAds(final String id, final int height) {
+        // Use a Runnable to ensure that the RecyclerView has been laid out before setting the
+        // ad size for the Native Express ad. This allows us to set the Native Express ad's
+        // width to match the full width of the RecyclerView.
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                // Set the ad size and ad unit ID for each Native Express ad in the items list.
+                final float density = mainActivity.getResources().getDisplayMetrics().density;
+                for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
+                     NativeExpressAdView adView = (NativeExpressAdView) objects.get(i);
+                    AdSize adSize = new AdSize((int) (recyclerView.getWidth()/density),height);
+                    adView.setAdSize(adSize);
+                    adView.setAdUnitId(id);
+                }
+                loadNativeExpressAd(0);
+            }
+        });
+
+    }
+    public void loadNativeExpressAd(final int index) {
+        if (index >= objects.size()) {
+            return;
+        }
+        Object item = objects.get(index);
+        if (!(item instanceof NativeExpressAdView)) {
+            throw new ClassCastException("Expected item at index " + index + " to be a Native"
+                    + " Express ad.");
+        }
+
+        final NativeExpressAdView adView = (NativeExpressAdView) item;
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                adView.setVisibility(View.VISIBLE);
+                // The previous Native Express ad loaded successfully, call this method again to
+                // load the next ad in the items list.
+                loadNativeExpressAd(index + ITEMS_PER_AD);
+            }
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                adView.setVisibility(View.GONE);
+                // The previous Native Express ad failed to load. Call this method again to load
+                // the next ad in the items list.
+                Log.e("MainActivity", "The previous Native Express ad failed to load. Attempting to"
+                        + " load the next Native Express ad in the items list.");
+                loadNativeExpressAd(index + ITEMS_PER_AD);
+
+            }
+        });
+        // Load the Native Express ad.
+        adView.loadAd(new AdRequest.Builder().build());
     }
     public LayoutInflater getLayoutInflater() {
         return layoutInflater;
@@ -164,7 +227,6 @@ public abstract class FrameFragment extends Fragment{
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         pullRefreshLayout.setRefreshing(false);
-        objects=new ArrayList<>();
         refesh();
         checkDatabase();
     }

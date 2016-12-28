@@ -56,7 +56,7 @@ public  class TimeTask extends AsyncTask<Void,String,String> {
                 }
             }
             if (phutConLai>60) return  tiet + "-" + "Còn "+(phutConLai/60)+":"+ phutConLai%60 + ":" + giayConLai +" giờ";
-            return  tiet + "-" + "Còn " + phutConLai + ":" + giayConLai +" phút";
+            return  tiet + "-" + "Còn " + (phutConLai-1) + ":" + giayConLai +" phút";
     }
     @Override
     protected void onPostExecute(String s) {

@@ -2,7 +2,6 @@ package com.lhd.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,12 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
+import com.lhd.adaptor.KetQuaThiAdaptor;
 import com.lhd.object.ItemDiemThiTheoMon;
 import com.lhd.object.UIFromHTML;
 import com.lhd.task.ParserKetQuaThiTheoMon;
@@ -90,9 +89,13 @@ public class KetQuaThiFragment extends FrameFragment {
             }
         });
         Collections.reverse(itemDiemThiTheoMons);
-        AdapterDiemThiMon adapterDiemThiMon=new AdapterDiemThiMon(itemDiemThiTheoMons);
-        recyclerView.removeAllViews();
-        recyclerView.setAdapter(adapterDiemThiMon);
+        objects=new ArrayList<>();
+        objects.addAll(itemDiemThiTheoMons);
+        addNativeExpressAds();
+        setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_KET_QUA_THI,320);
+        RecyclerView.Adapter adapter = new KetQuaThiAdaptor(objects,recyclerView,this);
+        recyclerView.setAdapter(adapter);
+
 
 
     }
@@ -116,148 +119,34 @@ public class KetQuaThiFragment extends FrameFragment {
             }
         }
     };
-    class ItemDiemThiMon extends RecyclerView.ViewHolder{ // tao mot đói tượng
-        TextView tenMon;
-        TextView dLan1;
-        TextView dTKLan1;
-        TextView dLan2;
-        TextView dTKLan2;
-        TextView dCuoiCung;
-        TextView ngay1;
-        TextView ngay2;
-        TextView ghiChu;
-        TextView stt;
-        public ItemDiemThiMon(View itemView) {
-            super(itemView);
-            this.tenMon = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_tenlop);
-            this.dLan1 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_l1);
-            this.dTKLan1 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_tk1);
-            this.dLan2 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_l2);
-            this.dTKLan2 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_tk2);
-            this.dCuoiCung = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_dc);
-            this.ngay1 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_n1);
-            this.ngay2 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_n2);
-            this.ghiChu = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_gc);
-            this.stt = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_stt);
-        }
-    }
-    private class AdapterDiemThiMon extends RecyclerView.Adapter<ItemDiemThiMon> implements RecyclerView.OnClickListener {
-        private  ArrayList<ItemDiemThiTheoMon> data;
-        public AdapterDiemThiMon( ArrayList<ItemDiemThiTheoMon> data) {
-            this.data = data;
-        }
-        @Override
-        public ItemDiemThiMon onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_diem_thi_theo_mon, parent, false);
-            view.setOnClickListener(this);
-            ItemDiemThiMon holder = new ItemDiemThiMon(view);
-            return holder;
-        }
-        @Override
-        public void onBindViewHolder(ItemDiemThiMon holder, int position) {
-            ItemDiemThiTheoMon itemDiemThiTheoMon =data.get(position);
-            holder.tenMon.setText(itemDiemThiTheoMon.getTenMon());
-            holder.dLan1.setText(itemDiemThiTheoMon.getdLan1());
-            holder.dLan2.setText(itemDiemThiTheoMon.getdLan2());
-            holder.dCuoiCung.setText(itemDiemThiTheoMon.getdCuoiCung());
-            String tk1= itemDiemThiTheoMon.getdTKLan1().trim();
-            String tk2= itemDiemThiTheoMon.getdTKLan2().trim();
-            holder.dTKLan2.setText(tk2);
-            holder.dTKLan1.setText(tk1);
-            holder.ngay1.setText(itemDiemThiTheoMon.getNgay1());
-            holder.ngay2.setText(itemDiemThiTheoMon.getNgay2());
-            holder.ghiChu.setText(itemDiemThiTheoMon.getGhiChu());
-            holder.stt.setText(""+(position+1));
-            String dc= itemDiemThiTheoMon.getdCuoiCung().split(" ")[0];
-            dc=dc.trim();
-            double th = 0;
-            double n = 0;
-            if (itemDiemThiTheoMon.getNgay1().split("").length>3){
-                n=Double.parseDouble(itemDiemThiTheoMon.getNgay1().split("/")[2]);
-                th = Double.parseDouble(itemDiemThiTheoMon.getNgay1().split("/")[1]);
-            }
-            if (dc.equals("(I)")){
-                holder.dCuoiCung.setText("*");
-                holder.dCuoiCung.setTextColor(Color.parseColor("#42A5F5"));
-            }else{
-                holder.dCuoiCung.setText(dc);
-                if (isDouble(dc)){
-                    double d= Double.parseDouble(dc);
-                    if (d>=8.5){
-                        holder.dCuoiCung.setTextColor(Color.parseColor("#FF0000"));
-                        holder.dCuoiCung.setText("A");
-                    }else if(d>=7.7&&n>=2015){
-                        if (n==2015&&th<=9){
-                            holder.dCuoiCung.setText("B");
-                            holder.dCuoiCung.setTextColor(Color.parseColor("#FFD600"));
-                        }else{
-                            holder.dCuoiCung.setText("B+");
-                            holder.dCuoiCung.setTextColor(Color.parseColor("#FF8C00"));
-                        }
-                    }else if(d>=7.0){
-                        holder.dCuoiCung.setText("B");
-                        holder.dCuoiCung.setTextColor(Color.parseColor("#FFD600"));
-                    }else if(d>=6.2&&n>=2015){
-                        if (n==2015&&th<=9){
-                            holder.dCuoiCung.setTextColor(Color.parseColor("#CCFF90"));
-                            holder.dCuoiCung.setText("C");
-                        }else{
-                            holder.dCuoiCung.setText("C+");
-                            holder.dCuoiCung.setTextColor(Color.parseColor("#64DD17"));
-                        }
-                    }else if(d>=5.5){
-                        holder.dCuoiCung.setText("C");
-                        holder.dCuoiCung.setTextColor(Color.parseColor("#CCFF90"));
-                    }else if(d>=4.7&&n>=2015){
 
-                        if (n==2015&&th<=9){
-                            holder.dCuoiCung.setTextColor(Color.parseColor("#84FFFF"));
-                            holder.dCuoiCung.setText("D");
-                        }else{
-                            holder.dCuoiCung.setText("D+");
-                            holder.dCuoiCung.setTextColor(Color.parseColor("#00B8D4"));
-                        }
-                    }else if(d>=4.0){
-                        holder.dCuoiCung.setText("D");
-                        holder.dCuoiCung.setTextColor(Color.parseColor("#84FFFF"));
-                    }else{
-                        holder.dCuoiCung.setText("F");
-                        holder.dCuoiCung.setTextColor(Color.parseColor("#D500F9"));
-                    }
-                }
-            }
-
-        }
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
-        @Override
-        public void onClick(View view) {
-            final int itemPosition = recyclerView.getChildLayoutPosition(view);
+    public void showDiglog(View view) {
+        final int itemPosition = recyclerView.getChildLayoutPosition(view);
+        if (objects.get(itemPosition) instanceof  ItemDiemThiTheoMon){
+            final ItemDiemThiTheoMon itemDiemThiTheoMon= (ItemDiemThiTheoMon) objects.get(itemPosition);
             builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(data.get(itemPosition).getTenMon());
-            final String [] list={" Xem kết quả thi lớp","Xem điểm "+data.get(itemPosition).getTenMon()};
+            builder.setTitle(itemDiemThiTheoMon.getTenMon());
+            final String [] list={" Xem kết quả thi lớp","Xem điểm "+itemDiemThiTheoMon.getTenMon()};
             builder.setItems(list, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if (i==0){
                         Intent intent=new Intent(getActivity(),ListActivity.class);
-                        intent.putExtra(KEY_OBJECT, (Serializable) data.get(itemPosition));
+                        intent.putExtra(KEY_OBJECT, (Serializable) itemDiemThiTheoMon);
                         Bundle bundle=new Bundle();
                         bundle.putInt(KEY_ACTIVITY,3);
                         intent.putExtra("action",bundle);
                         getActivity().startActivityForResult(intent,1);
                         getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
+                        mainActivity.showStartADS();
                     }else{
-                        showAlert("Kết quả thi của "+sv.getTenSV(),UIFromHTML.uiKetQuaThi( data.get(itemPosition)),
-                                "Kết quả thi",data.get(itemPosition).toString(),getActivity());
+                        showAlert("Kết quả thi của "+sv.getTenSV(),UIFromHTML.uiKetQuaThi(itemDiemThiTheoMon),
+                                "Kết quả thi",itemDiemThiTheoMon.toString(),getActivity());
                     }
                 }
             });
 
             builder.show();
-
         }
     }
 
