@@ -45,6 +45,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import static com.lhd.fragment.FrameFragment.showAlert;
+
 /**
  * Created by Faker on 8/30/2016.
  */
@@ -63,6 +65,7 @@ public class ListActivity extends AppCompatActivity {
     private KetQuaThi ketQuaThi;
     private Toolbar toolbarMenu;
     private AlertDialog.Builder builder;
+    private FrameFragment frameFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -537,7 +540,7 @@ public class ListActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.left_end, R.anim.right_end);
                     }else{
-                        FrameFragment.showAlert("Điểm thi "+ itemDiemThiTheoMon.getTenMon(),UIFromHTML.uiDiemThiListAC(data.get(itemPosition))
+                        showAlert("Điểm thi "+ itemDiemThiTheoMon.getTenMon(),UIFromHTML.uiDiemThiListAC(data.get(itemPosition))
                                 ,itemDiemThiTheoMon.getTenMon(),data.get(itemPosition).toString(),ListActivity.this);
                     }
                 }
@@ -619,7 +622,7 @@ public class ListActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(R.anim.left_end, R.anim.right_end);
                     }else{
-                        FrameFragment.showAlert("Kết quả học tập "+itemBangKetQuaHocTap.getTenMon(),
+                        showAlert("Kết quả học tập "+itemBangKetQuaHocTap.getTenMon(),
                                 UIFromHTML.uiDiemMonListAc(data.get(itemPosition)),itemBangKetQuaHocTap.getTenMon(), data.get(itemPosition).toString(),ListActivity.this);
                     }
 

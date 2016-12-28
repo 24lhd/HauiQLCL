@@ -30,6 +30,9 @@ import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
 import com.lhd.object.SinhVien;
+import com.startapp.android.publish.adsCommon.Ad;
+import com.startapp.android.publish.adsCommon.StartAppAd;
+import com.startapp.android.publish.adsCommon.adListeners.AdDisplayListener;
 
 import java.util.ArrayList;
 
@@ -51,31 +54,53 @@ public abstract class FrameFragment extends Fragment{
     protected MainActivity mainActivity;
     protected SinhVien sv;
     protected ArrayList<Object> objects;
-    public static void showAlert(String title, String html, final String titleSMS, final String SMS, final Activity activity) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle(title);
-        WebView webView=new WebView(activity);
-        webView.setBackgroundColor(activity.getResources().getColor(R.color.bg_text));
-        webView.loadDataWithBaseURL(null, html,"text/html","utf-8",null);
-        builder.setView(webView);
-        builder.setNeutralButton("SMS",null);
-        builder.setPositiveButton("IMG",null);
-        AlertDialog mAlertDialog = builder.create();
-        mAlertDialog.show();
-        Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        b.setOnClickListener(new View.OnClickListener() {
+    public static void showAlert(final String title, final String html, final String titleSMS, final String SMS, final Activity activity) {
+        StartAppAd rewardedVideo = new StartAppAd(activity);
+        rewardedVideo.loadAd(StartAppAd.AdMode.AUTOMATIC);
+        rewardedVideo.showAd(new AdDisplayListener() {
             @Override
-            public void onClick(View view) {
-                MainActivity.sreenShort(view,activity);
+            public void adHidden(Ad ad) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle(title);
+                WebView webView=new WebView(activity);
+                webView.setBackgroundColor(activity.getResources().getColor(R.color.bg_text));
+                webView.loadDataWithBaseURL(null, html,"text/html","utf-8",null);
+                builder.setView(webView);
+                builder.setNeutralButton("SMS",null);
+                builder.setPositiveButton("IMG",null);
+                AlertDialog mAlertDialog = builder.create();
+                mAlertDialog.show();
+                Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MainActivity.sreenShort(view,activity);
+                    }
+                });
+                Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                c.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MainActivity.shareText(activity,titleSMS, SMS);
+                    }
+                });
+            }
+            @Override
+            public void adDisplayed(Ad ad) {
+
+            }
+
+            @Override
+            public void adClicked(Ad ad) {
+
+            }
+
+            @Override
+            public void adNotDisplayed(Ad ad) {
+
             }
         });
-        Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-        c.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.shareText(activity,titleSMS, SMS);
-            }
-        });
+
     }
     public static class NativeExpressAdViewHolder extends RecyclerView.ViewHolder {
         public NativeExpressAdViewHolder(View view) {

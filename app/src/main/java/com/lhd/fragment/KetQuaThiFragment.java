@@ -140,8 +140,9 @@ public class KetQuaThiFragment extends FrameFragment {
                         getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
                         mainActivity.showStartADS();
                     }else{
-                        showAlert("Kết quả thi của "+sv.getTenSV(),UIFromHTML.uiKetQuaThi(itemDiemThiTheoMon),
-                                "Kết quả thi",itemDiemThiTheoMon.toString(),getActivity());
+                                showAlert("Kết quả thi của "+sv.getTenSV(),UIFromHTML.uiKetQuaThi(itemDiemThiTheoMon),
+                                        "Kết quả thi",itemDiemThiTheoMon.toString(),getActivity());
+
                     }
                 }
             });

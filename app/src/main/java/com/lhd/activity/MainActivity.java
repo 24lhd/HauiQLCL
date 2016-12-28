@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int NATIVE_EXPRESS_AD_HEIGHT = 132;
     // The Native Express ad unit ID.
     public static final String AD_UNIT_ID = "ca-app-pub-7062977963627166/8003707335";
+    public static final String AD_UNIT_ID_BANNER_MOREFRAGMENT = "ca-app-pub-7062977963627166/2631498137";
     public static final String AD_UNIT_ID_KET_QUA_THI ="ca-app-pub-7062977963627166/6849874931";
-
     public static final String SINH_VIEN = "SINH_VIEN";
     public static final String MA_SV = "MA_SINH_VIEN";
     // A menu item view type.
@@ -274,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void checkLogin() {
         StartAppSDK.init(this, "211282097", false);
+        StartAppAd.enableAutoInterstitial();
         try {
             database = FirebaseDatabase.getInstance();
             setCount();

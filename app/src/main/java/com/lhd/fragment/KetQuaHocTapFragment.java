@@ -126,92 +126,12 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
                     }
                 });
                 if (i==3){
-                    View view=getLayoutInflater().inflate(R.layout.du_tinh_layout,null);
-                    TabLayout tabLayout= (TabLayout) view.findViewById(R.id.tab_point);
-                    final WebView webView= (WebView) view.findViewById(R.id.web_dutinh);
-                    builder.setTitle("Dự tính kết quả thi  "+itemBangKetQuaHocTap.getTenMon());
-                    TabLayout.Tab tabA=tabLayout.newTab();
-                    tabA.setText("A");
-                    tabLayout.addTab(tabA);
-                    TabLayout.Tab tabBB=tabLayout.newTab();
-                    tabBB.setText("B+");
-                    tabLayout.addTab(tabBB);
-                    TabLayout.Tab tabB=tabLayout.newTab();
-                    tabB.setText("B");
-                    tabLayout.addTab(tabB);
-                    TabLayout.Tab tabCC=tabLayout.newTab();
-                    tabCC.setText("C+");
-                    tabLayout.addTab(tabCC);
-                    TabLayout.Tab tabC=tabLayout.newTab();
-                    tabC.setText("C");
-                    tabLayout.addTab(tabC);
-                    TabLayout.Tab tabDD=tabLayout.newTab();
-                    tabDD.setText("D+");
-                    tabLayout.addTab(tabDD);
-                    TabLayout.Tab tabD=tabLayout.newTab();
-                    tabD.setText("D");
-                    tabLayout.addTab(tabD);
-                    TabLayout.Tab tabF=tabLayout.newTab();
-                    tabF.setText("F");
-                    tabLayout.addTab(tabF);
-                    tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-                    tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-                    tabLayout.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
-                    tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorAccent));
-                    tabLayout.setSelectedTabIndicatorHeight(10);
-                    tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                        @Override
-                        public void onTabSelected(TabLayout.Tab tab) {
-                            try {
-                                if (itemBangKetQuaHocTap.getDieuKien().equalsIgnoreCase("Học lại")) webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
-                                        "Học lại rồi bạn ê -_-"),"text/html","utf-8",null);
-                                else
-                                webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
-                                        getDiemDuTinh(tab.getPosition(),itemBangKetQuaHocTap.getdTB())),"text/html","utf-8",null);
-                            } catch (Exception e) {
-                                if (!KetQuaThiFragment.isDouble(itemBangKetQuaHocTap.getdTB())){
-                                    webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
-                                            "chệu"),"text/html","utf-8",null);
-                                }
-                            }
-                        }
-                        @Override
-                        public void onTabUnselected(TabLayout.Tab tab) {}
-                        @Override
-                        public void onTabReselected(TabLayout.Tab tab) {}
-                    });
-                    try {
-                        webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
-                                getDiemDuTinh(0,itemBangKetQuaHocTap.getdTB())),"text/html","utf-8",null);
-                    } catch (Exception e) {
-                        if (!KetQuaThiFragment.isDouble(itemBangKetQuaHocTap.getdTB())){
-                            webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
-                                    "chệu"),"text/html","utf-8",null);
-                        }
-                    }
-                    builder.setView(view);
-                    builder.setPositiveButton("ok",null);
-                    builder.setNeutralButton("IMG", null);
-                    final AlertDialog mAlertDialog = builder.create();
-                    mAlertDialog.show();
-                    Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                    b.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mAlertDialog.dismiss();
-                        }
-                    });
-                    Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                    c.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            MainActivity.sreenShort(view,getContext());
-
-                        }
-                    });
+                            showDuTinhDiem(itemBangKetQuaHocTap);
                 }else
                 if (i==2){
-                    showAlert("Kết quả học tập của "+sv.getTenSV(),UIFromHTML.uiKetQuaHocTap(itemBangKetQuaHocTap),itemBangKetQuaHocTap.getTenMon(),itemBangKetQuaHocTap.toString(),getActivity());
+                            showAlert("Kết quả học tập của "+sv.getTenSV(),
+                                    UIFromHTML.uiKetQuaHocTap(itemBangKetQuaHocTap),
+                                    itemBangKetQuaHocTap.getTenMon(),itemBangKetQuaHocTap.toString(),getActivity());
                 }else {
                     Intent intent=new Intent(getActivity(),ListActivity.class);
                     intent.putExtra(KEY_OBJECT, (Serializable) itemBangKetQuaHocTap);
@@ -225,16 +145,104 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
             }
         }).show();
     }
+
+    public void showDuTinhDiem( final ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View view=getLayoutInflater().inflate(R.layout.du_tinh_layout,null);
+        TabLayout tabLayout= (TabLayout) view.findViewById(R.id.tab_point);
+        final WebView webView= (WebView) view.findViewById(R.id.web_dutinh);
+        builder.setTitle("Dự tính kết quả thi  "+itemBangKetQuaHocTap.getTenMon());
+        TabLayout.Tab tabA=tabLayout.newTab();
+        tabA.setText("A");
+        tabLayout.addTab(tabA);
+        TabLayout.Tab tabBB=tabLayout.newTab();
+        tabBB.setText("B+");
+        tabLayout.addTab(tabBB);
+        TabLayout.Tab tabB=tabLayout.newTab();
+        tabB.setText("B");
+        tabLayout.addTab(tabB);
+        TabLayout.Tab tabCC=tabLayout.newTab();
+        tabCC.setText("C+");
+        tabLayout.addTab(tabCC);
+        TabLayout.Tab tabC=tabLayout.newTab();
+        tabC.setText("C");
+        tabLayout.addTab(tabC);
+        TabLayout.Tab tabDD=tabLayout.newTab();
+        tabDD.setText("D+");
+        tabLayout.addTab(tabDD);
+        TabLayout.Tab tabD=tabLayout.newTab();
+        tabD.setText("D");
+        tabLayout.addTab(tabD);
+        TabLayout.Tab tabF=tabLayout.newTab();
+        tabF.setText("F");
+        tabLayout.addTab(tabF);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorAccent));
+        tabLayout.setSelectedTabIndicatorHeight(10);
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                try {
+                    if (itemBangKetQuaHocTap.getDieuKien().equalsIgnoreCase("Học lại"))
+                        webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
+                            "Học lại rồi bạn ê -_-"),"text/html","utf-8",null);
+                    else
+                        webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
+                                getDiemDuTinh(tab.getPosition(),itemBangKetQuaHocTap.getdTB())),"text/html","utf-8",null);
+                } catch (Exception e) {
+                    if (!KetQuaThiFragment.isDouble(itemBangKetQuaHocTap.getdTB())){
+                        webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
+                                "chệu"),"text/html","utf-8",null);
+                    }
+                }
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
+        try {
+            webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
+                    getDiemDuTinh(0,itemBangKetQuaHocTap.getdTB())),"text/html","utf-8",null);
+        } catch (Exception e) {
+            if (!KetQuaThiFragment.isDouble(itemBangKetQuaHocTap.getdTB())){
+                webView.loadDataWithBaseURL(null,getUIWeb(itemBangKetQuaHocTap.getdTB(),
+                        "chệu"),"text/html","utf-8",null);
+            }
+        }
+        builder.setView(view);
+        builder.setPositiveButton("ok",null);
+        builder.setNeutralButton("IMG", null);
+        final AlertDialog mAlertDialog = builder.create();
+        mAlertDialog.show();
+        Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAlertDialog.dismiss();
+            }
+        });
+        Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+        c.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.sreenShort(view,getContext());
+            }
+        });
+    }
+
     private String getDiemDuTinh(int position, String diemTb) throws Exception{
             double start=((3*diemChus[position].getStart())-Double.parseDouble(diemTb))/2;
         double end=((3*diemChus[position].getEnd())-Double.parseDouble(diemTb))/2;
         DecimalFormat df = new DecimalFormat("#.0");
-        if (start==end)  return "tầm "+df.format(start);
+        if (start==end)  return "khoảng "+df.format(start);
         if (start>10)  return "chệu";
-        if (start<0)  return "tầm "+0+" đến "+ df.format(end);
-        if (end>10)  return "tầm "+df.format(start)+" đến "+ 10;
+        if (start<0)  return "khoảng "+0+" đến "+ df.format(end);
+        if (end>10)  return "khoảng "+df.format(start)+" đến "+ 10;
         if (end<=0)  return "chệu";
-        return "tầm "+df.format(start)+" đến "+
+        return "khoảng "+df.format(start)+" đến "+
                 df.format(end);
     }
 

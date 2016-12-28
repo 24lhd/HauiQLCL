@@ -141,29 +141,29 @@ public class MyService extends Service{
         switch(charPoint){
             case "A":
                 return "Chúc mừng bạn đã được A"
-                        +" môn "+ tenMon+"\n\n---\nSự thật bao giờ cũng đơn giản - Ngạn ngữ Hy Lạp";
+                        +" môn "+ tenMon+"\n\n-----\nSự thật bao giờ cũng đơn giản - Ngạn ngữ Hy Lạp";
             case "B+":
-                return  "Có điểm thi môn "+tenMon+"\n\n---\nSay là cái điên tự nguyện - " +
+                return  "Có điểm thi môn "+tenMon+"\n\n-----\nSay là cái điên tự nguyện - " +
                         "Ngạn ngữ Nga";
             case "B":
 
-                return  "Có điểm thi môn "+tenMon+"\n\n---\nNếu tự tin ở bản thân, bạn sẽ truyền niềm tin đến người khác - " +
+                return  "Có điểm thi môn "+tenMon+"\n\n-----\nNếu tự tin ở bản thân, bạn sẽ truyền niềm tin đến người khác - " +
                         "Ngạn ngữ Đức";
             case "C+":
-                return  "Có điểm thi môn "+tenMon+"\n\n---\nTa không được chọn nơi mình sinh ra. Nhưng ta được chọn cách mình sẽ sống " +
+                return  "Có điểm thi môn "+tenMon+"\n\n-----\nTa không được chọn nơi mình sinh ra. Nhưng ta được chọn cách mình sẽ sống " +
                         " - Khuyết danh";
             case "C":
-                return  "Có điểm thi môn "+tenMon+"\n\n---\nKhông có hoàn cảnh nào tuyệt vọng, chỉ có người tuyệt vọng vì hoàn cảnh " +
+                return  "Có điểm thi môn "+tenMon+"\n\n-----\nKhông có hoàn cảnh nào tuyệt vọng, chỉ có người tuyệt vọng vì hoàn cảnh " +
                         "- Khuyết danh";
             case "D+":
-                return  "Có điểm thi môn "+tenMon+"\n\n---\nĐừng ngại thay đổi."
+                return  "Có điểm thi môn "+tenMon+"\n\n-----\nĐừng ngại thay đổi."
                         +"Hãy sống là chính mình, bình thường nhưng không tầm thường - " +
                         "Khuyết danh";
             case "D":
-                return  "Có điểm thi môn "+tenMon+"\n\n---\nĐừng ngại thay đổi." +
+                return  "Có điểm thi môn "+tenMon+"\n\n-----\nĐừng ngại thay đổi." +
                         " Bạn có thể mất một cái gì đó tốt nhưng bạn có thể đạt được một cái gì đó còn tốt hơn - Khuyết danh";
             case "F":
-                return  "Có điểm thi môn "+tenMon+"\n\n---\nCuộc sống vốn không công bằng. Hãy tập quen dần với điều đó - Bill Gates";
+                return  "Có điểm thi môn "+tenMon+"\n\n-----\nCuộc sống vốn không công bằng. Hãy tập quen dần với điều đó - Bill Gates";
         }
         return  "Đã có điểm thi môn "+tenMon;
     }

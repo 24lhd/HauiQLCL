@@ -69,8 +69,7 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.recyclerView=recyclerView;
         this.ketQuaThiFragment=ketQuaThiFragment;
     }
-    @
-            Override
+    @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:

@@ -111,7 +111,7 @@ public class LichThiFragment extends FrameFragment {
         }
         @Override
         public void onClick(View view) {
-            int itemPosition = recyclerView.getChildLayoutPosition(view);
+            final int itemPosition = recyclerView.getChildLayoutPosition(view);
             Date today=new Date(System.currentTimeMillis());
             SimpleDateFormat timeFormat= new SimpleDateFormat("hh:mm:ss dd/MM/yyyy");
             String s=timeFormat.format(today.getTime());
@@ -122,7 +122,7 @@ public class LichThiFragment extends FrameFragment {
             String ngay2=data.get(itemPosition).getNgay().split("/")[0];
             String thang2=data.get(itemPosition).getNgay().split("/")[1];
             String nam2=data.get(itemPosition).getNgay().split("/")[2];
-            String toi;
+            final String toi;
             if (thang1.equals(thang2)&&nam1.equals(nam2)){
                 if ((Double.parseDouble(ngay2)-Double.parseDouble(ngay1))<0)
                     toi="Đã thi";
@@ -135,8 +135,10 @@ public class LichThiFragment extends FrameFragment {
                 toi="Chuẩn bị thi :(";
             }else
                 toi="Đã thi !!!";
-                showAlert(data.get(itemPosition).getMon(),UIFromHTML.uiLichThi(data.get(itemPosition),toi),
-                    "Lịch thi môn "+data.get(itemPosition).getMon(), data.get(itemPosition).toString(),getActivity());
+                    showAlert(data.get(itemPosition).getMon(), UIFromHTML.uiLichThi(data.get(itemPosition),toi),
+                            "Lịch thi môn "+data.get(itemPosition).getMon(), data.get(itemPosition).toString(),getActivity());
+
+
         }
     }
     private Handler handler=new Handler(){

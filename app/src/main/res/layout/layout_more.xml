@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fm_more"
     android:layout_height="match_parent">
+    <com.startapp.android.publish.ads.banner.Banner
+        android:id="@+id/startAppBanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
     <ListView
         android:layout_width="match_parent"
         android:id="@+id/list_menu_more"
         android:layout_marginLeft="16dp"
+        android:layout_below="@id/startAppBanner"
         android:layout_marginRight="16dp"
         android:layout_height="wrap_content"></ListView>
-</FrameLayout>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7062977963627166/2631498137">
+    </com.google.android.gms.ads.AdView>
+</RelativeLayout>

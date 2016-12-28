@@ -19,9 +19,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.object.UIFromHTML;
+import com.startapp.android.publish.ads.banner.Banner;
 
 /**
  * Created by Duong on 11/21/2016.
@@ -33,6 +36,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
     private AlertDialog.Builder builder;
     private WebView webView;
     private AlertDialog mAlertDialog;
+    private AdView mAdView;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Nullable
@@ -44,6 +48,12 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1, PENS);
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(this);
+        Banner banner = (com.startapp.android.publish.ads.banner.Banner) view.findViewById(R.id.startAppBanner);
+        banner.showBanner();
+        mAdView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+//        mAdView.setAdUnitId(MainActivity.AD_UNIT_ID_BANNER_MOREFRAGMENT);
+        mAdView.loadAd(adRequest);
         return view;
     }
     @Override
