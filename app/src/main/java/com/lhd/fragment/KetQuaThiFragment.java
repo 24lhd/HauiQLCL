@@ -83,8 +83,8 @@ public class KetQuaThiFragment extends FrameFragment {
                 if (str2.length==1){
                     return 1;
                 }
-                String ngay1=str1[2]+str1[1];
-                String ngay2=str2[2]+str2[1];
+                String ngay1=str1[2]+str1[1]+str1[0];
+                String ngay2=str2[2]+str2[1]+str2[0];
                 return ngay1.compareTo(ngay2);
             }
         });

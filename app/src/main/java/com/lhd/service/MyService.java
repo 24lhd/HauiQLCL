@@ -19,6 +19,7 @@ import android.support.v4.app.NotificationCompat;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
+import com.lhd.fragment.KetQuaThiFragment;
 import com.lhd.object.ItemBangKetQuaHocTap;
 import com.lhd.object.ItemDiemThiTheoMon;
 import com.lhd.object.ItemNotiDTTC;
@@ -102,7 +103,9 @@ public class MyService extends Service{
                                     for (ItemDiemThiTheoMon itemDiemThiTheoMon : itemDiemThiTheoMonNews) {
                                         sqLiteManager.updateDThiMon(itemDiemThiTheoMon,id);
                                     }
-                                    showNoti("Thông báo từ Gà Công Nghiệp ","có kết quả thi "+ itemDiemThiTheoMonNews.get(i).getTenMon(),1);
+                                    String str=ranDom(KetQuaThiFragment.charPoint(itemDiemThiTheoMonNews.get(i)),
+                                            itemDiemThiTheoMonNews.get(i).getTenMon());
+                                    showNoti("Thông báo từ Gà Công Nghiệp ",str,1);
                                     break;
                                 }
                             }
@@ -134,6 +137,38 @@ public class MyService extends Service{
         }
     };
 
+    private String ranDom(String charPoint, String tenMon) {
+        switch(charPoint){
+            case "A":
+                return "Chúc mừng bạn đã được A"
+                        +" môn "+ tenMon+"\n\n---\nSự thật bao giờ cũng đơn giản - Ngạn ngữ Hy Lạp";
+            case "B+":
+                return  "Có điểm thi môn "+tenMon+"\n\n---\nSay là cái điên tự nguyện - " +
+                        "Ngạn ngữ Nga";
+            case "B":
+
+                return  "Có điểm thi môn "+tenMon+"\n\n---\nNếu tự tin ở bản thân, bạn sẽ truyền niềm tin đến người khác - " +
+                        "Ngạn ngữ Đức";
+            case "C+":
+                return  "Có điểm thi môn "+tenMon+"\n\n---\nTa không được chọn nơi mình sinh ra. Nhưng ta được chọn cách mình sẽ sống " +
+                        " - Khuyết danh";
+            case "C":
+                return  "Có điểm thi môn "+tenMon+"\n\n---\nKhông có hoàn cảnh nào tuyệt vọng, chỉ có người tuyệt vọng vì hoàn cảnh " +
+                        "- Khuyết danh";
+            case "D+":
+                return  "Có điểm thi môn "+tenMon+"\n\n---\nĐừng ngại thay đổi."
+                        +"Hãy sống là chính mình, bình thường nhưng không tầm thường - " +
+                        "Khuyết danh";
+            case "D":
+                return  "Có điểm thi môn "+tenMon+"\n\n---\nĐừng ngại thay đổi." +
+                        " Bạn có thể mất một cái gì đó tốt nhưng bạn có thể đạt được một cái gì đó còn tốt hơn - Khuyết danh";
+            case "F":
+                return  "Có điểm thi môn "+tenMon+"\n\n---\nCuộc sống vốn không công bằng. Hãy tập quen dần với điều đó - Bill Gates";
+        }
+        return  "Đã có điểm thi môn "+tenMon;
+    }
+
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void showNoti(String title, String content, int index) {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -148,7 +183,7 @@ public class MyService extends Service{
         nBuilder = new NotificationCompat.Builder(getApplicationContext())
                 .setSmallIcon(R.drawable.icon_app)
                 .setVibrate(l)
-                .setSound(alarmSound).setStyle(new NotificationCompat.BigTextStyle().bigText(content)).addAction (android.R.drawable.ic_dialog_email,"Xem", resultPendingIntent)
+                .setSound(alarmSound).setStyle(new NotificationCompat.BigTextStyle().bigText(content)).addAction (android.R.drawable.btn_star,"Xem", resultPendingIntent)
                 .setContentTitle(title).setDefaults(Notification.DEFAULT_ALL)
                 .setContentText(content)
                 .setContentIntent(resultPendingIntent)
@@ -219,6 +254,6 @@ public class MyService extends Service{
         Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
          mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 }
