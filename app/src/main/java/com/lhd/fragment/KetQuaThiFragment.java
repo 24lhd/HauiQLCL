@@ -138,7 +138,7 @@ public class KetQuaThiFragment extends FrameFragment {
                         intent.putExtra("action",bundle);
                         getActivity().startActivityForResult(intent,1);
                         getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
-                        mainActivity.showStartADS();
+//                        getMainActivity().showStartADS();
                     }else{
                                 showAlert("Kết quả thi của "+sv.getTenSV(),UIFromHTML.uiKetQuaThi(itemDiemThiTheoMon),
                                         "Kết quả thi",itemDiemThiTheoMon.toString(),getActivity());

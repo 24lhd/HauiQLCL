@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -22,6 +23,9 @@ import com.lhd.object.ItemBangKetQuaHocTap;
 import com.lhd.object.KetQuaHocTap;
 import com.lhd.object.UIFromHTML;
 import com.lhd.task.ParserKetQuaHocTap;
+import com.startapp.android.publish.adsCommon.Ad;
+import com.startapp.android.publish.adsCommon.StartAppAd;
+import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -82,7 +86,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
         objects=new ArrayList<>();
         objects.addAll(bangKetQuaHocTaps);
         addNativeExpressAds();
-        setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID,MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
+        setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT,MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         RecyclerView.Adapter adapter = new KetQuaGocTapAdaptor(objects,recyclerView,this);
         recyclerView.setAdapter(adapter);
     }
@@ -108,10 +112,36 @@ public class KetQuaHocTapFragment extends FrameFragment {
                         }
                         break;
                 }
+
             }catch (NullPointerException e){}
         }
     };
+//    InterstitialAd mInterstitialAd;
+//    private void requestNewInterstitial() {
+//        AdRequest adRequest = new AdRequest.Builder()
+//                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+//                .build();
+//
+//        mInterstitialAd.loadAd(adRequest);
+//    }
 public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
+//    mInterstitialAd = new InterstitialAd(mainActivity);
+//    mInterstitialAd.setAdUnitId("ca-app-pub-7062977963627166/2631498137");
+//
+//    mInterstitialAd.setAdListener(new AdListener() {
+//        @Override
+//        public void onAdClosed() {
+//            requestNewInterstitial();
+//            showDuTinhDiem(itemBangKetQuaHocTap);
+//        }
+//    });
+//
+//    requestNewInterstitial();
+
+
+
+
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         String[] list = new String[]{"Bảng điểm học tâp", "Kế hoạch thi theo lớp","Xem điểm " +
                 ""+itemBangKetQuaHocTap.getTenMon(),"Dự tính kết quả thi ^^"};
@@ -125,8 +155,16 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
                         dialogInterface.dismiss();
                     }
                 });
+
                 if (i==3){
-                            showDuTinhDiem(itemBangKetQuaHocTap);
+//                    if (mInterstitialAd.isLoaded()) {
+//                        mInterstitialAd.show();
+//                    }else{
+//                        showDuTinhDiem(itemBangKetQuaHocTap);
+//                    }
+
+                    showDuTinhDiem(itemBangKetQuaHocTap);
+
                 }else
                 if (i==2){
                             showAlert("Kết quả học tập của "+sv.getTenSV(),
@@ -140,13 +178,14 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
                     intent.putExtra("action",bundle);
                     getActivity().startActivityForResult(intent,1);
                     getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
-                    mainActivity.showStartADS();
+//                    getMainActivity().showStartADS();
                 }
             }
         }).show();
     }
 
     public void showDuTinhDiem( final ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view=getLayoutInflater().inflate(R.layout.du_tinh_layout,null);
         TabLayout tabLayout= (TabLayout) view.findViewById(R.id.tab_point);
@@ -217,6 +256,24 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
         builder.setNeutralButton("IMG", null);
         final AlertDialog mAlertDialog = builder.create();
         mAlertDialog.show();
+        mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                final StartAppAd rewardedVideo = new StartAppAd(getMainActivity());
+                rewardedVideo.loadAd(StartAppAd.AdMode.AUTOMATIC, new AdEventListener() {
+                    @Override
+                    public void onReceiveAd(Ad ad) {
+                        rewardedVideo.showAd();
+                        Log.e("faker","show dia");
+                    }
+
+                    @Override
+                    public void onFailedToReceiveAd(Ad ad) {
+
+                    }
+                });
+            }
+        });
         Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
         b.setOnClickListener(new View.OnClickListener() {
             @Override

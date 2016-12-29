@@ -47,5 +47,6 @@
         <activity android:name="com.startapp.android.publish.adsCommon.activities.FullScreenActivity"
             android:theme="@android:style/Theme"
             android:configChanges="orientation|keyboardHidden|screenSize" />
+
     </application>
 </manifest>

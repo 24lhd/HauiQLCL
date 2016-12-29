@@ -3,6 +3,7 @@ package com.lhd.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,12 +28,13 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
+import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
 import com.lhd.object.SinhVien;
 import com.startapp.android.publish.adsCommon.Ad;
 import com.startapp.android.publish.adsCommon.StartAppAd;
-import com.startapp.android.publish.adsCommon.adListeners.AdDisplayListener;
+import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
 import java.util.ArrayList;
 
@@ -49,55 +51,54 @@ public abstract class FrameFragment extends Fragment{
     protected TextView tVnull;
     protected ProgressBar progressBar;
     protected LinearLayout toolbar;
+    public MainActivity getMainActivity() {
+        return (MainActivity) getActivity();
+    }
     protected SQLiteManager sqLiteManager;
     protected PullRefreshLayout pullRefreshLayout;
-    protected MainActivity mainActivity;
     protected SinhVien sv;
     protected ArrayList<Object> objects;
+
     public static void showAlert(final String title, final String html, final String titleSMS, final String SMS, final Activity activity) {
-        StartAppAd rewardedVideo = new StartAppAd(activity);
-        rewardedVideo.loadAd(StartAppAd.AdMode.AUTOMATIC);
-        rewardedVideo.showAd(new AdDisplayListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        final StartAppAd rewardedVideo;
+        rewardedVideo = new StartAppAd(activity);
+        builder.setTitle(title);
+        WebView webView=new WebView(activity);
+        webView.setBackgroundColor(activity.getResources().getColor(R.color.bg_text));
+        webView.loadDataWithBaseURL(null, html,"text/html","utf-8",null);
+        builder.setView(webView);
+        builder.setNeutralButton("SMS",null);
+        builder.setPositiveButton("IMG",null);
+        final AlertDialog mAlertDialog = builder.create();
+        mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void adHidden(Ad ad) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setTitle(title);
-                WebView webView=new WebView(activity);
-                webView.setBackgroundColor(activity.getResources().getColor(R.color.bg_text));
-                webView.loadDataWithBaseURL(null, html,"text/html","utf-8",null);
-                builder.setView(webView);
-                builder.setNeutralButton("SMS",null);
-                builder.setPositiveButton("IMG",null);
-                AlertDialog mAlertDialog = builder.create();
-                mAlertDialog.show();
-                Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                b.setOnClickListener(new View.OnClickListener() {
+            public void onDismiss(DialogInterface dialogInterface) {
+                rewardedVideo.loadAd(StartAppAd.AdMode.AUTOMATIC, new AdEventListener() {
                     @Override
-                    public void onClick(View view) {
-                        MainActivity.sreenShort(view,activity);
+                    public void onReceiveAd(Ad ad) {
+                        rewardedVideo.showAd();
+                        Log.e("faker","show dia");
                     }
-                });
-                Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                c.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        MainActivity.shareText(activity,titleSMS, SMS);
+                    public void onFailedToReceiveAd(Ad ad) {
                     }
                 });
             }
+        });
+        mAlertDialog.show();
+        Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        b.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void adDisplayed(Ad ad) {
-
+            public void onClick(View view) {
+                MainActivity.sreenShort(view,activity);
             }
-
+        });
+        Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+        c.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void adClicked(Ad ad) {
-
-            }
-
-            @Override
-            public void adNotDisplayed(Ad ad) {
-
+            public void onClick(View view) {
+                MainActivity.shareText(activity,titleSMS, SMS);
             }
         });
 
@@ -115,7 +116,7 @@ public abstract class FrameFragment extends Fragment{
             @Override
             public void run() {
                 // Set the ad size and ad unit ID for each Native Express ad in the items list.
-                final float density = mainActivity.getResources().getDisplayMetrics().density;
+                final float density = getActivity().getResources().getDisplayMetrics().density;
                 for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
                      NativeExpressAdView adView = (NativeExpressAdView) objects.get(i);
                     AdSize adSize = new AdSize((int) (recyclerView.getWidth()/density),height);
@@ -168,15 +169,11 @@ public abstract class FrameFragment extends Fragment{
         // Loop through the items array and place a new Native Express ad in every ith position in
         // the items List.
         for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
-            final NativeExpressAdView adView = new NativeExpressAdView(mainActivity);
+            final NativeExpressAdView adView = new NativeExpressAdView(getActivity());
             // add một item ADS vào list item
             objects.add(i, adView);
         }
     }
-    public void setLayoutInflater(LayoutInflater layoutInflater) {
-        this.layoutInflater = layoutInflater;
-    }
-
     private LayoutInflater layoutInflater;
 
     protected abstract void startParser();
@@ -242,9 +239,11 @@ public abstract class FrameFragment extends Fragment{
         }
     }
     public void initView(View view) {
-        mainActivity = (MainActivity) getActivity();
         sqLiteManager=new SQLiteManager(getContext());
-        sv= (SinhVien) getArguments().getSerializable(MainActivity.SINH_VIEN);
+        try {
+
+            sv= (SinhVien) getArguments().getSerializable(MainActivity.SINH_VIEN);
+        }catch (NullPointerException e){}
         pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
         tVnull= (TextView) view.findViewById(R.id.text_null);
@@ -255,6 +254,13 @@ public abstract class FrameFragment extends Fragment{
         refesh();
         checkDatabase();
     }
+    public ListActivity getListActivity() {
+        return listActivity;
+    }
+    public void setListActivity(ListActivity listActivity) {
+        this.listActivity = listActivity;
+    }
+    private ListActivity listActivity;
     public abstract void refesh();
     public abstract void setRecyclerView();
     public abstract void checkDatabase();

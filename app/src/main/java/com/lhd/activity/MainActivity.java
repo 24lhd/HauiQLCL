@@ -68,9 +68,13 @@ public class MainActivity extends AppCompatActivity {
     // The Native Express ad height.
     public static final int NATIVE_EXPRESS_AD_HEIGHT = 132;
     // The Native Express ad unit ID.
-    public static final String AD_UNIT_ID = "ca-app-pub-7062977963627166/8003707335";
-    public static final String AD_UNIT_ID_BANNER_MOREFRAGMENT = "ca-app-pub-7062977963627166/2631498137";
+    public static final String AD_UNIT_ID_KQHT= "ca-app-pub-7062977963627166/8003707335";
+    public static final String AD_UNIT_ID_LICH_THI= "ca-app-pub-7062977963627166/1521364939";
     public static final String AD_UNIT_ID_KET_QUA_THI ="ca-app-pub-7062977963627166/6849874931";
+    public static final String AD_UNIT_ID_TB_DTTC ="ca-app-pub-7062977963627166/6274465334";
+    public static final String AD_UNIT_ID_DIEM_LOP ="ca-app-pub-7062977963627166/5936388132";
+    public static final String AD_UNIT_ID_DIEM_THI_LOP ="ca-app-pub-7062977963627166/9029455333";
+
     public static final String SINH_VIEN = "SINH_VIEN";
     public static final String MA_SV = "MA_SINH_VIEN";
     // A menu item view type.
