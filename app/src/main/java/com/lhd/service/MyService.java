@@ -5,7 +5,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -15,6 +18,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
@@ -187,7 +191,10 @@ public class MyService extends Service{
                 .setContentTitle(title).setDefaults(Notification.DEFAULT_ALL)
                 .setContentText(content)
                 .setContentIntent(resultPendingIntent)
-                .setAutoCancel(true);
+                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setAutoCancel(true)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
         int mNotificationId = random.nextInt(1000);
             mNotifyMgr.notify(mNotificationId, nBuilder.build());
     }
@@ -233,12 +240,25 @@ public class MyService extends Service{
             }
         }
     };
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        log=new com.lhd.log.Log(this);
-         id=log.getID();
-//        Toast.makeText(this,"Gà Công Nghiệp đang kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
-        sqLiteManager =new SQLiteManager(this);
+    BroadcastReceiver myBroadcastOnScrern = new BroadcastReceiver() {
+        //When Event is published, onReceive method is called
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+            Log.e("faker", "MyReceiver");
+            if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+//                startParser();
+                Log.e("faker", " ON");
+            }else if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+                Log.e("faker", " OFF");
+                startParser();
+            }
+        }
+    };
+
+    private void startParser() {
+        if (!MainActivity.isOnline(this))
+            return;
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
         ketQuaHocTapTheoMon.execute(id);
 
@@ -250,10 +270,28 @@ public class MyService extends Service{
 
         ParserLichThiTheoMon parserLichThiTheoMon=new ParserLichThiTheoMon(handler);
         parserLichThiTheoMon.execute(id);
+    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        log=new com.lhd.log.Log(this);
+         id=log.getID();
+        if (!(intent instanceof  Intent)){
+            registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_ON));
+            registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
+            Log.e("faker", " instanceof");
+        }
+//        Toast.makeText(this,"Gà Công Nghiệp đang kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
+        sqLiteManager =new SQLiteManager(this);
         Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-         mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.e("faker", " onDestroy");
+        super.onDestroy();
     }
 }

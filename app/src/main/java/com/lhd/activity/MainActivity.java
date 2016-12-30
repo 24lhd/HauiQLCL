@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -44,6 +45,7 @@ import com.lhd.object.ItemBangKetQuaHocTap;
 import com.lhd.object.KetQuaHocTap;
 import com.lhd.object.SinhVien;
 import com.lhd.object.Version;
+import com.lhd.recerver.MyReserver;
 import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.TimeTask;
@@ -64,7 +66,7 @@ import duong.update.code.UpdateApp;
 public class MainActivity extends AppCompatActivity {
     private StartAppAd startAppAd = new StartAppAd(this);
 
-    public static final int ITEMS_PER_AD = 8;
+    public static final int ITEMS_PER_AD = 10;
     // The Native Express ad height.
     public static final int NATIVE_EXPRESS_AD_HEIGHT = 132;
     // The Native Express ad unit ID.
@@ -241,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra(MainActivity.MA_SV);
                 log.putID(result);
+
                checkLogin();
             }else if (resultCode ==Activity.RESULT_CANCELED)
                 finish();
@@ -258,6 +261,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_layout);
+//        Intent intent1=new Intent(this, MyService.class);
+//        stopService(intent1);
+        registerReceiver(new MyReserver(), new IntentFilter(Intent.ACTION_SCREEN_ON));
         sqLiteManager=new SQLiteManager(this);
         log=new Log(this);
         try {
@@ -278,14 +284,12 @@ public class MainActivity extends AppCompatActivity {
     }
     private void checkLogin() {
         StartAppSDK.init(this, "211282097", false);
-        StartAppAd.enableAutoInterstitial();
         try {
             database = FirebaseDatabase.getInstance();
             setCount();
         } catch (Exception e) {
         }finally {
             if (log.getID().length()==10){
-
                 getSV(log.getID());
             }else{
                 startLogin(MainActivity.this);
@@ -299,10 +303,6 @@ public class MainActivity extends AppCompatActivity {
         activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
     }
     private void checkUpdate() throws Exception{
-        if (sinhVien instanceof SinhVien){
-            DatabaseReference every = database.getReference("every/"+sinhVien.getMaSV());
-            every.setValue(sinhVien);
-        }
         DatabaseReference myRef = database.getReference("updateGaCongNghiep");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
         count.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                int countIndex=dataSnapshot.getValue(Integer.class);
+                long countIndex=dataSnapshot.getValue(Integer.class);
                 countIndex=countIndex+1;
                 count.setValue(countIndex);
                 count.removeEventListener(this);
@@ -358,6 +358,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private boolean isCick;
     private void initUI() {
@@ -481,6 +482,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 checkUpdate();
             } catch (Exception e) {}
+
             Intent intent1=new Intent(this, MyService.class);
             this.startService(intent1);
         }
@@ -498,11 +500,10 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     private void startTimeView() {
+
             TimeTask timeTask =new TimeTask(handlertime);
             timeTask.execute();
     }
-
-
     public static boolean isOnline(Context context) {
         try {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -77,7 +77,7 @@ public abstract class FrameFragment extends Fragment{
                 rewardedVideo.loadAd(StartAppAd.AdMode.AUTOMATIC, new AdEventListener() {
                     @Override
                     public void onReceiveAd(Ad ad) {
-                        rewardedVideo.showAd();
+//                        rewardedVideo.showAd();
                         Log.e("faker","show dia");
                     }
                     @Override
