@@ -286,17 +286,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private void checkLogin() {
         StartAppSDK.init(this, "211282097", false);
-        try {
-            database = FirebaseDatabase.getInstance();
-            setCount();
-        } catch (Exception e) {
-        }finally {
-            if (log.getID().length()==10){
-                getSV(log.getID());
-            }else{
-                startLogin(MainActivity.this);
-            }
-        }
+        if (log.getID().length()==10) getSV(log.getID());
+        else startLogin(MainActivity.this);
     }
 
     public static void startLogin(Activity activity) {
@@ -305,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
         activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
     }
     private void checkUpdate() throws Exception{
+        database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("updateGaCongNghiep");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -341,6 +333,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {}
         });
+        try {
+            setCount();
+        } catch (Exception e) {}
     }
 
     public void setCount() throws Exception{
@@ -349,23 +344,13 @@ public class MainActivity extends AppCompatActivity {
         WifiInfo wInfo = wifiManager.getConnectionInfo();
         final String macAddress = wInfo.getMacAddress();
             final DatabaseReference mac = database.getReference("macWIFI/"+macAddress);
-            mac.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    long countIndex=dataSnapshot.getValue(Long.class);
-                    countIndex=countIndex+1;
-                    mac.setValue(countIndex);
-                    mac.removeEventListener(this);
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {}
-            });
         count.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long countIndex=dataSnapshot.getValue(Long.class);
                 countIndex=countIndex+1;
                 count.setValue(countIndex);
+                mac.setValue(countIndex);
                 count.removeEventListener(this);
             }
             @Override
