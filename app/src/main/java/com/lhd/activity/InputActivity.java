@@ -96,7 +96,7 @@ public class InputActivity extends AppCompatActivity{
 
     private void setWho(SinhVien sinhVien ) throws Exception{
         if (sinhVien instanceof SinhVien){
-            DatabaseReference every = database.getReference("every/"+sinhVien.getMaSV());
+            DatabaseReference every = database.getReference("EveryOne/"+sinhVien.getMaSV());
             every.setValue(sinhVien);
         }
     }

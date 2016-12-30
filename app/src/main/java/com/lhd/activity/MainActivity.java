@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -343,20 +345,33 @@ public class MainActivity extends AppCompatActivity {
 
     public void setCount() throws Exception{
          final DatabaseReference count = database.getReference("count");
+        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wInfo = wifiManager.getConnectionInfo();
+        final String macAddress = wInfo.getMacAddress();
+            final DatabaseReference mac = database.getReference("macWIFI/"+macAddress);
+            mac.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    long countIndex=dataSnapshot.getValue(Long.class);
+                    countIndex=countIndex+1;
+                    mac.setValue(countIndex);
+                    mac.removeEventListener(this);
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {}
+            });
         count.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                long countIndex=dataSnapshot.getValue(Integer.class);
+                long countIndex=dataSnapshot.getValue(Long.class);
                 countIndex=countIndex+1;
                 count.setValue(countIndex);
                 count.removeEventListener(this);
             }
-
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
+
     }
 
 
