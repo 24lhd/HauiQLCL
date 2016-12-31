@@ -63,6 +63,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
     static final String[] PENS = new String[]{
             "Giờ học lý thuyết",
             "Thang điểm chữ",
+            "Cập nhật phiên bản",
             "Ý kiến đóng góp",
             "Thông tin phát triển",
             "Ứng dụng khác",
@@ -85,6 +86,12 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 builder.setView(webView);
                 break;
             case 2:
+                try {
+                    mainActivity.checkUpdate(1);
+                } catch (Exception e) {
+                }
+                return;
+            case 3:
                 builder.setTitle(PENS[currenView]);
                 View view=getActivity().getLayoutInflater().inflate(R.layout.feedback_layout,null);
                 final EditText editText= (EditText) view.findViewById(R.id.et_feedback);
@@ -112,7 +119,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 builder.setView(view);
                 builder.show();
                 return;
-            case 3:
+            case 4:
                 builder.setTitle(PENS[currenView]);
                 webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
                 webView.loadDataWithBaseURL(null,UIFromHTML.uiCopyright,"text/html","utf-8",null);
@@ -125,13 +132,13 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 });
                 builder.show();
                 return;
-            case 4:
+            case 5:
 
                 return;
-            case 5:
+            case 6:
                 mainActivity.startLogin(getActivity());
                 return;
-            case 6:
+            case 7:
                 mainActivity.finish();
                 mainActivity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
                 return;

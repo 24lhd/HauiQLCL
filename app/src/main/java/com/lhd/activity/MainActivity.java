@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -295,15 +296,15 @@ public class MainActivity extends AppCompatActivity {
         activity.startActivityForResult(intent,0);
         activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
     }
-    private void checkUpdate() throws Exception{
+    public void checkUpdate(final int i) throws Exception{
         database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("updateGaCongNghiep");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final Version version=dataSnapshot.getValue(Version.class);
-                if (!version.getVerstionName().equals(info.versionName)){
-                    AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                if (!version.getVerstionName().equals(info.versionName)&&i==1){
                     builder.setTitle("Cập nhật phiên bản "+version.getVerstionName());
                     builder.setCancelable(false);
                     builder.setMessage("- Nội dung:\n\t"+version.getContent()+"\n- Hướng dẫn cài đặt: Cài đặt> Không rõ nguồn gốc."+"\n- Khi " +
@@ -322,6 +323,30 @@ public class MainActivity extends AppCompatActivity {
                         }
                         });
                     builder.setNeutralButton("Từ từ", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    builder.show();
+                }else if (!version.getVerstionName().equals(info.versionName)&&i==0){
+                    Snackbar snackbar=Snackbar.make(getCurrentFocus(),"Đã có phiên bản Gà Công Nghiệp "+version.getVerstionName(),Snackbar.LENGTH_SHORT);
+                    snackbar.setAction("Cập nhật", new View.OnClickListener() {
+                        UpdateApp updateApp=new UpdateApp();
+                        @Override
+                        public void onClick(View view) {
+                            updateApp.getAndInstallAppLication(MainActivity.this,
+                                    "Ga.apk",version.getUrl(),
+                                    "đang tải "+getApplication().getString(R.string.app_name)+" phiên bản mới nhất",
+                                    "Đang cập nhật "+getApplication().getString(R.string.app_name) );
+                        }
+                    });
+                    snackbar.show();
+                }else{
+
+                    builder.setTitle("Cập nhật phiên bản");
+                    builder.setMessage("Bạn đang dùng phiên bản mới nhất");
+                    builder.setPositiveButton("Từ từ", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
@@ -480,7 +505,7 @@ public class MainActivity extends AppCompatActivity {
         startTimeView();
         if (isOnline(this)){
             try {
-                checkUpdate();
+                checkUpdate(0);
             } catch (Exception e) {}
 
             Intent intent1=new Intent(this, MyService.class);
