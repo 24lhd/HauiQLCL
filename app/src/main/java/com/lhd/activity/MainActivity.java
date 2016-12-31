@@ -69,7 +69,7 @@ import duong.update.code.UpdateApp;
 public class MainActivity extends AppCompatActivity {
     private StartAppAd startAppAd = new StartAppAd(this);
 
-    public static final int ITEMS_PER_AD = 10;
+    public static final int ITEMS_PER_AD = 9;
     // The Native Express ad height.
     public static final int NATIVE_EXPRESS_AD_HEIGHT = 132;
     // The Native Express ad unit ID.
@@ -342,11 +342,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     snackbar.show();
-                }else{
-
+                }else if (i==1){
                     builder.setTitle("Cập nhật phiên bản");
-                    builder.setMessage("Bạn đang dùng phiên bản mới nhất");
-                    builder.setPositiveButton("Từ từ", new DialogInterface.OnClickListener() {
+                    builder.setMessage("Bạn đang dùng phiên bản mới nhất\nGà Công Nghiệp "+version.getVerstionName());
+                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();

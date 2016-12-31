@@ -36,7 +36,7 @@ public  class TimeTask extends AsyncTask<Void,String,String> {
             int phut = Integer.parseInt(time.split(":")[1]);
             int giay = Integer.parseInt(time.split(":")[2]);
             String tiet = "Tự học";
-            int phutHienTai = (gio*60)+phut;
+            int phutHienTai = (gio*60)+phut+1;
             int giayConLai = 59-giay;
         for (int i = 0; i< tietHocs.length; i++) {
                 if (phutHienTai>=tietHocs[i].getPhutBatDau()&&phutHienTai<=haui.tietHocs[i].getPhutKetThuc()){
@@ -56,7 +56,7 @@ public  class TimeTask extends AsyncTask<Void,String,String> {
                 }
             }
             if (phutConLai>60) return  tiet + "-" + "Còn "+(phutConLai/60)+":"+ phutConLai%60 + ":" + giayConLai +" giờ";
-            return  tiet + "-" + "Còn " + (phutConLai-1) + ":" + giayConLai +" phút";
+            return  tiet + "-" + "Còn " + phutConLai + ":" + giayConLai +" phút";
     }
     @Override
     protected void onPostExecute(String s) {
