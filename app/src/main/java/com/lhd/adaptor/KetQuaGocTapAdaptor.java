@@ -13,6 +13,7 @@ import com.lhd.fragment.FrameFragment;
 import com.lhd.fragment.KetQuaHocTapFragment;
 import com.lhd.object.ItemBangKetQuaHocTap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
@@ -26,6 +27,7 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
     public class KetQuaGocTapAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final KetQuaHocTapFragment ketQuaHocTapFragment;
     private final RecyclerView recyclerView;
+    private final ArrayList<ItemBangKetQuaHocTap> bangKetQuaHocTaps;
     private List<Object> mRecyclerViewItems;
         public class ItemDanhSachLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
         TextView tvTenLop;
@@ -57,10 +59,14 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
         public int getItemViewType(int position) {
             return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
         }
-        public KetQuaGocTapAdaptor(List<Object> recyclerViewItems, RecyclerView recyclerView, KetQuaHocTapFragment ketQuaHocTapFragment) {
+        public KetQuaGocTapAdaptor(List<Object> recyclerViewItems,
+                                   RecyclerView recyclerView, KetQuaHocTapFragment ketQuaHocTapFragment,
+                                   ArrayList<ItemBangKetQuaHocTap> bangKetQuaHocTaps) {
             this.mRecyclerViewItems = recyclerViewItems;
             this.recyclerView=recyclerView;
             this.ketQuaHocTapFragment=ketQuaHocTapFragment;
+            this.bangKetQuaHocTaps=bangKetQuaHocTaps;
+
         }
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -111,14 +117,13 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
                     itemDanhSachLop.tvDieuKien.setText(item.getDieuKien());
                     itemDanhSachLop.tvSoTietNghi.setText(item.getSoTietNghi());
                     itemDanhSachLop.tvDTB.setText(item.getdTB());
-                    itemDanhSachLop.stt.setText(""+(position+1));
+                    itemDanhSachLop.stt.setText(""+(bangKetQuaHocTaps.indexOf(item)+1));
                     break;
 
 
 
             }
         }
-
         @Override
         public int getItemCount() {
             return mRecyclerViewItems.size();

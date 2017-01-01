@@ -53,7 +53,7 @@ public class LichThiFragment extends FrameFragment {
         objects.addAll(lichThis);
         addNativeExpressAds();
         setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_LICH_THI,132);
-        LichThiAdaptor lichThiAdaptor=new LichThiAdaptor(objects,recyclerView,this);
+        LichThiAdaptor lichThiAdaptor=new LichThiAdaptor(objects,recyclerView,this,lichThis);
         recyclerView.setAdapter(lichThiAdaptor);
     }
     public void showDialog(LichThi lichThi, String toi) {

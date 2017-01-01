@@ -30,9 +30,9 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
 
 public class KeHoachThiFragment extends FrameFragment {
     private ItemBangKetQuaHocTap itemBangKetQuaHocTap;
-
     public void setItemBangKetQuaHocTap(ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
         this.itemBangKetQuaHocTap = itemBangKetQuaHocTap;
+
     }
 
     private ArrayList<LichThiLop> lichThiLops;
@@ -173,7 +173,7 @@ public class KeHoachThiFragment extends FrameFragment {
                     itemLichThiLop.caThi.setText(itemBangDiemThanhPhan.getGioThi());
                     itemLichThiLop.lanThi.setText(itemBangDiemThanhPhan.getLanThi());
                     itemLichThiLop.tenLop.setText(itemBangDiemThanhPhan.getTenLop());
-                    itemLichThiLop.stt.setText(position+"");
+                    itemLichThiLop.stt.setText(""+((position % ITEMS_PER_AD == 0) ? position=position-1 : position));
                     break;
             }
 

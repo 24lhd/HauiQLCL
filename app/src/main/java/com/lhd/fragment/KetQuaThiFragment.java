@@ -93,7 +93,7 @@ public class KetQuaThiFragment extends FrameFragment {
         objects.addAll(itemDiemThiTheoMons);
         addNativeExpressAds();
         setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_KET_QUA_THI,320);
-        RecyclerView.Adapter adapter = new KetQuaThiAdaptor(objects,recyclerView,this);
+        RecyclerView.Adapter adapter = new KetQuaThiAdaptor(objects,recyclerView,this,itemDiemThiTheoMons);
         recyclerView.setAdapter(adapter);
 
 

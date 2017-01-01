@@ -54,7 +54,7 @@ public class ThongBaoDtttcFragment extends FrameFragment {
         objects.addAll(itemNotiDTTCs);
          addNativeExpressAds();
         setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_TB_DTTC,320);
-        ThongBaoDTTCAdaptor adapterNoti=new ThongBaoDTTCAdaptor(objects,recyclerView,this);
+        ThongBaoDTTCAdaptor adapterNoti=new ThongBaoDTTCAdaptor(objects,recyclerView,this,itemNotiDTTCs);
         recyclerView.setAdapter(adapterNoti);
     }
     private Handler handler=new Handler(){

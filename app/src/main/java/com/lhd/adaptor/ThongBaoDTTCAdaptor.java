@@ -15,6 +15,7 @@ import com.lhd.fragment.ThongBaoDtttcFragment;
 import com.lhd.object.ItemNotiDTTC;
 import com.lhd.task.ParserLinkFileNoti;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
@@ -26,6 +27,7 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
  */
 
 public class ThongBaoDTTCAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder>   {
+    private  ArrayList<ItemNotiDTTC> itemNotiDTTCs;
     private  ThongBaoDtttcFragment thongBaoDtttcFragment;
     private  RecyclerView recyclerView;
     private List<Object> mRecyclerViewItems;
@@ -43,10 +45,12 @@ public class ThongBaoDTTCAdaptor extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemViewType(int position) {
         return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
-    public ThongBaoDTTCAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView, ThongBaoDtttcFragment thongBaoDtttcFragment) {
+    public ThongBaoDTTCAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView,
+                               ThongBaoDtttcFragment thongBaoDtttcFragment, ArrayList<ItemNotiDTTC> itemNotiDTTCs) {
         this.recyclerView = recyclerView;
         this.mRecyclerViewItems = mRecyclerViewItems;
         this.thongBaoDtttcFragment = thongBaoDtttcFragment;
+        this.itemNotiDTTCs = itemNotiDTTCs;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -92,7 +96,7 @@ public class ThongBaoDTTCAdaptor extends RecyclerView.Adapter<RecyclerView.ViewH
                 });
 
                 itemNoti.text.setText(itemNotiDTTC.getTitle());
-                itemNoti.stt.setText(""+position);
+                itemNoti.stt.setText(""+(itemNotiDTTCs.indexOf(itemNotiDTTC)+1));
                 break;
         }
 

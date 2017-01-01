@@ -87,7 +87,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
         objects.addAll(bangKetQuaHocTaps);
         addNativeExpressAds();
         setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT,MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
-        RecyclerView.Adapter adapter = new KetQuaGocTapAdaptor(objects,recyclerView,this);
+        RecyclerView.Adapter adapter = new KetQuaGocTapAdaptor(objects,recyclerView,this,bangKetQuaHocTaps);
         recyclerView.setAdapter(adapter);
     }
     private Handler handler=new Handler(){

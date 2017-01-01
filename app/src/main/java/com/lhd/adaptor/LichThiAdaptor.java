@@ -14,6 +14,7 @@ import com.lhd.fragment.LichThiFragment;
 import com.lhd.object.LichThi;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
  */
 
 public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private  ArrayList<LichThi> lichThis;
     private LichThiFragment lichThiFragment;
     private  RecyclerView recyclerView;
     private List<Object> mRecyclerViewItems;
@@ -51,10 +53,12 @@ public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         }
     }
-    public LichThiAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView, LichThiFragment lichThiFragment) {
+    public LichThiAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView,
+                          LichThiFragment lichThiFragment, ArrayList<LichThi> lichThis) {
         this.recyclerView = recyclerView;
         this.mRecyclerViewItems = mRecyclerViewItems;
         this.lichThiFragment = lichThiFragment;
+        this.lichThis = lichThis;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -74,7 +78,7 @@ public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
 
         switch (viewType) {
@@ -129,7 +133,7 @@ public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 itemLichThi.ngayThi.setText(lichThi.getNgay()+"");
                 itemLichThi.caThi.setText(lichThi.getGio()+"");
                 itemLichThi.lanThi.setText(lichThi.getLanthi()+"");
-                itemLichThi.stt.setText((position+1)+"");
+                itemLichThi.stt.setText(""+(lichThis.indexOf(lichThi)+1));
                 break;
         }
 

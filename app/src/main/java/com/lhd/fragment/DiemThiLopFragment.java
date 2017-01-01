@@ -190,7 +190,7 @@ public class DiemThiLopFragment extends FrameFragment {
                     itemDiemThiLop.tvL1.setText(itemKetQuaThiLop.getdL1());
                     itemDiemThiLop.tvL2.setText(itemKetQuaThiLop.getdL2());
                     itemDiemThiLop.tvGC.setText(itemKetQuaThiLop.getGhiChu());
-                    itemDiemThiLop.stt.setText(""+(position+1));
+                    itemDiemThiLop.stt.setText(""+(ketQuaThi.getKetQuaThiLops().indexOf(itemKetQuaThiLop)+1));
                     break;
             }
            

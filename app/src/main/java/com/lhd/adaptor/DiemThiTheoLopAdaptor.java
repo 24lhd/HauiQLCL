@@ -19,6 +19,7 @@ import com.lhd.object.ItemBangDiemThanhPhan;
 import com.lhd.object.ItemBangKetQuaHocTap;
 import com.lhd.object.UIFromHTML;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
@@ -31,6 +32,7 @@ import static com.lhd.fragment.FrameFragment.showAlert;
  */
 
 public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder>   {
+    private ArrayList<ItemBangDiemThanhPhan> bangDiemThanhPhan;
     private  ItemBangKetQuaHocTap itemBangKetQuaHocTap;
     private Activity activity;
     private RecyclerView recyclerView;
@@ -66,11 +68,15 @@ public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.Vie
     public int getItemViewType(int position) {
         return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
-    public DiemThiTheoLopAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView, Activity activity, ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
+
+    public DiemThiTheoLopAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView,
+                                 Activity activity, ItemBangKetQuaHocTap itemBangKetQuaHocTap,
+                                 ArrayList<ItemBangDiemThanhPhan> bangDiemThanhPhan) {
         this.recyclerView = recyclerView;
         this.mRecyclerViewItems = mRecyclerViewItems;
         this.activity = activity;
         this.itemBangKetQuaHocTap = itemBangKetQuaHocTap;
+        this.bangDiemThanhPhan = bangDiemThanhPhan;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -138,7 +144,7 @@ public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.Vie
                 itemDiemThanhPhan.tvDieuKien.setText(itemBangDiemThanhPhan.getDieuKien());
                 itemDiemThanhPhan.tvSoTietNghi.setText(itemBangDiemThanhPhan.getSoTietNghi());
                 itemDiemThanhPhan.tvDTB.setText(itemBangDiemThanhPhan.getdTB());
-                itemDiemThanhPhan.stt.setText(""+(position+1));
+                itemDiemThanhPhan.stt.setText(""+(bangDiemThanhPhan.indexOf(itemBangDiemThanhPhan)+1));
                 break;
         }
 

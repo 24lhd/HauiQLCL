@@ -13,6 +13,7 @@ import com.lhd.activity.MainActivity;
 import com.lhd.fragment.KetQuaThiFragment;
 import com.lhd.object.ItemDiemThiTheoMon;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
@@ -26,7 +27,8 @@ import static com.lhd.fragment.KetQuaThiFragment.isDouble;
 
 
 public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final KetQuaThiFragment ketQuaThiFragment;
+    private  KetQuaThiFragment ketQuaThiFragment;
+    private  ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMons;
     private  RecyclerView recyclerView;
     private List<Object> mRecyclerViewItems;
     public class ItemDiemThiMon extends RecyclerView.ViewHolder{ // tao mot đói tượng
@@ -64,10 +66,13 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemViewType(int position) {
         return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
-    public KetQuaThiAdaptor(List<Object> recyclerViewItems, RecyclerView recyclerView, KetQuaThiFragment ketQuaThiFragment) {
+    public KetQuaThiAdaptor(List<Object> recyclerViewItems,
+                            RecyclerView recyclerView, KetQuaThiFragment ketQuaThiFragment,
+                            ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMons) {
         this.mRecyclerViewItems = recyclerViewItems;
         this.recyclerView=recyclerView;
         this.ketQuaThiFragment=ketQuaThiFragment;
+        this.itemDiemThiTheoMons=itemDiemThiTheoMons;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -117,7 +122,8 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
                 itemDiemThiMon.ngay1.setText(itemDiemThiTheoMon.getNgay1());
                 itemDiemThiMon.ngay2.setText(itemDiemThiTheoMon.getNgay2());
                 itemDiemThiMon.ghiChu.setText(itemDiemThiTheoMon.getGhiChu());
-                itemDiemThiMon.stt.setText(""+(position+1));
+                itemDiemThiMon.stt.setText(""+(itemDiemThiTheoMons.indexOf(itemDiemThiTheoMon)+1));
+                index=index+1;
                 String dc= itemDiemThiTheoMon.getdCuoiCung().split(" ")[0];
                 dc=dc.trim();
                 double th = 0;
@@ -182,7 +188,7 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }
     }
-
+    private int index;
     @Override
     public int getItemCount() {
         return mRecyclerViewItems.size();
