@@ -48,7 +48,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
             public void onRefresh() {
                 if (MainActivity.isOnline(getContext())){
                             sqLiteManager.deleteDMon(sv.getMaSV());
-                    startParser();
+                            startParser();
                 }else{
                     pullRefreshLayout.setRefreshing(false);
                 }

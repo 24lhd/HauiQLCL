@@ -192,6 +192,7 @@ public class SQLiteManager {
     public long insertDMon(ItemBangKetQuaHocTap bangKetQuaHocTap, String maSV){
         ContentValues contentValues=new ContentValues();
         contentValues.put("maSV",maSV);
+        String []s={maSV,bangKetQuaHocTap.getLinkDiemLop()};
         contentValues.put("linkDiemLop",bangKetQuaHocTap.getLinkDiemLop());
         contentValues.put("linkLichThiLop",bangKetQuaHocTap.getLinkLichThiLop());
         contentValues.put("tenMon",bangKetQuaHocTap.getTenMon());
@@ -204,6 +205,7 @@ public class SQLiteManager {
         contentValues.put("soTietNghi",bangKetQuaHocTap.getSoTietNghi());
         contentValues.put("dieuKien",bangKetQuaHocTap.getDieuKien());
         openDatabases();
+        database.delete("dmon","maSV=? and linkDiemLop=?",s);
         long id=database.insert("dmon", null, contentValues);
         closeDatabases();
         return id;

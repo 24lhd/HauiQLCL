@@ -64,16 +64,18 @@ public class MyService extends Service{
                     ArrayList<ItemBangKetQuaHocTap> itemBangKetQuaHocTapsNew=ketQuaHocTap.getBangKetQuaHocTaps();
                     ArrayList<ItemBangKetQuaHocTap> itemBangKetQuaHocTapsOld=sqLiteManager.getBangKetQuaHocTap(id);
                     if (itemBangKetQuaHocTapsNew.size()>itemBangKetQuaHocTapsOld.size()){
-                        for (int i=itemBangKetQuaHocTapsOld.size();i<itemBangKetQuaHocTapsNew.size();i++){
-                            sqLiteManager.insertDMon(itemBangKetQuaHocTapsNew.get(i),id);
+                        sqLiteManager.deleteDMon(id);
+                        for (ItemBangKetQuaHocTap diemHocTapTheoMon:itemBangKetQuaHocTapsNew){
+                            sqLiteManager.insertDMon(diemHocTapTheoMon,ketQuaHocTap.getSinhVien().getMaSV());
                         }
-                        showNoti("Thông báo từ Gà Công Nghiệp ","cập nhật học phần "+(itemBangKetQuaHocTapsNew.size()-itemBangKetQuaHocTapsOld.size())+" học phần",0);
+                        showNoti("Thông báo từ Gà Công Nghiệp ","cập nhật thêm "+(itemBangKetQuaHocTapsNew.size()-itemBangKetQuaHocTapsOld.size())+" học phần",0);
                     }
                         for (int i = 0; i <itemBangKetQuaHocTapsNew.size() ; i++) {
                             for (int j = 0; j <itemBangKetQuaHocTapsOld.size() ; j++) {
                                 ItemBangKetQuaHocTap itemBangKetQuaHocTapOld=itemBangKetQuaHocTapsOld.get(j);
                                 ItemBangKetQuaHocTap itemBangKetQuaHocTapNew=itemBangKetQuaHocTapsNew.get(i);
-                                if (itemBangKetQuaHocTapNew.getMaMon().equals(itemBangKetQuaHocTapOld.getMaMon())&&!itemBangKetQuaHocTapNew.getdTB().equals(itemBangKetQuaHocTapOld.getdTB())){
+                                if (itemBangKetQuaHocTapNew.getMaMon().equals(itemBangKetQuaHocTapOld.getMaMon())
+                                        &&!itemBangKetQuaHocTapNew.getdTB().equals(itemBangKetQuaHocTapOld.getdTB())){
                                         sqLiteManager.updateDMon(itemBangKetQuaHocTapNew,id,itemBangKetQuaHocTapOld.getMaMon());
                                         showNoti("Thông báo từ Gà Công Nghiệp","có điểm học phần "+itemBangKetQuaHocTapNew.getTenMon(),0);
                                     break;
@@ -85,17 +87,19 @@ public class MyService extends Service{
                     ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMonNews = (ArrayList<ItemDiemThiTheoMon>) msg.obj;
                     ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMonOlds =sqLiteManager.getAllDThiMon(id);
                     if (itemDiemThiTheoMonNews.size()> itemDiemThiTheoMonOlds.size()){
+                        sqLiteManager.deleteDThiMon(id);
                         for (ItemDiemThiTheoMon itemDiemThiTheoMonNew : itemDiemThiTheoMonNews) {
-                            boolean flag=true;
-                            for (int i = 0; i < itemDiemThiTheoMonOlds.size() ; i++) {
-                                if (itemDiemThiTheoMonNew.getLinkDiemThiTheoLop().equals(itemDiemThiTheoMonOlds.get(i).getLinkDiemThiTheoLop())){
-                                    flag=false;
-                                    break;
-                                }
-                            }
-                            if (flag){
+//                            boolean flag=true;
+//                            for (int i = 0; i < itemDiemThiTheoMonOlds.size() ; i++) {
+//                                if (itemDiemThiTheoMonNew.getLinkDiemThiTheoLop().equals(itemDiemThiTheoMonOlds.get(i)
+//                                        .getLinkDiemThiTheoLop())){
+//                                    flag=false;
+//                                    break;
+//                                }
+//                            }
+//                            if (flag){
                                 sqLiteManager.insertDThiMon(itemDiemThiTheoMonNew,id);
-                            }
+//                            }
                         }
                         showNoti("Thông báo từ Gà Công Nghiệp ","cập nhật kết quả thi "+(itemDiemThiTheoMonNews.size()- itemDiemThiTheoMonOlds.size())+" học phần",1);
                     }
@@ -120,17 +124,18 @@ public class MyService extends Service{
                     ArrayList<LichThi> lichThiNews= (ArrayList<LichThi>) msg.obj;
                     ArrayList<LichThi> lichThiOlds=sqLiteManager.getAllLThi(id);
                     if (lichThiNews.size()>lichThiOlds.size()){
+                        sqLiteManager.deleteDLThi(id);
                         for (LichThi lichThi:lichThiNews) {
-                            boolean flag=true;
-                            for (int i = 0; i <lichThiOlds.size() ; i++) {
-                                if (lichThi.getSbd().equals(lichThiOlds.get(i).getSbd())){
-                                    flag=false;
-                                    break;
-                                }
-                            }
-                            if (flag){
+//                            boolean flag=true;
+//                            for (int i = 0; i <lichThiOlds.size() ; i++) {
+//                                if (lichThi.getSbd().equals(lichThiOlds.get(i).getSbd())){
+//                                    flag=false;
+//                                    break;
+//                                }
+//                            }
+//                            if (flag){
                                 sqLiteManager.insertlthi(lichThi,id);
-                            }
+//                            }
                         }
                             showNoti("Thông báo từ Gà Công Nghiệp ","có lịch thi mới "+(lichThiNews.size()-lichThiOlds.size())+" học phần",2);
                     }
@@ -140,7 +145,6 @@ public class MyService extends Service{
             }
         }
     };
-
     private String ranDom(String charPoint, String tenMon) {
         switch(charPoint){
             case "A":
@@ -204,36 +208,32 @@ public class MyService extends Service{
             ArrayList<ItemNotiDTTC> itemNotiDTTCsC;
             ArrayList<ItemNotiDTTC> itemNotiDTTCsM;
             try{
-
                 itemNotiDTTCsM = (ArrayList<ItemNotiDTTC>) msg.obj;
                 itemNotiDTTCsC=sqLiteManager.getNotiDTTC();
-                if (itemNotiDTTCsC.isEmpty()){
+                if (itemNotiDTTCsM.size()>itemNotiDTTCsC.size()){
+                    showNoti("Thông báo từ Gà Công Nghiệp ","đã cập nhật "+(itemNotiDTTCsM.size()-itemNotiDTTCsC.size())+" thông báo mới",5);
                     sqLiteManager.deleteItemNotiDTTC();
                     for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
                         sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
                     }
-                    showNoti("Thông báo từ Gà Công Nghiệp","đã cập nhật "+itemNotiDTTCsM.size()+" thông báo mới",3);
-                }else{
-                    if (itemNotiDTTCsM.size()>itemNotiDTTCsC.size()){
-                        showNoti("Thông báo từ Gà Công Nghiệp ","đã cập nhật "+(itemNotiDTTCsM.size()-itemNotiDTTCsC.size())+" thông báo mới",5);
-                        sqLiteManager.deleteItemNotiDTTC();
-                        for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
-                            sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
-                        }
-                    }else if(itemNotiDTTCsM.size()!=0){
-                        for (int i = 0; i < itemNotiDTTCsM.size(); i++) {
-                            boolean flag=true;
-                            for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsC) {
-                                if (itemNotiDTTCsM.get(i).getTitle().equals(itemNotiDTTC.getTitle())){
-                                    flag=false;
-                                }
+                }else if(itemNotiDTTCsM.size()!=0){
+                    for (int i = 0; i < itemNotiDTTCsM.size(); i++) {
+                        boolean flag=true;
+                        for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsC) {
+                            if (itemNotiDTTCsM.get(i).getTitle().equals(itemNotiDTTC.getTitle())){
+                                flag=false;
                             }
-                            if (flag) showNoti("Thông báo từ Gà Công Nghiệp",itemNotiDTTCsM.get(i).getTitle(),4);
                         }
-                        sqLiteManager.deleteItemNotiDTTC();
-                        for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
-                            sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
-                        }
+                        if (flag) showNoti("Thông báo từ Gà Công Nghiệp",itemNotiDTTCsM.get(i).getTitle(),4);
+                    }
+                    sqLiteManager.deleteItemNotiDTTC();
+                    for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
+                        sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
+                    }
+                }else{
+                    sqLiteManager.deleteItemNotiDTTC();
+                    for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
+                        sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
                     }
                 }
             }catch (Exception e){
@@ -276,7 +276,7 @@ public class MyService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         log=new com.lhd.log.Log(this);
          id=log.getID();
-        if (!(intent instanceof  Intent)){
+        if (!(intent instanceof  Intent)&&MainActivity.isOnline(this)){
             registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_ON));
             registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
             Log.e("faker", " instanceof");

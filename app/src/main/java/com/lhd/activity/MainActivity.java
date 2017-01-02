@@ -330,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                     builder.show();
                 }else if (!version.getVerstionName().equals(info.versionName)&&i==0){
-                    Snackbar snackbar=Snackbar.make(getCurrentFocus(),"Đã có phiên bản Gà Công Nghiệp "+version.getVerstionName(),Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar=Snackbar.make(viewPager,"Đã có phiên bản Gà Công Nghiệp "+version.getVerstionName(),Snackbar.LENGTH_SHORT);
                     snackbar.setAction("Cập nhật", new View.OnClickListener() {
                         UpdateApp updateApp=new UpdateApp();
                         @Override

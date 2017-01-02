@@ -8,7 +8,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 3
-        versionName "2.6"
+        versionName "2.6.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -17,7 +17,13 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
+        }
+    }
+    productFlavors {
+        flavor1 {
+        }
+        flavor2 {
+            proguardFile 'proguard-rules.pro'
         }
     }
 }

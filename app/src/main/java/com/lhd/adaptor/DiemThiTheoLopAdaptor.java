@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
@@ -18,19 +17,15 @@ import com.lhd.fragment.FrameFragment;
 import com.lhd.object.ItemBangDiemThanhPhan;
 import com.lhd.object.ItemBangKetQuaHocTap;
 import com.lhd.object.UIFromHTML;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
 import static com.lhd.activity.MainActivity.MENU_ITEM_VIEW_TYPE;
 import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
 import static com.lhd.fragment.FrameFragment.showAlert;
-
 /**
  * Created by d on 29/12/2016.
  */
-
 public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder>   {
     private ArrayList<ItemBangDiemThanhPhan> bangDiemThanhPhan;
     private  ItemBangKetQuaHocTap itemBangKetQuaHocTap;
@@ -38,7 +33,6 @@ public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.Vie
     private RecyclerView recyclerView;
     private List<Object> mRecyclerViewItems;
     private AlertDialog.Builder builder;
-
     class ItemDiemThanhPhan extends RecyclerView.ViewHolder{ // tao mot đói tượng
         TextView tvTenSV;
         TextView tvMaSV;
