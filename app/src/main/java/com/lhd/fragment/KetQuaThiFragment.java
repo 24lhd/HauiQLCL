@@ -47,7 +47,7 @@ public class KetQuaThiFragment extends FrameFragment {
             public void onRefresh() {
                 if (MainActivity.isOnline(getActivity())){
                     sqLiteManager.deleteDThiMon(sv.getMaSV());
-                    startParser();
+                  loadData();
                 }else{
                     pullRefreshLayout.setRefreshing(false);
                 }
@@ -61,15 +61,12 @@ public class KetQuaThiFragment extends FrameFragment {
         if (!itemDiemThiTheoMons.isEmpty()){
             showRecircleView();
             setRecyclerView();
-        }else{
+        }else
             loadData();
-        }
-
-
     }
     public void startParser() {
-        ParserKetQuaThiTheoMon parserKetQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
-        parserKetQuaThiTheoMon.execute(sv.getMaSV());
+//        ParserKetQuaThiTheoMon parserKetQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
+//        parserKetQuaThiTheoMon.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
         Collections.sort(itemDiemThiTheoMons, new Comparator<ItemDiemThiTheoMon>() {

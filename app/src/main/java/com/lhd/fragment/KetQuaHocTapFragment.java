@@ -48,7 +48,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
             public void onRefresh() {
                 if (MainActivity.isOnline(getContext())){
                             sqLiteManager.deleteDMon(sv.getMaSV());
-                            startParser();
+                             loadData();
                 }else{
                     pullRefreshLayout.setRefreshing(false);
                 }
@@ -67,8 +67,8 @@ public class KetQuaHocTapFragment extends FrameFragment {
                 }
     }
     public void startParser() {
-        ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
-        ketQuaHocTapTheoMon.execute(sv.getMaSV());
+//        ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
+//        ketQuaHocTapTheoMon.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
         Collections.sort(bangKetQuaHocTaps, new Comparator<ItemBangKetQuaHocTap>() {
@@ -93,6 +93,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
+            pullRefreshLayout.setRefreshing(false);
             try{
                 switch (msg.arg1){
                     case 0:

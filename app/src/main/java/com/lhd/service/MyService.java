@@ -257,7 +257,7 @@ public class MyService extends Service{
     };
 
     private void startParser() {
-        if (!MainActivity.isOnline(this))
+        if (!MainActivity.isOnline(this)&&!MainActivity.wifiIsEnable(this))
             return;
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
         ketQuaHocTapTheoMon.execute(id);
@@ -280,6 +280,8 @@ public class MyService extends Service{
             registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_ON));
             registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
             Log.e("faker", " instanceof");
+        }else{
+            startParser();
         }
 //        Toast.makeText(this,"Gà Công Nghiệp đang kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
         sqLiteManager =new SQLiteManager(this);

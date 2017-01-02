@@ -90,7 +90,6 @@ public class KeHoachThiFragment extends FrameFragment {
                 }
             }catch (NullPointerException e){
                 // neu bị null nó sẽ vào đây
-                startParser();
             }
         }
     };
@@ -105,7 +104,7 @@ public class KeHoachThiFragment extends FrameFragment {
         }else{
             if (MainActivity.isOnline(getContext())){
                 showProgress();
-                startParser();
+                loadData();
             }else{
                 cantLoadData();
             }

@@ -83,7 +83,6 @@ public class DiemThiLopFragment extends FrameFragment {
                         for (ItemKetQuaThiLop diemHocTapTheoLop:b){
                             sqLiteManager.insertDThiLop(itemDiemThiTheoMon.getLinkDiemThiTheoLop(),ketQuaThi.getTenLopUuTien(),ketQuaThi.getSoTC(),diemHocTapTheoLop);
                         }
-
                         setRecyclerView();
                     }
                 }
@@ -95,7 +94,11 @@ public class DiemThiLopFragment extends FrameFragment {
     };
     @Override
     public void refesh() {
-        sqLiteManager.deleteDThiLop(itemDiemThiTheoMon.getLinkDiemThiTheoLop());
+        if (MainActivity.isOnline(getActivity())){
+            loadData();
+            sqLiteManager.deleteDThiLop(itemDiemThiTheoMon.getLinkDiemThiTheoLop());
+        }else  pullRefreshLayout.setRefreshing(false);
+
     }
     @Override
     public void setRecyclerView() {
@@ -114,14 +117,7 @@ public class DiemThiLopFragment extends FrameFragment {
             listActivity.  getSupportActionBar().setTitle("Điểm thi "+ itemDiemThiTheoMon.getTenMon());
             listActivity.   getSupportActionBar().setSubtitle(ketQuaThi.getTenLopUuTien()+"_"+ketQuaThi.getSoTC()+" tín chỉ");
             setRecyclerView();
-        }else{
-            if (MainActivity.isOnline(listActivity)){
-                showProgress();
-                startParser();
-            }else{
-                cantLoadData();
-            }
-        }
+        }else  loadData();
     }
     class ItemDiemThiLop extends RecyclerView.ViewHolder{ // tao mot đói tượng
         TextView tvTenSV;

@@ -25,10 +25,10 @@ public class LichThiFragment extends FrameFragment {
             public void onRefresh() {
                 if (MainActivity.isOnline(getActivity())){
                     sqLiteManager.deleteDLThi(sv.getMaSV());
-                    startParser();
-                }else{
+                   loadData();
+                }else
                     pullRefreshLayout.setRefreshing(false);
-                }
+
 
             }
         });
@@ -39,13 +39,13 @@ public class LichThiFragment extends FrameFragment {
         if (!lichThis.isEmpty()){
             showRecircleView();
             setRecyclerView();
-        }else{
+        }else
             loadData();
-        }
+
     }
     public void startParser() {
-        ParserLichThiTheoMon parserKetQuaHocTap=new ParserLichThiTheoMon(handler);
-        parserKetQuaHocTap.execute(sv.getMaSV());
+//        ParserLichThiTheoMon parserKetQuaHocTap=new ParserLichThiTheoMon(handler);
+//        parserKetQuaHocTap.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
         Collections.reverse(lichThis);
@@ -89,7 +89,6 @@ public class LichThiFragment extends FrameFragment {
                         break;
                 }
             }catch (NullPointerException e){
-                startParser();
             }
         }
     };

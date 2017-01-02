@@ -130,6 +130,12 @@ public class MainActivity extends AppCompatActivity {
             tv2.setText(s);
         }
     }
+
+    public static boolean wifiIsEnable(Context context) {
+        WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+       return wifi.isWifiEnabled();
+    }
+
     public static void sreenShort(View viewInput,Context context) {
          Date now = new Date();
          ByteArrayOutputStream bytearrayoutputstream;
@@ -524,7 +530,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     private void startTimeView() {
-
             TimeTask timeTask =new TimeTask(handlertime);
             timeTask.execute();
     }

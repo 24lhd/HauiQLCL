@@ -57,7 +57,11 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
     };
     @Override
     public void refesh() {
-        sqLiteManager.deleteDLop(itemBangKetQuaHocTap.getMaMon());
+        if (MainActivity.isOnline(getActivity())){
+            loadData();
+            sqLiteManager.deleteDLop(itemBangKetQuaHocTap.getMaMon());
+        }else  pullRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
@@ -79,14 +83,9 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
             getListActivity().getSupportActionBar().setTitle("Điểm thành phần "+itemBangKetQuaHocTap.getTenMon());
             getListActivity().getSupportActionBar().setSubtitle(bangDiemThanhPhan.getTenLopUuTien()+"_"+ bangDiemThanhPhan.getSoTin()+" tín chỉ");
             setRecyclerView();
-        }else{
-            if (MainActivity.isOnline(getListActivity())){
-                showProgress();
-                startParser();
-            }else{
-                cantLoadData();
-            }
-        }
+        }else
+           loadData();
+
     }
 
     public ItemBangKetQuaHocTap getItemBangDiemThanhPhan() {

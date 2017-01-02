@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.google.android.gms.ads.AdListener;
@@ -32,6 +34,7 @@ import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
 import com.lhd.object.SinhVien;
+import com.lhd.service.MyService;
 import com.startapp.android.publish.adsCommon.Ad;
 import com.startapp.android.publish.adsCommon.StartAppAd;
 import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
@@ -184,7 +187,7 @@ public abstract class FrameFragment extends Fragment{
             public void onClick(View view) {
                 if (MainActivity.isOnline(getContext())){
                     showProgress();
-                    startParser();
+                    loadData();
                 }else {
                     final Snackbar snackbar=Snackbar.make(recyclerView, "Vui lòng bật kết nối internet!",Snackbar.LENGTH_SHORT);
 
@@ -196,7 +199,7 @@ public abstract class FrameFragment extends Fragment{
                             wifiManager.setWifiEnabled(true);
                             showProgress();
                             snackbar.dismiss();
-                            startParser();
+                           loadData();
                         }
                     });
                     snackbar.show();
@@ -231,12 +234,40 @@ public abstract class FrameFragment extends Fragment{
         recyclerView.setVisibility(View.GONE);
     }
     public void loadData() {
-        if (MainActivity.isOnline(getContext())){
-            showProgress();
-            startParser();
+        if (!MainActivity.wifiIsEnable(getActivity())){
+            AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+            builder.setTitle("Cảnh báo !");
+            builder.setMessage("Bạn đang sử dụng dữ liệu di động.\n" +
+                    "Tránh tiêu tốn dữ liệu.\nTôi khuyên bạn nên dùng mạng wifi để sử dụng.");
+            builder.setPositiveButton("Bật wifi", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
+                    if (!MainActivity.wifiIsEnable(getActivity())) wifiManager.setWifiEnabled(true);
+                    Toast.makeText(getActivity(), "Đã bật wifi", Toast.LENGTH_SHORT).show();
+                }
+            });
+            builder.setNegativeButton("Tiếp tục", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (MainActivity.isOnline(getContext())){
+                        showProgress();
+                        startParser();
+                        Intent intent1=new Intent(getContext(), MyService.class);
+                        getActivity().startService(intent1);
+                    }else cantLoadData();
+                }
+            });
+            builder.show();
         }else{
-            cantLoadData();
+            if (MainActivity.isOnline(getContext())){
+                showProgress();
+                startParser();
+                Intent intent1=new Intent(getContext(), MyService.class);
+                getActivity().startService(intent1);
+            }else cantLoadData();
         }
+
     }
     public void initView(View view) {
         sqLiteManager=new SQLiteManager(getContext());
