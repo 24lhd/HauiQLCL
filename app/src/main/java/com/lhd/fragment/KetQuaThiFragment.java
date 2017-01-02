@@ -65,8 +65,8 @@ public class KetQuaThiFragment extends FrameFragment {
             loadData();
     }
     public void startParser() {
-//        ParserKetQuaThiTheoMon parserKetQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
-//        parserKetQuaThiTheoMon.execute(sv.getMaSV());
+        ParserKetQuaThiTheoMon parserKetQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
+        parserKetQuaThiTheoMon.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
         Collections.sort(itemDiemThiTheoMons, new Comparator<ItemDiemThiTheoMon>() {

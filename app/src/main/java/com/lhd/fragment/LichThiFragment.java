@@ -44,8 +44,8 @@ public class LichThiFragment extends FrameFragment {
 
     }
     public void startParser() {
-//        ParserLichThiTheoMon parserKetQuaHocTap=new ParserLichThiTheoMon(handler);
-//        parserKetQuaHocTap.execute(sv.getMaSV());
+        ParserLichThiTheoMon parserKetQuaHocTap=new ParserLichThiTheoMon(handler);
+        parserKetQuaHocTap.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
         Collections.reverse(lichThis);

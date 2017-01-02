@@ -40,8 +40,8 @@ public class ThongBaoDtttcFragment extends FrameFragment {
         }else loadData();
     }
     public void startParser() {
-//        ParserNotiDTTC parserNotiDTTC=new ParserNotiDTTC(handler);
-//        parserNotiDTTC.execute();
+        ParserNotiDTTC parserNotiDTTC=new ParserNotiDTTC(handler);
+        parserNotiDTTC.execute();
     }
     public void setRecyclerView() {
         objects=new ArrayList<>();

@@ -239,7 +239,7 @@ public abstract class FrameFragment extends Fragment{
         recyclerView.setVisibility(View.GONE);
     }
     public void loadData() {
-        if (!MainActivity.wifiIsEnable(getActivity())){
+        if (!MainActivity.wifiIsEnable(getActivity())&&MainActivity.isOnline(getActivity())){
             AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
             builder.setTitle("Cảnh báo !");
             builder.setMessage("Bạn đang sử dụng dữ liệu di động.\n" +
@@ -258,8 +258,6 @@ public abstract class FrameFragment extends Fragment{
                     if (MainActivity.isOnline(getContext())){
                         showProgress();
                         startParser();
-                        Intent intent1=new Intent(getContext(), MyService.class);
-                        getActivity().startService(intent1);
                     }else cantLoadData();
                 }
             });
@@ -268,16 +266,12 @@ public abstract class FrameFragment extends Fragment{
         if (MainActivity.isOnline(getContext())){
             showProgress();
             startParser();
-            Intent intent1=new Intent(getContext(), MyService.class);
-            getActivity().startService(intent1);
         }else cantLoadData();
 
     }
     public void initView(View view) {
         sqLiteManager=new SQLiteManager(getContext());
-        try {
-
-            sv= (SinhVien) getArguments().getSerializable(MainActivity.SINH_VIEN);
+        try {sv= (SinhVien) getArguments().getSerializable(MainActivity.SINH_VIEN);
         }catch (NullPointerException e){}
         pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);

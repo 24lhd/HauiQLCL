@@ -276,15 +276,22 @@ public class MyService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         log=new com.lhd.log.Log(this);
          id=log.getID();
+        sqLiteManager =new SQLiteManager(this);
         if (!(intent instanceof  Intent)&&MainActivity.isOnline(this)){
             registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_ON));
             registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
             Log.e("faker", " instanceof");
-        }else{
-            startParser();
         }
+//        else if (id.length()>0){
+//            if (sqLiteManager.getBangKetQuaHocTap(id).isEmpty()||
+//                    sqLiteManager.getAllDThiMon(id).isEmpty()||
+//                    sqLiteManager.getAllLThi(id).isEmpty()||
+//                    sqLiteManager.getNotiDTTC().isEmpty()){
+//                startParser();
+//            }
+//        }
 //        Toast.makeText(this,"Gà Công Nghiệp đang kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
-        sqLiteManager =new SQLiteManager(this);
+
         Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

@@ -67,8 +67,8 @@ public class KetQuaHocTapFragment extends FrameFragment {
                 }
     }
     public void startParser() {
-//        ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
-//        ketQuaHocTapTheoMon.execute(sv.getMaSV());
+        ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
+        ketQuaHocTapTheoMon.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
         Collections.sort(bangKetQuaHocTaps, new Comparator<ItemBangKetQuaHocTap>() {

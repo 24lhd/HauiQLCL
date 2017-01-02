@@ -49,7 +49,6 @@ import com.lhd.object.KetQuaHocTap;
 import com.lhd.object.SinhVien;
 import com.lhd.object.Version;
 import com.lhd.recerver.MyReserver;
-import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.TimeTask;
 import com.startapp.android.publish.adsCommon.StartAppAd;
@@ -69,7 +68,7 @@ import duong.update.code.UpdateApp;
 public class MainActivity extends AppCompatActivity {
     private StartAppAd startAppAd = new StartAppAd(this);
 
-    public static final int ITEMS_PER_AD = 9;
+    public static final int ITEMS_PER_AD =11;
     // The Native Express ad height.
     public static final int NATIVE_EXPRESS_AD_HEIGHT = 132;
     // The Native Express ad unit ID.
@@ -274,8 +273,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_layout);
-//        Intent intent1=new Intent(this, MyService.class);
-//        stopService(intent1);
         registerReceiver(new MyReserver(), new IntentFilter(Intent.ACTION_SCREEN_ON));
         sqLiteManager=new SQLiteManager(this);
         log=new Log(this);
@@ -297,7 +294,9 @@ public class MainActivity extends AppCompatActivity {
     }
     private void checkLogin() {
         StartAppSDK.init(this, "211282097", false);
-        if (log.getID().length()==10) getSV(log.getID());
+        if (log.getID().length()==10){
+            getSV(log.getID());
+        }
         else startLogin(MainActivity.this);
     }
 
@@ -516,9 +515,6 @@ public class MainActivity extends AppCompatActivity {
             try {
                 checkUpdate(0);
             } catch (Exception e) {}
-
-            Intent intent1=new Intent(this, MyService.class);
-            this.startService(intent1);
         }
     }
     private Handler handlertime=new Handler(){
