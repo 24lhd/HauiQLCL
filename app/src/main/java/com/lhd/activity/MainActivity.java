@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog.Builder builder=new AlertDialog.Builder(activity);
         builder.setTitle("Thông báo");
         builder.setCancelable(false);
-        builder.setMessage("Hình như sai mã sinh viên -_-\nBạn nhập lại nhé...");
+        builder.setMessage("Hình như sai mã sinh viên hoặc bạn chưa kết nối Internet -_-\nBạn nhập lại nhé...");
         builder.setNegativeButton("Nhập MSV", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -195,12 +195,16 @@ public class MainActivity extends AppCompatActivity {
             setSinhVien(sqLiteManager.getSV(maSinhVien));
             return;
         }
-        ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(new Handler(){
+         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what==2){
                     if (MainActivity.isOnline(MainActivity.this)) showError(MainActivity.this);
-                    else  Toast.makeText(MainActivity.this, "Không có kêt nối nternet!", Toast.LENGTH_SHORT).show();
+                    else{
+//                        ketQuaHocTapFragment.showTextNull();
+                        showError(MainActivity.this);
+//                        Toast.makeText(MainActivity.this, "Không có kêt nối nternet!", Toast.LENGTH_SHORT).show();
+                    }
                     return;
                 }else if (msg.obj instanceof KetQuaHocTap){
                     KetQuaHocTap ketQuaHocTap= (KetQuaHocTap) msg.obj;

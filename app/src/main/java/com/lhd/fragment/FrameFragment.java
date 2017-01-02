@@ -119,14 +119,19 @@ public abstract class FrameFragment extends Fragment{
             @Override
             public void run() {
                 // Set the ad size and ad unit ID for each Native Express ad in the items list.
-                final float density = getActivity().getResources().getDisplayMetrics().density;
-                for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
-                     NativeExpressAdView adView = (NativeExpressAdView) objects.get(i);
-                    AdSize adSize = new AdSize((int) (recyclerView.getWidth()/density),height);
-                    adView.setAdSize(adSize);
-                    adView.setAdUnitId(id);
+                try {
+                    final float density = getActivity().getResources().getDisplayMetrics().density;
+                    for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
+                        NativeExpressAdView adView = (NativeExpressAdView) objects.get(i);
+                        AdSize adSize = new AdSize((int) (recyclerView.getWidth()/density),height);
+                        adView.setAdSize(adSize);
+                        adView.setAdUnitId(id);
+                    }
+                    loadNativeExpressAd(0);
+                }catch (NullPointerException e){
+
                 }
-                loadNativeExpressAd(0);
+
             }
         });
 
@@ -259,14 +264,13 @@ public abstract class FrameFragment extends Fragment{
                 }
             });
             builder.show();
-        }else{
-            if (MainActivity.isOnline(getContext())){
-                showProgress();
-                startParser();
-                Intent intent1=new Intent(getContext(), MyService.class);
-                getActivity().startService(intent1);
-            }else cantLoadData();
         }
+        if (MainActivity.isOnline(getContext())){
+            showProgress();
+            startParser();
+            Intent intent1=new Intent(getContext(), MyService.class);
+            getActivity().startService(intent1);
+        }else cantLoadData();
 
     }
     public void initView(View view) {
