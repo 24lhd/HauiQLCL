@@ -40,6 +40,7 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
                     bangDiemThanhPhan = (BangDiemThanhPhan) msg.obj;
                     ArrayList<ItemBangDiemThanhPhan> b= bangDiemThanhPhan.getBangDiemThanhPhan();
                     if (!b.isEmpty()){
+                        sqLiteManager.deleteDLop(itemBangKetQuaHocTap.getMaMon());
                         for (ItemBangDiemThanhPhan diemHocTapTheoLop:b){
                             sqLiteManager.insertDLop(diemHocTapTheoLop, bangDiemThanhPhan.getMaLopDL(), bangDiemThanhPhan.getTenLopUuTien(), bangDiemThanhPhan.getSoTin());
                         }
@@ -59,7 +60,7 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
     public void refesh() {
         if (MainActivity.isOnline(getActivity())){
             loadData();
-            sqLiteManager.deleteDLop(itemBangKetQuaHocTap.getMaMon());
+
         }else  pullRefreshLayout.setRefreshing(false);
 
     }

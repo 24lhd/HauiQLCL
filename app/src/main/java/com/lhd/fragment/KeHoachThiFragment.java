@@ -53,7 +53,8 @@ public class KeHoachThiFragment extends FrameFragment {
 
     @Override
     public void refesh() {
-        sqLiteManager.deleteLThiLop(itemBangKetQuaHocTap.getMaMon());
+        if (MainActivity.isOnline(getActivity())) loadData();
+        else pullRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -78,6 +79,7 @@ public class KeHoachThiFragment extends FrameFragment {
                         listActivity.getSupportActionBar().setTitle("Kế hoạch thi "+itemBangKetQuaHocTap.getTenMon());
                         listActivity.getSupportActionBar().setSubtitle(itemBangKetQuaHocTap.getMaMon());
                         if (lichThiLopOld.size()<lichThiLops.size()){
+                            sqLiteManager.deleteLThiLop(itemBangKetQuaHocTap.getMaMon());
                             for (LichThiLop lichThiLop:lichThiLops){
                                 sqLiteManager.insertlthilop(lichThiLop);
                             }

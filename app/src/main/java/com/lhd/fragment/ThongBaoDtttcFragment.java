@@ -22,7 +22,6 @@ public class ThongBaoDtttcFragment extends FrameFragment {
             @Override
             public void onRefresh() {
                 if (MainActivity.isOnline(getMainActivity())){
-                    sqLiteManager.deleteItemNotiDTTC();
                     loadData();
                 }else
                     pullRefreshLayout.setRefreshing(false);
@@ -56,12 +55,15 @@ public class ThongBaoDtttcFragment extends FrameFragment {
         public void handleMessage(Message msg) {
             try{
                 itemNotiDTTCs= (ArrayList<ItemNotiDTTC>) msg.obj;
-              setRecyclerView();
+                setRecyclerView();
                 showRecircleView();
-                sqLiteManager.deleteItemNotiDTTC();
-                for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCs) {
-                    sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
+                if (!itemNotiDTTCs.isEmpty()){
+                    sqLiteManager.deleteItemNotiDTTC();
+                    for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCs) {
+                        sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
+                    }
                 }
+
             }catch (NullPointerException e){
                 startParser();
             }

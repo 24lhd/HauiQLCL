@@ -80,6 +80,7 @@ public class DiemThiLopFragment extends FrameFragment {
                     if (!b.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
                        listActivity.getSupportActionBar().setTitle("Điểm thi "+ itemDiemThiTheoMon.getTenMon());
                         listActivity. getSupportActionBar().setSubtitle(ketQuaThi.getTenLopUuTien()+"_"+ketQuaThi.getSoTC()+" tín chỉ");
+                        sqLiteManager.deleteDThiLop(itemDiemThiTheoMon.getLinkDiemThiTheoLop());
                         for (ItemKetQuaThiLop diemHocTapTheoLop:b){
                             sqLiteManager.insertDThiLop(itemDiemThiTheoMon.getLinkDiemThiTheoLop(),ketQuaThi.getTenLopUuTien(),ketQuaThi.getSoTC(),diemHocTapTheoLop);
                         }
@@ -96,7 +97,7 @@ public class DiemThiLopFragment extends FrameFragment {
     public void refesh() {
         if (MainActivity.isOnline(getActivity())){
             loadData();
-            sqLiteManager.deleteDThiLop(itemDiemThiTheoMon.getLinkDiemThiTheoLop());
+
         }else  pullRefreshLayout.setRefreshing(false);
 
     }

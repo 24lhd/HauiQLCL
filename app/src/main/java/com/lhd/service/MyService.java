@@ -230,12 +230,13 @@ public class MyService extends Service{
                     for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
                         sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
                     }
-                }else{
-                    sqLiteManager.deleteItemNotiDTTC();
-                    for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
-                        sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
-                    }
                 }
+//                else{
+//                    sqLiteManager.deleteItemNotiDTTC();
+//                    for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
+//                        sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
+//                    }
+//                }
             }catch (Exception e){
             }
         }
@@ -280,6 +281,7 @@ public class MyService extends Service{
         if (!(intent instanceof  Intent)&&MainActivity.isOnline(this)){
             registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_ON));
             registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
+            startParser();
             Log.e("faker", " instanceof");
         }
 //        else if (id.length()>0){

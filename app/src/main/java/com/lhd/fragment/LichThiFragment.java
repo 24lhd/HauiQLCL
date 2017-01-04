@@ -24,7 +24,7 @@ public class LichThiFragment extends FrameFragment {
             @Override
             public void onRefresh() {
                 if (MainActivity.isOnline(getActivity())){
-                    sqLiteManager.deleteDLThi(sv.getMaSV());
+
                    loadData();
                 }else
                     pullRefreshLayout.setRefreshing(false);
@@ -69,6 +69,7 @@ public class LichThiFragment extends FrameFragment {
                         lichThis= (ArrayList<LichThi>) msg.obj;
                         if (!lichThis.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
                             if (sqLiteManager.getAllLThi(sv.getMaSV()).size()<lichThis.size()){
+                                sqLiteManager.deleteDLThi(sv.getMaSV());
                                 for (LichThi lichThiLop:lichThis){
                                     sqLiteManager.insertlthi(lichThiLop,sv.getMaSV());
                                 }

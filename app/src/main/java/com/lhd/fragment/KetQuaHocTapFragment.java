@@ -47,7 +47,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
             @Override
             public void onRefresh() {
                 if (MainActivity.isOnline(getContext())){
-                            sqLiteManager.deleteDMon(sv.getMaSV());
+
                              loadData();
                 }else{
                     pullRefreshLayout.setRefreshing(false);
@@ -103,6 +103,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
                             sqLiteManager.insertSV(b.getSinhVien());
                             bangKetQuaHocTaps=b.getBangKetQuaHocTaps();
                             if (sqLiteManager.getBangKetQuaHocTap(sv.getMaSV()).size()<bangKetQuaHocTaps.size()){
+                                sqLiteManager.deleteDMon(sv.getMaSV());
                                 for (ItemBangKetQuaHocTap diemHocTapTheoMon:bangKetQuaHocTaps){
                                     sqLiteManager.insertDMon(diemHocTapTheoMon,b.getSinhVien().getMaSV());
                                 }

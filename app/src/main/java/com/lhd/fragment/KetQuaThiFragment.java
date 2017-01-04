@@ -46,7 +46,6 @@ public class KetQuaThiFragment extends FrameFragment {
             @Override
             public void onRefresh() {
                 if (MainActivity.isOnline(getActivity())){
-                    sqLiteManager.deleteDThiMon(sv.getMaSV());
                   loadData();
                 }else{
                     pullRefreshLayout.setRefreshing(false);
@@ -103,6 +102,7 @@ public class KetQuaThiFragment extends FrameFragment {
                         itemDiemThiTheoMons = (ArrayList<ItemDiemThiTheoMon>) msg.obj;
                         if (!itemDiemThiTheoMons.isEmpty()){ // nếu bên trong databse mà có dữ liệu thì ta sẽ
                             if (sqLiteManager.getAllDThiMon(sv.getMaSV()).size()< itemDiemThiTheoMons.size()){
+                                sqLiteManager.deleteDThiMon(sv.getMaSV());
                                 for (ItemDiemThiTheoMon diemHocTapTheoLop: itemDiemThiTheoMons){
                                     sqLiteManager.insertDThiMon(diemHocTapTheoLop,sv.getMaSV());
                                 }

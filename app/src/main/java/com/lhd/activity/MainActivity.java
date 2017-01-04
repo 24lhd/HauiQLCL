@@ -352,15 +352,20 @@ public class MainActivity extends AppCompatActivity {
                     });
                     snackbar.show();
                 }else if (i==1){
-                    builder.setTitle("Cập nhật phiên bản");
-                    builder.setMessage("Bạn đang dùng phiên bản mới nhất\nGà Công Nghiệp "+version.getVerstionName());
-                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-                    builder.show();
+                    if (!isOnline(MainActivity.this)) {
+                        builder.setTitle("Cập nhật phiên bản");
+                        builder.setMessage("Bạn đang dùng phiên bản mới nhất\nGà Công Nghiệp "+version.getVerstionName());
+                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        builder.show();
+                    }else{
+                        Toast.makeText(MainActivity.this,"No Connetion",Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
             @Override
