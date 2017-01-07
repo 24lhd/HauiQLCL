@@ -48,6 +48,7 @@ public class LichThiFragment extends FrameFragment {
         parserKetQuaHocTap.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
+        pullRefreshLayout.setRefreshing(false);
         Collections.reverse(lichThis);
         objects=new ArrayList<>();
         objects.addAll(lichThis);

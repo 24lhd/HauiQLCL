@@ -71,7 +71,7 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
         objects.addAll(bangDiemThanhPhan.getBangDiemThanhPhan());
         addNativeExpressAds();
         setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_DIEM_THI_LOP, 132);
-        DiemThiTheoLopAdaptor adapterNoti = new DiemThiTheoLopAdaptor(objects, recyclerView, getListActivity(), getItemBangDiemThanhPhan(),bangDiemThanhPhan.getBangDiemThanhPhan());
+        DiemThiTheoLopAdaptor adapterNoti = new DiemThiTheoLopAdaptor(objects, recyclerView, getListActivity(), getItemBangDiemThanhPhan(),bangDiemThanhPhan.getBangDiemThanhPhan(),this);
         recyclerView.setAdapter(adapterNoti);
     }
     private ItemBangKetQuaHocTap itemBangKetQuaHocTap;

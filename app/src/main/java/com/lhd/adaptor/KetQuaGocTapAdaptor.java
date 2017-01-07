@@ -92,7 +92,6 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
                     if (adCardView.getChildCount() > 0) {
                         adCardView.removeAllViews();
                     }
-                    // Add the Native Express ad to the native express ad view.
                     adCardView.addView(adView);
                     break;
                 default: case MainActivity.MENU_ITEM_VIEW_TYPE:

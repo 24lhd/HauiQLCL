@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
+import com.lhd.fragment.DiemHocTapTheoLopFragment;
 import com.lhd.fragment.FrameFragment;
 import com.lhd.object.ItemBangDiemThanhPhan;
 import com.lhd.object.ItemBangKetQuaHocTap;
@@ -22,11 +23,11 @@ import java.util.List;
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
 import static com.lhd.activity.MainActivity.MENU_ITEM_VIEW_TYPE;
 import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
-import static com.lhd.fragment.FrameFragment.showAlert;
 /**
  * Created by d on 29/12/2016.
  */
 public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder>   {
+    private DiemHocTapTheoLopFragment diemHocTapTheoLopFragment;
     private ArrayList<ItemBangDiemThanhPhan> bangDiemThanhPhan;
     private  ItemBangKetQuaHocTap itemBangKetQuaHocTap;
     private Activity activity;
@@ -65,12 +66,14 @@ public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.Vie
 
     public DiemThiTheoLopAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView,
                                  Activity activity, ItemBangKetQuaHocTap itemBangKetQuaHocTap,
-                                 ArrayList<ItemBangDiemThanhPhan> bangDiemThanhPhan) {
+                                 ArrayList<ItemBangDiemThanhPhan> bangDiemThanhPhan,
+                                 DiemHocTapTheoLopFragment diemHocTapTheoLopFragment) {
         this.recyclerView = recyclerView;
         this.mRecyclerViewItems = mRecyclerViewItems;
         this.activity = activity;
         this.itemBangKetQuaHocTap = itemBangKetQuaHocTap;
         this.bangDiemThanhPhan = bangDiemThanhPhan;
+        this.diemHocTapTheoLopFragment = diemHocTapTheoLopFragment;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -119,7 +122,7 @@ public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.Vie
                                     activity.finish();
                                     activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
                                 }else{
-                                    showAlert("Kết quả học tập "+itemBangKetQuaHocTap.getTenMon(),
+                                    diemHocTapTheoLopFragment.showAlert("Kết quả học tập "+itemBangKetQuaHocTap.getTenMon(),
                                             UIFromHTML.uiDiemMonListAc(itemBangDiemThanhPhan),itemBangKetQuaHocTap.getTenMon(),
                                             itemBangDiemThanhPhan.toString(),activity);
                                 }

@@ -187,7 +187,7 @@ public class KeHoachThiFragment extends FrameFragment {
         public void onClick(View view) {
             final int itemPosition = recyclerView.getChildLayoutPosition(view);
             LichThiLop itemBangDiemThanhPhan= (LichThiLop) mRecyclerViewItems.get(itemPosition);
-            FrameFragment.showAlert("Kế hoạch thi",
+            showAlert("Kế hoạch thi",
                     UIFromHTML.uiKeHoachThi(itemBangDiemThanhPhan,itemBangKetQuaHocTap.getTenMon()),
                     "",itemBangDiemThanhPhan.toString(),listActivity);
         }

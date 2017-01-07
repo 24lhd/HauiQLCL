@@ -30,6 +30,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -66,7 +69,6 @@ import duong.update.code.UpdateApp;
  */
 
 public class MainActivity extends AppCompatActivity {
-    private StartAppAd startAppAd = new StartAppAd(this);
 
     public static final int ITEMS_PER_AD =11;
     // The Native Express ad height.
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String AD_UNIT_ID_DIEM_LOP ="ca-app-pub-7062977963627166/5936388132";
     public static final String AD_UNIT_ID_DIEM_THI_LOP ="ca-app-pub-7062977963627166/9029455333";
 
+    public static final String AD_UNIT_ID_FULL="ca-app-pub-7062977963627166/2832340937";
     public static final String SINH_VIEN = "SINH_VIEN";
     public static final String MA_SV = "MA_SINH_VIEN";
     // A menu item view type.
@@ -220,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        StartAppAd.onBackPressed(this);
         if (log.getID().equals(sinhVien.getMaSV())) {
             finish();
             this.overridePendingTransition(R.anim.left_end, R.anim.right_end);
@@ -228,16 +230,12 @@ public class MainActivity extends AppCompatActivity {
             getSV(log.getID());
     }
 
-    public void showStartADS() {
-        startAppAd.showAd(MainActivity.this);
-    }
     /**
      * Part of the activity's life cycle, StartAppAd should be integrated here.
      */
     @Override
     public void onResume() {
         super.onResume();
-        startAppAd.onResume();
     }
 
     /**
@@ -247,7 +245,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        startAppAd.onPause();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -292,6 +289,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 1000);
     }
+
+
+
     private void checkLogin() {
         StartAppSDK.init(this, "211282097", false);
         if (log.getID().length()==10){
@@ -352,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                     snackbar.show();
                 }else if (i==1){
-                    if (!isOnline(MainActivity.this)) {
+                    if (isOnline(MainActivity.this)) {
                         builder.setTitle("Cập nhật phiên bản");
                         builder.setMessage("Bạn đang dùng phiên bản mới nhất\nGà Công Nghiệp "+version.getVerstionName());
                         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {

@@ -43,6 +43,7 @@ public class ThongBaoDtttcFragment extends FrameFragment {
         parserNotiDTTC.execute();
     }
     public void setRecyclerView() {
+        pullRefreshLayout.setRefreshing(false);
         objects=new ArrayList<>();
         objects.addAll(itemNotiDTTCs);
          addNativeExpressAds();

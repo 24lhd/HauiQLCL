@@ -28,20 +28,18 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
 import com.lhd.object.SinhVien;
-import com.lhd.service.MyService;
-import com.startapp.android.publish.adsCommon.Ad;
-import com.startapp.android.publish.adsCommon.StartAppAd;
-import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
 import java.util.ArrayList;
 
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
+import static com.lhd.activity.MainActivity.shareImage;
 
 /**
  * Created by D on 12/19/2016.
@@ -62,10 +60,8 @@ public abstract class FrameFragment extends Fragment{
     protected SinhVien sv;
     protected ArrayList<Object> objects;
 
-    public static void showAlert(final String title, final String html, final String titleSMS, final String SMS, final Activity activity) {
+    public void showAlert(final String title, final String html, final String titleSMS, final String SMS, final Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        final StartAppAd rewardedVideo;
-        rewardedVideo = new StartAppAd(activity);
         builder.setTitle(title);
         WebView webView=new WebView(activity);
         webView.setBackgroundColor(activity.getResources().getColor(R.color.bg_text));
@@ -77,16 +73,8 @@ public abstract class FrameFragment extends Fragment{
         mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                rewardedVideo.loadAd(StartAppAd.AdMode.AUTOMATIC, new AdEventListener() {
-                    @Override
-                    public void onReceiveAd(Ad ad) {
-//                        rewardedVideo.showAd();
-                        Log.e("faker","show dia");
-                    }
-                    @Override
-                    public void onFailedToReceiveAd(Ad ad) {
-                    }
-                });
+                Log.e("faker","s");
+               showADSFull();
             }
         });
         mAlertDialog.show();
@@ -106,19 +94,17 @@ public abstract class FrameFragment extends Fragment{
         });
 
     }
+
+
     public static class NativeExpressAdViewHolder extends RecyclerView.ViewHolder {
         public NativeExpressAdViewHolder(View view) {
             super(view);
         }
     }
     public void setUpAndLoadNativeExpressAds(final String id, final int height) {
-        // Use a Runnable to ensure that the RecyclerView has been laid out before setting the
-        // ad size for the Native Express ad. This allows us to set the Native Express ad's
-        // width to match the full width of the RecyclerView.
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                // Set the ad size and ad unit ID for each Native Express ad in the items list.
                 try {
                     final float density = getActivity().getResources().getDisplayMetrics().density;
                     for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
@@ -227,6 +213,7 @@ public abstract class FrameFragment extends Fragment{
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         tVnull.setVisibility(View.GONE);
+        pullRefreshLayout.setRefreshing(false);
     }
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
@@ -269,7 +256,26 @@ public abstract class FrameFragment extends Fragment{
         }else cantLoadData();
 
     }
+    private InterstitialAd mInterstitialAd;;
+    public void showADSFull() {
+        if (mInterstitialAd.isLoaded()) mInterstitialAd.show();
+    }
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mInterstitialAd.loadAd(adRequest);
+    }
     public void initView(View view) {
+        mInterstitialAd = new InterstitialAd(getActivity());
+        mInterstitialAd.setAdUnitId(MainActivity.AD_UNIT_ID_FULL);
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                showADSFull();
+            }
+        });
+        requestNewInterstitial();
         sqLiteManager=new SQLiteManager(getContext());
         try {sv= (SinhVien) getArguments().getSerializable(MainActivity.SINH_VIEN);
         }catch (NullPointerException e){}

@@ -68,6 +68,7 @@ public class KetQuaThiFragment extends FrameFragment {
         parserKetQuaThiTheoMon.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
+        pullRefreshLayout.setRefreshing(false);
         Collections.sort(itemDiemThiTheoMons, new Comparator<ItemDiemThiTheoMon>() {
             @Override
             public int compare(ItemDiemThiTheoMon o1, ItemDiemThiTheoMon o2) {

@@ -71,6 +71,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
         ketQuaHocTapTheoMon.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
+        pullRefreshLayout.setRefreshing(false);
         Collections.sort(bangKetQuaHocTaps, new Comparator<ItemBangKetQuaHocTap>() {
             @Override
             public int compare(ItemBangKetQuaHocTap o1, ItemBangKetQuaHocTap o2) {
@@ -118,32 +119,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
             }catch (NullPointerException e){}
         }
     };
-//    InterstitialAd mInterstitialAd;
-//    private void requestNewInterstitial() {
-//        AdRequest adRequest = new AdRequest.Builder()
-//                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-//                .build();
-//
-//        mInterstitialAd.loadAd(adRequest);
-//    }
 public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
-//    mInterstitialAd = new InterstitialAd(mainActivity);
-//    mInterstitialAd.setAdUnitId("ca-app-pub-7062977963627166/2631498137");
-//
-//    mInterstitialAd.setAdListener(new AdListener() {
-//        @Override
-//        public void onAdClosed() {
-//            requestNewInterstitial();
-//            showDuTinhDiem(itemBangKetQuaHocTap);
-//        }
-//    });
-//
-//    requestNewInterstitial();
-
-
-
-
-
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         String[] list = new String[]{"Bảng điểm học tâp", "Kế hoạch thi theo lớp","Xem điểm " +
                 ""+itemBangKetQuaHocTap.getTenMon(),"Dự tính kết quả thi ^^"};
@@ -159,11 +135,6 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
                 });
 
                 if (i==3){
-//                    if (mInterstitialAd.isLoaded()) {
-//                        mInterstitialAd.show();
-//                    }else{
-//                        showDuTinhDiem(itemBangKetQuaHocTap);
-//                    }
 
                     showDuTinhDiem(itemBangKetQuaHocTap);
 
@@ -180,7 +151,6 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
                     intent.putExtra("action",bundle);
                     getActivity().startActivityForResult(intent,1);
                     getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
-//                    getMainActivity().showStartADS();
                 }
             }
         }).show();
