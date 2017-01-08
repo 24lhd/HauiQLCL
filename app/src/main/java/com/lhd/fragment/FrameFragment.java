@@ -36,10 +36,10 @@ import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
 import com.lhd.object.SinhVien;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
-import static com.lhd.activity.MainActivity.shareImage;
 
 /**
  * Created by D on 12/19/2016.
@@ -52,6 +52,9 @@ public abstract class FrameFragment extends Fragment{
     protected TextView tVnull;
     protected ProgressBar progressBar;
     protected LinearLayout toolbar;
+    private  WebView webView;
+    private  AlertDialog.Builder builder;
+
     public MainActivity getMainActivity() {
         return (MainActivity) getActivity();
     }
@@ -59,21 +62,18 @@ public abstract class FrameFragment extends Fragment{
     protected PullRefreshLayout pullRefreshLayout;
     protected SinhVien sv;
     protected ArrayList<Object> objects;
-
-    public void showAlert(final String title, final String html, final String titleSMS, final String SMS, final Activity activity) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+    public void showAlert(final String title, String html, final String titleSMS, final String SMS, final Activity activity) {
+        builder = new AlertDialog.Builder(getActivity());
+        webView=new WebView(getActivity());
         builder.setTitle(title);
-        WebView webView=new WebView(activity);
-        webView.setBackgroundColor(activity.getResources().getColor(R.color.bg_text));
         webView.loadDataWithBaseURL(null, html,"text/html","utf-8",null);
         builder.setView(webView);
         builder.setNeutralButton("SMS",null);
         builder.setPositiveButton("IMG",null);
-        final AlertDialog mAlertDialog = builder.create();
+        AlertDialog mAlertDialog = builder.create();
         mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                Log.e("faker","s");
                showADSFull();
             }
         });
@@ -169,7 +169,6 @@ public abstract class FrameFragment extends Fragment{
         }
     }
     private LayoutInflater layoutInflater;
-
     protected abstract void startParser();
     public void cantLoadData() {
         showTextNull();
@@ -256,9 +255,9 @@ public abstract class FrameFragment extends Fragment{
         }else cantLoadData();
 
     }
-    private InterstitialAd mInterstitialAd;;
-    public void showADSFull() {
-        if (mInterstitialAd.isLoaded()) mInterstitialAd.show();
+    private  InterstitialAd mInterstitialAd;;
+    public  void showADSFull() {
+       if (mInterstitialAd.isLoaded()) mInterstitialAd.show();
     }
     private void requestNewInterstitial() {
         AdRequest adRequest = new AdRequest.Builder()

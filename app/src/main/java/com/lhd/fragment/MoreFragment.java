@@ -96,8 +96,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
             case 2:
                 try {
                     mainActivity.checkUpdate(1);
-                } catch (Exception e) {
-                }
+                } catch (Exception e) {}
                 return;
             case 3:
                 View view=getActivity().getLayoutInflater().inflate(R.layout.feedback_layout,null);

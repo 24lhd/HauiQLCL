@@ -306,74 +306,82 @@ public class MainActivity extends AppCompatActivity {
         activity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
     }
     public void checkUpdate(final int i) throws Exception{
-        database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("updateGaCongNghiep");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                final Version version=dataSnapshot.getValue(Version.class);
-                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
-                if (!version.getVerstionName().equals(info.versionName)&&i==1){
-                    builder.setTitle("Cập nhật phiên bản "+version.getVerstionName());
-                    builder.setCancelable(false);
-                    builder.setMessage("- Nội dung:\n\t"+version.getContent()+"\n- Hướng dẫn cài đặt: Cài đặt> Không rõ nguồn gốc."+"\n- Khi " +
-                            "cài sẽ thay thể ứng dụng hiện tại và giữ nguyên dữ liệu đang có" +
-                            " bạn muốn tải về và cài đặt ngay?");
-                    builder.setPositiveButton("Cài ngay", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            UpdateApp updateApp=new UpdateApp();
-                            try {
-                                updateApp.getAndInstallAppLication(MainActivity.this,
-                                        "Ga.apk",version.getUrl(),
-                                        "đang tải "+getApplication().getString(R.string.app_name)+" phiên bản mới nhất",
-                                        "Đang cập nhật "+getApplication().getString(R.string.app_name) );
-                            }catch (Exception e){}
-                        }
+        if (!isOnline(this)) {
+            android.util.Log.e("faker","1");
+            Toast.makeText(getApplicationContext(),"No Connetion",Toast.LENGTH_SHORT).show();
+        } else{
+            database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("updateGaCongNghiep");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    final Version version=dataSnapshot.getValue(Version.class);
+                    AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                    if (!version.getVerstionName().equals(info.versionName)&&i==1){
+                        builder.setTitle("Cập nhật phiên bản "+version.getVerstionName());
+                        builder.setCancelable(false);
+                        builder.setMessage("- Nội dung:\n\t"+version.getContent()+"\n- Hướng dẫn cài đặt: Cài đặt> Không rõ nguồn gốc."+"\n- Khi " +
+                                "cài sẽ thay thể ứng dụng hiện tại và giữ nguyên dữ liệu đang có" +
+                                " bạn muốn tải về và cài đặt ngay?");
+                        builder.setPositiveButton("Cài ngay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                UpdateApp updateApp=new UpdateApp();
+                                try {
+                                    updateApp.getAndInstallAppLication(MainActivity.this,
+                                            "Ga.apk",version.getUrl(),
+                                            "đang tải "+getApplication().getString(R.string.app_name)+" phiên bản mới nhất",
+                                            "Đang cập nhật "+getApplication().getString(R.string.app_name) );
+                                }catch (Exception e){}
+                            }
                         });
-                    builder.setNeutralButton("Từ từ", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-                    builder.show();
-                }else if (!version.getVerstionName().equals(info.versionName)&&i==0){
-                    Snackbar snackbar=Snackbar.make(viewPager,"Đã có phiên bản Gà Công Nghiệp "+version.getVerstionName(),Snackbar.LENGTH_SHORT);
-                    snackbar.setAction("Cập nhật", new View.OnClickListener() {
-                        UpdateApp updateApp=new UpdateApp();
-                        @Override
-                        public void onClick(View view) {
-                            updateApp.getAndInstallAppLication(MainActivity.this,
-                                    "Ga.apk",version.getUrl(),
-                                    "đang tải "+getApplication().getString(R.string.app_name)+" phiên bản mới nhất",
-                                    "Đang cập nhật "+getApplication().getString(R.string.app_name) );
-                        }
-                    });
-                    snackbar.show();
-                }else if (i==1){
-                    if (isOnline(MainActivity.this)) {
-                        builder.setTitle("Cập nhật phiên bản");
-                        builder.setMessage("Bạn đang dùng phiên bản mới nhất\nGà Công Nghiệp "+version.getVerstionName());
-                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        builder.setNeutralButton("Từ từ", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
                             }
                         });
                         builder.show();
-                    }else{
-                        Toast.makeText(MainActivity.this,"No Connetion",Toast.LENGTH_SHORT).show();
-                    }
+                    }else if (!version.getVerstionName().equals(info.versionName)&&i==0){
+                        Snackbar snackbar=Snackbar.make(viewPager,"Đã có phiên bản Gà Công Nghiệp "+version.getVerstionName(),Snackbar.LENGTH_SHORT);
+                        snackbar.setAction("Cập nhật", new View.OnClickListener() {
+                            UpdateApp updateApp=new UpdateApp();
+                            @Override
+                            public void onClick(View view) {
+                                updateApp.getAndInstallAppLication(MainActivity.this,
+                                        "Ga.apk",version.getUrl(),
+                                        "đang tải "+getApplication().getString(R.string.app_name)+" phiên bản mới nhất",
+                                        "Đang cập nhật "+getApplication().getString(R.string.app_name) );
+                            }
+                        });
+                        snackbar.show();
+                    }else if (i==1){
+                        android.util.Log.e("faker","1");
+                        if (isOnline(MainActivity.this)) {
+                            builder.setTitle("Cập nhật phiên bản");
+                            builder.setMessage("Bạn đang dùng phiên bản mới nhất\nGà Công Nghiệp "+version.getVerstionName());
+                            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            builder.show();
+                        }else{
+                            android.util.Log.e("faker","show");
+                            Toast.makeText(MainActivity.this,"No Connetion",Toast.LENGTH_SHORT).show();
+                        }
 
+                    }
                 }
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {}
-        });
-        try {
-            setCount();
-        } catch (Exception e) {}
+                @Override
+                public void onCancelled(DatabaseError error) {}
+            });
+            try {
+                setCount();
+            } catch (Exception e) {}
+        }
+
     }
 
     public void setCount() throws Exception{

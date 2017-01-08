@@ -106,6 +106,7 @@ public class DiemThiLopFragment extends FrameFragment {
         showRecircleView();
         objects=new ArrayList<>();
         objects.addAll(ketQuaThi.getKetQuaThiLops());
+        pullRefreshLayout.setRefreshing(false);
         addNativeExpressAds();
         setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_DIEM_LOP,100);
         AdapterDiemThiLop adapterNoti=new AdapterDiemThiLop(objects,recyclerView);
