@@ -62,19 +62,21 @@ public abstract class FrameFragment extends Fragment{
     protected PullRefreshLayout pullRefreshLayout;
     protected SinhVien sv;
     protected ArrayList<Object> objects;
+
     public void showAlert(final String title, String html, final String titleSMS, final String SMS, final Activity activity) {
+        showADSFull();
         builder = new AlertDialog.Builder(getActivity());
-        webView=new WebView(getActivity());
+        webView = new WebView(getActivity());
         builder.setTitle(title);
-        webView.loadDataWithBaseURL(null, html,"text/html","utf-8",null);
+        webView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
         builder.setView(webView);
-        builder.setNeutralButton("SMS",null);
-        builder.setPositiveButton("IMG",null);
+        builder.setNeutralButton("SMS", null);
+        builder.setPositiveButton("IMG", null);
         AlertDialog mAlertDialog = builder.create();
         mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-               showADSFull();
+
             }
         });
         mAlertDialog.show();
@@ -82,14 +84,14 @@ public abstract class FrameFragment extends Fragment{
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.sreenShort(view,activity);
+                MainActivity.sreenShort(view, activity);
             }
         });
         Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
         c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.shareText(activity,titleSMS, SMS);
+                MainActivity.shareText(activity, titleSMS, SMS);
             }
         });
 
@@ -101,7 +103,8 @@ public abstract class FrameFragment extends Fragment{
             super(view);
         }
     }
-    public void setUpAndLoadNativeExpressAds(final String id, final int height) {
+    public void loadNativeExpressAds(final String id, final int height) {
+
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
@@ -123,7 +126,8 @@ public abstract class FrameFragment extends Fragment{
 
     }
     public void loadNativeExpressAd(final int index) {
-        if (index >= objects.size()) {
+        if (index>= objects.size()) {
+//            setRecyclerView();
             return;
         }
         Object item = objects.get(index);
@@ -131,42 +135,36 @@ public abstract class FrameFragment extends Fragment{
             throw new ClassCastException("Expected item at index " + index + " to be a Native"
                     + " Express ad.");
         }
-
         final NativeExpressAdView adView = (NativeExpressAdView) item;
+        adView.setVisibility(View.GONE);
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
                 adView.setVisibility(View.VISIBLE);
-                // The previous Native Express ad loaded successfully, call this method again to
-                // load the next ad in the items list.
                 loadNativeExpressAd(index + ITEMS_PER_AD);
             }
             @Override
             public void onAdFailedToLoad(int errorCode) {
-                adView.setVisibility(View.GONE);
-                // The previous Native Express ad failed to load. Call this method again to load
-                // the next ad in the items list.
-                Log.e("MainActivity", "The previous Native Express ad failed to load. Attempting to"
-                        + " load the next Native Express ad in the items list.");
                 loadNativeExpressAd(index + ITEMS_PER_AD);
-
             }
         });
-        // Load the Native Express ad.
-        adView.loadAd(new AdRequest.Builder().build());
+        try {
+            adView.loadAd(new AdRequest.Builder().build());
+        }catch (IllegalStateException e){
+//            adView.setVisibility(View.GONE);
+        }
+
     }
     public LayoutInflater getLayoutInflater() {
         return layoutInflater;
     }
-    public void addNativeExpressAds() {
-        // Loop through the items array and place a new Native Express ad in every ith position in
-        // the items List.
+    public void addNativeExpressAds(String adUnitIdKqht, int nativeExpressAdHeight) {
         for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
             final NativeExpressAdView adView = new NativeExpressAdView(getActivity());
-            // add một item ADS vào list item
             objects.add(i, adView);
         }
+      loadNativeExpressAds(adUnitIdKqht,nativeExpressAdHeight);
     }
     private LayoutInflater layoutInflater;
     protected abstract void startParser();
@@ -218,37 +216,42 @@ public abstract class FrameFragment extends Fragment{
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
         tVnull.setVisibility(View.GONE);
+        pullRefreshLayout.setRefreshing(false);
+
     }
     public void showTextNull() {
         progressBar.setVisibility(View.GONE);
         tVnull.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
+        pullRefreshLayout.setRefreshing(false);
     }
     public void loadData() {
-        if (!MainActivity.wifiIsEnable(getActivity())&&MainActivity.isOnline(getActivity())){
-            AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
-            builder.setTitle("Cảnh báo !");
-            builder.setMessage("Bạn đang sử dụng dữ liệu di động.\n" +
-                    "Tránh tiêu tốn dữ liệu.\nTôi khuyên bạn nên dùng mạng wifi để sử dụng.");
-            builder.setPositiveButton("Bật wifi", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
-                    if (!MainActivity.wifiIsEnable(getActivity())) wifiManager.setWifiEnabled(true);
-                    Toast.makeText(getActivity(), "Đã bật wifi", Toast.LENGTH_SHORT).show();
-                }
-            });
-            builder.setNegativeButton("Tiếp tục", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    if (MainActivity.isOnline(getContext())){
-                        showProgress();
-                        startParser();
-                    }else cantLoadData();
-                }
-            });
-            builder.show();
-        }
+//        if (!MainActivity.wifiIsEnable(getActivity())&&MainActivity.isOnline(getActivity())){
+//            AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+//            builder.setTitle("Cảnh báo !");
+//            builder.setMessage("Bạn đang sử dụng dữ liệu di động.\n" +
+//                    "Tránh tiêu tốn dữ liệu.\nTôi khuyên bạn nên dùng mạng wifi để sử dụng.");
+//            builder.setPositiveButton("Bật wifi", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    dialogInterface.dismiss();
+//                    WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
+//                    if (!MainActivity.wifiIsEnable(getActivity())) wifiManager.setWifiEnabled(true);
+//                    Toast.makeText(getActivity(), "Đã bật wifi", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//            builder.setNegativeButton("Tiếp tục", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    dialogInterface.dismiss();
+//                    if (MainActivity.isOnline(getContext())){
+//                        showProgress();
+//                        startParser();
+//                    }else cantLoadData();
+//                }
+//            });
+//            builder.show();
+//        }
         if (MainActivity.isOnline(getContext())){
             showProgress();
             startParser();

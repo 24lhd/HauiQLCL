@@ -103,14 +103,13 @@ public class DiemThiLopFragment extends FrameFragment {
     }
     @Override
     public void setRecyclerView() {
-        showRecircleView();
+
         objects=new ArrayList<>();
         objects.addAll(ketQuaThi.getKetQuaThiLops());
-        pullRefreshLayout.setRefreshing(false);
-        addNativeExpressAds();
-        setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_DIEM_LOP,100);
+        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         AdapterDiemThiLop adapterNoti=new AdapterDiemThiLop(objects,recyclerView);
         recyclerView.setAdapter(adapterNoti);
+        showRecircleView();
     }
     @Override
     public void checkDatabase() {

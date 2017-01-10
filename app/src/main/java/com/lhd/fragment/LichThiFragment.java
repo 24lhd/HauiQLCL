@@ -48,14 +48,13 @@ public class LichThiFragment extends FrameFragment {
         parserKetQuaHocTap.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
-        pullRefreshLayout.setRefreshing(false);
         Collections.reverse(lichThis);
         objects=new ArrayList<>();
         objects.addAll(lichThis);
-        addNativeExpressAds();
-        setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_LICH_THI,132);
+        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         LichThiAdaptor lichThiAdaptor=new LichThiAdaptor(objects,recyclerView,this,lichThis);
         recyclerView.setAdapter(lichThiAdaptor);
+        showRecircleView();
     }
     public void showDialog(LichThi lichThi, String toi) {
         showAlert(lichThi.getMon(), UIFromHTML.uiLichThi(lichThi,toi),
@@ -76,7 +75,7 @@ public class LichThiFragment extends FrameFragment {
                                 }
                             }
                             pullRefreshLayout.setRefreshing(false);
-                            showRecircleView();
+
                             setRecyclerView();
                         }else{
                             showTextNull();

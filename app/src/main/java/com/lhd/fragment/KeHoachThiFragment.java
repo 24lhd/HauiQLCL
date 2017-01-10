@@ -59,13 +59,12 @@ public class KeHoachThiFragment extends FrameFragment {
 
     @Override
     public void setRecyclerView() {
-        showRecircleView();
         objects=new ArrayList<>();
         objects.addAll(lichThiLops);
-        addNativeExpressAds();
-        setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_TB_DTTC,320);
+        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         AdapterLichThiLop adapterNoti=new AdapterLichThiLop(objects,recyclerView);
         recyclerView.setAdapter(adapterNoti);
+        showRecircleView();
     }
     private Handler handler=new Handler(){
         @Override

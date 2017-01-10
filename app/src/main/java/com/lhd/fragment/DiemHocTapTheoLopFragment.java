@@ -34,7 +34,6 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            pullRefreshLayout.setRefreshing(false);
             try{
                 if(msg.arg1==1){
                     bangDiemThanhPhan = (BangDiemThanhPhan) msg.obj;
@@ -46,7 +45,6 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
                         }
                         getListActivity().getSupportActionBar().setTitle("Điểm thành phần "+itemBangKetQuaHocTap.getTenMon());
                         getListActivity().getSupportActionBar().setSubtitle(bangDiemThanhPhan.getTenLopUuTien()+"_"+ bangDiemThanhPhan.getSoTin()+" tín chỉ");
-                        showRecircleView();
                         setRecyclerView();
                     }
                 }
@@ -69,11 +67,10 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
     public void setRecyclerView() {
         objects = new ArrayList<>();
         objects.addAll(bangDiemThanhPhan.getBangDiemThanhPhan());
-        addNativeExpressAds();
-        pullRefreshLayout.setRefreshing(false);
-        setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_DIEM_THI_LOP, 132);
+        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         DiemThiTheoLopAdaptor adapterNoti = new DiemThiTheoLopAdaptor(objects, recyclerView, getListActivity(), getItemBangDiemThanhPhan(),bangDiemThanhPhan.getBangDiemThanhPhan(),this);
         recyclerView.setAdapter(adapterNoti);
+        showRecircleView();
     }
     private ItemBangKetQuaHocTap itemBangKetQuaHocTap;
     @Override
@@ -81,7 +78,6 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
         showProgress();
         bangDiemThanhPhan = sqLiteManager.getAllDLop(itemBangKetQuaHocTap.getMaMon());
         if (bangDiemThanhPhan !=null&&!bangDiemThanhPhan.getBangDiemThanhPhan().isEmpty()){
-            showRecircleView();
             getListActivity().getSupportActionBar().setTitle("Điểm thành phần "+itemBangKetQuaHocTap.getTenMon());
             getListActivity().getSupportActionBar().setSubtitle(bangDiemThanhPhan.getTenLopUuTien()+"_"+ bangDiemThanhPhan.getSoTin()+" tín chỉ");
             setRecyclerView();

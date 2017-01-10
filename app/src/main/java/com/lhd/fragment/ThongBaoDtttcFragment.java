@@ -43,13 +43,12 @@ public class ThongBaoDtttcFragment extends FrameFragment {
         parserNotiDTTC.execute();
     }
     public void setRecyclerView() {
-        pullRefreshLayout.setRefreshing(false);
         objects=new ArrayList<>();
         objects.addAll(itemNotiDTTCs);
-         addNativeExpressAds();
-        setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_TB_DTTC,320);
+         addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         ThongBaoDTTCAdaptor adapterNoti=new ThongBaoDTTCAdaptor(objects,recyclerView,this,itemNotiDTTCs);
         recyclerView.setAdapter(adapterNoti);
+        showRecircleView();
     }
     private Handler handler=new Handler(){
         @Override
@@ -57,7 +56,6 @@ public class ThongBaoDtttcFragment extends FrameFragment {
             try{
                 itemNotiDTTCs= (ArrayList<ItemNotiDTTC>) msg.obj;
                 setRecyclerView();
-                showRecircleView();
                 if (!itemNotiDTTCs.isEmpty()){
                     sqLiteManager.deleteItemNotiDTTC();
                     for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCs) {

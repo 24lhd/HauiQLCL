@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,13 +56,13 @@ import com.lhd.object.Version;
 import com.lhd.recerver.MyReserver;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.TimeTask;
-import com.startapp.android.publish.adsCommon.StartAppAd;
-import com.startapp.android.publish.adsCommon.StartAppSDK;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import duong.update.code.UpdateApp;
 
@@ -75,12 +77,11 @@ public class MainActivity extends AppCompatActivity {
     public static final int NATIVE_EXPRESS_AD_HEIGHT = 132;
     // The Native Express ad unit ID.
     public static final String AD_UNIT_ID_KQHT= "ca-app-pub-7062977963627166/8003707335";
-    public static final String AD_UNIT_ID_LICH_THI= "ca-app-pub-7062977963627166/1521364939";
-    public static final String AD_UNIT_ID_KET_QUA_THI ="ca-app-pub-7062977963627166/6849874931";
-    public static final String AD_UNIT_ID_TB_DTTC ="ca-app-pub-7062977963627166/6274465334";
-    public static final String AD_UNIT_ID_DIEM_LOP ="ca-app-pub-7062977963627166/5936388132";
-    public static final String AD_UNIT_ID_DIEM_THI_LOP ="ca-app-pub-7062977963627166/9029455333";
-
+//    public static final String AD_UNIT_ID_LICH_THI= "ca-app-pub-7062977963627166/1521364939";
+//    public static final String AD_UNIT_ID_KET_QUA_THI ="ca-app-pub-7062977963627166/6849874931";
+//    public static final String AD_UNIT_ID_TB_DTTC ="ca-app-pub-7062977963627166/6274465334";
+//    public static final String AD_UNIT_ID_DIEM_LOP ="ca-app-pub-7062977963627166/5936388132";
+//    public static final String AD_UNIT_ID_DIEM_THI_LOP ="ca-app-pub-7062977963627166/9029455333";
     public static final String AD_UNIT_ID_FULL="ca-app-pub-7062977963627166/2832340937";
     public static final String SINH_VIEN = "SINH_VIEN";
     public static final String MA_SV = "MA_SINH_VIEN";
@@ -105,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
     private PackageInfo info;
     private LinearLayout layoutTime;
     private FirebaseDatabase database;
+    public static long countIndex;
+    public static long userIndex;
+    private ArrayList<SinhVien> sinhViens;
 
     public static void showError(final Activity activity) {
         final AlertDialog.Builder builder=new AlertDialog.Builder(activity);
@@ -293,7 +297,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void checkLogin() {
-        StartAppSDK.init(this, "211282097", false);
         if (log.getID().length()==10){
             getSV(log.getID());
         }
@@ -393,12 +396,34 @@ public class MainActivity extends AppCompatActivity {
         count.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                long countIndex=dataSnapshot.getValue(Long.class);
+                 countIndex=dataSnapshot.getValue(Long.class);
                 countIndex=countIndex+1;
+                android.util.Log.e("faker","countIndex "+countIndex);
                 count.setValue(countIndex);
                 mac.setValue(countIndex);
                 count.removeEventListener(this);
             }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+        sinhViens=new ArrayList<SinhVien>();
+        DatabaseReference every = database.getReference("EveryOne");
+        every.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                SinhVien sinhVien = (SinhVien) dataSnapshot.getValue(SinhVien.class);
+                sinhViens.add(sinhVien);
+                userIndex=sinhViens.size();
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                android.util.Log.e("faker","dataSnapshot.getChildrenCount() ");
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
@@ -445,8 +470,8 @@ public class MainActivity extends AppCompatActivity {
         });
         viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
-            public android.support.v4.app.Fragment getItem(int position) {
-                Bundle bundle=new Bundle();
+            public android.support.v4.app.Fragment getItem( int position) {
+                final Bundle bundle=new Bundle();
                 bundle.putSerializable(SINH_VIEN,sinhVien);
                 switch (position){
                     case 0:
@@ -474,6 +499,8 @@ public class MainActivity extends AppCompatActivity {
                         return moreFragment;
                 }
             }
+
+
             @Override
             public int getCount() {
                 return 6;

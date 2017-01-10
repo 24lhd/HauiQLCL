@@ -71,7 +71,6 @@ public class KetQuaHocTapFragment extends FrameFragment {
         ketQuaHocTapTheoMon.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
-        pullRefreshLayout.setRefreshing(false);
         Collections.sort(bangKetQuaHocTaps, new Comparator<ItemBangKetQuaHocTap>() {
             @Override
             public int compare(ItemBangKetQuaHocTap o1, ItemBangKetQuaHocTap o2) {
@@ -86,8 +85,7 @@ public class KetQuaHocTapFragment extends FrameFragment {
         Collections.reverse(bangKetQuaHocTaps);
         objects=new ArrayList<>();
         objects.addAll(bangKetQuaHocTaps);
-        addNativeExpressAds();
-        setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT,MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
+        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT,MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         RecyclerView.Adapter adapter = new KetQuaGocTapAdaptor(objects,recyclerView,this,bangKetQuaHocTaps);
         recyclerView.setAdapter(adapter);
     }

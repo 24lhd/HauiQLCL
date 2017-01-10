@@ -72,7 +72,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
             "Thang điểm chữ",
             "Cập nhật phiên bản",
             "Ý kiến đóng góp",
-            "Thông tin phát triển",
+            "Thông tin & phát triển",
             "Ứng dụng khác",
             "Xem sinh viên",
             "Nhập lại mã sinh viên",

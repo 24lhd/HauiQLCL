@@ -68,7 +68,6 @@ public class KetQuaThiFragment extends FrameFragment {
         parserKetQuaThiTheoMon.execute(sv.getMaSV());
     }
     public void setRecyclerView() {
-        pullRefreshLayout.setRefreshing(false);
         Collections.sort(itemDiemThiTheoMons, new Comparator<ItemDiemThiTheoMon>() {
             @Override
             public int compare(ItemDiemThiTheoMon o1, ItemDiemThiTheoMon o2) {
@@ -88,10 +87,10 @@ public class KetQuaThiFragment extends FrameFragment {
         Collections.reverse(itemDiemThiTheoMons);
         objects=new ArrayList<>();
         objects.addAll(itemDiemThiTheoMons);
-        addNativeExpressAds();
-        setUpAndLoadNativeExpressAds(MainActivity.AD_UNIT_ID_KET_QUA_THI,320);
+        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         RecyclerView.Adapter adapter = new KetQuaThiAdaptor(objects,recyclerView,this,itemDiemThiTheoMons);
         recyclerView.setAdapter(adapter);
+        showRecircleView();
 
 
 
@@ -108,8 +107,7 @@ public class KetQuaThiFragment extends FrameFragment {
                                     sqLiteManager.insertDThiMon(diemHocTapTheoLop,sv.getMaSV());
                                 }
                             }
-                            showRecircleView();
-                            pullRefreshLayout.setRefreshing(false);
+
                             setRecyclerView();
                         }
             }catch (NullPointerException e){
