@@ -72,7 +72,7 @@ import duong.update.code.UpdateApp;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int ITEMS_PER_AD =11;
+    public static final int ITEMS_PER_AD =10;
     // The Native Express ad height.
     public static final int NATIVE_EXPRESS_AD_HEIGHT = 132;
     // The Native Express ad unit ID.

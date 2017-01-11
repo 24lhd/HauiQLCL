@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,26 +35,7 @@ import static java.lang.Double.parseDouble;
 public class KetQuaThiFragment extends FrameFragment {
     private  ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMons;
     private AlertDialog.Builder builder;
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.layout_frame_fragment,container,false);
-        initView(view);
-        return view;
-    }
-    public void refesh() {
-        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (MainActivity.isOnline(getActivity())){
-                  loadData();
-                }else{
-                    pullRefreshLayout.setRefreshing(false);
-                }
 
-            }
-        });
-    }
     public void checkDatabase() {
         showProgress();
         itemDiemThiTheoMons =sqLiteManager.getAllDThiMon(sv.getMaSV());
@@ -91,6 +73,12 @@ public class KetQuaThiFragment extends FrameFragment {
         RecyclerView.Adapter adapter = new KetQuaThiAdaptor(objects,recyclerView,this,itemDiemThiTheoMons);
         recyclerView.setAdapter(adapter);
         showRecircleView();
+        pullRefresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.e("faker","onRefresh");
+            }
+        });
 
 
 
@@ -107,7 +95,6 @@ public class KetQuaThiFragment extends FrameFragment {
                                     sqLiteManager.insertDThiMon(diemHocTapTheoLop,sv.getMaSV());
                                 }
                             }
-
                             setRecyclerView();
                         }
             }catch (NullPointerException e){

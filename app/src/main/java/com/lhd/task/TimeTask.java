@@ -24,7 +24,6 @@ public  class TimeTask extends AsyncTask<Void,String,String> {
     public TimeTask(Handler handler) {
         this.hander=handler;
         haui=new Haui();
-
     }
     @Override
     protected String doInBackground(Void... params) {
@@ -39,13 +38,13 @@ public  class TimeTask extends AsyncTask<Void,String,String> {
             int phutHienTai = (gio*60)+phut+1;
             int giayConLai = 59-giay;
         for (int i = 0; i< tietHocs.length; i++) {
-                if (phutHienTai>=tietHocs[i].getPhutBatDau()&&phutHienTai<=haui.tietHocs[i].getPhutKetThuc()){
+                if (phutHienTai>=tietHocs[i].getPhutBatDau()&&phutHienTai<=tietHocs[i].getPhutKetThuc()){
                     tiet = "Tiết " + tietHocs[i].getTiet();
                     phutConLai = tietHocs[i].getPhutKetThuc() - phutHienTai;
                     break;
-                }else if (phutHienTai>tietHocs[i].getPhutKetThuc()&&haui.tietHocs[i].getTiet()<16&&phutHienTai<tietHocs[i+1].getPhutBatDau()){
-                        tiet = "Giải lao tiết " + (haui.tietHocs[i].getTiet());
-                        phutConLai = haui.tietHocs[i+1].getPhutBatDau()-phutHienTai;
+                }else if (phutHienTai>=tietHocs[i].getPhutKetThuc()&&tietHocs[i].getTiet()<16&&phutHienTai<=tietHocs[i+1].getPhutBatDau()){
+                        tiet = "Giải lao tiết " + (tietHocs[i].getTiet());
+                        phutConLai = tietHocs[i+1].getPhutBatDau()-phutHienTai;
                     break;
                 }else if (phutHienTai>1275&&phutHienTai>420||phutHienTai<1275&&phutHienTai<420){
                     if (phutHienTai<1440&&phutHienTai>1275){

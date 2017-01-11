@@ -2,6 +2,7 @@ package com.lhd.fragment;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.lhd.activity.MainActivity;
 import com.lhd.adaptor.DiemThiTheoLopAdaptor;
@@ -54,14 +55,6 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
             }
         }
     };
-    @Override
-    public void refesh() {
-        if (MainActivity.isOnline(getActivity())){
-            loadData();
-
-        }else  pullRefreshLayout.setRefreshing(false);
-
-    }
 
     @Override
     public void setRecyclerView() {

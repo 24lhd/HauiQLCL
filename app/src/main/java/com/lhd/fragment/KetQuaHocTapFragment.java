@@ -42,25 +42,10 @@ import static com.lhd.object.UIFromHTML.getUIWeb;
 
 public class KetQuaHocTapFragment extends FrameFragment {
     private ArrayList<ItemBangKetQuaHocTap> bangKetQuaHocTaps;
-    public void refesh() {
-        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (MainActivity.isOnline(getContext())){
-
-                             loadData();
-                }else{
-                    pullRefreshLayout.setRefreshing(false);
-                }
-
-            }
-        });
-    }
     public void checkDatabase() {
                 showProgress();
                 bangKetQuaHocTaps=sqLiteManager.getBangKetQuaHocTap(sv.getMaSV());
                 if (!bangKetQuaHocTaps.isEmpty()){
-                    showRecircleView();
                     setRecyclerView();
                 }else{
                     loadData();
@@ -70,7 +55,9 @@ public class KetQuaHocTapFragment extends FrameFragment {
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
         ketQuaHocTapTheoMon.execute(sv.getMaSV());
     }
+
     public void setRecyclerView() {
+        showRecircleView();
         Collections.sort(bangKetQuaHocTaps, new Comparator<ItemBangKetQuaHocTap>() {
             @Override
             public int compare(ItemBangKetQuaHocTap o1, ItemBangKetQuaHocTap o2) {
@@ -92,7 +79,6 @@ public class KetQuaHocTapFragment extends FrameFragment {
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            pullRefreshLayout.setRefreshing(false);
             try{
                 switch (msg.arg1){
                     case 0:
@@ -107,8 +93,6 @@ public class KetQuaHocTapFragment extends FrameFragment {
                                     sqLiteManager.insertDMon(diemHocTapTheoMon,b.getSinhVien().getMaSV());
                                 }
                             }
-                            pullRefreshLayout.setRefreshing(false);
-                            showRecircleView();
                             setRecyclerView();
                         }
                         break;

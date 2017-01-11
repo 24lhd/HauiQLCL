@@ -231,12 +231,6 @@ public class MyService extends Service{
                         sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
                     }
                 }
-//                else{
-//                    sqLiteManager.deleteItemNotiDTTC();
-//                    for (ItemNotiDTTC itemNotiDTTC:itemNotiDTTCsM) {
-//                        sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
-//                    }
-//                }
             }catch (Exception e){
             }
         }
@@ -246,12 +240,10 @@ public class MyService extends Service{
         @Override
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
-            Log.e("faker", "MyReceiver");
             if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
 //                startParser();
-                Log.e("faker", " ON");
             }else if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-                Log.e("faker", " OFF");
+                Log.e("faker", " ACTION_SCREEN_OFF");
                 startParser();
             }
         }
@@ -281,9 +273,8 @@ public class MyService extends Service{
         if (!(intent instanceof  Intent)&&MainActivity.isOnline(this)){
             registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_ON));
             registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
-            startParser();
-            Log.e("faker", " instanceof");
         }
+        startParser();
 //        else if (id.length()>0){
 //            if (sqLiteManager.getBangKetQuaHocTap(id).isEmpty()||
 //                    sqLiteManager.getAllDThiMon(id).isEmpty()||

@@ -57,7 +57,7 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
 
         @Override
         public int getItemViewType(int position) {
-            return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+            return (position % ITEMS_PER_AD == 0&&position>0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
         }
         public KetQuaGocTapAdaptor(List<Object> recyclerViewItems,
                                    RecyclerView recyclerView, KetQuaHocTapFragment ketQuaHocTapFragment,

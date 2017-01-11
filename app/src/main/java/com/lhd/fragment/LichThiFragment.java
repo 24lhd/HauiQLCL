@@ -19,20 +19,6 @@ import java.util.Collections;
  */
 public class LichThiFragment extends FrameFragment {
     private  ArrayList<LichThi> lichThis;
-    public void refesh() {
-        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (MainActivity.isOnline(getActivity())){
-
-                   loadData();
-                }else
-                    pullRefreshLayout.setRefreshing(false);
-
-
-            }
-        });
-    }
     public void checkDatabase() {
         showProgress();
         lichThis=sqLiteManager.getAllLThi(sv.getMaSV());
@@ -47,6 +33,8 @@ public class LichThiFragment extends FrameFragment {
         ParserLichThiTheoMon parserKetQuaHocTap=new ParserLichThiTheoMon(handler);
         parserKetQuaHocTap.execute(sv.getMaSV());
     }
+
+
     public void setRecyclerView() {
         Collections.reverse(lichThis);
         objects=new ArrayList<>();
@@ -74,7 +62,7 @@ public class LichThiFragment extends FrameFragment {
                                     sqLiteManager.insertlthi(lichThiLop,sv.getMaSV());
                                 }
                             }
-                            pullRefreshLayout.setRefreshing(false);
+//                            pullRefreshLayout.setRefreshing(false);
 
                             setRecyclerView();
                         }else{

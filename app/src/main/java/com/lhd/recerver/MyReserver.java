@@ -32,7 +32,6 @@ public class MyReserver extends BroadcastReceiver {
             boolean b=activeNetInfo.isConnectedOrConnecting();
             if (b){
                 context.startService(my);
-                Log.e("faker", "ON isConnectedOrConnecting");
             }
         }
     }

@@ -17,19 +17,6 @@ import java.util.ArrayList;
 
 public class ThongBaoDtttcFragment extends FrameFragment {
     private ArrayList<ItemNotiDTTC> itemNotiDTTCs;
-    public void refesh() {
-        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (MainActivity.isOnline(getMainActivity())){
-                    loadData();
-                }else
-                    pullRefreshLayout.setRefreshing(false);
-
-
-            }
-        });
-    }
     public void checkDatabase() {
         showProgress();
         itemNotiDTTCs=sqLiteManager.getNotiDTTC();
@@ -42,6 +29,8 @@ public class ThongBaoDtttcFragment extends FrameFragment {
         ParserNotiDTTC parserNotiDTTC=new ParserNotiDTTC(handler);
         parserNotiDTTC.execute();
     }
+
+
     public void setRecyclerView() {
         objects=new ArrayList<>();
         objects.addAll(itemNotiDTTCs);

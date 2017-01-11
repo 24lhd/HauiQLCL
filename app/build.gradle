@@ -19,13 +19,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    productFlavors {
-        flavor1 {
-        }
-        flavor2 {
-            proguardFile 'proguard-rules.pro'
-        }
-    }
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -33,7 +26,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile files('libs/jsoup-1.9.2.jar')
-    compile project(':PullRefesh')
     compile project(':MPChart')
     compile project(':Update')
     compile 'com.android.support:appcompat-v7:24.2.1'
@@ -42,6 +34,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.google.firebase:firebase-database:10.0.1'
     compile 'com.google.firebase:firebase-ads:10.0.1'
+    compile project(':PullRefesh')
 }
 
 

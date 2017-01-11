@@ -54,12 +54,11 @@ public abstract class FrameFragment extends Fragment{
     protected LinearLayout toolbar;
     private  WebView webView;
     private  AlertDialog.Builder builder;
-
     public MainActivity getMainActivity() {
         return (MainActivity) getActivity();
     }
     protected SQLiteManager sqLiteManager;
-    protected PullRefreshLayout pullRefreshLayout;
+    protected PullRefreshLayout pullRefresh;
     protected SinhVien sv;
     protected ArrayList<Object> objects;
 
@@ -110,13 +109,13 @@ public abstract class FrameFragment extends Fragment{
             public void run() {
                 try {
                     final float density = getActivity().getResources().getDisplayMetrics().density;
-                    for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
+                    for (int i = ITEMS_PER_AD; i <= objects.size(); i += ITEMS_PER_AD) {
                         NativeExpressAdView adView = (NativeExpressAdView) objects.get(i);
                         AdSize adSize = new AdSize((int) (recyclerView.getWidth()/density),height);
                         adView.setAdSize(adSize);
                         adView.setAdUnitId(id);
                     }
-                    loadNativeExpressAd(0);
+                    loadNativeExpressAd(ITEMS_PER_AD);
                 }catch (NullPointerException e){
 
                 }
@@ -127,7 +126,6 @@ public abstract class FrameFragment extends Fragment{
     }
     public void loadNativeExpressAd(final int index) {
         if (index>= objects.size()) {
-//            setRecyclerView();
             return;
         }
         Object item = objects.get(index);
@@ -136,7 +134,7 @@ public abstract class FrameFragment extends Fragment{
                     + " Express ad.");
         }
         final NativeExpressAdView adView = (NativeExpressAdView) item;
-        adView.setVisibility(View.GONE);
+
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
@@ -147,20 +145,20 @@ public abstract class FrameFragment extends Fragment{
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 loadNativeExpressAd(index + ITEMS_PER_AD);
+                adView.setVisibility(View.GONE);
             }
         });
         try {
             adView.loadAd(new AdRequest.Builder().build());
         }catch (IllegalStateException e){
-//            adView.setVisibility(View.GONE);
+            adView.setVisibility(View.GONE);
         }
-
     }
     public LayoutInflater getLayoutInflater() {
         return layoutInflater;
     }
     public void addNativeExpressAds(String adUnitIdKqht, int nativeExpressAdHeight) {
-        for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
+        for (int i = ITEMS_PER_AD; i <= objects.size(); i += ITEMS_PER_AD) {
             final NativeExpressAdView adView = new NativeExpressAdView(getActivity());
             objects.add(i, adView);
         }
@@ -206,24 +204,17 @@ public abstract class FrameFragment extends Fragment{
         initView(view);
         return view;
     }
-    public void showRecircleView() {
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
-        tVnull.setVisibility(View.GONE);
-        pullRefreshLayout.setRefreshing(false);
-    }
+
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
         tVnull.setVisibility(View.GONE);
-        pullRefreshLayout.setRefreshing(false);
-
     }
     public void showTextNull() {
+        pullRefresh.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
         tVnull.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
-        pullRefreshLayout.setRefreshing(false);
     }
     public void loadData() {
 //        if (!MainActivity.wifiIsEnable(getActivity())&&MainActivity.isOnline(getActivity())){
@@ -267,7 +258,20 @@ public abstract class FrameFragment extends Fragment{
                 .build();
         mInterstitialAd.loadAd(adRequest);
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        pullRefresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
+    }
+
     public void initView(View view) {
+        pullRefresh= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         mInterstitialAd = new InterstitialAd(getActivity());
         mInterstitialAd.setAdUnitId(MainActivity.AD_UNIT_ID_FULL);
         mInterstitialAd.setAdListener(new AdListener() {
@@ -281,15 +285,16 @@ public abstract class FrameFragment extends Fragment{
         sqLiteManager=new SQLiteManager(getContext());
         try {sv= (SinhVien) getArguments().getSerializable(MainActivity.SINH_VIEN);
         }catch (NullPointerException e){}
-        pullRefreshLayout= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         progressBar= (ProgressBar) view.findViewById(R.id.pg_loading);
         tVnull= (TextView) view.findViewById(R.id.text_null);
         recyclerView= (RecyclerView) view.findViewById(R.id.recle_view);
-        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        pullRefreshLayout.setRefreshing(false);
-        refesh();
         checkDatabase();
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
     public ListActivity getListActivity() {
         return listActivity;
@@ -298,13 +303,14 @@ public abstract class FrameFragment extends Fragment{
         this.listActivity = listActivity;
     }
     private ListActivity listActivity;
-    public abstract void refesh();
     public abstract void setRecyclerView();
     public abstract void checkDatabase();
-
-
-
-
+    public void showRecircleView() {
+        pullRefresh.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        tVnull.setVisibility(View.GONE);
+    }
 
 
 

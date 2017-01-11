@@ -64,6 +64,7 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
     @Override
     public int getItemViewType(int position) {
+        if (position==0) return MENU_ITEM_VIEW_TYPE;
         return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
     public KetQuaThiAdaptor(List<Object> recyclerViewItems,

@@ -43,6 +43,7 @@ public class ThongBaoDTTCAdaptor extends RecyclerView.Adapter<RecyclerView.ViewH
     }
     @Override
     public int getItemViewType(int position) {
+        if (position==0) return MENU_ITEM_VIEW_TYPE;
         return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
     public ThongBaoDTTCAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView,

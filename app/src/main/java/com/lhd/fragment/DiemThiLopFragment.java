@@ -72,7 +72,7 @@ public class DiemThiLopFragment extends FrameFragment {
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            pullRefreshLayout.setRefreshing(false);
+//            pullRefreshLayout.setRefreshing(false);
             try{
                   if(msg.arg1==3){
                     ketQuaThi= (KetQuaThi) msg.obj;;
@@ -94,16 +94,7 @@ public class DiemThiLopFragment extends FrameFragment {
         }
     };
     @Override
-    public void refesh() {
-        if (MainActivity.isOnline(getActivity())){
-            loadData();
-
-        }else  pullRefreshLayout.setRefreshing(false);
-
-    }
-    @Override
     public void setRecyclerView() {
-
         objects=new ArrayList<>();
         objects.addAll(ketQuaThi.getKetQuaThiLops());
         addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
@@ -163,6 +154,7 @@ public class DiemThiLopFragment extends FrameFragment {
         }
         @Override
         public int getItemViewType(int position) {
+            if (position==0) return MENU_ITEM_VIEW_TYPE;
             return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
         }
         @Override

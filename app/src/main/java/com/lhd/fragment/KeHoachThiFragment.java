@@ -34,7 +34,6 @@ public class KeHoachThiFragment extends FrameFragment {
         this.itemBangKetQuaHocTap = itemBangKetQuaHocTap;
 
     }
-
     private ArrayList<LichThiLop> lichThiLops;
     public ListActivity getListActivity() {
         return listActivity;
@@ -51,11 +50,6 @@ public class KeHoachThiFragment extends FrameFragment {
         lichThiTheoLop.execute(itemBangKetQuaHocTap.getLinkLichThiLop());
     }
 
-    @Override
-    public void refesh() {
-        if (MainActivity.isOnline(getActivity())) loadData();
-        else pullRefreshLayout.setRefreshing(false);
-    }
 
     @Override
     public void setRecyclerView() {
@@ -69,7 +63,6 @@ public class KeHoachThiFragment extends FrameFragment {
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            pullRefreshLayout.setRefreshing(false);
             try{
                 if(msg.arg1==4){
                     lichThiLops= (ArrayList<LichThiLop>) msg.obj;
@@ -133,6 +126,7 @@ public class KeHoachThiFragment extends FrameFragment {
         private List<Object> mRecyclerViewItems;
         @Override
         public int getItemViewType(int position) {
+            if (position==0) return MENU_ITEM_VIEW_TYPE;
             return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
         }
         public AdapterLichThiLop(List<Object> mRecyclerViewItems, RecyclerView recyclerView) {
