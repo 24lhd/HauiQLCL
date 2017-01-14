@@ -218,9 +218,7 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
                     @Override
                     public void onReceiveAd(Ad ad) {
                         rewardedVideo.showAd();
-                        Log.e("faker","show dia");
                     }
-
                     @Override
                     public void onFailedToReceiveAd(Ad ad) {
 
@@ -235,7 +233,9 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
                 mAlertDialog.dismiss();
             }
         });
+        b.setTextColor(getResources().getColor(R.color.colorPrimary));
         Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+         c.setTextColor(getResources().getColor(R.color.colorPrimary));
         c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

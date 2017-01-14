@@ -70,6 +70,9 @@ import duong.update.code.UpdateApp;
  * Created by Duong on 11/20/2016.
  */
 
+/**
+ * @version 1.0
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final int ITEMS_PER_AD =10;
@@ -191,10 +194,23 @@ public class MainActivity extends AppCompatActivity {
         context.startActivity(Intent.createChooser(sharingIntent, "Gà công nghiệp chia sẻ"));
     }
 
+    /**
+     * set thuộc tính toàn cục sinh viên
+     * và set giao diện
+     * @param sinhVien đối tượng sinh viên
+     */
     public void setSinhVien(SinhVien sinhVien) {
         this.sinhVien = sinhVien;
         initUI();
     }
+
+    /**
+     * Khoải tạo view cơ bản
+     * lấy sinh viên qua sqlite và kiểm tra null, không thì set đối tượng sinh viên và khởi tạo view
+     * lấy ra bị null  thì chạy 1 luông asyntask lấy sinh viên qua mã trả về 1 handle nếu kêt quả null thì sét view off line
+     * không null thì chèn thêm sinh viên vào  bảng và set lại sinh viên rồi start view
+     * @param maSinhVien
+     */
     public void getSV(String maSinhVien) {
         initViewStart();
         if (sqLiteManager.getSV(maSinhVien) instanceof SinhVien){
@@ -270,6 +286,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
     }
+
+    /**
+     * - set layout intro lúc khởi tạo view
+     * - khởi tạo sqlite và log lưu trạng thái lưu đăng nhập mã sinh viên
+     * - đăng kí action ACTION_SCREEN_ON
+     * - get phiên bản và set lên intro layout
+     * - sau 1 giây sẽ kiểm tra đăng nhập
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -295,7 +321,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * - lấy mã sinh viên lưu ở shareprfence , kiểm tra độ dài của chuối nếu >0
+     * + lấy sinh viên trong sqlite
+     * + khoong thì bật màn hình đăng nhập
+     */
     private void checkLogin() {
         if (log.getID().length()==10){
             getSV(log.getID());
@@ -432,6 +462,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private boolean isCick;
+
+    /**
+     * khởi tao các giao diên và set data
+     */
     private void initUI() {
         viewPager= (ViewPager) findViewById(R.id.viewpager);
         tabLayout.setupWithViewPager(viewPager);
@@ -517,6 +551,10 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setVisibility(View.VISIBLE);
     }
     protected ProgressBar progressBar;
+
+    /**
+     * khởi tạo các view cơ bản ban đầu
+     */
     private void initViewStart() {
         setContentView(R.layout.activity_main);
         layoutTime= (LinearLayout) findViewById(R.id.view_time);
@@ -557,6 +595,10 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {}
         }
     }
+
+    /**
+     * handle nhận giá trị time hiện tại
+     */
     private Handler handlertime=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -569,10 +611,20 @@ public class MainActivity extends AppCompatActivity {
             timeView.setText(s.split("-")[1]);
         }
     };
+
+    /**
+     * chạy 1 luồng đếm thời gian số tiết chạy
+     */
     private void startTimeView() {
             TimeTask timeTask =new TimeTask(handlertime);
             timeTask.execute();
     }
+
+    /**
+     * kiểm tra xem ứng dụng đang kết nối internet hay k
+     * @param context 1 ngữ cảnh sử dụng Context
+     * @return
+     */
     public static boolean isOnline(Context context) {
         try {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

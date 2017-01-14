@@ -80,6 +80,7 @@ public abstract class FrameFragment extends Fragment{
         });
         mAlertDialog.show();
         Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        b.setTextColor(getResources().getColor(R.color.colorPrimary));
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +88,7 @@ public abstract class FrameFragment extends Fragment{
             }
         });
         Button c = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+        c.setTextColor(getResources().getColor(R.color.colorPrimary));
         c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
