@@ -13,6 +13,7 @@ import com.lhd.activity.MainActivity;
 import com.lhd.fragment.FrameFragment;
 import com.lhd.fragment.ThongBaoDtttcFragment;
 import com.lhd.object.ItemNotiDTTC;
+import com.lhd.object.NativeExpressAdViewHolder;
 import com.lhd.task.ParserLinkFileNoti;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class ThongBaoDTTCAdaptor extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
                 View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_ads, parent, false);
-                return new FrameFragment.NativeExpressAdViewHolder(nativeExpressLayoutView);
+                return new NativeExpressAdViewHolder(nativeExpressLayoutView);
             default:
             case MENU_ITEM_VIEW_TYPE:
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_noti_qlcl, parent, false);
@@ -72,12 +73,14 @@ public class ThongBaoDTTCAdaptor extends RecyclerView.Adapter<RecyclerView.ViewH
         int viewType = getItemViewType(position);
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                FrameFragment.NativeExpressAdViewHolder nativeExpressHolder = (FrameFragment.NativeExpressAdViewHolder) holder;
+                NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                 NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
                 ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-                if (adCardView.getChildCount() > 0) {
-                    adCardView.removeAllViews();
-                }
+                try {
+                    if (adCardView.getChildCount() > 0) {
+                        adCardView.removeAllViews();
+                    }
+                }catch (IllegalStateException e){}
                 adCardView.addView(adView);
                 break;
             default: case MainActivity.MENU_ITEM_VIEW_TYPE:

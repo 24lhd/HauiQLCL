@@ -20,6 +20,7 @@ import com.lhd.activity.MainActivity;
 import com.lhd.object.ItemDiemThiTheoMon;
 import com.lhd.object.ItemKetQuaThiLop;
 import com.lhd.object.KetQuaThi;
+import com.lhd.object.NativeExpressAdViewHolder;
 import com.lhd.object.UIFromHTML;
 import com.lhd.task.ParserKetQuaThiTheoLop;
 
@@ -163,12 +164,14 @@ public class DiemThiLopFragment extends FrameFragment {
 
             switch (viewType) {
                 case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                    FrameFragment.NativeExpressAdViewHolder nativeExpressHolder = (FrameFragment.NativeExpressAdViewHolder) holder;
+                    NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                     NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
                     ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-                    if (adCardView.getChildCount() > 0) {
-                        adCardView.removeAllViews();
-                    }
+                    try {
+                        if (adCardView.getChildCount() > 0) {
+                            adCardView.removeAllViews();
+                        }
+                    }catch (IllegalStateException e){}
                     adCardView.addView(adView);
                     break;
                 default: case MainActivity.MENU_ITEM_VIEW_TYPE:

@@ -17,6 +17,7 @@ import com.lhd.fragment.DiemHocTapTheoLopFragment;
 import com.lhd.fragment.FrameFragment;
 import com.lhd.object.ItemBangDiemThanhPhan;
 import com.lhd.object.ItemBangKetQuaHocTap;
+import com.lhd.object.NativeExpressAdViewHolder;
 import com.lhd.object.UIFromHTML;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +83,7 @@ public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.Vie
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
                 View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_ads, parent, false);
-                return new FrameFragment.NativeExpressAdViewHolder(nativeExpressLayoutView);
+                return new NativeExpressAdViewHolder(nativeExpressLayoutView);
             default:
             case MENU_ITEM_VIEW_TYPE:
                 View view = LayoutInflater.from(activity).inflate(R.layout.item_diem_sinh_vien, parent, false);
@@ -95,12 +96,14 @@ public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.Vie
         int viewType = getItemViewType(position);
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                FrameFragment.NativeExpressAdViewHolder nativeExpressHolder = (FrameFragment.NativeExpressAdViewHolder) holder;
+                NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                 NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
                 final ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-                if (adCardView.getChildCount() > 0) {
-                    adCardView.removeAllViews();
-                }
+                try {
+                    if (adCardView.getChildCount() > 0) {
+                        adCardView.removeAllViews();
+                    }
+                }catch (IllegalStateException e){}
                 adCardView.addView(adView);
                 break;
             default: case MainActivity.MENU_ITEM_VIEW_TYPE:

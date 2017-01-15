@@ -97,9 +97,11 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
                 NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                 NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
                 ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-                if (adCardView.getChildCount() > 0) {
-                    adCardView.removeAllViews();
-                }
+                try {
+                    if (adCardView.getChildCount() > 0) {
+                        adCardView.removeAllViews();
+                    }
+                }catch (IllegalStateException e){}
                 // Add the Native Express ad to the native express ad view.
                 adCardView.addView(adView);
                 break;

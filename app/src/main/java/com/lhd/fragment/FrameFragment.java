@@ -40,6 +40,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
+import static com.lhd.activity.MainActivity.isOnline;
 
 /**
  * Created by D on 12/19/2016.
@@ -97,13 +98,6 @@ public abstract class FrameFragment extends Fragment{
         });
 
     }
-
-
-    public static class NativeExpressAdViewHolder extends RecyclerView.ViewHolder {
-        public NativeExpressAdViewHolder(View view) {
-            super(view);
-        }
-    }
     public void loadNativeExpressAds(final String id, final int height) {
 
         recyclerView.post(new Runnable() {
@@ -113,11 +107,13 @@ public abstract class FrameFragment extends Fragment{
                     final float density = getActivity().getResources().getDisplayMetrics().density;
                     for (int i = ITEMS_PER_AD; i <= objects.size(); i += ITEMS_PER_AD) {
                         NativeExpressAdView adView = (NativeExpressAdView) objects.get(i);
-                        AdSize adSize = new AdSize((int) (recyclerView.getWidth()/density),height);
+                        AdSize adSize = null;
+                         adSize = new AdSize((int) (recyclerView.getWidth()/density),height);
+
                         adView.setAdSize(adSize);
                         adView.setAdUnitId(id);
                     }
-                    loadNativeExpressAd(ITEMS_PER_AD);
+                    if (isOnline(getActivity())) loadNativeExpressAd(ITEMS_PER_AD);
                 }catch (NullPointerException e){
 
                 }
@@ -136,25 +132,20 @@ public abstract class FrameFragment extends Fragment{
                     + " Express ad.");
         }
         final NativeExpressAdView adView = (NativeExpressAdView) item;
-
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
-                adView.setVisibility(View.VISIBLE);
                 loadNativeExpressAd(index + ITEMS_PER_AD);
             }
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 loadNativeExpressAd(index + ITEMS_PER_AD);
-                adView.setVisibility(View.GONE);
             }
         });
         try {
-            adView.loadAd(new AdRequest.Builder().build());
-        }catch (IllegalStateException e){
-            adView.setVisibility(View.GONE);
-        }
+             adView.loadAd(new AdRequest.Builder().build());
+        }catch (IllegalStateException e){}
     }
     public LayoutInflater getLayoutInflater() {
         return layoutInflater;

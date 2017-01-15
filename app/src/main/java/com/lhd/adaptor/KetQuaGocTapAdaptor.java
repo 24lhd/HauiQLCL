@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.NativeExpressAdView;
@@ -12,6 +13,7 @@ import com.lhd.activity.MainActivity;
 import com.lhd.fragment.FrameFragment;
 import com.lhd.fragment.KetQuaHocTapFragment;
 import com.lhd.object.ItemBangKetQuaHocTap;
+import com.lhd.object.NativeExpressAdViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +75,7 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
             switch (viewType) {
                 case NATIVE_EXPRESS_AD_VIEW_TYPE:
                     View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_ads, parent, false);
-                    return new FrameFragment.NativeExpressAdViewHolder(nativeExpressLayoutView);
+                    return new NativeExpressAdViewHolder(nativeExpressLayoutView);
                 // fall through
                 default:
                 case MENU_ITEM_VIEW_TYPE:
@@ -86,7 +88,7 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
             int viewType = getItemViewType(position);
             switch (viewType) {
                 case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                    FrameFragment.NativeExpressAdViewHolder nativeExpressHolder = (FrameFragment.NativeExpressAdViewHolder) holder;
+                    NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                     NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
                     ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
                     if (adCardView.getChildCount() > 0) {
