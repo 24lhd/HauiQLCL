@@ -32,7 +32,7 @@ public class UIFromHTML {
             "</style>" +
             "</head>" +
             "<body>" +
-            "<table border=\"1px\"><tr><th>Tiết</th><th>Giờ Học</th></tr><tr><td>1</td><td>7h00 - 7h45</td></tr><tr><td>2</td><td>7h50 - 8h35</td></tr><tr><td>3</td><td>8h40 - 9h25</td></tr><tr><td>4</td><td>9h35 - 10h20</td></tr><tr><td>5</td><td>10h25-11h10</td></tr><tr><td>6</td><td>11h15 - 12h00</td></tr><tr><td>7</td><td>12h30 - 13h15</td></tr><tr><td>8</td><td>13h20 - 14h05</td></tr><tr><td>9</td><td>14h10 - 14h55</td></tr><tr><td>10</td><td>15h05 - 15h50</td></tr><tr><td>11</td><td>15h55 - 16h40</td></tr><tr><td>12</td><td>16h45 - 17h30</td></tr><tr><td>13</td><td>18h00 - 18h45</td></tr><tr><td>14</td><td>18h45 - 19h30</td></tr><tr><td>15</td><td>19h45 - 20h30</td></tr><tr><td>16</td><td>20h30 - 21h15</td></tr>" +
+            "<table border=\"1px\"><tr><th>Tiết</th><th>Giờ Học</th></tr><tr><td>1</td><td>7h00 - 7h45</td></tr><tr><td>2</td><td>7h50 - 8h35</td></tr><tr><td>3</td><td>8h40 - 9h35</td></tr><tr><td>4</td><td>9h35 - 10h30</td></tr><tr><td>5</td><td>10h35-11h10</td></tr><tr><td>6</td><td>11h15 - 12h00</td></tr><tr><td>7</td><td>12h30 - 13h15</td></tr><tr><td>8</td><td>13h30 - 14h05</td></tr><tr><td>9</td><td>14h10 - 14h55</td></tr><tr><td>10</td><td>15h05 - 15h50</td></tr><tr><td>11</td><td>15h55 - 16h40</td></tr><tr><td>12</td><td>16h45 - 17h30</td></tr><tr><td>13</td><td>18h00 - 18h45</td></tr><tr><td>14</td><td>18h45 - 19h30</td></tr><tr><td>15</td><td>19h45 - 20h30</td></tr><tr><td>16</td><td>20h30 - 21h15</td></tr>" +
             "</table>" +
             "<em>© Gà Công Nghiệp</em>"+
             "</body>" +
@@ -80,7 +80,7 @@ public class UIFromHTML {
                 "text-align: center;" +
                 "background: white;"+
                 "}" +
-                "h2{" +
+                "h3{" +
                 "color: #FF4081;" +
                 "}" +
                 "p{" +
@@ -99,9 +99,9 @@ public class UIFromHTML {
                 "</style>" +
                 "</head>" +
                 "<body>" +
-                "<h2>" +
+                "<h3>" +
                 itemBangKetQuaHocTap.getTenMon() +
-                "</h2>" +
+                "</h3>" +
                 "<p>" +
                 "("+itemBangKetQuaHocTap.getMaMon()+")<br/>" +
                 "" +
@@ -196,7 +196,7 @@ public class UIFromHTML {
                 "text-align: center;" +
                 "background: white;" +
                 "}" +
-                "h2{" +
+                "h3{" +
                 "color: #FF4081;" +
                 "}" +
                 "p{" +
@@ -219,9 +219,9 @@ public class UIFromHTML {
                 "</style>" +
                 "</head>" +
                 "<body>" +
-                "<h2>" +
+                "<h3>" +
                 itemKetQuaThiLop.getTen() +
-                "</h2>" +
+                "</h3>" +
                 "<p>" +
                 itemKetQuaThiLop.getMsv() +
                 "</p>" +
@@ -250,7 +250,7 @@ public class UIFromHTML {
                 "text-align: center;" +
                 "background: white;" +
                 "}" +
-                "h2{" +
+                "h3{" +
                 "color: #FF4081;" +
                 "}" +
                 "p{" +
@@ -259,9 +259,9 @@ public class UIFromHTML {
                 "</style>" +
                 "</head>" +
                 "<body>" +
-                "<h2>" +
+                "<h3>" +
                 tenMon+
-                "</h2>" +
+                "</h3>" +
                 "<p>" +
                 "("+lichThiLop.getMaLop()+")<br/></p>"+"Lớp "
                 + lichThiLop.getTenLop()+"<br/> ngày "+
@@ -283,7 +283,7 @@ public class UIFromHTML {
                 "text-align: center;" +
                 "background: white;" +
                 "}" +
-                "h2{" +
+                "h3{" +
                 "color: #FF4081;" +
                 "}" +
                 "p{" +
@@ -306,9 +306,9 @@ public class UIFromHTML {
                 "</style>" +
                 "</head>" +
                 "<body>" +
-                "<h2>" +
+                "<h3>" +
                 itemDiemThiTheoMon.getTenMon() +
-                "</h2>" +
+                "</h3>" +
                 "<p>" +
                 itemDiemThiTheoMon.getNgay1() +
                 "</p>" +

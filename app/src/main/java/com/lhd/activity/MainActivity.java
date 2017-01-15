@@ -54,6 +54,7 @@ import com.lhd.object.KetQuaHocTap;
 import com.lhd.object.SinhVien;
 import com.lhd.object.Version;
 import com.lhd.recerver.MyReserver;
+import com.lhd.service.MyService;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.TimeTask;
 
@@ -286,7 +287,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
     }
-
     /**
      * - set layout intro lúc khởi tạo view
      * - khởi tạo sqlite và log lưu trạng thái lưu đăng nhập mã sinh viên
@@ -296,11 +296,14 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param savedInstanceState
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_layout);
-        registerReceiver(new MyReserver(), new IntentFilter(Intent.ACTION_SCREEN_ON));
+//        registerReceiver(new MyReserver(), new IntentFilter(Intent.ACTION_SCREEN_OFF));
+        Intent intent1=new Intent(this, MyService.class);
+        if (isOnline(this)) this.startService(intent1);
         sqLiteManager=new SQLiteManager(this);
         log=new Log(this);
         try {

@@ -270,11 +270,14 @@ public class MyService extends Service{
         log=new com.lhd.log.Log(this);
          id=log.getID();
         sqLiteManager =new SQLiteManager(this);
+        Log.e("faker", " onStartCommand");
+        registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
         if (!(intent instanceof  Intent)&&MainActivity.isOnline(this)){
-            registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_ON));
-            registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
+//            registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_ON));
+//            unregisterReceiver(myBroadcastOnScrern);
+            startParser();
         }
-        startParser();
+
 //        else if (id.length()>0){
 //            if (sqLiteManager.getBangKetQuaHocTap(id).isEmpty()||
 //                    sqLiteManager.getAllDThiMon(id).isEmpty()||

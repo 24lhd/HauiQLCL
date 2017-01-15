@@ -24,8 +24,10 @@ public class MyReserver extends BroadcastReceiver {
             context.startService(intent1);
             Toast.makeText(context,"Gà Công Nghiệp đang kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
         }
-//        if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+//        if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
 //            Log.e("faker", "ON MyReserver");
+//            Intent intent1=new Intent(context, MyService.class);
+//            context.startService(intent1);
 //        }
         if( activeNetInfo != null ){
             Intent my=new Intent(context, MyService.class);
