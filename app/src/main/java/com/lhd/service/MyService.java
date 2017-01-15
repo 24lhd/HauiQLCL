@@ -250,7 +250,7 @@ public class MyService extends Service{
     };
 
     private void startParser() {
-        if (!MainActivity.isOnline(this)&&!MainActivity.wifiIsEnable(this))
+        if (!MainActivity.isOnline(this))
             return;
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
         ketQuaHocTapTheoMon.execute(id);
@@ -272,7 +272,7 @@ public class MyService extends Service{
         sqLiteManager =new SQLiteManager(this);
         Log.e("faker", " onStartCommand");
         registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
-        if (!(intent instanceof  Intent)&&MainActivity.isOnline(this)){
+        if (!(intent instanceof  Intent)&&MainActivity.wifiIsEnable(this)){
 //            registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_ON));
 //            unregisterReceiver(myBroadcastOnScrern);
             startParser();
