@@ -117,9 +117,7 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
                 });
 
                 if (i==3){
-
                     showDuTinhDiem(itemBangKetQuaHocTap);
-
                 }else
                 if (i==2){
                             showAlert("Kết quả học tập của "+sv.getTenSV(),

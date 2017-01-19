@@ -272,12 +272,11 @@ public class MyService extends Service{
         sqLiteManager =new SQLiteManager(this);
         Log.e("faker", " onStartCommand");
         registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
-        if (!(intent instanceof  Intent)&&MainActivity.wifiIsEnable(this)){
+//        if (MainActivity.wifiIsEnable(this)){
 //            registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_ON));
 //            unregisterReceiver(myBroadcastOnScrern);
             startParser();
-        }
-
+//        }
 //        else if (id.length()>0){
 //            if (sqLiteManager.getBangKetQuaHocTap(id).isEmpty()||
 //                    sqLiteManager.getAllDThiMon(id).isEmpty()||
