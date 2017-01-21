@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +20,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.google.android.gms.ads.AdListener;
@@ -36,7 +33,6 @@ import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
 import com.lhd.object.SinhVien;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
@@ -70,8 +66,8 @@ public abstract class FrameFragment extends Fragment{
         builder.setTitle(title);
         webView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
         builder.setView(webView);
-        builder.setNeutralButton("SMS", null);
-        builder.setPositiveButton("IMG", null);
+        builder.setNeutralButton("Chia sẻ SMS", null);
+        builder.setPositiveButton("Chia sẻ ảnh", null);
         AlertDialog mAlertDialog = builder.create();
         mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

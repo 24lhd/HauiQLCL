@@ -15,7 +15,7 @@ public class UIFromHTML {
             "th { background-color: #42A5F5; color: white; padding: 5px;font-size: small;} " +
             "td{padding: 5px;background-color: #f2f2f2;color: red;} </style> </head> <body> " +
 
-            "<table> <tr> <th>Điểm chữ </th> <th>Bắt đầu</th> <th>Kết thúc</th> </tr> <tr> <td>A</td> <td>8.5</td> <td>10</td> </tr> <tr> <td>B+</td> <td>7.7</td> <td>8.4</td> </tr> <tr> <td>B</td> <td>7.0</td> <td>7.6</td> </tr> <tr> <td>C+</td> <td>6.2</td> <td>6.9</td> </tr> <tr> <td>C</td> <td>5.5</td> <td>6.1</td> </tr> <tr> <td>D+</td> <td>4.7</td> <td>5.4</td> </tr> <tr> <td>D</td> <td>4.0</td> <td>4.6</td> </tr> <tr> <td>F</td> <td>0</td> <td>3.9</td> </tr> </table> <em>© Gà Công Nghiệp</em></body> </html>";
+            "<table> <tr> <th>Điểm chữ </th> <th>Bắt đầu</th> <th>Kết thúc</th> </tr> <tr> <td>A</td> <td>8.5</td> <td>10</td> </tr> <tr> <td>B+</td> <td>7.7</td> <td>8.4</td> </tr> <tr> <td>B</td> <td>7.0</td> <td>7.6</td> </tr> <tr> <td>C+</td> <td>6.2</td> <td>6.9</td> </tr> <tr> <td>C</td> <td>5.5</td> <td>6.1</td> </tr> <tr> <td>D+</td> <td>4.7</td> <td>5.4</td> </tr> <tr> <td>D</td> <td>4.0</td> <td>4.6</td> </tr> <tr> <td>F</td> <td>0</td> <td>3.9</td> </tr> </table> <em>Copyright © Gà Công Nghiệp</em></body> </html>";
     public static final String uiTime="<!DOCTYPEhtml><html>" +
             "<head>" +
             "<meta charset=\"utf-8\"/>" +
@@ -34,7 +34,7 @@ public class UIFromHTML {
             "<body>" +
             "<table border=\"1px\"><tr><th>Tiết</th><th>Giờ Học</th></tr><tr><td>1</td><td>7h00 - 7h45</td></tr><tr><td>2</td><td>7h50 - 8h35</td></tr><tr><td>3</td><td>8h40 - 9h35</td></tr><tr><td>4</td><td>9h35 - 10h30</td></tr><tr><td>5</td><td>10h35-11h10</td></tr><tr><td>6</td><td>11h15 - 12h00</td></tr><tr><td>7</td><td>12h30 - 13h15</td></tr><tr><td>8</td><td>13h30 - 14h05</td></tr><tr><td>9</td><td>14h10 - 14h55</td></tr><tr><td>10</td><td>15h05 - 15h50</td></tr><tr><td>11</td><td>15h55 - 16h40</td></tr><tr><td>12</td><td>16h45 - 17h30</td></tr><tr><td>13</td><td>18h00 - 18h45</td></tr><tr><td>14</td><td>18h45 - 19h30</td></tr><tr><td>15</td><td>19h45 - 20h30</td></tr><tr><td>16</td><td>20h30 - 21h15</td></tr>" +
             "</table>" +
-            "<em>© Gà Công Nghiệp</em>"+
+            "<em>Copyright © Gà Công Nghiệp</em>"+
             "</body>" +
             "</html>";
     public static String uiCopyright="<!DOCTYPE html>" +
@@ -123,7 +123,7 @@ public class UIFromHTML {
                 "<td>"+itemBangKetQuaHocTap.getdTB()+"</td>" +
                 "</tr>" +
                 "</table>" +
-                "<em>© Gà Công Nghiệp</em>"+
+                "<em>Copyright © Gà Công Nghiệp</em>"+
                 "</body>" +
                 "</html>";
     }
@@ -181,7 +181,7 @@ public class UIFromHTML {
                 "<td>"+itemBangDiemThanhPhan.getdTB()+"</td>" +
                 "</tr>" +
                 "</table>" +
-                "<em>© Gà Công Nghiệp</em>"+
+                "<em>Copyright © Gà Công Nghiệp</em>"+
                 "</body>" +
                 "</html>";
     }
@@ -235,7 +235,7 @@ public class UIFromHTML {
                 itemKetQuaThiLop.getdL1()+
                 "</td>" +
                 "</table>"+
-                "<em>© Gà Công Nghiệp</em>"+
+                "<em>Copyright © Gà Công Nghiệp</em>"+
                 "</body>" +
                 "</html>";
     }
@@ -267,7 +267,7 @@ public class UIFromHTML {
                 + lichThiLop.getTenLop()+"<br/> ngày "+
                 lichThiLop.getNgayThi()+"<br/> ca "+lichThiLop.getGioThi()+
                 "<br/>" +
-                "<em>© Gà Công Nghiệp</em>"+
+                "<em>Copyright © Gà Công Nghiệp</em>"+
                 "</body>" +
                 "</html>";
     }
@@ -335,7 +335,7 @@ public class UIFromHTML {
                 "</td>" +
                 "</tr>" +
                 "</table>" +
-                "<em>© Gà Công Nghiệp</em>"+
+                "<em>Copyright © Gà Công Nghiệp</em>"+
                 "</body>" +
                 "</html>";
     }
@@ -384,7 +384,7 @@ public class UIFromHTML {
                 "</td>" +
                 "</tr>" +
                 "</table>" +
-                "<em>© Gà Công Nghiệp</em>"+
+                "<em>Copyright © Gà Công Nghiệp</em>"+
                 "</body>" +
                 "</html>";
     }
@@ -415,12 +415,12 @@ public class UIFromHTML {
                 lichThi.getThu() +
                 "</strong> lúc <strong>" +
                 lichThi.getGio() +
-                "</strong> ngày <strong>l" +
+                "</strong> ngày <strong>" +
                 lichThi.getNgay()+
                 "</strong> <br><strong>" +
                 toi +
                 "</strong></p>" +
-                "<em>© Gà Công Nghiệp</em>" +
+                "<em>Copyright © Gà Công Nghiệp</em>" +
                 "</body></html>";
     }
 }

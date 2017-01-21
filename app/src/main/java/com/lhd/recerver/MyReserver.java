@@ -19,16 +19,6 @@ public class MyReserver extends BroadcastReceiver {
         String s=intent.getAction();
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService( Context.CONNECTIVITY_SERVICE );
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            Intent intent1=new Intent(context, MyService.class);
-            context.startService(intent1);
-            Toast.makeText(context,"Gà Công Nghiệp đang kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
-        }
-//        if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-//            Log.e("faker", "ON MyReserver");
-//            Intent intent1=new Intent(context, MyService.class);
-//            context.startService(intent1);
-//        }
         if( activeNetInfo != null ){
             Intent my=new Intent(context, MyService.class);
             boolean b=activeNetInfo.isConnectedOrConnecting();
@@ -36,5 +26,16 @@ public class MyReserver extends BroadcastReceiver {
                 context.startService(my);
             }
         }
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            Intent intent1=new Intent(context, MyService.class);
+            context.startService(intent1);
+            Toast.makeText(context,"Gà Công Nghiệp đang kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
+        }
+        if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+            Log.e("faker", "ACTION_SCREEN_ON MyReserver");
+            Intent intent1=new Intent(context, MyService.class);
+            context.startService(intent1);
+        }
+
     }
 }

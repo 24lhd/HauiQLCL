@@ -1,11 +1,9 @@
 package com.lhd.fragment;
 
-import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.text.NumberFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +26,10 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.ken.hauiclass.R;
-import com.lhd.activity.InputActivity;
 import com.lhd.activity.MainActivity;
 import com.lhd.object.KetQuaHocTap;
 import com.lhd.object.UIFromHTML;
 import com.lhd.task.ParserKetQuaHocTap;
-import com.startapp.android.publish.ads.banner.Banner;
 
 /**
  * Created by Duong on 11/21/2016.
@@ -48,7 +43,6 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
     private AlertDialog mAlertDialog;
     private AdView mAdView;
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -182,7 +176,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 builder.setView(webView);
                 break;
         }
-        builder.setNeutralButton("IMG",null);
+        builder.setNeutralButton("Chia sẻ ảnh",null);
         mAlertDialog = builder.create();
         mAlertDialog.show();
         Button diemchu = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);

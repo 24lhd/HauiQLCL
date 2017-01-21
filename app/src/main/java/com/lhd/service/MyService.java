@@ -29,6 +29,7 @@ import com.lhd.object.ItemDiemThiTheoMon;
 import com.lhd.object.ItemNotiDTTC;
 import com.lhd.object.KetQuaHocTap;
 import com.lhd.object.LichThi;
+import com.lhd.recerver.MyReserver;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.ParserKetQuaThiTheoMon;
 import com.lhd.task.ParserLichThiTheoMon;
@@ -240,9 +241,12 @@ public class MyService extends Service{
         @Override
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
-            if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-//                startParser();
-            }else if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+//            if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+//               if (MainActivity.wifiIsEnable(MyService.this)){
+//                         startParser();
+//               }
+//            }else
+            if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 Log.e("faker", " ACTION_SCREEN_OFF");
                 startParser();
             }
@@ -250,7 +254,7 @@ public class MyService extends Service{
     };
 
     private void startParser() {
-        if (!MainActivity.isOnline(this))
+        if (!MainActivity.isOnline(MyService.this))
             return;
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
         ketQuaHocTapTheoMon.execute(id);
@@ -272,21 +276,9 @@ public class MyService extends Service{
         sqLiteManager =new SQLiteManager(this);
         Log.e("faker", " onStartCommand");
         registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
-//        if (MainActivity.wifiIsEnable(this)){
-//            registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_ON));
-//            unregisterReceiver(myBroadcastOnScrern);
-            startParser();
-//        }
-//        else if (id.length()>0){
-//            if (sqLiteManager.getBangKetQuaHocTap(id).isEmpty()||
-//                    sqLiteManager.getAllDThiMon(id).isEmpty()||
-//                    sqLiteManager.getAllLThi(id).isEmpty()||
-//                    sqLiteManager.getNotiDTTC().isEmpty()){
-//                startParser();
-//            }
-//        }
+        registerReceiver(new MyReserver(), new IntentFilter(Intent.ACTION_SCREEN_ON));
+        if (MainActivity.wifiIsEnable(this)) startParser();
 //        Toast.makeText(this,"Gà Công Nghiệp đang kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
-
         Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -296,6 +288,7 @@ public class MyService extends Service{
     @Override
     public void onDestroy() {
         Log.e("faker", " onDestroy");
-        super.onDestroy();
+        Intent intent=new Intent(this,MyService.class);
+        startService(intent);
     }
 }

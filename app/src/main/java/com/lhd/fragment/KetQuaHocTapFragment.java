@@ -9,12 +9,10 @@ import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 
-import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
@@ -205,7 +203,7 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
         }
         builder.setView(view);
         builder.setPositiveButton("ok",null);
-        builder.setNeutralButton("IMG", null);
+        builder.setNeutralButton("Chia sẻ ảnh", null);
         final AlertDialog mAlertDialog = builder.create();
         mAlertDialog.show();
         mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
