@@ -2,7 +2,6 @@ package com.lhd.fragment;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.lhd.activity.MainActivity;
 import com.lhd.adaptor.DiemThiTheoLopAdaptor;
@@ -60,7 +59,7 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
     public void setRecyclerView() {
         objects = new ArrayList<>();
         objects.addAll(bangDiemThanhPhan.getBangDiemThanhPhan());
-        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
+        addNativeExpressAds(MainActivity.AD_UNIT_ID_LIST_ACTIVITY,320);
         DiemThiTheoLopAdaptor adapterNoti = new DiemThiTheoLopAdaptor(objects, recyclerView, getListActivity(), getItemBangDiemThanhPhan(),bangDiemThanhPhan.getBangDiemThanhPhan(),this);
         recyclerView.setAdapter(adapterNoti);
         showRecircleView();

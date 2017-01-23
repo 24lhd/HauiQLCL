@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
-import com.lhd.fragment.FrameFragment;
 import com.lhd.fragment.ThongBaoDtttcFragment;
 import com.lhd.object.ItemNotiDTTC;
 import com.lhd.object.NativeExpressAdViewHolder;
@@ -44,7 +43,7 @@ public class ThongBaoDTTCAdaptor extends RecyclerView.Adapter<RecyclerView.ViewH
     }
     @Override
     public int getItemViewType(int position) {
-        if (position==0) return MENU_ITEM_VIEW_TYPE;
+//        if (position==0) return MENU_ITEM_VIEW_TYPE;
         return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
     public ThongBaoDTTCAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView,
@@ -75,13 +74,14 @@ public class ThongBaoDTTCAdaptor extends RecyclerView.Adapter<RecyclerView.ViewH
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
                 NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                 NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-                try {
-                    if (adCardView.getChildCount() > 0) {
-                        adCardView.removeAllViews();
-                    }
-                }catch (IllegalStateException e){}
-                adCardView.addView(adView);
+                adView= (NativeExpressAdView) thongBaoDtttcFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
+//                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+//                try {
+//                    if (adCardView.getChildCount() > 0) {
+//                        adCardView.removeAllViews();
+//                    }
+//                }catch (IllegalStateException e){}
+//                adCardView.addView(adView);
                 break;
             default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                 ItemNoti itemNoti= (ItemNoti) holder;

@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
-import com.lhd.fragment.FrameFragment;
 import com.lhd.fragment.LichThiFragment;
 import com.lhd.object.LichThi;
 import com.lhd.object.NativeExpressAdViewHolder;
@@ -76,7 +75,7 @@ public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
     @Override
     public int getItemViewType(int position) {
-        if (position==0) return MENU_ITEM_VIEW_TYPE;
+//        if (position==0) return MENU_ITEM_VIEW_TYPE;
         return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
     @Override
@@ -87,13 +86,14 @@ public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
                  NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                 NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-                try {
-                    if (adCardView.getChildCount() > 0) {
-                        adCardView.removeAllViews();
-                    }
-                }catch (IllegalStateException e){}
-                adCardView.addView(adView);
+                adView= (NativeExpressAdView) lichThiFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
+//                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+//                try {
+//                    if (adCardView.getChildCount() > 0) {
+//                        adCardView.removeAllViews();
+//                    }
+//                }catch (IllegalStateException e){}
+//                adCardView.addView(adView);
                 break;
             default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                 ItemLichThi itemLichThi=(ItemLichThi) holder;

@@ -247,7 +247,7 @@ public class MyService extends Service{
 //               }
 //            }else
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-                Log.e("faker", " ACTION_SCREEN_OFF");
+//                Log.e("faker", " ACTION_SCREEN_OFF");
                 startParser();
             }
         }
@@ -274,7 +274,7 @@ public class MyService extends Service{
         log=new com.lhd.log.Log(this);
          id=log.getID();
         sqLiteManager =new SQLiteManager(this);
-        Log.e("faker", " onStartCommand");
+//        Log.e("faker", " onStartCommand");
         registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
         registerReceiver(new MyReserver(), new IntentFilter(Intent.ACTION_SCREEN_ON));
         if (MainActivity.wifiIsEnable(this)) startParser();

@@ -4,13 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroupOverlay;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
-import com.lhd.fragment.FrameFragment;
 import com.lhd.fragment.KetQuaHocTapFragment;
 import com.lhd.object.ItemBangKetQuaHocTap;
 import com.lhd.object.NativeExpressAdViewHolder;
@@ -59,7 +57,8 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
 
         @Override
         public int getItemViewType(int position) {
-            return (position % ITEMS_PER_AD == 0&&position>0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+//            return (position % ITEMS_PER_AD == 0&&position>0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+            return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
         }
         public KetQuaGocTapAdaptor(List<Object> recyclerViewItems,
                                    RecyclerView recyclerView, KetQuaHocTapFragment ketQuaHocTapFragment,
@@ -90,11 +89,12 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
                 case NATIVE_EXPRESS_AD_VIEW_TYPE:
                     NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                     NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-                    if (adCardView.getChildCount() > 0) {
-                        adCardView.removeAllViews();
-                    }
-                    adCardView.addView(adView);
+                    adView= (NativeExpressAdView) ketQuaHocTapFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
+//                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+//                    if (adCardView.getChildCount() > 0) {
+//                        adCardView.removeAllViews();
+//                    }
+//                    adCardView.addView(adView);
                     break;
                 default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                     ItemDanhSachLop itemDanhSachLop= (ItemDanhSachLop) holder;

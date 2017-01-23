@@ -56,7 +56,7 @@ public class KeHoachThiFragment extends FrameFragment {
     public void setRecyclerView() {
         objects=new ArrayList<>();
         objects.addAll(lichThiLops);
-        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
+        addNativeExpressAds(MainActivity.AD_UNIT_ID_LIST_ACTIVITY, 320);
         AdapterLichThiLop adapterNoti=new AdapterLichThiLop(objects,recyclerView);
         recyclerView.setAdapter(adapterNoti);
         showRecircleView();
@@ -127,7 +127,7 @@ public class KeHoachThiFragment extends FrameFragment {
         private List<Object> mRecyclerViewItems;
         @Override
         public int getItemViewType(int position) {
-            if (position==0) return MENU_ITEM_VIEW_TYPE;
+//            if (position==0) return MENU_ITEM_VIEW_TYPE;
             return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
         }
         public AdapterLichThiLop(List<Object> mRecyclerViewItems, RecyclerView recyclerView) {
@@ -155,13 +155,14 @@ public class KeHoachThiFragment extends FrameFragment {
                 case NATIVE_EXPRESS_AD_VIEW_TYPE:
                     NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                     NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+                    adView= (NativeExpressAdView) getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
+//                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
                     try {
-                        if (adCardView.getChildCount() > 0) {
-                            adCardView.removeAllViews();
-                        }
+//                        if (adCardView.getChildCount() > 0) {
+//                            adCardView.removeAllViews();
+//                        }
                     }catch (IllegalStateException e){}
-                    adCardView.addView(adView);
+//                    adCardView.addView(adView);
                     break;
                 default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                     ItemLichThiLop itemLichThiLop= (ItemLichThiLop) holder;

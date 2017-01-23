@@ -1,51 +1,27 @@
 {
   "project_info": {
-    "project_number": "557058664492",
-    "firebase_url": "https://hauiclass.firebaseio.com",
-    "project_id": "hauiclass",
-    "storage_bucket": "hauiclass.appspot.com"
+    "project_number": "688778389881",
+    "firebase_url": "https://hauiqlcl.firebaseio.com",
+    "project_id": "hauiqlcl",
+    "storage_bucket": "hauiqlcl.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:557058664492:android:d56ffdd0f388aaad",
+        "mobilesdk_app_id": "1:688778389881:android:d56ffdd0f388aaad",
         "android_client_info": {
           "package_name": "com.ken.hauiclass"
         }
       },
       "oauth_client": [
         {
-          "client_id": "557058664492-ftstj4qiuen0oh66so2vdnhnqr3dbro3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ken.hauiclass",
-            "certificate_hash": "B020C03AC27CEE0E38685036B7B2F4447AA1ED37"
-          }
-        },
-        {
-          "client_id": "557058664492-bsj03n9pkok01l4n2f58lk2l9ilbp967.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ken.hauiclass",
-            "certificate_hash": "3DB08ACFC96F0CC72F1D36E1C85EC770148A921A"
-          }
-        },
-        {
-          "client_id": "557058664492-n3h8fenihm39pvcj8fu53lu8n4g18ff3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ken.hauiclass",
-            "certificate_hash": "79D39C617C4C856671E33D177357AC6A6DAB1802"
-          }
-        },
-        {
-          "client_id": "557058664492-uvsim61jq0tcpas96nfmufp881cpnh4c.apps.googleusercontent.com",
+          "client_id": "688778389881-5760cnt62crp7bkcs0a8tih2jhvd859t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDxB7cGRld1eKRatoKoQfuW7Fa0T87icPk"
+          "current_key": "AIzaSyBBaEeVsZStgUUz-J7McjR7xlNgTlJKz0I"
         }
       ],
       "services": {
@@ -53,101 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "557058664492-uvsim61jq0tcpas96nfmufp881cpnh4c.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:557058664492:android:ed3a0a6ae4af4edf",
-        "android_client_info": {
-          "package_name": "com.haui.xeom"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "557058664492-v3csbgim09so7lvpi5f35ud728515343.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.haui.xeom",
-            "certificate_hash": "DD80A45DB09AC6EA7CF365962C048A60B9E07FB3"
-          }
-        },
-        {
-          "client_id": "557058664492-uvsim61jq0tcpas96nfmufp881cpnh4c.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDxB7cGRld1eKRatoKoQfuW7Fa0T87icPk"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "557058664492-uvsim61jq0tcpas96nfmufp881cpnh4c.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:557058664492:android:36a00d0c1ccc35c6",
-        "android_client_info": {
-          "package_name": "com.hauiclass.update"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "557058664492-9qu4ah3p9glfmmts49c8v4bqnp9qus5u.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.hauiclass.update",
-            "certificate_hash": "3DB08ACFC96F0CC72F1D36E1C85EC770148A921A"
-          }
-        },
-        {
-          "client_id": "557058664492-uvsim61jq0tcpas96nfmufp881cpnh4c.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDxB7cGRld1eKRatoKoQfuW7Fa0T87icPk"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "557058664492-uvsim61jq0tcpas96nfmufp881cpnh4c.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

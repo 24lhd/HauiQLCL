@@ -10,17 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.fragment.DiemHocTapTheoLopFragment;
-import com.lhd.fragment.FrameFragment;
 import com.lhd.object.ItemBangDiemThanhPhan;
 import com.lhd.object.ItemBangKetQuaHocTap;
 import com.lhd.object.NativeExpressAdViewHolder;
 import com.lhd.object.UIFromHTML;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
 import static com.lhd.activity.MainActivity.MENU_ITEM_VIEW_TYPE;
 import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
@@ -62,7 +64,7 @@ public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.Vie
     }
     @Override
     public int getItemViewType(int position) {
-        if (position==0) return MENU_ITEM_VIEW_TYPE;
+//        if (position==0) return MENU_ITEM_VIEW_TYPE;
         return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
 
@@ -98,7 +100,8 @@ public class DiemThiTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.Vie
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
                 NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                 NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-                final ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+//                adView= (NativeExpressAdView) diemHocTapTheoLopFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
+                 ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
                 try {
                     if (adCardView.getChildCount() > 0) {
                         adCardView.removeAllViews();

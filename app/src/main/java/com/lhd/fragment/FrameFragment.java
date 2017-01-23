@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,7 @@ public abstract class FrameFragment extends Fragment{
         mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-
+//                showADSFull();
             }
         });
         mAlertDialog.show();
@@ -101,7 +102,7 @@ public abstract class FrameFragment extends Fragment{
             public void run() {
                 try {
                     final float density = getActivity().getResources().getDisplayMetrics().density;
-                    for (int i = ITEMS_PER_AD; i <= objects.size(); i += ITEMS_PER_AD) {
+                    for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
                         NativeExpressAdView adView = (NativeExpressAdView) objects.get(i);
                         AdSize adSize = null;
                          adSize = new AdSize((int) (recyclerView.getWidth()/density),height);
@@ -109,16 +110,16 @@ public abstract class FrameFragment extends Fragment{
                         adView.setAdSize(adSize);
                         adView.setAdUnitId(id);
                     }
-                    if (isOnline(getActivity())) loadNativeExpressAd(ITEMS_PER_AD);
+                    if (isOnline(getActivity())) loadNativeExpressAd(0);
                 }catch (NullPointerException e){
 
                 }
-
             }
         });
 
     }
     public void loadNativeExpressAd(final int index) {
+        Log.e("faker","show "+index);
         if (index>= objects.size()) {
             return;
         }
@@ -132,22 +133,28 @@ public abstract class FrameFragment extends Fragment{
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
+                Log.e("faker"," onAdLoaded "+index);
                 loadNativeExpressAd(index + ITEMS_PER_AD);
+//                adView.setVisibility(View.VISIBLE);
             }
             @Override
             public void onAdFailedToLoad(int errorCode) {
+                Log.e("faker","loi onAdFailedToLoad "+index);
                 loadNativeExpressAd(index + ITEMS_PER_AD);
+//                adView.setVisibility(View.GONE);
             }
         });
         try {
              adView.loadAd(new AdRequest.Builder().build());
-        }catch (IllegalStateException e){}
+        }catch (IllegalStateException e){
+            Log.e("faker","loi show "+index);
+        }
     }
     public LayoutInflater getLayoutInflater() {
         return layoutInflater;
     }
     public void addNativeExpressAds(String adUnitIdKqht, int nativeExpressAdHeight) {
-        for (int i = ITEMS_PER_AD; i <= objects.size(); i += ITEMS_PER_AD) {
+        for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
             final NativeExpressAdView adView = new NativeExpressAdView(getActivity());
             objects.add(i, adView);
         }

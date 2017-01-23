@@ -89,7 +89,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 break;
             case 2:
                 try {
-                    mainActivity.checkUpdate(1);
+//                    mainActivity.checkUpdate(1);
                 } catch (Exception e) {}
                 return;
             case 3:
