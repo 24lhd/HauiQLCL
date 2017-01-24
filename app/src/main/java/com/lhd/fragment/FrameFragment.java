@@ -129,19 +129,20 @@ public abstract class FrameFragment extends Fragment{
                     + " Express ad.");
         }
         final NativeExpressAdView adView = (NativeExpressAdView) item;
+
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
                 Log.e("faker"," onAdLoaded "+index);
                 loadNativeExpressAd(index + ITEMS_PER_AD);
-//                adView.setVisibility(View.VISIBLE);
+                adView.setVisibility(View.VISIBLE);
             }
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 Log.e("faker","loi onAdFailedToLoad "+index);
                 loadNativeExpressAd(index + ITEMS_PER_AD);
-//                adView.setVisibility(View.GONE);
+                adView.setVisibility(View.GONE);
             }
         });
         try {

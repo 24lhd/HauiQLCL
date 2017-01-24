@@ -71,10 +71,6 @@ public class MainActivity extends AppCompatActivity {
     // The Native Express ad unit ID.
     public static final String AD_UNIT_ID_KQHT= "ca-app-pub-1684993819107276/6184187149";
     public static final String AD_UNIT_ID_LIST_ACTIVITY= "ca-app-pub-1684993819107276/8998052746";
-//    public static final String AD_UNIT_ID_KET_QUA_THI ="ca-app-pub-7062977963627166/6849874931";
-//    public static final String AD_UNIT_ID_TB_DTTC ="ca-app-pub-7062977963627166/6274465334";
-//    public static final String AD_UNIT_ID_DIEM_LOP ="ca-app-pub-7062977963627166/5936388132";
-//    public static final String AD_UNIT_ID_DIEM_THI_LOP ="ca-app-pub-7062977963627166/9029455333";
     public static final String AD_UNIT_ID_FULL="ca-app-pub-1684993819107276/7161392740";
     public static final String SINH_VIEN = "SINH_VIEN";
     public static final String MA_SV = "MA_SINH_VIEN";

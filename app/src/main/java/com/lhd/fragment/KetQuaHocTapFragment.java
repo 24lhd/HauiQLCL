@@ -142,30 +142,46 @@ public void showCustomViewDialog(final ItemBangKetQuaHocTap itemBangKetQuaHocTap
         final WebView webView= (WebView) view.findViewById(R.id.web_dutinh);
         builder.setTitle("Dự tính kết quả thi  "+itemBangKetQuaHocTap.getTenMon());
         TabLayout.Tab tabA=tabLayout.newTab();
+//        tabA.setIcon(R.drawable.ic_a);
         tabA.setText("A");
         tabLayout.addTab(tabA);
+
         TabLayout.Tab tabBB=tabLayout.newTab();
+//        tabBB.setIcon(R.drawable.ic_bb);
         tabBB.setText("B+");
         tabLayout.addTab(tabBB);
+
         TabLayout.Tab tabB=tabLayout.newTab();
+//        tabB.setIcon(R.drawable.ic_b);
         tabB.setText("B");
         tabLayout.addTab(tabB);
+
         TabLayout.Tab tabCC=tabLayout.newTab();
+//        tabCC.setIcon(R.drawable.ic_cc);
         tabCC.setText("C+");
         tabLayout.addTab(tabCC);
+
         TabLayout.Tab tabC=tabLayout.newTab();
+//        tabC.setIcon(R.drawable.ic_c);
         tabC.setText("C");
         tabLayout.addTab(tabC);
+
         TabLayout.Tab tabDD=tabLayout.newTab();
+//        tabDD.setIcon(R.drawable.ic_a);
         tabDD.setText("D+");
         tabLayout.addTab(tabDD);
+
         TabLayout.Tab tabD=tabLayout.newTab();
+//        tabD.setIcon(R.drawable.ic_a);
         tabD.setText("D");
         tabLayout.addTab(tabD);
+
         TabLayout.Tab tabF=tabLayout.newTab();
+//        tabF.setIcon(R.drawable.ic_a);
         tabF.setText("F");
         tabLayout.addTab(tabF);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorAccent));

@@ -166,14 +166,14 @@ public class DiemThiLopFragment extends FrameFragment {
                 case NATIVE_EXPRESS_AD_VIEW_TYPE:
                     NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                     NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-                    adView= (NativeExpressAdView) getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
-//                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+//                    adView= (NativeExpressAdView) getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
+                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
                     try {
-//                        if (adCardView.getChildCount() > 0) {
-//                            adCardView.removeAllViews();
-//                        }
+                        if (adCardView.getChildCount() > 0) {
+                            adCardView.removeAllViews();
+                        }
                     }catch (IllegalStateException e){}
-//                    adCardView.addView(adView);
+                    adCardView.addView(adView);
                     break;
                 default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                      ItemKetQuaThiLop itemKetQuaThiLop= (ItemKetQuaThiLop) mRecyclerViewItems.get(position);

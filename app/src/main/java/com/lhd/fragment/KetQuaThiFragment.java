@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
@@ -123,8 +120,7 @@ public class KetQuaThiFragment extends FrameFragment {
                         getActivity().overridePendingTransition(R.anim.left_end, R.anim.right_end);
 //                        getMainActivity().showStartADS();
                     }else{
-                                showAlert("Kết quả thi của "+sv.getTenSV(),UIFromHTML.uiKetQuaThi(itemDiemThiTheoMon),
-                                        "Kết quả thi",itemDiemThiTheoMon.toString(),getActivity());
+                        showAlert("Kết quả thi của "+sv.getTenSV(),UIFromHTML.uiKetQuaThi(itemDiemThiTheoMon), "Kết quả thi",itemDiemThiTheoMon.toString(),getActivity());
 
                     }
                 }

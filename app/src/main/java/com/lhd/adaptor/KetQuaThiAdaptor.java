@@ -5,8 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
@@ -42,6 +44,7 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView ngay2;
         TextView ghiChu;
         TextView stt;
+        ImageView im_diem;
         public ItemDiemThiMon(View itemView) {
             super(itemView);
             this.tenMon = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_tenlop);
@@ -54,6 +57,7 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
             this.ngay2 = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_n2);
             this.ghiChu = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_gc);
             this.stt = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_stt);
+            this.im_diem = (ImageView) itemView.findViewById(R.id.im_diem);
         }
     }
 
@@ -96,15 +100,15 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
                 NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                 NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-                adView= (NativeExpressAdView) ketQuaThiFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
-//                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-//                try {
-//                    if (adCardView.getChildCount() > 0) {
-//                        adCardView.removeAllViews();
-//                    }
-//                }catch (IllegalStateException e){}
-//                // Add the Native Express ad to the native express ad view.
-//                adCardView.addView(adView);
+//                adView= (NativeExpressAdView) ketQuaThiFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
+                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+                try {
+                    if (adCardView.getChildCount() > 0) {
+                        adCardView.removeAllViews();
+                    }
+                }catch (IllegalStateException e){}
+                // Add the Native Express ad to the native express ad view.
+                adCardView.addView(adView);
                 break;
             default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                 ItemDiemThiMon itemDiemThiMon= (ItemDiemThiMon) holder;
@@ -136,8 +140,14 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
                     n=Double.parseDouble(itemDiemThiTheoMon.getNgay1().split("/")[2]);
                     th = Double.parseDouble(itemDiemThiTheoMon.getNgay1().split("/")[1]);
                 }
+                Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_null).into(itemDiemThiMon.im_diem);
+//                itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                        .getResources().getDrawable(R.drawable.ic_null));
                 if (dc.equals("(I)")){
                     itemDiemThiMon.dCuoiCung.setText("*");
+                    Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_null).into(itemDiemThiMon.im_diem);
+//                    itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                            .getResources().getDrawable(R.drawable.ic_null));
                     itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#42A5F5"));
                 }else{
                     itemDiemThiMon.dCuoiCung.setText(dc);
@@ -146,42 +156,75 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
                         if (d>=8.5){
                             itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#FF0000"));
                             itemDiemThiMon.dCuoiCung.setText("A");
+                            Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_a).into(itemDiemThiMon.im_diem);
+//                            itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                                    .getResources().getDrawable(R.drawable.ic_a));
                         }else if(d>=7.7&&n>=2015){
                             if (n==2015&&th<=9){
                                 itemDiemThiMon.dCuoiCung.setText("B");
+                                Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_b).into(itemDiemThiMon.im_diem);
+//                                itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                                        .getResources().getDrawable(R.drawable.ic_b));
                                 itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#FFD600"));
                             }else{
                                 itemDiemThiMon.dCuoiCung.setText("B+");
+                                Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_bb).into(itemDiemThiMon.im_diem);
+//                                itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                                        .getResources().getDrawable(R.drawable.ic_bb));
                                 itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#FF8C00"));
                             }
                         }else if(d>=7.0){
                             itemDiemThiMon.dCuoiCung.setText("B");
+                            Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_b).into(itemDiemThiMon.im_diem);
+//                            itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                                    .getResources().getDrawable(R.drawable.ic_b));
                             itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#FFD600"));
                         }else if(d>=6.2&&n>=2015){
                             if (n==2015&&th<=9){
                                 itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#CCFF90"));
+                                Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_c).into(itemDiemThiMon.im_diem);
+//                                itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                                        .getResources().getDrawable(R.drawable.ic_c));
                                 itemDiemThiMon.dCuoiCung.setText("C");
                             }else{
                                 itemDiemThiMon.dCuoiCung.setText("C+");
+                                Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_cc).into(itemDiemThiMon.im_diem);
+//                                itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                                        .getResources().getDrawable(R.drawable.ic_cc));
                                 itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#64DD17"));
                             }
                         }else if(d>=5.5){
                             itemDiemThiMon.dCuoiCung.setText("C");
+                            Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_c).into(itemDiemThiMon.im_diem);
+//                            itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                                    .getResources().getDrawable(R.drawable.ic_c));
                             itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#CCFF90"));
                         }else if(d>=4.7&&n>=2015){
 
                             if (n==2015&&th<=9){
                                 itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#84FFFF"));
                                 itemDiemThiMon.dCuoiCung.setText("D");
+                                Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_d).into(itemDiemThiMon.im_diem);
+//                                itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                                        .getResources().getDrawable(R.drawable.ic_d));
                             }else{
                                 itemDiemThiMon.dCuoiCung.setText("D+");
+                                Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_dd).into(itemDiemThiMon.im_diem);
+//                                itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                                        .getResources().getDrawable(R.drawable.ic_dd));
                                 itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#00B8D4"));
                             }
                         }else if(d>=4.0){
                             itemDiemThiMon.dCuoiCung.setText("D");
+//                            itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                                    .getResources().getDrawable(R.drawable.ic_d));
+                            Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_d).into(itemDiemThiMon.im_diem);
                             itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#84FFFF"));
                         }else{
                             itemDiemThiMon.dCuoiCung.setText("F");
+//                            itemDiemThiMon.im_diem.setImageDrawable(ketQuaThiFragment.getActivity()
+//                                    .getResources().getDrawable(R.drawable.ic_f));
+                            Glide.with(ketQuaThiFragment.getActivity()).load(R.drawable.ic_f).into(itemDiemThiMon.im_diem);
                             itemDiemThiMon.dCuoiCung.setTextColor(Color.parseColor("#D500F9"));
                         }
                     }

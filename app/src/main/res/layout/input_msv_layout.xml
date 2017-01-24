@@ -24,7 +24,7 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="50sp"
-                android:src="@drawable/icon_app"
+                android:src="@drawable/ic_app"
                 android:layout_height="50sp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
                 android:textColor="@color/md_red_500"
                 style="@style/Base.TextAppearance.AppCompat.Headline"
                 android:gravity="left|center"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -66,7 +66,6 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_view"
             android:layout_height="wrap_content">
             <ProgressBar
                 android:layout_width="wrap_content"

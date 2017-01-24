@@ -89,12 +89,12 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
                 case NATIVE_EXPRESS_AD_VIEW_TYPE:
                     NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
                     NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-                    adView= (NativeExpressAdView) ketQuaHocTapFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
-//                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-//                    if (adCardView.getChildCount() > 0) {
-//                        adCardView.removeAllViews();
-//                    }
-//                    adCardView.addView(adView);
+//                    adView= (NativeExpressAdView) ketQuaHocTapFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
+                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+                    if (adCardView.getChildCount() > 0) {
+                        adCardView.removeAllViews();
+                    }
+                    adCardView.addView(adView);
                     break;
                 default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                     ItemDanhSachLop itemDanhSachLop= (ItemDanhSachLop) holder;

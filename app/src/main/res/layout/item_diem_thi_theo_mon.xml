@@ -28,7 +28,7 @@
                 android:layout_marginTop="@dimen/margin_view_inner"
                 android:layout_marginRight="@dimen/margin_view_inner"
                 android:layout_marginBottom="@dimen/margin_view_inner"
-                android:scaleType="fitXY"
+                android:scaleType="centerInside"
                 android:layout_gravity="center"
                 android:layout_height="35dp" />
 
@@ -92,6 +92,16 @@
                         android:textColor="@color/colorAccent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="ghichu:"
+                    android:layout_gravity="center"
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:singleLine="true"
+                    android:gravity="left"
+                    android:textColor="@color/colorAccent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/id_item_diem_thi_lop_gc" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -99,19 +109,19 @@
                 android:layout_gravity="center"
                 android:layout_margin ="@dimen/margin_view_inner"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:text="ghichu:"
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:src="@drawable/ic_exam"
+                    android:id="@+id/im_diem"
+                    android:layout_marginTop="@dimen/margin_view_inner"
+                    android:layout_marginRight="@dimen/margin_view_inner"
+                    android:layout_marginBottom="@dimen/margin_view_inner"
+                    android:scaleType="centerInside"
                     android:layout_gravity="center"
-                    style="@style/TextAppearance.AppCompat.Caption"
-                    android:singleLine="true"
-                    android:maxWidth="50dp"
-                    android:gravity="center"
-                    android:textColor="@color/md_black_1000"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/id_item_diem_thi_lop_gc" />
+                    android:layout_height="48dp" />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:text="D"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -120,7 +130,7 @@
                     android:layout_margin="@dimen/margin_view_inner"
                     android:textColor="@color/md_red_500"
                     android:textStyle="bold"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="0dp" />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout

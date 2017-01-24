@@ -33,7 +33,7 @@ public class ThongBaoDtttcFragment extends FrameFragment {
     public void setRecyclerView() {
         objects=new ArrayList<>();
         objects.addAll(itemNotiDTTCs);
-         addNativeExpressAds(MainActivity.AD_UNIT_ID_FULL,320);
+         addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT,MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         ThongBaoDTTCAdaptor adapterNoti=new ThongBaoDTTCAdaptor(objects,recyclerView,this,itemNotiDTTCs);
         recyclerView.setAdapter(adapterNoti);
         showRecircleView();

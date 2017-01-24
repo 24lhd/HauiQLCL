@@ -29,7 +29,6 @@ import com.lhd.object.ItemDiemThiTheoMon;
 import com.lhd.object.ItemNotiDTTC;
 import com.lhd.object.KetQuaHocTap;
 import com.lhd.object.LichThi;
-import com.lhd.recerver.MyReserver;
 import com.lhd.task.ParserKetQuaHocTap;
 import com.lhd.task.ParserKetQuaThiTheoMon;
 import com.lhd.task.ParserLichThiTheoMon;
@@ -83,6 +82,8 @@ public class MyService extends Service{
                                 }
                             }
                         }
+                    ParserNotiDTTC parserNotiDTTC=new ParserNotiDTTC(handlerNotiQLCL);
+                    parserNotiDTTC.execute();
                 }
                 if (msg.arg1==2){ // ket qua thi
                     ArrayList<ItemDiemThiTheoMon> itemDiemThiTheoMonNews = (ArrayList<ItemDiemThiTheoMon>) msg.obj;
@@ -120,6 +121,9 @@ public class MyService extends Service{
                             }
 
                         }
+
+                    ParserLichThiTheoMon parserLichThiTheoMon=new ParserLichThiTheoMon(handler);
+                    parserLichThiTheoMon.execute(id);
                 }
                 if (msg.arg1==5){ // lich thi theo mon
                     ArrayList<LichThi> lichThiNews= (ArrayList<LichThi>) msg.obj;
@@ -232,6 +236,8 @@ public class MyService extends Service{
                         sqLiteManager.insertItemNotiDTTC(itemNotiDTTC);
                     }
                 }
+                ParserKetQuaThiTheoMon ketQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
+                ketQuaThiTheoMon.execute(id);
             }catch (Exception e){
             }
         }
@@ -259,14 +265,10 @@ public class MyService extends Service{
         ParserKetQuaHocTap ketQuaHocTapTheoMon=new ParserKetQuaHocTap(handler);
         ketQuaHocTapTheoMon.execute(id);
 
-        ParserNotiDTTC parserNotiDTTC=new ParserNotiDTTC(handlerNotiQLCL);
-        parserNotiDTTC.execute();
 
-        ParserKetQuaThiTheoMon ketQuaThiTheoMon=new ParserKetQuaThiTheoMon(handler);
-        ketQuaThiTheoMon.execute(id);
 
-        ParserLichThiTheoMon parserLichThiTheoMon=new ParserLichThiTheoMon(handler);
-        parserLichThiTheoMon.execute(id);
+
+
     }
 
     @Override
@@ -276,8 +278,8 @@ public class MyService extends Service{
         sqLiteManager =new SQLiteManager(this);
 //        Log.e("faker", " onStartCommand");
         registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
-        registerReceiver(new MyReserver(), new IntentFilter(Intent.ACTION_SCREEN_ON));
-        if (MainActivity.wifiIsEnable(this)) startParser();
+//        registerReceiver(new MyReserver(), new IntentFilter(Intent.ACTION_SCREEN_ON));
+        if (MainActivity.wifiIsEnable(this)&&intent==null) startParser();
 //        Toast.makeText(this,"Gà Công Nghiệp đang kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
         Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);

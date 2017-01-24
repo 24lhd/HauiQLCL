@@ -273,71 +273,114 @@ public class UIFromHTML {
     }
 
     public static String uiKetQuaThi(ItemDiemThiTheoMon itemDiemThiTheoMon) {
-        return "<!DOCTYPE html>" +
-                "<html>" +
-                "<head>" +
-                "<title></title>" +
-                "<style type=\"text/css\" media=\"screen\">" +
-                "*{" +
-                "margin: auto;" +
-                "text-align: center;" +
-                "background: white;" +
-                "}" +
-                "h3{" +
-                "color: #FF4081;" +
-                "}" +
-                "p{" +
-                "color: #42A5F5;" +
-                "}" +
-                "table{" +
-                "width: 100%;" +
-                "}"+
-                "th {" +
-                "background-color: #42A5F5;" +
-                "color: white;" +
-                "padding: 15px;" +
-                "}" +
-                "td{" +
-                "padding: 15px;" +
-                "background-color: #f2f2f2;" +
-                "font-weight:bold;" +
-                "color: red;" +
-                "}" +
-                "</style>" +
-                "</head>" +
-                "<body>" +
-                "<h3>" +
-                itemDiemThiTheoMon.getTenMon() +
-                "</h3>" +
-                "<p>" +
-                itemDiemThiTheoMon.getNgay1() +
-                "</p>" +
-                "<small>" +
-                itemDiemThiTheoMon.getGhiChu()+
-                "</small>" +
-                "<table>" +
-                "<tr>" +
-                "" +
-                "<th>Điểm thi</th>" +
-                "<th>Tổng kết</th>" +
-                "<th>Điểm chữ</th>" +
-                "" +
-                "</tr>" +
-                "<tr>" +
-                "<td>" +
-                itemDiemThiTheoMon.getdLan1() +
-                "</td>" +
-                "<td>" +
-                itemDiemThiTheoMon.getdTKLan1()+
-                "</td>" +
-                "<td>" +
-                KetQuaThiFragment.charPoint(itemDiemThiTheoMon)+
-                "</td>" +
-                "</tr>" +
-                "</table>" +
-                "<em>Copyright © Gà Công Nghiệp</em>"+
-                "</body>" +
-                "</html>";
+        String linkFile="";
+        switch(KetQuaThiFragment.charPoint(itemDiemThiTheoMon)){
+            case "A":
+                linkFile="file:///android_asset/ic_a.png";
+                break;
+            case "B+":
+                linkFile="file:///android_asset/ic_bb.png";
+                break;
+            case "B":
+                linkFile="file:///android_asset/ic_b.png";
+                break;
+            case "C+":
+                linkFile="file:///android_asset/ic_cc.png";
+                break;
+            case "C":
+                linkFile="file:///android_asset/ic_c.png";
+                break;
+            case "D+":
+                linkFile="file:///android_asset/ic_dd.png";
+                break;
+            case "D":
+                linkFile="file:///android_asset/ic_d.png";
+                break;
+            case "F":
+                linkFile="file:///android_asset/ic_f.png";
+                break;
+            default:
+                linkFile="file:///android_asset/ic_null.png";
+                break;
+        }
+        try {
+            return "<!DOCTYPE html>" +
+                    "<html>" +
+                    "<head>" +
+                    "<title></title>" +
+                    "<style type=\"text/css\" media=\"screen\">" +
+                    "*{" +
+                    "margin: auto;" +
+                    "text-align: center;" +
+                    "background: white;" +
+                    "}" +
+                    "h3{" +
+                    "color: #FF4081;" +
+                    "}" +
+                    "p{" +
+                    "color: #42A5F5;" +
+                    "}" +
+                    "table{" +
+                    "width: 100%;" +
+                    "}"+
+                    "th {" +
+                    "background-color: #42A5F5;" +
+                    "color: white;" +
+                    "padding: 5px;" +
+                    "}" +
+                    "td{" +
+                    "padding: 5px;" +
+                    "background-color: #f2f2f2;" +
+                    "font-weight:bold;" +
+                    "color: red;" +
+                    "}" +
+                    " #frame_ic{\n" +
+                    "    background-color: #FFFFFF;\n" +
+                    "  }"+
+                    "</style>" +
+                    "</head>" +
+                    "<body>" +
+                    "<h3>" +
+                    itemDiemThiTheoMon.getTenMon() +
+                    "</h3>" +
+                    "<p>" +
+                    itemDiemThiTheoMon.getNgay1() +
+                    "</p>" +
+
+                    "<small>" +
+                    itemDiemThiTheoMon.getGhiChu()+
+                    "</small>" +
+                    "<table>" +
+                    "<tr>" +
+                    "<th>Điểm thi</th>" +
+                    "<td>" +
+                    itemDiemThiTheoMon.getdLan1() +
+                    "</td>" +
+                    "<td rowspan=\"2\" id=\"frame_ic\">" +
+                    "<img src=\""+linkFile+"\" width=\"128dp\" height=\"128dp\" ;>"+
+//                    "<img src=\"file:///android_asset/ic_a.png\" width=\"128dp\" height=\"128dp\" background-color=\"#f2f2f2\";><br>"+
+                    "</td>" +
+
+                    "</tr>" +
+                    "<tr>" +
+                    "<th>Tổng kết</th>" +
+                    "<td>" +
+                    itemDiemThiTheoMon.getdTKLan1()+
+                    "</tr>" +
+//                    "<tr>" +
+//                    "<th>Điểm chữ</th>" +
+//                    "<td>" +
+//                    KetQuaThiFragment.charPoint(itemDiemThiTheoMon)+
+//                    "</td>" +
+//                    "</tr>" +
+                    "</table>" +
+
+                    "<em>Copyright © Gà Công Nghiệp</em>"+
+                    "</body>" +
+                    "</html>";
+        } catch (Exception e) {
+            return null;
+        }
     }
     public static String getUIWeb(String thi, String diemThi) {
         return "<!DOCTYPE html>" +
