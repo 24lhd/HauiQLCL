@@ -37,7 +37,6 @@ import com.lhd.object.SinhVien;
 import java.util.ArrayList;
 
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
-import static com.lhd.activity.MainActivity.isOnline;
 
 /**
  * Created by D on 12/19/2016.
@@ -52,6 +51,8 @@ public abstract class FrameFragment extends Fragment{
     protected LinearLayout toolbar;
     private  WebView webView;
     private  AlertDialog.Builder builder;
+    private View viewAd;
+
     public MainActivity getMainActivity() {
         return (MainActivity) getActivity();
     }
@@ -110,7 +111,7 @@ public abstract class FrameFragment extends Fragment{
                         adView.setAdSize(adSize);
                         adView.setAdUnitId(id);
                     }
-                    if (isOnline(getActivity())) loadNativeExpressAd(0);
+//                    if (isOnline(getActivity())) loadNativeExpressAd(0);
                 }catch (NullPointerException e){
 
                 }
@@ -119,6 +120,7 @@ public abstract class FrameFragment extends Fragment{
 
     }
     public void loadNativeExpressAd(final int index) {
+
         Log.e("faker","show "+index);
         if (index>= objects.size()) {
             return;
@@ -151,8 +153,50 @@ public abstract class FrameFragment extends Fragment{
             Log.e("faker","loi show "+index);
         }
     }
+    public void loadNativeExpressAt( NativeExpressAdView nativeExpressAdView) {
+//        Log.e("faker","show "+index);
+//        if (index>= objects.size()) {
+////            return;
+////        }
+//        Object item = objects.get(index);
+//        if (!(item instanceof NativeExpressAdView)) {
+//            throw new ClassCastException("Expected item at index " + index + " to be a Native"
+//                    + " Express ad.");
+//        }
+//        final NativeExpressAdView adView = (NativeExpressAdView) item;
+////        adView.setVisibility(View.GONE);
+//         viewAd=nativeExpressAdView.getRootView();
+////        nativeExpressAdView.getRootView().setVisibility(View.GONE);
+//        nativeExpressAdView.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdLoaded() {
+//                super.onAdLoaded();
+////                Log.e("faker"," onAdLoaded "+index);
+////                loadNativeExpressAd(index + ITEMS_PER_AD);
+////                setVisibility(View.VISIBLE);
+//                viewAd.setVisibility(View.GONE);
+//            }
+//            @Override
+//            public void onAdFailedToLoad(int errorCode) {
+////                Log.e("faker","loi onAdFailedToLoad "+index);
+////                loadNativeExpressAd(index + ITEMS_PER_AD);h
+////                nativeExpressAdView.setVisibility(View.GONE);
+////
+//            }
+//        });
+        nativeExpressAdView.loadAd(new AdRequest.Builder().build());
+    }
+
+
+
     public LayoutInflater getLayoutInflater() {
         return layoutInflater;
+    }
+    public void addNativeExpressAds() {
+        for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
+            final NativeExpressAdView adView = new NativeExpressAdView(getActivity());
+            objects.add(i, adView);
+        }
     }
     public void addNativeExpressAds(String adUnitIdKqht, int nativeExpressAdHeight) {
         for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {

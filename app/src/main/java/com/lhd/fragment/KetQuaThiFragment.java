@@ -7,13 +7,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
-import com.baoyz.widget.PullRefreshLayout;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
-import com.lhd.activity.MainActivity;
 import com.lhd.adaptor.KetQuaThiAdaptor;
 import com.lhd.object.ItemDiemThiTheoMon;
 import com.lhd.object.UIFromHTML;
@@ -66,19 +63,11 @@ public class KetQuaThiFragment extends FrameFragment {
         Collections.reverse(itemDiemThiTheoMons);
         objects=new ArrayList<>();
         objects.addAll(itemDiemThiTheoMons);
-        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
+        addNativeExpressAds();
+//        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         RecyclerView.Adapter adapter = new KetQuaThiAdaptor(objects,recyclerView,this,itemDiemThiTheoMons);
         recyclerView.setAdapter(adapter);
         showRecircleView();
-        pullRefresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Log.e("faker","onRefresh");
-            }
-        });
-
-
-
     }
     private Handler handler=new Handler(){
         @Override

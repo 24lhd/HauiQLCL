@@ -3,8 +3,7 @@ package com.lhd.fragment;
 import android.os.Handler;
 import android.os.Message;
 
-import com.lhd.activity.MainActivity;
-import com.lhd.adaptor.DiemThiTheoLopAdaptor;
+import com.lhd.adaptor.DiemHocTaoTheoLopAdaptor;
 import com.lhd.object.BangDiemThanhPhan;
 import com.lhd.object.ItemBangDiemThanhPhan;
 import com.lhd.object.ItemBangKetQuaHocTap;
@@ -59,8 +58,9 @@ public class DiemHocTapTheoLopFragment extends FrameFragment {
     public void setRecyclerView() {
         objects = new ArrayList<>();
         objects.addAll(bangDiemThanhPhan.getBangDiemThanhPhan());
-        addNativeExpressAds(MainActivity.AD_UNIT_ID_LIST_ACTIVITY,320);
-        DiemThiTheoLopAdaptor adapterNoti = new DiemThiTheoLopAdaptor(objects, recyclerView, getListActivity(), getItemBangDiemThanhPhan(),bangDiemThanhPhan.getBangDiemThanhPhan(),this);
+//        addNativeExpressAds(MainActivity.AD_UNIT_ID_LIST_ACTIVITY,320);
+        addNativeExpressAds();
+        DiemHocTaoTheoLopAdaptor adapterNoti = new DiemHocTaoTheoLopAdaptor(objects, recyclerView, getListActivity(), getItemBangDiemThanhPhan(),bangDiemThanhPhan.getBangDiemThanhPhan(),this);
         recyclerView.setAdapter(adapterNoti);
         showRecircleView();
     }

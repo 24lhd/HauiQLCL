@@ -45,6 +45,9 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView ghiChu;
         TextView stt;
         ImageView im_diem;
+        TextView fdl2;
+        TextView ftkl2;
+        TextView fngay2;
         public ItemDiemThiMon(View itemView) {
             super(itemView);
             this.tenMon = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_tenlop);
@@ -58,12 +61,17 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
             this.ghiChu = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_gc);
             this.stt = (TextView) itemView.findViewById(R.id.id_item_diem_thi_lop_stt);
             this.im_diem = (ImageView) itemView.findViewById(R.id.im_diem);
+            this.fdl2 = (TextView) itemView.findViewById(R.id.name_l2);
+            this.ftkl2 = (TextView) itemView.findViewById(R.id.name_tkl2);
+            this.fngay2 = (TextView) itemView.findViewById(R.id.name_ngay2);
         }
     }
 
     public class NativeExpressAdViewHolder extends RecyclerView.ViewHolder {
+        public NativeExpressAdView nativeExpressAdView;
         public NativeExpressAdViewHolder(View view) {
             super(view);
+            this.nativeExpressAdView= (NativeExpressAdView) view.findViewById(R.id.ads_navite_vua);
         }
     }
     @Override
@@ -83,7 +91,7 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_ads, parent, false);
+                View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_express_ad_vua, parent, false);
                 return new NativeExpressAdViewHolder(nativeExpressLayoutView);
             // fall through
             default:
@@ -98,17 +106,26 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
         int viewType = getItemViewType(position);
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
-                NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-//                adView= (NativeExpressAdView) ketQuaThiFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
-                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-                try {
-                    if (adCardView.getChildCount() > 0) {
-                        adCardView.removeAllViews();
-                    }
-                }catch (IllegalStateException e){}
-                // Add the Native Express ad to the native express ad view.
-                adCardView.addView(adView);
+//                NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
+//                NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
+//                adView= (NativeExpressAdView) ketQuaThiFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_vua,null);
+//                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+                NativeExpressAdViewHolder nativeExpressAdViewHolder= (NativeExpressAdViewHolder) holder;
+                ketQuaThiFragment.loadNativeExpressAt(nativeExpressAdViewHolder.nativeExpressAdView);
+//                float density = ketQuaThiFragment.getActivity().getResources().getDisplayMetrics().density;
+//                AdSize adSize = null;
+//                adSize = new AdSize((int) (recyclerView.getWidth()/density),MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
+
+//                nativeExpressAdViewHolder.nativeExpressAdView.setAdSize(adSize);
+//                nativeExpressAdViewHolder.nativeExpressAdView.setAdUnitId(MainActivity.AD_UNIT_ID_KQHT);
+//                ViewGroup adCardView = (ViewGroup) ketQuaThiFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_vua,null);
+//                try {
+//                    if (adCardView.getChildCount() > 0) {
+//                        adCardView.removeAllViews();
+//                    }
+//                }catch (IllegalStateException e){}
+//                // Add the Native Express ad to the native express ad view.
+//                adCardView.addView(adView);
                 break;
             default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                 ItemDiemThiMon itemDiemThiMon= (ItemDiemThiMon) holder;
@@ -130,6 +147,26 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
                 itemDiemThiMon.ngay1.setText(itemDiemThiTheoMon.getNgay1());
                 itemDiemThiMon.ngay2.setText(itemDiemThiTheoMon.getNgay2());
                 itemDiemThiMon.ghiChu.setText(itemDiemThiTheoMon.getGhiChu());
+//                for (int i = 0; i <ketQuaThiFragment.getMainActivity().getSinhVien().getMaSV().split("").length ; i++) {
+//                    Log.e("faker a",""+ketQuaThiFragment.getMainActivity().getSinhVien().getMaSV().split("")[i]);
+//                }
+                String [] str=ketQuaThiFragment.getMainActivity().getSinhVien().getMaSV().trim().split("");
+                String khoaSV=str[1]+str[2];
+//                khoaSV=khoaSV+ketQuaThiFragment.getMainActivity().getSinhVien().getMaSV().trim().split("")[1];
+//                Log.e("faker xxx",str[1]+str[2]);
+//                Log.e("faker 2",""+khoaSV);
+                int khoa=Integer.parseInt(khoaSV);
+//                Log.e("faker 3",""+ketQuaThiFragment.getMainActivity().getSinhVien().getMaSV().trim().split("").length);
+
+//                Log.e("faker",""+khoa);
+                if (khoa>9){
+                    itemDiemThiMon.dTKLan2.setVisibility(View.GONE);
+                    itemDiemThiMon.ngay2.setVisibility(View.GONE);
+                    itemDiemThiMon.dLan2.setVisibility(View.GONE);
+                    itemDiemThiMon.fdl2.setVisibility(View.GONE);
+                    itemDiemThiMon.ftkl2.setVisibility(View.GONE);
+                    itemDiemThiMon.fngay2.setVisibility(View.GONE);
+                }
                 itemDiemThiMon.stt.setText(""+(itemDiemThiTheoMons.indexOf(itemDiemThiTheoMon)+1));
                 index=index+1;
                 String dc= itemDiemThiTheoMon.getdCuoiCung().split(" ")[0];

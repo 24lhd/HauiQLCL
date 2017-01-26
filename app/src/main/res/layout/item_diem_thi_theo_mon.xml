@@ -78,6 +78,7 @@
                         android:layout_width="wrap_content"
                         android:text="Ngày có: "
                         android:singleLine="true"
+                        android:id="@+id/name_ngay2"
                         style="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/md_blue_500"
                         android:layout_height="wrap_content" />
@@ -139,6 +140,7 @@
             android:layout_marginLeft="@dimen/margin_view"
             android:layout_marginRight="@dimen/margin_view"
             android:gravity="center"
+            android:layout_marginBottom="@dimen/margin_view_inner"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
@@ -180,7 +182,7 @@
                 android:layout_width="wrap_content"
                 android:text="Lần 2: "
                 android:gravity="center"
-                android:id="@+id/fm_l2"
+                android:id="@+id/name_l2"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/md_blue_500"
                 android:layout_height="wrap_content" />
@@ -196,9 +198,9 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:id="@+id/fm_l4"
                 android:text="TK lần 2: "
                 android:gravity="center"
+                android:id="@+id/name_tkl2"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/md_blue_500"
                 android:layout_height="match_parent" />

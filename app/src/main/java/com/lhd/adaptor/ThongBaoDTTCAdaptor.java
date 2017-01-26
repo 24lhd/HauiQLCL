@@ -12,7 +12,6 @@ import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.fragment.ThongBaoDtttcFragment;
 import com.lhd.object.ItemNotiDTTC;
-import com.lhd.object.NativeExpressAdViewHolder;
 import com.lhd.task.ParserLinkFileNoti;
 
 import java.util.ArrayList;
@@ -41,6 +40,13 @@ public class ThongBaoDTTCAdaptor extends RecyclerView.Adapter<RecyclerView.ViewH
             this.stt = (TextView) itemView.findViewById(R.id.stt_noti);
         }
     }
+    public class NativeExpressAdViewHolder extends RecyclerView.ViewHolder {
+        public NativeExpressAdView nativeExpressAdView;
+        public NativeExpressAdViewHolder(View view) {
+            super(view);
+            this.nativeExpressAdView= (NativeExpressAdView) view.findViewById(R.id.ads_navite_to);
+        }
+    }
     @Override
     public int getItemViewType(int position) {
 //        if (position==0) return MENU_ITEM_VIEW_TYPE;
@@ -57,7 +63,7 @@ public class ThongBaoDTTCAdaptor extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_ads, parent, false);
+                View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_express_ad_to, parent, false);
                 return new NativeExpressAdViewHolder(nativeExpressLayoutView);
             default:
             case MENU_ITEM_VIEW_TYPE:
@@ -72,14 +78,16 @@ public class ThongBaoDTTCAdaptor extends RecyclerView.Adapter<RecyclerView.ViewH
         int viewType = getItemViewType(position);
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
-                NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-//                adView= (NativeExpressAdView) thongBaoDtttcFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
-                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-                    if (adCardView.getChildCount() > 0) {
-                        adCardView.removeAllViews();
-                    }
-                adCardView.addView(adView);
+//                NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
+//                NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
+////                adView= (NativeExpressAdView) thongBaoDtttcFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_vua,null);
+//                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+//                    if (adCardView.getChildCount() > 0) {
+//                        adCardView.removeAllViews();
+//                    }
+//                adCardView.addView(adView);
+                NativeExpressAdViewHolder nativeExpressAdViewHolder= (NativeExpressAdViewHolder) holder;
+                thongBaoDtttcFragment.loadNativeExpressAt(nativeExpressAdViewHolder.nativeExpressAdView);
                 break;
             default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                 ItemNoti itemNoti= (ItemNoti) holder;

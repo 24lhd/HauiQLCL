@@ -70,7 +70,8 @@ public class KetQuaHocTapFragment extends FrameFragment {
         Collections.reverse(bangKetQuaHocTaps);
         objects=new ArrayList<>();
         objects.addAll(bangKetQuaHocTaps);
-        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT,MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
+        addNativeExpressAds();
+//        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT,MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         RecyclerView.Adapter adapter = new KetQuaGocTapAdaptor(objects,recyclerView,this,bangKetQuaHocTaps);
         recyclerView.setAdapter(adapter);
     }

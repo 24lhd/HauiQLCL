@@ -86,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private com.lhd.log.Log log;
     private TextView tvTitle,tv1,tv2;
+
+    public SinhVien getSinhVien() {
+        return sinhVien;
+    }
+
     private SinhVien sinhVien;
     private MoreFragment moreFragment;
     private TextView tietView;

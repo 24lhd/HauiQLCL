@@ -11,7 +11,6 @@ import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.fragment.LichThiFragment;
 import com.lhd.object.LichThi;
-import com.lhd.object.NativeExpressAdViewHolder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,6 +52,13 @@ public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         }
     }
+    public class NativeExpressAdViewHolder extends RecyclerView.ViewHolder {
+        public NativeExpressAdView nativeExpressAdView;
+        public NativeExpressAdViewHolder(View view) {
+            super(view);
+            this.nativeExpressAdView= (NativeExpressAdView) view.findViewById(R.id.ads_navite_vua);
+        }
+    }
     public LichThiAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView,
                           LichThiFragment lichThiFragment, ArrayList<LichThi> lichThis) {
         this.recyclerView = recyclerView;
@@ -64,7 +70,7 @@ public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_ads, parent, false);
+                View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_express_ad_vua, parent, false);
                 return new NativeExpressAdViewHolder(nativeExpressLayoutView);
             // fall through
             default:
@@ -84,16 +90,18 @@ public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                 NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
-                NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-//                adView= (NativeExpressAdView) lichThiFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_container,null);
-                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-                try {
-                    if (adCardView.getChildCount() > 0) {
-                        adCardView.removeAllViews();
-                    }
-                }catch (IllegalStateException e){}
-                adCardView.addView(adView);
+//                 NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
+//                NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
+////                adView= (NativeExpressAdView) lichThiFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_vua,null);
+//                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
+//                try {
+//                    if (adCardView.getChildCount() > 0) {
+//                        adCardView.removeAllViews();
+//                    }
+//                }catch (IllegalStateException e){}
+//                adCardView.addView(adView);
+                NativeExpressAdViewHolder nativeExpressAdViewHolder= (NativeExpressAdViewHolder) holder;
+                lichThiFragment.loadNativeExpressAt(nativeExpressAdViewHolder.nativeExpressAdView);
                 break;
             default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                 ItemLichThi itemLichThi=(ItemLichThi) holder;

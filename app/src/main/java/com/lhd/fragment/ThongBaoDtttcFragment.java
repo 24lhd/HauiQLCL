@@ -3,7 +3,6 @@ package com.lhd.fragment;
 import android.os.Handler;
 import android.os.Message;
 
-import com.lhd.activity.MainActivity;
 import com.lhd.adaptor.ThongBaoDTTCAdaptor;
 import com.lhd.object.ItemNotiDTTC;
 import com.lhd.task.ParserNotiDTTC;
@@ -33,7 +32,8 @@ public class ThongBaoDtttcFragment extends FrameFragment {
     public void setRecyclerView() {
         objects=new ArrayList<>();
         objects.addAll(itemNotiDTTCs);
-         addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT,MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
+        addNativeExpressAds();
+//         addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT,MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         ThongBaoDTTCAdaptor adapterNoti=new ThongBaoDTTCAdaptor(objects,recyclerView,this,itemNotiDTTCs);
         recyclerView.setAdapter(adapterNoti);
         showRecircleView();

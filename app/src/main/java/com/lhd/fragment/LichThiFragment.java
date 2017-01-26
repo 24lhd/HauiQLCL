@@ -3,8 +3,6 @@ package com.lhd.fragment;
 import android.os.Handler;
 import android.os.Message;
 
-import com.baoyz.widget.PullRefreshLayout;
-import com.lhd.activity.MainActivity;
 import com.lhd.adaptor.LichThiAdaptor;
 import com.lhd.object.LichThi;
 import com.lhd.object.SinhVien;
@@ -39,7 +37,8 @@ public class LichThiFragment extends FrameFragment {
         Collections.reverse(lichThis);
         objects=new ArrayList<>();
         objects.addAll(lichThis);
-        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
+        addNativeExpressAds();
+//        addNativeExpressAds(MainActivity.AD_UNIT_ID_KQHT, MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
         LichThiAdaptor lichThiAdaptor=new LichThiAdaptor(objects,recyclerView,this,lichThis);
         recyclerView.setAdapter(lichThiAdaptor);
         showRecircleView();
