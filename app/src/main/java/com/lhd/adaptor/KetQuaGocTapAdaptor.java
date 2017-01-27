@@ -57,7 +57,7 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
         public NativeExpressAdView nativeExpressAdView;
         public NativeExpressAdViewHolder(View view) {
             super(view);
-            this.nativeExpressAdView= (NativeExpressAdView) view.findViewById(R.id.ads_navite_nho);
+            this.nativeExpressAdView= (NativeExpressAdView) view.findViewById(R.id.ads_navite_vua);
         }
     }
         @Override
@@ -78,7 +78,7 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             switch (viewType) {
                 case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                    View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_ads_nho, parent, false);
+                    View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_express_ad_vua, parent, false);
                     return new NativeExpressAdViewHolder(nativeExpressLayoutView);
                 // fall through
                 default:
