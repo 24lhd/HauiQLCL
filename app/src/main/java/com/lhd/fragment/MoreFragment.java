@@ -141,8 +141,16 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 });
                 break;
             case 5:
-
-                break;
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://search?q=pub:Duong Le Hong"));
+                    startActivity(intent);
+                }catch (Exception e){
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("http://play.google.com/store/search?q=pub:Duong Le Hong"));
+                    startActivity(intent);
+                }
+                return;
             case 6:
                   final EditText etMSV=new EditText(getActivity());
                 etMSV.setInputType(InputType.TYPE_CLASS_NUMBER);
