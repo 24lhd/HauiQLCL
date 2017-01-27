@@ -3,7 +3,7 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ads_navite_vua"
     android:layout_width="match_parent"
-    ads:adUnitId="ca-app-pub-1684993819107276/6184187149"
+    ads:adUnitId="ca-app-pub-1684993819107276/9199542340"
     ads:adSize="360x132"
     android:layout_height="132dp">
 </com.google.android.gms.ads.NativeExpressAdView>

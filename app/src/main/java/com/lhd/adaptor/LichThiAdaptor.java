@@ -56,7 +56,7 @@ public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public NativeExpressAdView nativeExpressAdView;
         public NativeExpressAdViewHolder(View view) {
             super(view);
-            this.nativeExpressAdView= (NativeExpressAdView) view.findViewById(R.id.ads_navite_vua);
+            this.nativeExpressAdView= (NativeExpressAdView) view.findViewById(R.id.ads_navite_nho);
         }
     }
     public LichThiAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView,
@@ -70,7 +70,7 @@ public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_express_ad_vua, parent, false);
+                View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_ads_nho, parent, false);
                 return new NativeExpressAdViewHolder(nativeExpressLayoutView);
             // fall through
             default:
@@ -81,7 +81,7 @@ public class LichThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
     @Override
     public int getItemViewType(int position) {
-//        if (position==0) return MENU_ITEM_VIEW_TYPE;
+        if (position==0) return MENU_ITEM_VIEW_TYPE;
         return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
     @Override

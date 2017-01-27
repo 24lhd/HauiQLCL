@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -64,13 +65,13 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
     static final String[] PENS = new String[]{
             "Giờ học lý thuyết",
             "Thang điểm chữ",
-            "Cập nhật phiên bản",
+            "Đánh giá ứng dụng",
             "Ý kiến đóng góp",
             "Thông tin & phát triển",
             "Ứng dụng khác",
             "Xem sinh viên",
             "Nhập lại mã sinh viên",
-            "Thoát",
+            "Chia sẻ ứng dụng",
     };
     public void setCurrenView( int currenView) {
         webView=new WebView(getContext());
@@ -88,9 +89,19 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 builder.setView(webView);
                 break;
             case 2:
+                Uri uri = Uri.parse("market://details?id=" + getActivity().getPackageName());
+                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                // To count with Play market backstack, After pressing back button,
+                // to taken back to our application, we need to add following flags to intent.
+                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                 try {
-//                    mainActivity.checkUpdate(1);
-                } catch (Exception e) {}
+                    startActivity(goToMarket);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://play.google.com/store/apps/details?id=" + getActivity().getPackageName())));
+                }
                 return;
             case 3:
                 View view=getActivity().getLayoutInflater().inflate(R.layout.feedback_layout,null);
@@ -117,8 +128,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                     }
                 });
                 builder.setView(view);
-                builder.show();
-                return;
+                break;
             case 4:
                 webView.setBackgroundColor(getResources().getColor(R.color.bg_text));
                 webView.loadDataWithBaseURL(null,UIFromHTML.uiCopyright,"text/html","utf-8",null);
@@ -129,11 +139,10 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                         dialog.cancel();
                     }
                 });
-                builder.show();
-                return;
+                break;
             case 5:
 
-                return;
+                break;
             case 6:
                   final EditText etMSV=new EditText(getActivity());
                 etMSV.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -156,16 +165,22 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                     }
                 });
                 builder.setView(etMSV);
-                builder.show();
-                return;
+                break;
             case 7:
                 mainActivity.startLogin(getActivity());
                 return;
             case 8:
-                mainActivity.finish();
-                mainActivity.overridePendingTransition(R.anim.left_end, R.anim.right_end);
+                try {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Link tải phần mềm Gà Công Nghiệp");
+                    String sAux = "Ứng dụng Gà Công Nghiệp";
+                    sAux = sAux + "https://play.google.com/store/apps/details?id=com.ken.hauiclass";
+                    i.putExtra(Intent.EXTRA_TEXT, sAux);
+                    startActivity(Intent.createChooser(i, "choose one"));
+                } catch(Exception e) {}
                 return;
-            case 1:
+            default:
                 webView.loadDataWithBaseURL(null, UIFromHTML.uiDiemChu, "text/html", "utf-8",null);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override

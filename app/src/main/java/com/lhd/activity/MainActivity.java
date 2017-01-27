@@ -65,7 +65,7 @@ import java.util.Date;
  */
 public class MainActivity extends AppCompatActivity {
 
-    public static final int ITEMS_PER_AD =10;
+    public static final int ITEMS_PER_AD =6;
     // The Native Express ad height.
     public static final int NATIVE_EXPRESS_AD_HEIGHT = 132;
     // The Native Express ad unit ID.

@@ -193,8 +193,8 @@ public abstract class FrameFragment extends Fragment{
         return layoutInflater;
     }
     public void addNativeExpressAds() {
-        for (int i = 0; i <= objects.size(); i += ITEMS_PER_AD) {
-            final NativeExpressAdView adView = new NativeExpressAdView(getActivity());
+        for (int i = ITEMS_PER_AD; i <= objects.size(); i += ITEMS_PER_AD) {
+            NativeExpressAdView adView = new NativeExpressAdView(getActivity());
             objects.add(i, adView);
         }
     }

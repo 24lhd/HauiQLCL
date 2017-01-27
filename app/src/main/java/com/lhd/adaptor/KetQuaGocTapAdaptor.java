@@ -57,13 +57,13 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
         public NativeExpressAdView nativeExpressAdView;
         public NativeExpressAdViewHolder(View view) {
             super(view);
-            this.nativeExpressAdView= (NativeExpressAdView) view.findViewById(R.id.ads_navite_vua);
+            this.nativeExpressAdView= (NativeExpressAdView) view.findViewById(R.id.ads_navite_nho);
         }
     }
         @Override
         public int getItemViewType(int position) {
-//            return (position % ITEMS_PER_AD == 0&&position>0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
-            return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+            return (position % ITEMS_PER_AD == 0&&position>0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+//            return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
         }
         public KetQuaGocTapAdaptor(List<Object> recyclerViewItems,
                                    RecyclerView recyclerView, KetQuaHocTapFragment ketQuaHocTapFragment,
@@ -78,7 +78,7 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             switch (viewType) {
                 case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                    View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_express_ad_vua, parent, false);
+                    View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_ads_nho, parent, false);
                     return new NativeExpressAdViewHolder(nativeExpressLayoutView);
                 // fall through
                 default:

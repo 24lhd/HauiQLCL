@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.gms.ads.NativeExpressAdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ads_navite_nho"
+    android:layout_width="match_parent"
+    ads:adUnitId="ca-app-pub-1684993819107276/3011577947"
+    ads:adSize="360x100"
+    android:layout_height="100dp">
+</com.google.android.gms.ads.NativeExpressAdView>
