@@ -28,6 +28,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
+import com.lhd.object.ADSFull;
 import com.lhd.object.KetQuaHocTap;
 import com.lhd.object.UIFromHTML;
 import com.lhd.task.ParserKetQuaHocTap;
@@ -43,12 +44,15 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
     private WebView webView;
     private AlertDialog mAlertDialog;
     private AdView mAdView;
+    private ADSFull adsFull;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.layout_more,container,false);
          mainActivity= (MainActivity) getActivity();
+        adsFull=new ADSFull(getContext());
         listView= (ListView) view.findViewById(R.id.list_menu_more);
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1, PENS);
         listView.setAdapter(arrayAdapter);
@@ -58,6 +62,9 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
         mAdView.loadAd(adRequest);
         return view;
     }
+
+
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         setCurrenView(position);
@@ -69,7 +76,7 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
             "Ý kiến đóng góp",
             "Thông tin & phát triển",
             "Ứng dụng khác",
-            "Xem sinh viên",
+            "Xem sinh viên khác",
             "Nhập lại mã sinh viên",
             "Chia sẻ ứng dụng",
     };
@@ -200,6 +207,12 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 break;
         }
         builder.setNeutralButton("Chia sẻ ảnh",null);
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                adsFull.showADSFull();
+            }
+        });
         mAlertDialog = builder.create();
         mAlertDialog.show();
         Button diemchu = mAlertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);

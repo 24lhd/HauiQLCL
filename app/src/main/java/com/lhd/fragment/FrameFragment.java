@@ -26,12 +26,12 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.ListActivity;
 import com.lhd.activity.MainActivity;
 import com.lhd.database.SQLiteManager;
+import com.lhd.object.ADSFull;
 import com.lhd.object.SinhVien;
 
 import java.util.ArrayList;
@@ -52,6 +52,7 @@ public abstract class FrameFragment extends Fragment{
     private  WebView webView;
     private  AlertDialog.Builder builder;
     private View viewAd;
+    private ADSFull adsFull;
 
     public MainActivity getMainActivity() {
         return (MainActivity) getActivity();
@@ -62,7 +63,7 @@ public abstract class FrameFragment extends Fragment{
     protected ArrayList<Object> objects;
 
     public void showAlert(final String title, String html, final String titleSMS, final String SMS, final Activity activity) {
-        showADSFull();
+        adsFull.showADSFull();
         builder = new AlertDialog.Builder(getActivity());
         webView = new WebView(getActivity());
         builder.setTitle(title);
@@ -290,15 +291,7 @@ public abstract class FrameFragment extends Fragment{
         }else cantLoadData();
 
     }
-    private  InterstitialAd mInterstitialAd;;
-    public  void showADSFull() {
-       if (mInterstitialAd.isLoaded()) mInterstitialAd.show();
-    }
-    private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        mInterstitialAd.loadAd(adRequest);
-    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -313,16 +306,7 @@ public abstract class FrameFragment extends Fragment{
 
     public void initView(View view) {
         pullRefresh= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-        mInterstitialAd = new InterstitialAd(getActivity());
-        mInterstitialAd.setAdUnitId(MainActivity.AD_UNIT_ID_FULL);
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                requestNewInterstitial();
-                showADSFull();
-            }
-        });
-        requestNewInterstitial();
+        adsFull=new ADSFull(getContext());
         sqLiteManager=new SQLiteManager(getContext());
         try {sv= (SinhVien) getArguments().getSerializable(MainActivity.SINH_VIEN);
         }catch (NullPointerException e){}

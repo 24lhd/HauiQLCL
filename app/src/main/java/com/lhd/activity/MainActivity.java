@@ -281,6 +281,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
     /**
      * - set layout intro lúc khởi tạo view
      * - khởi tạo sqlite và log lưu trạng thái lưu đăng nhập mã sinh viên
@@ -295,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_layout);
+
 //        registerReceiver(new MyReserver(), new IntentFilter(Intent.ACTION_SCREEN_OFF));
         Intent intent1=new Intent(this, MyService.class);
         if (isOnline(this)) this.startService(intent1);
