@@ -188,8 +188,8 @@ public class MoreFragment extends Fragment implements AdapterView.OnItemClickLis
                 try {
                     Intent i = new Intent(Intent.ACTION_SEND);
                     i.setType("text/plain");
-                    i.putExtra(Intent.EXTRA_SUBJECT, "Link tải phần mềm Gà Công Nghiệp");
-                    String sAux = "Ứng dụng Gà Công Nghiệp";
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Link tải phần mềm Gà Công Nghiệp ");
+                    String sAux = "Ứng dụng Gà Công Nghiệp \n";
                     sAux = sAux + "https://play.google.com/store/apps/details?id=com.ken.hauiclass";
                     i.putExtra(Intent.EXTRA_TEXT, sAux);
                     startActivity(Intent.createChooser(i, "choose one"));
