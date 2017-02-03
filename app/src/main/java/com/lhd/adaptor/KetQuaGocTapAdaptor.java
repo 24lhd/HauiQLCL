@@ -18,6 +18,7 @@ import java.util.List;
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
 import static com.lhd.activity.MainActivity.MENU_ITEM_VIEW_TYPE;
 import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
+import static com.lhd.activity.MainActivity.isOnline;
 
 /**
  * Created by d on 28/12/2016.
@@ -62,8 +63,7 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
     }
         @Override
         public int getItemViewType(int position) {
-            return (position % ITEMS_PER_AD == 0&&position>0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
-//            return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+            return (position % ITEMS_PER_AD == 0&&position>0&&isOnline(ketQuaHocTapFragment.getActivity())) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
         }
         public KetQuaGocTapAdaptor(List<Object> recyclerViewItems,
                                    RecyclerView recyclerView, KetQuaHocTapFragment ketQuaHocTapFragment,
@@ -78,8 +78,8 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             switch (viewType) {
                 case NATIVE_EXPRESS_AD_VIEW_TYPE:
-                    View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_express_ad_vua, parent, false);
-                    return new NativeExpressAdViewHolder(nativeExpressLayoutView);
+                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.native_express_ad_vua, parent, false);
+                    return new NativeExpressAdViewHolder(view);
                 // fall through
                 default:
                 case MENU_ITEM_VIEW_TYPE:
@@ -100,6 +100,9 @@ import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
 //                        adCardView.removeAllViews();
 //                    }
 //                    adCardView.addView(adView);
+                    if (!isOnline(ketQuaHocTapFragment.getActivity())) {
+                        return;
+                    }
                     NativeExpressAdViewHolder nativeExpressAdViewHolder= (NativeExpressAdViewHolder) holder;
                     ketQuaHocTapFragment.loadNativeExpressAt(nativeExpressAdViewHolder.nativeExpressAdView);
                     break;

@@ -19,6 +19,7 @@ import java.util.List;
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
 import static com.lhd.activity.MainActivity.MENU_ITEM_VIEW_TYPE;
 import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
+import static com.lhd.activity.MainActivity.isOnline;
 
 /**
  * Created by d on 25/01/2017.
@@ -57,7 +58,7 @@ public class KeHoachThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position) {
             if (position==0) return MENU_ITEM_VIEW_TYPE;
-        return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+        return (position % ITEMS_PER_AD == 0&&isOnline(keHoachThiFragment.getActivity())) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
     public KeHoachThiAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView,
                              KeHoachThiFragment keHoachThiFragment, ItemBangKetQuaHocTap itemBangKetQuaHocTap) {
@@ -86,16 +87,6 @@ public class KeHoachThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHol
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
                 NativeExpressAdViewHolder nativeExpressAdViewHolder= (NativeExpressAdViewHolder) holder;
                 keHoachThiFragment.loadNativeExpressAt(nativeExpressAdViewHolder.nativeExpressAdView);
-//                    NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
-//                    NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-////                    adView= (NativeExpressAdView) getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_vua,null);
-//                    ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-//                    try {
-//                        if (adCardView.getChildCount() > 0) {
-//                            adCardView.removeAllViews();
-//                        }
-//                    }catch (IllegalStateException e){}
-//                    adCardView.addView(adView);
                 break;
             default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                 ItemLichThiLop itemLichThiLop= (ItemLichThiLop) holder;

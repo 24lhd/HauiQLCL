@@ -7,17 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.ken.hauiclass.R;
 import com.lhd.activity.MainActivity;
 import com.lhd.fragment.KetQuaThiFragment;
 import com.lhd.object.ItemDiemThiTheoMon;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
 import static com.lhd.activity.MainActivity.MENU_ITEM_VIEW_TYPE;
 import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
+import static com.lhd.activity.MainActivity.isOnline;
 import static com.lhd.fragment.KetQuaThiFragment.isDouble;
 
 /**
@@ -74,7 +78,7 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemViewType(int position) {
         if (position==0) return MENU_ITEM_VIEW_TYPE;
-        return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+        return (position % ITEMS_PER_AD == 0&&isOnline(ketQuaThiFragment.getActivity())) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
     public KetQuaThiAdaptor(List<Object> recyclerViewItems,
                             RecyclerView recyclerView, KetQuaThiFragment ketQuaThiFragment,
@@ -103,26 +107,8 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
         int viewType = getItemViewType(position);
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
-//                NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
-//                NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-//                adView= (NativeExpressAdView) ketQuaThiFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_vua,null);
-//                ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
                 NativeExpressAdViewHolder nativeExpressAdViewHolder= (NativeExpressAdViewHolder) holder;
                 ketQuaThiFragment.loadNativeExpressAt(nativeExpressAdViewHolder.nativeExpressAdView);
-//                float density = ketQuaThiFragment.getActivity().getResources().getDisplayMetrics().density;
-//                AdSize adSize = null;
-//                adSize = new AdSize((int) (recyclerView.getWidth()/density),MainActivity.NATIVE_EXPRESS_AD_HEIGHT);
-
-//                nativeExpressAdViewHolder.nativeExpressAdView.setAdSize(adSize);
-//                nativeExpressAdViewHolder.nativeExpressAdView.setAdUnitId(MainActivity.AD_UNIT_ID_KQHT);
-//                ViewGroup adCardView = (ViewGroup) ketQuaThiFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_vua,null);
-//                try {
-//                    if (adCardView.getChildCount() > 0) {
-//                        adCardView.removeAllViews();
-//                    }
-//                }catch (IllegalStateException e){}
-//                // Add the Native Express ad to the native express ad view.
-//                adCardView.addView(adView);
                 break;
             default: case MainActivity.MENU_ITEM_VIEW_TYPE:
                 ItemDiemThiMon itemDiemThiMon= (ItemDiemThiMon) holder;

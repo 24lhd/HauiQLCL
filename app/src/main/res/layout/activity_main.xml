@@ -24,6 +24,7 @@
                                     android:layout_width="match_parent"
                                     android:gravity="left"
                                     android:id="@+id/tb_title"
+                                    android:singleLine="true"
                                     android:layout_gravity="left"
                                     style="@style/TextAppearance.AppCompat.Title"
                                     android:textColor="@color/md_white_1000"
@@ -32,6 +33,7 @@
                                     android:layout_width="match_parent"
                                     android:id="@+id/tb_text1"
                                     android:gravity="left"
+                                    android:singleLine="true"
                                     style="@style/TextAppearance.AppCompat.Body1"
                                     android:layout_gravity="center"
                                     android:textColor="@color/md_white_1000"
@@ -39,6 +41,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:id="@+id/tb_text2"
+                                    android:singleLine="true"
                                     android:gravity="left"
                                     style="@style/TextAppearance.AppCompat.Body1"
                                     android:layout_gravity="left"

@@ -25,6 +25,7 @@ import java.util.List;
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
 import static com.lhd.activity.MainActivity.MENU_ITEM_VIEW_TYPE;
 import static com.lhd.activity.MainActivity.NATIVE_EXPRESS_AD_VIEW_TYPE;
+import static com.lhd.activity.MainActivity.isOnline;
 
 /**
  * Created by d on 25/01/2017.
@@ -73,7 +74,7 @@ public class DiemHocTaoTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.
     @Override
     public int getItemViewType(int position) {
         if (position==0) return MENU_ITEM_VIEW_TYPE;
-        return (position % ITEMS_PER_AD == 0) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
+        return (position % ITEMS_PER_AD == 0&&isOnline(diemHocTapTheoLopFragment.getActivity())) ? NATIVE_EXPRESS_AD_VIEW_TYPE : MENU_ITEM_VIEW_TYPE;
     }
 
     public DiemHocTaoTheoLopAdaptor(List<Object> mRecyclerViewItems, RecyclerView recyclerView,
@@ -106,16 +107,6 @@ public class DiemHocTaoTheoLopAdaptor extends RecyclerView.Adapter<RecyclerView.
         int viewType = getItemViewType(position);
         switch (viewType) {
             case NATIVE_EXPRESS_AD_VIEW_TYPE:
-//                NativeExpressAdViewHolder nativeExpressHolder = (NativeExpressAdViewHolder) holder;
-//                NativeExpressAdView adView = (NativeExpressAdView) mRecyclerViewItems.get(position);
-////                adView= (NativeExpressAdView) diemHocTapTheoLopFragment.getActivity().getLayoutInflater().inflate(R.layout.native_express_ad_vua,null);
-//                 ViewGroup adCardView = (ViewGroup) nativeExpressHolder.itemView;
-//                try {
-//                    if (adCardView.getChildCount() > 0) {
-//                        adCardView.removeAllViews();
-//                    }
-//                }catch (IllegalStateException e){}
-//                adCardView.addView(adView);
                 NativeExpressAdViewHolder nativeExpressAdViewHolder= (NativeExpressAdViewHolder) holder;
                 diemHocTapTheoLopFragment.loadNativeExpressAt(nativeExpressAdViewHolder.nativeExpressAdView);
                 break;

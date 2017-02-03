@@ -37,6 +37,7 @@ import com.lhd.object.SinhVien;
 import java.util.ArrayList;
 
 import static com.lhd.activity.MainActivity.ITEMS_PER_AD;
+import static com.lhd.activity.MainActivity.isOnline;
 
 /**
  * Created by D on 12/19/2016.
@@ -139,13 +140,11 @@ public abstract class FrameFragment extends Fragment{
                 super.onAdLoaded();
                 Log.e("faker"," onAdLoaded "+index);
                 loadNativeExpressAd(index + ITEMS_PER_AD);
-                adView.setVisibility(View.VISIBLE);
             }
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 Log.e("faker","loi onAdFailedToLoad "+index);
                 loadNativeExpressAd(index + ITEMS_PER_AD);
-                adView.setVisibility(View.GONE);
             }
         });
         try {
@@ -155,36 +154,7 @@ public abstract class FrameFragment extends Fragment{
         }
     }
     public void loadNativeExpressAt( NativeExpressAdView nativeExpressAdView) {
-//        Log.e("faker","show "+index);
-//        if (index>= objects.size()) {
-////            return;
-////        }
-//        Object item = objects.get(index);
-//        if (!(item instanceof NativeExpressAdView)) {
-//            throw new ClassCastException("Expected item at index " + index + " to be a Native"
-//                    + " Express ad.");
-//        }
-//        final NativeExpressAdView adView = (NativeExpressAdView) item;
-////        adView.setVisibility(View.GONE);
-//         viewAd=nativeExpressAdView.getRootView();
-////        nativeExpressAdView.getRootView().setVisibility(View.GONE);
-//        nativeExpressAdView.setAdListener(new AdListener() {
-//            @Override
-//            public void onAdLoaded() {
-//                super.onAdLoaded();
-////                Log.e("faker"," onAdLoaded "+index);
-////                loadNativeExpressAd(index + ITEMS_PER_AD);
-////                setVisibility(View.VISIBLE);
-//                viewAd.setVisibility(View.GONE);
-//            }
-//            @Override
-//            public void onAdFailedToLoad(int errorCode) {
-////                Log.e("faker","loi onAdFailedToLoad "+index);
-////                loadNativeExpressAd(index + ITEMS_PER_AD);h
-////                nativeExpressAdView.setVisibility(View.GONE);
-////
-//            }
-//        });
+        if (isOnline(getActivity()))
         nativeExpressAdView.loadAd(new AdRequest.Builder().build());
     }
 
@@ -194,6 +164,7 @@ public abstract class FrameFragment extends Fragment{
         return layoutInflater;
     }
     public void addNativeExpressAds() {
+        if (!isOnline(getActivity())) return;
         for (int i = ITEMS_PER_AD; i <= objects.size(); i += ITEMS_PER_AD) {
             NativeExpressAdView adView = new NativeExpressAdView(getActivity());
             objects.add(i, adView);
@@ -213,7 +184,7 @@ public abstract class FrameFragment extends Fragment{
         tVnull.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (MainActivity.isOnline(getContext())){
+                if (isOnline(getContext())){
                     showProgress();
                     loadData();
                 }else {
@@ -285,7 +256,7 @@ public abstract class FrameFragment extends Fragment{
 //            });
 //            builder.show();
 //        }
-        if (MainActivity.isOnline(getContext())){
+        if (isOnline(getContext())){
             showProgress();
             startParser();
         }else cantLoadData();

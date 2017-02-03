@@ -64,14 +64,7 @@ import java.util.Date;
  * @version 1.0
  */
 public class MainActivity extends AppCompatActivity {
-
     public static final int ITEMS_PER_AD =6;
-    // The Native Express ad height.
-    public static final int NATIVE_EXPRESS_AD_HEIGHT = 132;
-    // The Native Express ad unit ID.
-    public static final String AD_UNIT_ID_KQHT= "ca-app-pub-1684993819107276/6184187149";
-    public static final String AD_UNIT_ID_LIST_ACTIVITY= "ca-app-pub-1684993819107276/8998052746";
-    public static final String AD_UNIT_ID_FULL="ca-app-pub-1684993819107276/7161392740";
     public static final String SINH_VIEN = "SINH_VIEN";
     public static final String MA_SV = "MA_SINH_VIEN";
     // A menu item view type.
@@ -192,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void setSinhVien(SinhVien sinhVien) {
         this.sinhVien = sinhVien;
+
         initUI();
     }
 

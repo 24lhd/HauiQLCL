@@ -2,8 +2,8 @@
 <com.google.android.gms.ads.NativeExpressAdView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ads_navite_nho"
-    android:layout_width="match_parent"
-    ads:adUnitId="ca-app-pub-1684993819107276/3011577947"
+    android:layout_width="370dp"
+    ads:adUnitId="@string/ads_native_nho"
     ads:adSize="360x100"
-    android:layout_height="100dp">
+    android:layout_height="110dp">
 </com.google.android.gms.ads.NativeExpressAdView>
