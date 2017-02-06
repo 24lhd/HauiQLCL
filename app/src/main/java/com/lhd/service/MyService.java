@@ -279,7 +279,8 @@ public class MyService extends Service{
 //        Log.e("faker", " onStartCommand");
         registerReceiver(myBroadcastOnScrern, new IntentFilter(Intent.ACTION_SCREEN_OFF));
 //        registerReceiver(new MyReserver(), new IntentFilter(Intent.ACTION_SCREEN_ON));
-        if (MainActivity.wifiIsEnable(this)&&intent==null) startParser();
+        if (MainActivity.wifiIsEnable(this))
+            startParser();
 //        Toast.makeText(this,"Gà Công Nghiệp đang kiểm tra xem có gì hót ^.^",Toast.LENGTH_LONG).show();
         Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
         resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
