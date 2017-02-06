@@ -357,7 +357,7 @@ public class UIFromHTML {
                     "<td>" +
                     itemDiemThiTheoMon.getdLan1() +
                     "</td>" +
-                    "<td rowspan=\"2\" id=\"frame_ic\">" +
+                    "<td rowspan=\"3\" id=\"frame_ic\">" +
                     "<img src=\""+linkFile+"\" width=\"128dp\" height=\"128dp\" ;>"+
 //                    "<img src=\"file:///android_asset/ic_a.png\" width=\"128dp\" height=\"128dp\" background-color=\"#f2f2f2\";><br>"+
                     "</td>" +
@@ -368,12 +368,12 @@ public class UIFromHTML {
                     "<td>" +
                     itemDiemThiTheoMon.getdTKLan1()+
                     "</tr>" +
-//                    "<tr>" +
-//                    "<th>Điểm chữ</th>" +
-//                    "<td>" +
-//                    KetQuaThiFragment.charPoint(itemDiemThiTheoMon)+
-//                    "</td>" +
-//                    "</tr>" +
+                    "<tr>" +
+                    "<th>Điểm chữ</th>" +
+                    "<td>" +
+                    KetQuaThiFragment.charPoint(itemDiemThiTheoMon)+
+                    "</td>" +
+                    "</tr>" +
                     "</table>" +
 
                     "<em>Copyright © Gà Công Nghiệp</em>"+
@@ -452,9 +452,14 @@ public class UIFromHTML {
                 "<h1>" +
                 lichThi.getSbd() +
                 "</h1>" +
-                "<p>tại <strong>" +
+                "<p>" +
+                "Môn <strong>" +
+                lichThi.getMon()+
+                " </strong>" +
+                "tại <strong>" +
                 lichThi.getPhong()+
-                "</strong><br> " +
+                "</strong>" +
+                "<br> " +
                 "<strong>" +
                 lichThi.getThu() +
                 "</strong> lúc <strong>" +

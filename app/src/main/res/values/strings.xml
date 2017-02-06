@@ -2,21 +2,8 @@
     <string name="app_name">Gà Công Nghiệp</string>
     <string name="save_state_login">Lưu trạng thái đăng nhập</string>
     <string name="un_save_state_login">Không lưu trạng thái đăng nhập</string>
-    <string name="hint_id">Mã Sinh Viên</string>
-    <string name="hint_pass">Mật Khẩu</string>
-    <string name="hint_pass_again">Nhập lại</string>
-    <string name="chu_y"><u>Chú ý:</u> Không nên sử dụng mật khẩu đttc để đăng kí tránh các đối tượng xấu :)</string>
-    <string name="login_text">Đăng nhập</string>
-    <string name="sigin_text">Đăng ký</string>
-    <string name="reset_pass_text">Tìm mật khẩu</string>
-    <string name="chu_y_2">* Vì lí do bảo mật nên bạn phải gửi một bức ảnh chụp có ảnh thẻ sinh viên của mình để xác nhận thông tin là đúng. Mật khẩu sẽ được gửi đến bạn khi đã được xác nhận.</string>
-    <string name="chu_y_3">* Trong trường hợp không gửi được bạn có thể liên hệ tới địa chỉ : gacongnghiep.sv@gmail.com</string>
-    <string name="hint_std">Số điện thoại của bạn</string>
-    <string name="app_name_tablet">Bottom Navigation (Tablet)</string>
-    <string name="app_pr">com.faker.classbook.providers.CustomBadgeProvider</string>
-    <string name="bbn_phone_view_behavior" translatable="false" tools:ignore="UnusedResources">com.faker.classbook.bottonnavigation.BottomNavigation</string>
+    <string name="hint_id">Mã sinh viên</string>
     <string name="hint_sms">Nhập tin nhắn vào đây</string>
-    <string name="chu_y_4">* Hãy sử dụng mã sinh viên là mã sinh viên của bạn.</string>
     <string name="app_text">Only student</string>
     <string name="ban_quyen_link"><em>Copyright  ©<em> 2016</em>, Lê Hồng Dương.</em></string>
     <string name="feedback">Nội dung</string>
@@ -27,4 +14,23 @@
     <string name="ads_native_to">ca-app-pub-5166837276445736/1748598203</string>
     <string name="ads_banner">ca-app-pub-5166837276445736/9271865004</string>
     <string name="ads_full">ca-app-pub-5166837276445736/7795131809</string>
+    <string name="thong_bao_dialog">
+        - Đầu tiên mình rất cảm ơn sự nhiệt tình của các bạn đã đóng góp ý kiến
+        cho mình về phần mềm \n - Mình đã tổng hợp và thay đổi 1 số cái nho nhỏ :) \n
+        + Thay đổi 1 số câu chữ viết hoa viết thường :( \n
+        + Vì 1 số bạn không thích icon kết quả thi nên mình đã thêm điểm chữ và thêm tý màu mè \n
+        + Thay đổi tiêu đề thông báo \n
+        + Về điểm tích lũy thì mình đang nghiên cứu tại nhà trường không cho mình dữ liệu nên nếu mình tự tính sẽ
+        có vài trường hợp không đúng, \n
+        Vd: những bạn học 2 ngành, những anh chị khóa trước mã môn khác nên tính sẽ sai nên các bạn chệu khó hết
+        cuối kì vào trang dttc mà xem vậy nhé. Hoặc ước lượng qua điểm chữ.
+        Mình sẽ phát triển thêm cái tính điểm tích lũy bằng cách các bạn sẽ nhập vào số môn, số tin và điểm chữ...\n
+        + Có thể các bạn đã biết: 1 cách để xem phòng thi của mình mà khi mình \n
+        bị hết tiền qlcl đó là xem phòng thi của 2 đứa trên và dưới mình trong lớp, đi thi xem tờ giấy của thầy cô là ok thoy ^^ \n
+        - Mong các bạn chia sẻ phần mềm để nhiều bạn cùng biết.\n
+        - Nhứng ý kiến đóng góp của các bạn mình sẽ tổng hợp và cập nhật ở bản cập nhật lần sau!\n\n
+        Cheers!!!
+
+    </string>
+    <string name="version_thong_bao_dialog">1.0.0</string>
 </resources>

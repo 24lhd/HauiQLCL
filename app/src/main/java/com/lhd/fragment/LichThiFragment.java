@@ -44,7 +44,9 @@ public class LichThiFragment extends FrameFragment {
         showRecircleView();
     }
     public void showDialog(LichThi lichThi, String toi) {
-        showAlert(lichThi.getMon(), UIFromHTML.uiLichThi(lichThi,toi),
+//        showAlert(lichThi.getMon(), UIFromHTML.uiLichThi(lichThi,toi),
+//                "Lịch thi môn "+lichThi.getMon(), lichThi.toString(),getMainActivity());
+        showAlert("Lịch thi của " + sv.getTenSV(), UIFromHTML.uiLichThi(lichThi,toi),
                 "Lịch thi môn "+lichThi.getMon(), lichThi.toString(),getMainActivity());
     }
     private Handler handler=new Handler(){

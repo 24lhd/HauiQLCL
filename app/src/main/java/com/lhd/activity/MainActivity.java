@@ -11,7 +11,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,12 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.ken.hauiclass.R;
 import com.lhd.database.SQLiteManager;
 import com.lhd.fragment.KetQuaHocTapFragment;
@@ -42,6 +36,7 @@ import com.lhd.fragment.LichThiFragment;
 import com.lhd.fragment.MoreFragment;
 import com.lhd.fragment.RadarChartFragment;
 import com.lhd.fragment.ThongBaoDtttcFragment;
+import com.lhd.log.AppLog;
 import com.lhd.log.Log;
 import com.lhd.object.ItemBangKetQuaHocTap;
 import com.lhd.object.KetQuaHocTap;
@@ -141,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
        view.setDrawingCacheEnabled(true);
         bitmap = view.getDrawingCache();
         bitmap.compress(Bitmap.CompressFormat.PNG, 60, bytearrayoutputstream);
-        file = new File( Environment.getExternalStorageDirectory() + "/GaCongNghiep/"+now+".png");
+        file = new File( Environment.getExternalStorageDirectory() + "/DCIM/Screenshots/"+now+".png");
         file.getParentFile().mkdirs();
         try{
             file.createNewFile();
@@ -163,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         try {
-            context.startActivity(Intent.createChooser(intent, "Share Screenshot"));
+            context.startActivity(Intent.createChooser(intent, "Chia sẻ ảnh chụp"));
         } catch (ActivityNotFoundException e) {
             Toast.makeText(context, "Không tìm thấy ứng dụng để mở file", Toast.LENGTH_SHORT).show();
         }
@@ -185,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
      */
     public void setSinhVien(SinhVien sinhVien) {
         this.sinhVien = sinhVien;
-
         initUI();
     }
 
@@ -208,9 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 if (msg.what==2){
                     if (MainActivity.isOnline(MainActivity.this)) showError(MainActivity.this);
                     else{
-//                        ketQuaHocTapFragment.showTextNull();
                         showError(MainActivity.this);
-//                        Toast.makeText(MainActivity.this, "Không có kêt nối nternet!", Toast.LENGTH_SHORT).show();
                     }
                     return;
                 }else if (msg.obj instanceof KetQuaHocTap){
@@ -257,11 +249,11 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra(MainActivity.MA_SV);
                 log.putID(result);
-                try {
-                    setCount();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                try {
+////                    setCount();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
                 checkLogin();
             }else if (resultCode ==Activity.RESULT_CANCELED)
                 finish();
@@ -320,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 checkLogin();
             }
-        }, 1000);
+        }, 2000);
     }
 
 
@@ -331,6 +323,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void checkLogin() {
         if (log.getID().length()==10){
+            appLog=new AppLog();
+            if (!appLog.getValueByName(this,"thongbao","notifyUpdate").contains(getResources().getString(R.string.version_thong_bao_dialog)))
+                showDialogThongBao(getResources().getString(R.string.thong_bao_dialog));
             getSV(log.getID());
         }
         else startLogin(MainActivity.this);
@@ -421,45 +416,45 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
     public void setCount() throws Exception{
-         final DatabaseReference count = database.getReference("count");
-        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wInfo = wifiManager.getConnectionInfo();
-        final String macAddress = wInfo.getMacAddress();
-            final DatabaseReference mac = database.getReference("macWIFI/"+macAddress);
-        count.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                 countIndex=(Long) dataSnapshot.getValue(Long.class);
-                countIndex=countIndex+1;
-                android.util.Log.e("faker","countIndex "+countIndex);
-                count.setValue(countIndex);
-                mac.setValue(countIndex);
-                count.removeEventListener(this);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-        sinhViens=new ArrayList<SinhVien>();
-        DatabaseReference every = database.getReference("EveryOne");
-        every.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                SinhVien sinhVien = (SinhVien) dataSnapshot.getValue(SinhVien.class);
-                sinhViens.add(sinhVien);
-                userIndex=sinhViens.size();
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                android.util.Log.e("faker","dataSnapshot.getChildrenCount() ");
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
+//         final DatabaseReference count = database.getReference("count");
+//        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+//        WifiInfo wInfo = wifiManager.getConnectionInfo();
+//        final String macAddress = wInfo.getMacAddress();
+//            final DatabaseReference mac = database.getReference("macWIFI/"+macAddress);
+//        count.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                 countIndex=(Long) dataSnapshot.getValue(Long.class);
+//                countIndex=countIndex+1;
+//                android.util.Log.e("faker","countIndex "+countIndex);
+//                count.setValue(countIndex);
+//                mac.setValue(countIndex);
+//                count.removeEventListener(this);
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {}
+//        });
+//        sinhViens=new ArrayList<SinhVien>();
+//        DatabaseReference every = database.getReference("EveryOne");
+//        every.addChildEventListener(new ChildEventListener() {
+//
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                SinhVien sinhVien = (SinhVien) dataSnapshot.getValue(SinhVien.class);
+//                sinhViens.add(sinhVien);
+//                userIndex=sinhViens.size();
+//            }
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                android.util.Log.e("faker","dataSnapshot.getChildrenCount() ");
+//            }
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {}
+//        });
 
     }
 
@@ -470,6 +465,8 @@ public class MainActivity extends AppCompatActivity {
      * khởi tao các giao diên và set data
      */
     private void initUI() {
+        // thông báo custem
+
         viewPager= (ViewPager) findViewById(R.id.viewpager);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(0);
@@ -553,6 +550,27 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setVisibility(View.VISIBLE);
         tabLayout.setVisibility(View.VISIBLE);
     }
+        private AppLog appLog;
+    private void showDialogThongBao(String content) {
+        final AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("Thông báo nho nhỏ");
+        builder.setMessage(content);
+        builder.setNegativeButton("Không nhắc lại", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                appLog.putValueByName(MainActivity.this,"thongbao","notifyUpdate",getResources().getString(R.string.version_thong_bao_dialog));
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setPositiveButton("Đã xem", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
     protected ProgressBar progressBar;
 
     /**

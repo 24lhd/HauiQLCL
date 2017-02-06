@@ -130,18 +130,10 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
                 itemDiemThiMon.ngay1.setText(itemDiemThiTheoMon.getNgay1());
                 itemDiemThiMon.ngay2.setText(itemDiemThiTheoMon.getNgay2());
                 itemDiemThiMon.ghiChu.setText(itemDiemThiTheoMon.getGhiChu());
-//                for (int i = 0; i <ketQuaThiFragment.getMainActivity().getSinhVien().getMaSV().split("").length ; i++) {
-//                    Log.e("faker a",""+ketQuaThiFragment.getMainActivity().getSinhVien().getMaSV().split("")[i]);
-//                }
                 String [] str=ketQuaThiFragment.getMainActivity().getSinhVien().getMaSV().trim().split("");
                 String khoaSV=str[1]+str[2];
 //                khoaSV=khoaSV+ketQuaThiFragment.getMainActivity().getSinhVien().getMaSV().trim().split("")[1];
-//                Log.e("faker xxx",str[1]+str[2]);
-//                Log.e("faker 2",""+khoaSV);
                 int khoa=Integer.parseInt(khoaSV);
-//                Log.e("faker 3",""+ketQuaThiFragment.getMainActivity().getSinhVien().getMaSV().trim().split("").length);
-
-//                Log.e("faker",""+khoa);
                 if (khoa>9){
                     itemDiemThiMon.dTKLan2.setVisibility(View.GONE);
                     itemDiemThiMon.ngay2.setVisibility(View.GONE);
@@ -250,9 +242,6 @@ public class KetQuaThiAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                 }
                 break;
-
-
-
         }
     }
     private int index;
