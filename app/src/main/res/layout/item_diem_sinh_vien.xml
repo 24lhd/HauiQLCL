@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:background="@drawable/selecter"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,19 +20,31 @@
                 android:layout_width="wrap_content"
                 android:id="@+id/id_item_diem_sv_stt"
                 android:gravity="center"
-                android:minWidth="28sp"
+                android:minWidth="24sp"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/md_black_1000"
                 android:layout_height="match_parent" />
             <ImageView
-                android:layout_width="35dp"
+                android:layout_width="0dp"
                 android:src="@drawable/ic_student"
-                android:layout_marginTop="@dimen/margin_view"
-                android:layout_marginRight="@dimen/margin_view"
-                android:layout_marginBottom="@dimen/margin_view"
                 android:scaleType="fitXY"
                 android:layout_gravity="center"
-                android:layout_height="35dp" />
+                android:layout_height="0dp" />
+            <View
+                android:layout_width="1dp"
+                android:background="@color/md_blue_grey_100"
+                android:layout_margin="@dimen/margin_view"
+                android:layout_height="match_parent"></View>
+            <TextView
+                android:layout_width="48dp"
+                android:text="DTB"
+                android:gravity="center"
+                android:id="@+id/id_item_diem_sv_dtb"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/md_red_500"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_height="match_parent" />
             <View
                 android:layout_width="1dp"
                 android:background="@color/md_blue_grey_100"
@@ -78,17 +92,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="DTB"
-                android:gravity="center"
-                android:minWidth="50dp"
-                android:id="@+id/id_item_diem_sv_dtb"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/md_red_500"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:layout_height="match_parent" />
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

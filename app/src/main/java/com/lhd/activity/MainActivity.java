@@ -2,6 +2,7 @@ package com.lhd.activity;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
        view.setDrawingCacheEnabled(true);
         bitmap = view.getDrawingCache();
         bitmap.compress(Bitmap.CompressFormat.PNG, 60, bytearrayoutputstream);
-        file = new File( Environment.getExternalStorageDirectory() + "/DCIM/Screenshots/"+now+".png");
+        file = new File( Environment.getExternalStorageDirectory() + "/Gà Công Nghiệp/"+now+".png");
         file.getParentFile().mkdirs();
         try{
             file.createNewFile();
@@ -148,6 +150,17 @@ public class MainActivity extends AppCompatActivity {
         }
         Toast.makeText(context,""+file.getPath(),Toast.LENGTH_SHORT).show();
         shareImage(file,context);
+        addImageToGallery(file.getPath(),context);
+    }
+    public static void addImageToGallery(final String filePath, final Context context) {
+
+        ContentValues values = new ContentValues();
+
+        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.MediaColumns.DATA, filePath);
+
+        context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
     public static void shareImage(File file,Context context){
         Uri uri = Uri.fromFile(file);
